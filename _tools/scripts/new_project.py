@@ -4,7 +4,8 @@ Usage:
   python new_project.py <name> [--root DIR]        (default root D:\\EDA\\projects)
 <name>: lowercase letters, digits and hyphens. Refuses an existing folder.
 Copies the template (not the old ai\\*.py copies: checkers live in _tools\\scripts), creates hw\\, libs\\_dryrun\\,
-docs\\datasheets\\, outputs\\, ai\\review\\, fills {{NAME}} / {{DATE}} / {{RULES_VERSION}} in .md and .json files,
+docs\\datasheets\\, outputs\\, ai\\review\\, fills {{NAME}} / {{DATE}} / {{RULES_VERSION}} / {{GLOBAL_ROOT}} (this
+workspace's _global, wherever it was cloned) in .md and .json files,
 and writes an empty libs\\lib_manifest.json. Then: fill requirements.md and constraints.md (P1).
 Exit 0 when created, 1 otherwise.
 """
@@ -27,7 +28,8 @@ def create(name, root):
     shutil.copytree(TEMPLATE, dest, ignore=lambda d, names: [n for n in names if n.endswith(".py") or n == "__pycache__"])
     for sub in ("hw", os.path.join("libs", "_dryrun"), os.path.join("docs", "datasheets"), "outputs", os.path.join("ai", "review")):
         os.makedirs(os.path.join(dest, sub), exist_ok=True)
-    rep = {"{{NAME}}": name, "{{DATE}}": lc.today(), "{{RULES_VERSION}}": lc.rules_version()}
+    rep = {"{{NAME}}": name, "{{DATE}}": lc.today(), "{{RULES_VERSION}}": lc.rules_version(),
+           "{{GLOBAL_ROOT}}": os.path.abspath(lc.GLOBAL).replace("\\", "/")}
     for d, _, files in os.walk(dest):
         for fn in files:
             if fn.endswith((".md", ".json")):

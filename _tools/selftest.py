@@ -13,7 +13,7 @@ Steps (each PASS / FAIL, exit 1 if any FAIL):
     gate_check S1 offline items (written to _tools\\tests\\_tmp\\, never into the project).
     SKIPPED (not FAIL) when projects\\buck-12v-5v-3a is absent, as on a fresh clone of the public repo.
 """
-import argparse, contextlib, io, os, shutil, subprocess, sys
+import argparse, contextlib, io, json, os, shutil, subprocess, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, ".."))
@@ -65,10 +65,14 @@ def main(argv=None):
     proj = os.path.join(TMP, "selftest-board")
     step("4 new_project into _tools/tests/_tmp", code == 0 and os.path.isfile(os.path.join(proj, "project.json")),
          out.strip().splitlines()[0])
-    leftovers = [f for f in ("{{NAME}}", "{{RULES_VERSION}}", "{{DATE}}")
+    leftovers = [f for f in ("{{NAME}}", "{{RULES_VERSION}}", "{{DATE}}", "{{GLOBAL_ROOT}}")
                  for d, _, fs in os.walk(proj) for n in fs if n.endswith((".md", ".json"))
                  if f in open(os.path.join(d, n), encoding="utf-8").read()]
     step("4 template placeholders filled", not leftovers, f"left: {sorted(set(leftovers))}" if leftovers else "")
+    with open(os.path.join(proj, "project.json"), encoding="utf-8") as f:
+        groot = json.load(f)["global_root"]
+    want = os.path.join(ROOT, "_global").replace("\\", "/")
+    step("4 project.json global_root = this workspace's _global", groot.lower() == want.lower(), groot)
     code, out = call(gate_check, "G1", proj)
     step("4 gate_check G1 on the new project (no design yet, no crash)", code == 1 and "no design yet" in out,
          f"exit {code}")

@@ -3,7 +3,7 @@
  "created": "{{DATE}}",
  "rules_version": "{{RULES_VERSION}}",
  "fab_profile": "_tools/fab_profiles/jlcpcb_2layer.json",
- "global_root": "D:/EDA/_global",
+ "global_root": "{{GLOBAL_ROOT}}",
  "sheets": [],
  "libs": {"schlib": "libs/{{NAME}}.SchLib", "pcblib": "libs/{{NAME}}.PcbLib"}
 }
