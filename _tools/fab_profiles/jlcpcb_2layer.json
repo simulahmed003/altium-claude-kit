@@ -1,0 +1,30 @@
+{
+ "name": "jlcpcb_2layer",
+ "source": "https://jlcpcb.com/capabilities/pcb-capabilities",
+ "checked": "2026-10-13",
+ "copied_from": "projects/buck-12v-5v-3a/constraints.md (published column = fab limit, design column = workspace default)",
+ "note": "Re-check the source page at the start of every project and update 'checked'. Units mm.",
+ "stackup": {"layers": 2, "thickness_mm": 1.6, "material": "FR-4", "copper_oz_outer": 1},
+ "published": {
+  "trace_min_mm": 0.10, "space_min_mm": 0.10,
+  "trace_space_min_2oz_mm": 0.16,
+  "via_hole_min_mm": 0.15, "via_diameter_min_mm": 0.25, "via_hole_preferred_min_mm": 0.20,
+  "pth_annular_recommended_mm": 0.25, "pth_annular_abs_min_mm": 0.18,
+  "pth_drill_range_mm": [0.15, 6.3], "npth_min_mm": 0.50,
+  "via_to_via_mm": 0.20, "pad_hole_to_hole_mm": 0.45,
+  "pad_to_track_mm": 0.10,
+  "silk_line_min_mm": 0.15, "silk_text_min_mm": 1.0,
+  "mask_bridge_green_mm": 0.10, "mask_bridge_black_white_mm": 0.13, "mask_bridge_2oz_mm": 0.20,
+  "copper_to_routed_edge_mm": 0.20, "copper_to_vcut_edge_mm": 0.40,
+  "board_min_mm": [3, 3]
+ },
+ "design": {
+  "trace_mm": 0.20, "space_mm": 0.20, "trace_preferred_mm": 0.30,
+  "via_drill_mm": 0.30, "via_pad_mm": 0.60,
+  "pth_annular_mm": 0.25, "hole_min_plated_mm": 0.30, "hole_min_npth_mm": 0.50,
+  "hole_to_hole_mm": 0.50, "pad_to_track_mm": 0.20,
+  "silk_line_mm": 0.15, "silk_text_mm": 1.0,
+  "mask_expansion_mm": 0.05, "mask_web_mm": 0.10,
+  "copper_to_edge_mm": 0.50
+ }
+}

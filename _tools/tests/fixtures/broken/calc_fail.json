@@ -1,0 +1,29 @@
+{
+ "checks": [
+  {
+   "name": "divider 1 % parts",
+   "fn": "divider_worst",
+   "ref": 5.0,
+   "args": {
+    "vref3": [
+     0.985,
+     1.0,
+     1.015
+    ],
+    "rt": 20000,
+    "rb": 4990,
+    "r_tol": 0.01
+   },
+   "limits": {
+    "lo_pct": [
+     -1,
+     1
+    ],
+    "hi_pct": [
+     -1,
+     1
+    ]
+   }
+  }
+ ]
+}

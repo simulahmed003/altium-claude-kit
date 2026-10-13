@@ -1,0 +1,471 @@
+{
+ "pcblib": "buck.PcbLib",
+ "symbols": [
+  {
+   "name": "R_20k0_0.1%_0603",
+   "kind": "R",
+   "prefix": "R",
+   "footprint": "RESC1608_0603",
+   "value": "20.0k 0.1%",
+   "mfr": "RESI",
+   "mpn": "PTFR0603B20K0P9",
+   "lcsc": "C328424",
+   "tier": "Extended",
+   "datasheet": "PTFR0603B20K0P9_C328424.pdf",
+   "description": "RFBT: 20.0 kOhm 0.1% 25ppm 100mW 0603 thin film"
+  },
+  {
+   "name": "R_4k99_0.1%_0603",
+   "kind": "R",
+   "prefix": "R",
+   "footprint": "RESC1608_0603",
+   "value": "4.99k 0.1%",
+   "mfr": "RESI",
+   "mpn": "PTFR0603B4K99P9",
+   "lcsc": "C5382597",
+   "tier": "Extended",
+   "datasheet": "PTFR0603B4K99P9_C5382597.pdf",
+   "description": "RFBB: 4.99 kOhm 0.1% 25ppm 100mW 0603 thin film"
+  },
+  {
+   "name": "R_51k_1%_0603",
+   "kind": "R",
+   "prefix": "R",
+   "footprint": "RESC1608_0603",
+   "value": "51k",
+   "mfr": "UNI-ROYAL",
+   "mpn": "0603WAF5102T5E",
+   "lcsc": "C23196",
+   "tier": "Basic",
+   "datasheet": "0603WAF5102T5E_C23196.pdf",
+   "description": "RENT: 51 kOhm 1% 100mW 0603"
+  },
+  {
+   "name": "R_10k_1%_0603",
+   "kind": "R",
+   "prefix": "R",
+   "footprint": "RESC1608_0603",
+   "value": "10k",
+   "mfr": "UNI-ROYAL",
+   "mpn": "0603WAF1002T5E",
+   "lcsc": "C25804",
+   "tier": "Basic",
+   "datasheet": "0603WAF1002T5E_C25804.pdf",
+   "description": "10 kOhm 1% 100mW 0603 (RENB, MOSFET gate)"
+  },
+  {
+   "name": "R_100k_1%_0603",
+   "kind": "R",
+   "prefix": "R",
+   "footprint": "RESC1608_0603",
+   "value": "100k",
+   "mfr": "UNI-ROYAL",
+   "mpn": "0603WAF1003T5E",
+   "lcsc": "C25803",
+   "tier": "Basic",
+   "datasheet": "0603WAF1003T5E_C25803.pdf",
+   "description": "PG pull-up 100 kOhm 1% 0603"
+  },
+  {
+   "name": "C_22u_25V_X5R_1206",
+   "kind": "C",
+   "prefix": "C",
+   "footprint": "CAPC3216_1206",
+   "value": "22u 25V X5R",
+   "mfr": "Samsung",
+   "mpn": "CL31A226KAHNNNE",
+   "lcsc": "C12891",
+   "tier": "Basic",
+   "datasheet": "CL31A226KAHNNNE_C12891.pdf",
+   "description": "COUT: 22 uF 25 V X5R 10% 1206"
+  },
+  {
+   "name": "C_10u_50V_X7R_1206",
+   "kind": "C",
+   "prefix": "C",
+   "footprint": "CAPC3216_1206",
+   "value": "10u 50V X7R",
+   "mfr": "FH",
+   "mpn": "1206B106K500NT",
+   "lcsc": "C303950",
+   "tier": "Extended",
+   "datasheet": "1206B106K500NT_C303950.pdf",
+   "description": "CIN: 10 uF 50 V X7R 10% 1206"
+  },
+  {
+   "name": "C_220n_50V_X7R_0603",
+   "kind": "C",
+   "prefix": "C",
+   "footprint": "CAPC1608_0603",
+   "value": "220n 50V X7R",
+   "mfr": "YAGEO",
+   "mpn": "CC0603KRX7R9BB224",
+   "lcsc": "C107083",
+   "tier": "Extended",
+   "datasheet": "CC0603KRX7R9BB224_C107083.pdf",
+   "description": "CHF: 220 nF 50 V X7R 0603"
+  },
+  {
+   "name": "C_100n_50V_X7R_0603",
+   "kind": "C",
+   "prefix": "C",
+   "footprint": "CAPC1608_0603",
+   "value": "100n 50V X7R",
+   "mfr": "YAGEO",
+   "mpn": "CC0603KRX7R9BB104",
+   "lcsc": "C14663",
+   "tier": "Basic",
+   "datasheet": "CC0603KRX7R9BB104_C14663.pdf",
+   "description": "CBOOT / HF bypass: 100 nF 50 V X7R 0603"
+  },
+  {
+   "name": "C_1u_50V_X5R_0603",
+   "kind": "C",
+   "prefix": "C",
+   "footprint": "CAPC1608_0603",
+   "value": "1u 50V X5R",
+   "mfr": "Samsung",
+   "mpn": "CL10A105KB8NNNC",
+   "lcsc": "C15849",
+   "tier": "Basic",
+   "datasheet": "CL10A105KB8NNNC_C15849.pdf",
+   "description": "CVCC: 1 uF 50 V X5R 0603"
+  },
+  {
+   "name": "C_DNP_0603",
+   "kind": "C",
+   "prefix": "C",
+   "footprint": "CAPC1608_0603",
+   "value": "DNP",
+   "mfr": "-",
+   "mpn": "-",
+   "lcsc": "-",
+   "tier": "-",
+   "datasheet": "-",
+   "description": "CFF footprint only, do not populate (lmr33630 Table 9-2: CFF open)"
+  },
+  {
+   "name": "L_10u_CDRH10D60",
+   "kind": "L",
+   "prefix": "L",
+   "footprint": "IND_CDRH10D60",
+   "value": "10u 6.2A",
+   "mfr": "Sumida",
+   "mpn": "CDRH10D60BT150NP-100MC",
+   "lcsc": "C2594362",
+   "tier": "Extended",
+   "datasheet": "CDRH10D60BT150NP-100MC_C2594362.pdf",
+   "description": "10 uH 20%, DCR 17 mOhm +/-30%, Isat 6.2 A, Itemp 6.9 A, shielded, AEC-Q200"
+  },
+  {
+   "name": "Q_AO4407C",
+   "kind": "ic",
+   "prefix": "Q",
+   "footprint": "SOIC8_MS012",
+   "value": "AO4407C",
+   "mfr": "Alpha & Omega Semicon",
+   "mpn": "AO4407C",
+   "lcsc": "C469397",
+   "tier": "Extended",
+   "datasheet": "AO4407C_C469397.pdf",
+   "description": "P-MOSFET -30 V, VGS +/-25 V, RDS(on) < 11.5 mOhm @ -10 V, < 18.5 mOhm @ -4.5 V, SO-8 (datasheet Preliminary)",
+   "body": [
+    -20,
+    -10,
+    20,
+    40
+   ],
+   "pins": [
+    {
+     "designator": "5",
+     "name": "D",
+     "x": -20,
+     "y": 30,
+     "length": 20,
+     "orientation": "left",
+     "electrical_type": "passive"
+    },
+    {
+     "designator": "6",
+     "name": "D",
+     "x": -20,
+     "y": 20,
+     "length": 20,
+     "orientation": "left",
+     "electrical_type": "passive"
+    },
+    {
+     "designator": "7",
+     "name": "D",
+     "x": -20,
+     "y": 10,
+     "length": 20,
+     "orientation": "left",
+     "electrical_type": "passive"
+    },
+    {
+     "designator": "8",
+     "name": "D",
+     "x": -20,
+     "y": 0,
+     "length": 20,
+     "orientation": "left",
+     "electrical_type": "passive"
+    },
+    {
+     "designator": "1",
+     "name": "S",
+     "x": 20,
+     "y": 30,
+     "length": 20,
+     "orientation": "right",
+     "electrical_type": "passive"
+    },
+    {
+     "designator": "2",
+     "name": "S",
+     "x": 20,
+     "y": 20,
+     "length": 20,
+     "orientation": "right",
+     "electrical_type": "passive"
+    },
+    {
+     "designator": "3",
+     "name": "S",
+     "x": 20,
+     "y": 10,
+     "length": 20,
+     "orientation": "right",
+     "electrical_type": "passive"
+    },
+    {
+     "designator": "4",
+     "name": "G",
+     "x": 0,
+     "y": -10,
+     "length": 10,
+     "orientation": "down",
+     "electrical_type": "input"
+    }
+   ],
+   "text": [
+    -20,
+    62,
+    -20,
+    50
+   ],
+   "lines": [
+    {
+     "x1": -6,
+     "y1": 20,
+     "x2": -3,
+     "y2": 20
+    },
+    {
+     "x1": -1,
+     "y1": 20,
+     "x2": 1,
+     "y2": 20
+    },
+    {
+     "x1": 3,
+     "y1": 20,
+     "x2": 6,
+     "y2": 20
+    },
+    {
+     "x1": -6,
+     "y1": 14,
+     "x2": 6,
+     "y2": 14
+    },
+    {
+     "x1": 0,
+     "y1": 14,
+     "x2": 0,
+     "y2": 4
+    },
+    {
+     "x1": -6,
+     "y1": 20,
+     "x2": -6,
+     "y2": 26
+    },
+    {
+     "x1": 0,
+     "y1": 20,
+     "x2": 0,
+     "y2": 30
+    },
+    {
+     "x1": 0,
+     "y1": 30,
+     "x2": 6,
+     "y2": 30
+    },
+    {
+     "x1": 6,
+     "y1": 30,
+     "x2": 6,
+     "y2": 20
+    }
+   ],
+   "polygons": [
+    {
+     "points": [
+      {
+       "x": 0,
+       "y": 29
+      },
+      {
+       "x": -2,
+       "y": 24
+      },
+      {
+       "x": 2,
+       "y": 24
+      }
+     ],
+     "fill_color": 8388608,
+     "line_color": 8388608
+    }
+   ]
+  },
+  {
+   "name": "U_LMR33630ADDA",
+   "kind": "ic",
+   "prefix": "U",
+   "footprint": "LMR33630_HSOIC8_DDA",
+   "value": "LMR33630ADDAR",
+   "mfr": "Texas Instruments",
+   "mpn": "LMR33630ADDAR",
+   "lcsc": "C841384",
+   "tier": "Extended",
+   "datasheet": "lmr33630.pdf",
+   "description": "Sync buck 3.8-36 V in, 3 A, 400 kHz (A), HSOIC-8 PowerPAD; EP = AGND",
+   "body": [
+    -50,
+    -50,
+    50,
+    40
+   ],
+   "text": [
+    -40,
+    64,
+    -40,
+    50
+   ],
+   "pins": [
+    {
+     "designator": "2",
+     "name": "VIN",
+     "x": -50,
+     "y": 30,
+     "length": 10,
+     "orientation": "left",
+     "electrical_type": "power"
+    },
+    {
+     "designator": "3",
+     "name": "EN",
+     "x": -50,
+     "y": 10,
+     "length": 10,
+     "orientation": "left",
+     "electrical_type": "input"
+    },
+    {
+     "designator": "4",
+     "name": "PG",
+     "x": -50,
+     "y": -10,
+     "length": 10,
+     "orientation": "left",
+     "electrical_type": "open_collector"
+    },
+    {
+     "designator": "6",
+     "name": "VCC",
+     "x": -50,
+     "y": -30,
+     "length": 10,
+     "orientation": "left",
+     "electrical_type": "passive"
+    },
+    {
+     "designator": "8",
+     "name": "SW",
+     "x": 50,
+     "y": 30,
+     "length": 10,
+     "orientation": "right",
+     "electrical_type": "passive"
+    },
+    {
+     "designator": "7",
+     "name": "BOOT",
+     "x": 50,
+     "y": 10,
+     "length": 10,
+     "orientation": "right",
+     "electrical_type": "passive"
+    },
+    {
+     "designator": "5",
+     "name": "FB",
+     "x": 50,
+     "y": -10,
+     "length": 10,
+     "orientation": "right",
+     "electrical_type": "input"
+    },
+    {
+     "designator": "1",
+     "name": "PGND",
+     "x": -10,
+     "y": -50,
+     "length": 10,
+     "orientation": "down",
+     "electrical_type": "power"
+    },
+    {
+     "designator": "9",
+     "name": "AGND/EP",
+     "x": 10,
+     "y": -50,
+     "length": 10,
+     "orientation": "down",
+     "electrical_type": "power"
+    }
+   ]
+  },
+  {
+   "name": "J_MKDS1.5-2-5.08",
+   "kind": "connector",
+   "prefix": "J",
+   "footprint": "TB_MKDS1.5-2-5.08",
+   "value": "MKDS 1,5/2-5,08",
+   "mfr": "Phoenix Contact",
+   "mpn": "1715721",
+   "lcsc": "C480516",
+   "tier": "Extended (hand-soldered, not in SMT order)",
+   "datasheet": "1715721_C480516.pdf",
+   "description": "Screw terminal 2-pos 5.08 mm, 17.5 A, 250 V",
+   "pins": 2
+  },
+  {
+   "name": "TP_PAD",
+   "kind": "testpoint",
+   "prefix": "TP",
+   "footprint": "TP_PAD_D1.5",
+   "value": "TP",
+   "mfr": "-",
+   "mpn": "-",
+   "lcsc": "-",
+   "tier": "- (copper pad, no part)",
+   "datasheet": "-",
+   "description": "Test pad 1.5 mm"
+  }
+ ]
+}

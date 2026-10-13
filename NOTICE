@@ -1,0 +1,12 @@
+Altium + Claude Code workspace
+Copyright 2026 Simul Ahmed
+
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Third-party tools are not bundled. _tools/setup.ps1 downloads them at install time and each keeps its own licence:
+  embedded-society/altium-designer-mcp   https://github.com/embedded-society/altium-designer-mcp
+  coffeenmusic/altium-mcp                 https://github.com/coffeenmusic/altium-mcp
+  salitronic/eda-agent                    https://github.com/salitronic/eda-agent
+
+Altium and Altium Designer are trademarks of their owner. This project is not affiliated with Altium or Anthropic.
+Vendor datasheets referenced by the catalog are the property of their makers and are not distributed here.
