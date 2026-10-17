@@ -2,15 +2,15 @@
 
 Always start Claude Code from this workspace folder (D:\EDA in the examples). The hook, .mcp.json and permissions only apply here.
 Projects live in `projects\<name>\`. Before touching a project read its `CLAUDE.md`, `PROJECT.md`,
-`requirements.md`, `constraints.md` and `gates.md`. Rules: `_rules\` (VERSION, 79 rules). Index: `docs\README.md`.
-Objective (user): automate the work an engineer does by hand in the tools. System-level design guidelines come later in `_guidelines\` (DRAFT, empty, not binding, separate from `_rules\`); never invent values for them.
+`requirements.md`, `constraints.md` and `gates.md`. Rules: `rules\` (VERSION, 79 rules). Index: `docs\README.md`.
+Objective (user): automate the work an engineer does by hand in the tools. System-level design guidelines come later in `guidelines\` (DRAFT, empty, not binding, separate from `rules\`); never invent values for them.
 
 ## Non-negotiables
 1. Human gates G1, S1, G2, G3, G4 (`gates.md`) need an explicit user sign-off. Never tick a gate yourself.
 2. Datasheet first: every number about a part comes from a PDF in the project's `docs\datasheets\`. Missing -> ask.
-3. Calculations in code (`_tools\scripts\calclib.py`, `calcs_run.py`), copied to `calcs.md`. Never mental arithmetic.
+3. Calculations in code (`tools\scripts\calclib.py`, `calcs_run.py`), copied to `calcs.md`. Never mental arithmetic.
 4. Reads before writes. Announce every destructive edit and get a yes first.
-5. Never edit `_tools\bridge\`, `.mcp.json` or `.claude\` (the user controls those). Never bypass the guard hook.
+5. Never edit `tools\bridge\`, `.mcp.json` or `.claude\` (the user controls those). Never bypass the guard hook.
 6. "KILL SWITCH IS ENGAGED" in any result: stop all Altium work, tell the user, do not try to bypass it.
 7. Never claim what is on the screen without evidence (tool result, file, capture). Run the checkers before "done".
 8. New footprints go to the project's `libs\` first; the global library changes only via `lib_promote.py` after G1.
@@ -30,7 +30,9 @@ Routing:
 4. Only ONE live bridge (coffee or eda) at a time. A hook switches automatically and may show a popup.
    If a call is blocked, read the message, tell the user, and wait. Never retry in a loop.
 
-## Read before each phase (full table: `_rules\00_INDEX.md`)
+Phase skills in `.claude\skills\` (start with `altium-orchestrator`) load the right rules and playbook for you.
+
+## Read before each phase (full table: `rules\00_INDEX.md`)
 | Phase | Rule files | Playbook |
 |---|---|---|
 | Start a project | 01_WORKFLOW_GATES, 02_REQUIREMENTS_CALCS_PARTS, 08_COMMUNICATION | P1 |
@@ -40,9 +42,9 @@ Routing:
 | Before any gate / fab output | 01_WORKFLOW_GATES, 06_FAB_OUTPUT | P6 |
 | Commit / handoff | 01_WORKFLOW_GATES | P7 |
 | Altium stuck | 07_TOOLING_ALTIUM | P8 |
-Playbooks: `_rules\playbooks\`. Rule changes: only the user approves (propose with `_rules\RETRO_TEMPLATE.md`).
+Playbooks: `rules\playbooks\`. Rule changes: only the user approves (propose with `rules\RETRO_TEMPLATE.md`).
 
-## Offline tools (`_tools\scripts\`, see its README.md; no Altium needed)
+## Offline tools (`tools\scripts\`, see its README.md; no Altium needed)
 | Need | Script |
 |---|---|
 | New project | `new_project.py <name>` |
@@ -50,8 +52,8 @@ Playbooks: `_rules\playbooks\`. Rule changes: only the user approves (propose wi
 | Sheet connectivity + dots | `conn_check.py <sheet.SchDoc> ai\plan.json` |
 | Sheet readability | `sch_overlap.py <sheet.SchDoc>` |
 | Gate evidence | `gate_check.py <G1/S1/G2/G3/G4> projects\<name>` -> ai\review\ |
-| Global library | `lib_pull.py`, `lib_status.py`, `lib_promote.py`, `catalog_check.py` (`_global\README.md`) |
-| Everything still works | `python _tools\selftest.py` |
+| Global library | `lib_pull.py`, `lib_status.py`, `lib_promote.py`, `catalog_check.py` (`library\README.md`) |
+| Everything still works | `python tools\selftest.py` |
 
 ## Popups for problems the scripts cannot detect
 When a tool error matches a symptom, run `bridge.cmd popup <id>` (from the workspace folder). Exit code 0 = user pressed Retry
@@ -65,4 +67,4 @@ When a tool error matches a symptom, run `bridge.cmd popup <id>` (from the works
 | offline server cannot write a library (file locked) | `library_open` |
 | unsaved documents block an operation | `unsaved_docs` |
 
-Logs: bridge switches and failures in `_logs\MCP_LOG.md` (written by the scripts); lessons in `docs\LESSONS_LEARNED.md`.
+Logs: bridge switches and failures in `logs\MCP_LOG.md` (written by the scripts); lessons in `docs\LESSONS_LEARNED.md`.
