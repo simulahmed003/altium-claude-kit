@@ -1,0 +1,178 @@
+{
+ "schema": "part/1",
+ "mpn": "PTFR0603B20K0P9",
+ "mfr": "RESI",
+ "category": "passives/resistor",
+ "description": "100mW 20kΩ 100V Thin Film Resistor ±25ppm/℃ ±0.1% 0603 Chip Resistor - Surface Mount RoHS",
+ "package": "0603",
+ "lifecycle": {
+  "status": "unknown"
+ },
+ "datasheets": [
+  {
+   "sha256": "ce6a100ade2073ba8416627461be900b0efb807a330bea476227f7f9128a7ec8",
+   "file": "PTFR0603B20K0P9_C328424.pdf",
+   "url": "https://jlcpcb.com/partdetail/C5382597",
+   "title": "",
+   "revision": ""
+  }
+ ],
+ "datasheet_url": "https://datasheet.lcsc.com/datasheet/pdf/19fb9d121ec124c867093c26b2505da9.pdf?productCode=C328424",
+ "suppliers": [
+  {
+   "name": "LCSC",
+   "sku": "C328424",
+   "url": "https://www.lcsc.com/product-detail/C328424.html",
+   "verified": "2026-10-17"
+  }
+ ],
+ "supplier_params": {
+  "Power(Watts)": "100mW",
+  "Resistance": "20kΩ",
+  "Voltage Rating": "100V",
+  "Type": "Thin Film Resistor",
+  "Temperature Coefficient": "±25ppm/℃",
+  "Tolerance": "±0.1%",
+  "Operating Temperature": "-55℃~+125℃"
+ },
+ "facts": {
+  "summary": {
+   "tolerance": {
+    "min": -0.1,
+    "max": 0.1,
+    "unit": "%",
+    "derivation": "MPN code B",
+    "ref": {
+     "page": 3,
+     "quote": "精度 B=±0.1%",
+     "visual": true
+    }
+   },
+   "rated_power": {
+    "value": 0.1,
+    "unit": "W",
+    "cond": "+70 degC; standard rating (R). The table also lists 0.06 W (low) and 0.17 W (high) ratings, see footnote p2",
+    "ref": {
+     "page": 2,
+     "quote": "电气参数 PTFR0603 功率(+70°C) 0.06W(L) 0.1W(R) 0.17W(H)",
+     "visual": true
+    }
+   },
+   "tcr": {
+    "min": -25,
+    "max": 25,
+    "unit": "ppm/degC",
+    "derivation": "MPN code P",
+    "ref": {
+     "page": 3,
+     "quote": "温度系数 P=±25ppm/°C",
+     "visual": true
+    }
+   },
+   "resistance": {
+    "value": 20000,
+    "unit": "ohm",
+    "derivation": "stock list row p10; MPN code 20K0",
+    "ref": {
+     "page": 10,
+     "quote": "PTFR0603B20K0P9  0603  ±0.1%    20KΩ",
+     "mode": "table"
+    }
+   }
+  },
+  "abs_max": {
+   "working_voltage": {
+    "max": 100,
+    "unit": "V",
+    "ref": {
+     "page": 2,
+     "quote": "电气参数 PTFR0603 最大工作电压 100V",
+     "visual": true
+    }
+   }
+  },
+  "recommended": {
+   "t_op": {
+    "min": -55,
+    "max": 155,
+    "unit": "degC",
+    "ref": {
+     "page": 2,
+     "quote": "电气参数 PTFR0603 工作温度范围 -55°C~+155°C",
+     "visual": true
+    }
+   }
+  },
+  "package": {
+   "length": {
+    "min": 1.4,
+    "typ": 1.6,
+    "max": 1.8,
+    "unit": "mm",
+    "ref": {
+     "page": 3,
+     "quote": "尺寸 0603 L 1.60±0.20",
+     "visual": true
+    }
+   },
+   "width": {
+    "min": 0.6,
+    "typ": 0.8,
+    "max": 1.0,
+    "unit": "mm",
+    "ref": {
+     "page": 3,
+     "quote": "尺寸 0603 W 0.80±0.20",
+     "visual": true
+    }
+   },
+   "height": {
+    "min": 0.3,
+    "typ": 0.4,
+    "max": 0.5,
+    "unit": "mm",
+    "ref": {
+     "page": 3,
+     "quote": "尺寸 0603 T 0.40±0.10",
+     "visual": true
+    }
+   }
+  },
+  "compliance": {
+   "aec_q": {
+    "value": "AEC-Q200 (logo p2, tests p4)",
+    "unit": "-",
+    "ref": {
+     "page": 2,
+     "quote": "AEC-Q200 logo; reliability tests per AEC-Q200 on p4",
+     "visual": true
+    }
+   }
+  }
+ },
+ "pins": [],
+ "notes": {
+  "layout": [
+   {
+    "text": "Recommended land (推荐焊盘尺寸) for 0603: a 3.00 +/-0.2 (overall), b 1.20 +/-0.2 (pad width), c 1.00 +/-0.2 (gap between pads), from the figure and table on p3.",
+    "ref": {
+     "page": 3,
+     "quote": "0603 a 3.00±0.2 b 1.20±0.2 c 1.00±0.2",
+     "visual": true
+    }
+   }
+  ]
+ },
+ "catalog_ids": [
+  "R_20k0_0.1%_0603"
+ ],
+ "review": {
+  "status": "extracted",
+  "created": "2026-10-17",
+  "open": [
+   "datasheet is Chinese and its text layer drops most digits: TCR, power, voltage, dimensions and land were read from the page images (visual refs); a person must confirm them"
+  ],
+  "extracted_by": "Claude (AI) from datasheet page text, parts.py",
+  "extracted": "2026-10-17"
+ }
+}

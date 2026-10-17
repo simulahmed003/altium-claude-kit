@@ -19,7 +19,7 @@ once someone tests them.
 | Checkers and generators | `tools/scripts/` | anything deterministic: checks, calcs, plans, BOM | PR with tests |
 | Altium bridge | `tools/bridge/`, hook | one live script engine, kill switch, popups | PR tested on real Altium |
 | Global library | `library/` | catalog, category libraries, revisions, hashes | `lib_promote.py` after G1 |
-| Component facts | `library/facts/` (planned M1) | datasheet facts per catalog part, with page refs | ingest + review |
+| Component database | `library/parts/` (M1) | one record per orderable part, datasheet facts with page + quote | parts.py + extractor + review |
 | Projects | `projects/<name>/` (git-ignored) | one design, its own git repo, local library copies | the designer |
 
 Rules say how to work, guidelines say what good looks like, the project says the numbers for one board.
@@ -49,23 +49,26 @@ Every gate needs an evidence pack from `gate_check.py` (WF-02). A failed check r
 
 Only one live bridge at a time (TOOL-01). The guard hook enforces it.
 
-## Component facts database (planned, roadmap M1)
+## Component database (roadmap M1, built 2026-10-17)
 
 Problem: RQ-01 makes Claude open the datasheet PDF for every number, in every project. That is the biggest token cost.
 
-Design:
-- One file per catalog part: `library/facts/<catalog id>.json`. Standard-library JSON, like every other workspace file.
-- Sections match phases so a query returns only what a phase needs: `selection`, `abs_max`, `recommended`, `pins`,
-  `application`, `layout`, `thermal`, `package`.
-- Every value: `{"value"|"min"|"typ"|"max", "unit", "ref": "p12 table 7.5", "cond"}`. Abs max never mixed with recommended.
-- `status`: `extracted_unreviewed` → `verified` (a human checked pins, abs max and package against the cited pages).
-- The datasheet sha256 in the catalog ties every fact to one PDF revision.
-- Script `facts.py`: `get <id> --section pins`, `check` (schema, units, refs, pin count = catalog footprint pads),
-  `draft <id>` (extract a first draft from the PDF for review).
-- Projects read facts from the global DB by catalog id and revision recorded in `lib_manifest.json`.
+Design (details and workflow: `library/parts/README.md`):
+- One record per orderable part: `library/parts/<category>/<family>/<MPN>__<mfr>.json`, keyed by manufacturer part
+  number, so candidates that never reach the Altium library keep their facts too. Catalog components link by `catalog_ids`.
+- `taxonomy.json` holds the category tree, the required facts per family and the unit of every fact key;
+  `manufacturers.json` the canonical maker names. Field names and units only, no values.
+- Sections match phases so a query returns only what a phase needs: summary, abs_max, recommended, electrical,
+  thermal, package, compliance, ordering; pins; notes for application, layout, software, handling.
+- Every value: `{min|typ|max|value, unit, cond, ref: {page, quote, mode}}`. `parts.py check` finds each quote on its
+  page of the PDF text (three pdftotext modes), so an invented number fails. Values the text layer lacks are read
+  from the page image and marked `visual` for a person to confirm.
+- `review.status`: draft -> extracted -> checked -> verified (a person checked pins, abs max and package).
+- `datasheets/index.json` (in git) ties each record to one PDF revision by sha256; PDFs and page text stay local.
+- Price and stock are dated local snapshots (`parts.py market`), checked at BOM time (RQ-04).
 
-Rule change this needs (PROPOSED, the user approves through WF-04): RQ-01 accepts a number from a `verified` facts
-entry, because the entry cites the page and the PDF hash; the PDF is opened only for a missing or disputed field.
+Rule change this needs (PROPOSED, the user approves through WF-04): RQ-01 accepts a number from a `verified` record,
+because it cites the page, a quote and the PDF hash; the PDF is opened only for a missing or disputed field.
 
 ## Token discipline
 1. Start from `PROJECT.md` and `gates.md`, not from chat history.

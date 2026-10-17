@@ -1,5 +1,5 @@
-# facts - component datasheet facts (planned, roadmap M1)
+# facts - replaced by library\parts
 
-One JSON file per catalog component: `<catalog id>.json`. Claude reads facts by section instead of opening the PDF.
-Design: `docs/ARCHITECTURE.md` "Component facts database". Nothing here is binding until M1 lands and the user
-approves the RQ-01 change (rule WF-04).
+The planned per-catalog-id facts files (roadmap M1) were built as the component database in `library\parts\`,
+keyed by manufacturer part number so that parts not (yet) in the Altium library have facts too.
+See `library\parts\README.md`. This folder stays only so old links resolve; put nothing new here.

@@ -1,0 +1,376 @@
+{
+ "schema": "part/1",
+ "mpn": "AO4407C",
+ "mfr": "Alpha & Omega Semiconductor",
+ "category": "discretes/mosfet",
+ "description": "P-Channel 30V Surface Mount SOIC-8",
+ "package": "SOIC-8",
+ "lifecycle": {
+  "status": "unknown"
+ },
+ "datasheets": [
+  {
+   "sha256": "b0bb64c3af922943a9399cda1e7630936c7637b91c3d097d375050b2ad69eba1",
+   "file": "AO4407C_C469397.pdf",
+   "url": "https://jlcpcb.com/partdetail/C469397",
+   "title": "",
+   "revision": ""
+  }
+ ],
+ "datasheet_url": "https://datasheet.lcsc.com/datasheet/pdf/5243427617def007d779edf41ca144f4.pdf?productCode=C469397",
+ "suppliers": [
+  {
+   "name": "LCSC",
+   "sku": "C469397",
+   "url": "https://www.lcsc.com/product-detail/C469397.html",
+   "verified": "2026-10-17"
+  }
+ ],
+ "supplier_params": {
+  "Output Capacitance(Coss)": "330pF",
+  "Ciss-Input Capacitance": "2.05nF",
+  "Pd - Power Dissipation": "3.1W",
+  "Configuration": "-",
+  "Operating Temperature": "-55℃~+150℃",
+  "Drain to Source Voltage": "30V",
+  "Current - Continuous Drain(Id)": "14A",
+  "Reverse Transfer Capacitance (Crss)": "300pF",
+  "RDS(on)": "11.5mΩ@10V",
+  "Number": "1 P-Channel",
+  "Gate Charge(Qg)": "40nC@10V",
+  "Vgs": "±25V",
+  "Gate Threshold Voltage (Vgs(th))": "2.3V",
+  "Type": "P-Channel"
+ },
+ "facts": {
+  "summary": {
+   "channel": {
+    "value": "P",
+    "unit": "-",
+    "ref": {
+     "page": 1,
+     "quote": "30V P-Channel MOSFET",
+     "mode": "raw"
+    }
+   },
+   "package": {
+    "value": "SO-8",
+    "unit": "-",
+    "ref": {
+     "page": 1,
+     "quote": "AO4407C SO-8 Tape & Reel 3000",
+     "mode": "table"
+    }
+   }
+  },
+  "abs_max": {
+   "vds": {
+    "value": -30,
+    "unit": "V",
+    "ref": {
+     "page": 1,
+     "quote": "Drain-Source Voltage VDS -30 V",
+     "mode": "table"
+    }
+   },
+   "vgs": {
+    "min": -25,
+    "max": 25,
+    "unit": "V",
+    "ref": {
+     "page": 1,
+     "quote": "Gate-Source Voltage VGS ±25 V",
+     "mode": "table"
+    }
+   },
+   "id": {
+    "value": -14,
+    "unit": "A",
+    "cond": "TA 25 degC",
+    "ref": {
+     "page": 1,
+     "quote": "Continuous Drain TA=25°C ID -14",
+     "mode": "table"
+    }
+   },
+   "id@ta70": {
+    "value": -11,
+    "unit": "A",
+    "cond": "TA 70 degC",
+    "ref": {
+     "page": 1,
+     "quote": "Continuous Drain Current TA=70°C -11",
+     "visual": true
+    }
+   },
+   "id_pulse": {
+    "value": -56,
+    "unit": "A",
+    "ref": {
+     "page": 1,
+     "quote": "Pulsed Drain Current C IDM -56",
+     "mode": "table"
+    }
+   },
+   "pd": {
+    "value": 3.1,
+    "unit": "W",
+    "cond": "TA 25 degC, t <= 10 s RthJA (note B)",
+    "ref": {
+     "page": 1,
+     "quote": "TA=25°C PD 3.1 W",
+     "mode": "table"
+    }
+   },
+   "tj": {
+    "min": -55,
+    "max": 150,
+    "unit": "degC",
+    "ref": {
+     "page": 1,
+     "quote": "Junction and Storage Temperature Range TJ, TSTG -55 to 150",
+     "mode": "table"
+    }
+   }
+  },
+  "electrical": {
+   "rds_on": {
+    "typ": 0.0095,
+    "max": 0.0115,
+    "unit": "ohm",
+    "cond": "VGS -10 V, ID -14 A, TJ 25 degC",
+    "ref": {
+     "page": 2,
+     "quote": "VGS=-10V, ID=-14A 9.5 11.5",
+     "mode": "table"
+    }
+   },
+   "rds_on@vgs_4v5": {
+    "typ": 0.0147,
+    "max": 0.0185,
+    "unit": "ohm",
+    "cond": "VGS -4.5 V, ID -10 A",
+    "ref": {
+     "page": 2,
+     "quote": "VGS=-4.5V, ID=-10A 14.7 18.5",
+     "mode": "table"
+    }
+   },
+   "vgs_th": {
+    "min": -1.3,
+    "typ": -1.8,
+    "max": -2.3,
+    "unit": "V",
+    "cond": "VDS = VGS, ID -250 uA (text layer shows 'mA': Symbol-font mu; the page image shows uA)",
+    "ref": {
+     "page": 2,
+     "quote": "Gate Threshold Voltage VDS=VGS, ID=-250mA -1.3 -1.8 -2.3",
+     "mode": "table"
+    }
+   },
+   "qg": {
+    "typ": 4e-08,
+    "max": 6e-08,
+    "unit": "C",
+    "cond": "VGS -10 V, VDS -15 V, ID -14 A",
+    "ref": {
+     "page": 2,
+     "quote": "Qg(10V) Total Gate Charge 40 60",
+     "mode": "table"
+    }
+   },
+   "qgd": {
+    "typ": 1e-08,
+    "unit": "C",
+    "ref": {
+     "page": 2,
+     "quote": "Qgd Gate Drain Charge 10",
+     "mode": "table"
+    }
+   },
+   "ciss": {
+    "typ": 2.05e-09,
+    "unit": "F",
+    "cond": "VGS 0 V, VDS -15 V, 1 MHz",
+    "ref": {
+     "page": 2,
+     "quote": "Ciss Input Capacitance 2050",
+     "mode": "table"
+    }
+   },
+   "vf": {
+    "typ": -0.7,
+    "max": -1,
+    "unit": "V",
+    "cond": "body diode, IS -1 A",
+    "ref": {
+     "page": 2,
+     "quote": "Diode Forward Voltage IS=-1A, VGS=0V -0.7 -1",
+     "mode": "table"
+    }
+   }
+  },
+  "thermal": {
+   "rth_ja": {
+    "typ": 59,
+    "max": 75,
+    "unit": "degC/W",
+    "cond": "steady state, 1 in2 FR-4 2 oz (note A)",
+    "ref": {
+     "page": 1,
+     "quote": "Maximum Junction-to-Ambient A D Steady-State 59 75",
+     "mode": "table"
+    }
+   },
+   "rth_ja@t10s": {
+    "typ": 31,
+    "max": 40,
+    "unit": "degC/W",
+    "cond": "t <= 10 s",
+    "ref": {
+     "page": 1,
+     "quote": "Maximum Junction-to-Ambient A t ≤ 10s RqJA 31 40",
+     "mode": "table"
+    }
+   },
+   "rth_jl": {
+    "typ": 16,
+    "max": 24,
+    "unit": "degC/W",
+    "ref": {
+     "page": 1,
+     "quote": "Maximum Junction-to-Lead Steady-State RqJL 16 24",
+     "mode": "table"
+    }
+   }
+  },
+  "compliance": {
+   "rohs": {
+    "value": "RoHS, halogen free",
+    "unit": "-",
+    "ref": {
+     "page": 1,
+     "quote": "RoHS and Halogen-Free Compliant",
+     "mode": "raw"
+    }
+   }
+  }
+ },
+ "pins": [
+  {
+   "number": "1",
+   "name": "S",
+   "type": "passive",
+   "description": "source",
+   "ref": {
+    "page": 1,
+    "quote": "SO-8 top view: pins 1-3 S, 4 G, 5-8 D",
+    "visual": true
+   }
+  },
+  {
+   "number": "2",
+   "name": "S",
+   "type": "passive",
+   "description": "source",
+   "ref": {
+    "page": 1,
+    "quote": "SO-8 top view: pins 1-3 S, 4 G, 5-8 D",
+    "visual": true
+   }
+  },
+  {
+   "number": "3",
+   "name": "S",
+   "type": "passive",
+   "description": "source",
+   "ref": {
+    "page": 1,
+    "quote": "SO-8 top view: pins 1-3 S, 4 G, 5-8 D",
+    "visual": true
+   }
+  },
+  {
+   "number": "4",
+   "name": "G",
+   "type": "passive",
+   "description": "gate",
+   "ref": {
+    "page": 1,
+    "quote": "SO-8 top view: pins 1-3 S, 4 G, 5-8 D",
+    "visual": true
+   }
+  },
+  {
+   "number": "5",
+   "name": "D",
+   "type": "passive",
+   "description": "drain",
+   "ref": {
+    "page": 1,
+    "quote": "SO-8 top view: pins 1-3 S, 4 G, 5-8 D",
+    "visual": true
+   }
+  },
+  {
+   "number": "6",
+   "name": "D",
+   "type": "passive",
+   "description": "drain",
+   "ref": {
+    "page": 1,
+    "quote": "SO-8 top view: pins 1-3 S, 4 G, 5-8 D",
+    "visual": true
+   }
+  },
+  {
+   "number": "7",
+   "name": "D",
+   "type": "passive",
+   "description": "drain",
+   "ref": {
+    "page": 1,
+    "quote": "SO-8 top view: pins 1-3 S, 4 G, 5-8 D",
+    "visual": true
+   }
+  },
+  {
+   "number": "8",
+   "name": "D",
+   "type": "passive",
+   "description": "drain",
+   "ref": {
+    "page": 1,
+    "quote": "SO-8 top view: pins 1-3 S, 4 G, 5-8 D",
+    "visual": true
+   }
+  }
+ ],
+ "notes": {
+  "application": [
+   {
+    "text": "Datasheet is marked Preliminary (watermark p1): values may change; AO4407A has a final datasheet with weaker RDS(on).",
+    "ref": {
+     "page": 1,
+     "quote": "Preliminary watermark across page 1",
+     "visual": true
+    }
+   }
+  ]
+ },
+ "catalog_ids": [
+  "Q_AO4407C"
+ ],
+ "review": {
+  "status": "extracted",
+  "created": "2026-10-17",
+  "open": [
+   "datasheet is PRELIMINARY (watermark)",
+   "no package drawing in the datasheet (buck ai/footprint_checks.md): SO-8 land not from AOS",
+   "pin map from the top-view drawing (visual): confirm on p1",
+   "vf stored with the datasheet's sign (negative for the P-channel body diode); min/typ/max follow the table columns"
+  ],
+  "extracted_by": "Claude (AI) from datasheet page text, parts.py",
+  "extracted": "2026-10-17"
+ }
+}

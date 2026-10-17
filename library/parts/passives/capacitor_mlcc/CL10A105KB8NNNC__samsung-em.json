@@ -1,0 +1,171 @@
+{
+ "schema": "part/1",
+ "mpn": "CL10A105KB8NNNC",
+ "mfr": "Samsung Electro-Mechanics",
+ "category": "passives/capacitor_mlcc",
+ "description": "1uF ±10% 50V Ceramic Capacitor X5R 0603",
+ "package": "0603",
+ "lifecycle": {
+  "status": "unknown"
+ },
+ "datasheets": [
+  {
+   "sha256": "96baebe4bd0ce363e87be28b5b003f511f1502e084a6fc4f02333ded56c808f6",
+   "file": "CL10A105KB8NNNC_C15849.pdf",
+   "url": "https://jlcpcb.com/partdetail/C12891",
+   "title": "",
+   "revision": ""
+  }
+ ],
+ "datasheet_url": "https://datasheet.lcsc.com/datasheet/pdf/02336ea48ea44ca18c72517dd3cb7b47.pdf?productCode=C15849",
+ "suppliers": [
+  {
+   "name": "LCSC",
+   "sku": "C15849",
+   "url": "https://www.lcsc.com/product-detail/C15849.html",
+   "verified": "2026-10-17"
+  }
+ ],
+ "supplier_params": {
+  "Capacitance": "1uF",
+  "Temperature Coefficient": "X5R",
+  "Tolerance": "±10%",
+  "Voltage Rating": "50V"
+ },
+ "facts": {
+  "summary": {
+   "capacitance": {
+    "value": 1e-06,
+    "unit": "F",
+    "derivation": "MPN code 105 = 10 x 10^5 pF; lineup row 6 p19",
+    "ref": {
+     "page": 19,
+     "quote": "6 CL10A105KB8NNN 1ʈ 50",
+     "mode": "layout"
+    }
+   },
+   "tolerance": {
+    "min": -10,
+    "max": 10,
+    "unit": "%",
+    "derivation": "MPN code K; lineup row 6 p19 shows ±10%",
+    "ref": {
+     "page": 4,
+     "quote": "5. TOLERANCE CODE K = ±10%",
+     "visual": true
+    }
+   },
+   "rated_voltage": {
+    "value": 50,
+    "unit": "V",
+    "derivation": "MPN code B = 50 V (p4)",
+    "ref": {
+     "page": 19,
+     "quote": "6 CL10A105KB8NNN 1ʈ 50",
+     "mode": "layout"
+    }
+   },
+   "dielectric": {
+    "value": "X5R",
+    "unit": "-",
+    "derivation": "MPN code A",
+    "ref": {
+     "page": 4,
+     "quote": "C =C0G A =X5R F =Y5V",
+     "mode": "raw"
+    }
+   }
+  },
+  "recommended": {
+   "t_op": {
+    "min": -55,
+    "max": 85,
+    "unit": "degC",
+    "cond": "X5R",
+    "ref": {
+     "page": 5,
+     "quote": "Class II: A X5R -55 ~ +85, capacitance change ±15",
+     "visual": true
+    }
+   }
+  },
+  "package": {
+   "length": {
+    "typ": 1.6,
+    "unit": "mm",
+    "ref": {
+     "page": 19,
+     "quote": "Size L x W 1.60x0.80",
+     "visual": true
+    }
+   },
+   "width": {
+    "typ": 0.8,
+    "unit": "mm",
+    "ref": {
+     "page": 19,
+     "quote": "Size L x W 1.60x0.80",
+     "visual": true
+    }
+   },
+   "height": {
+    "min": 0.7,
+    "typ": 0.8,
+    "max": 0.9,
+    "unit": "mm",
+    "cond": "thickness code 8; lineup p19 gives max 0.90",
+    "ref": {
+     "page": 5,
+     "quote": "0603(1608) code 8: 0.80 ±0.10",
+     "visual": true
+    }
+   }
+  },
+  "ordering": {
+   "package": {
+    "value": "C: cardboard tape, 7 inch reel",
+    "unit": "-",
+    "ref": {
+     "page": 4,
+     "quote": "11. PACKAGING CODE C = Cardboard Tape, 7\" Reel",
+     "visual": true
+    }
+   }
+  }
+ },
+ "pins": [],
+ "notes": {
+  "layout": [
+   {
+    "text": "Solder land rule: pad width b between 2/3 W and W, pad length a between 2/3 T and T (general guideline with figure, p76).",
+    "ref": {
+     "page": 76,
+     "quote": "2 / 3W < b < W",
+     "mode": "table"
+    }
+   },
+   {
+    "text": "Recommended soldering method (flow / reflow) depends on size and capacitance: see the table on p56 before choosing wave soldering.",
+    "ref": {
+     "page": 56,
+     "quote": "Recommended Soldering Method",
+     "mode": "table"
+    }
+   }
+  ]
+ },
+ "catalog_ids": [
+  "C_1u_50V_X5R_0603"
+ ],
+ "review": {
+  "status": "extracted",
+  "created": "2026-10-17",
+  "open": [
+   "L/W tolerance not decoded (size-tolerance table p4 is keyed by a code this MPN does not show); typ only",
+   "most values read from page images (visual refs): confirm on p4, p5, p19",
+   "DC-bias derating not extracted: X5R loses capacitance under DC bias; look for the characteristic curves before using C_eff"
+  ],
+  "extracted_by": "Claude (AI) from datasheet page text, parts.py",
+  "extracted": "2026-10-17"
+ }
+}

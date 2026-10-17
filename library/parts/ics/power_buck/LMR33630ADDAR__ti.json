@@ -1,0 +1,666 @@
+{
+ "schema": "part/1",
+ "mpn": "LMR33630ADDAR",
+ "mfr": "Texas Instruments",
+ "category": "ics/power_buck",
+ "description": "Buck Switching Regulator IC Adjustable 1V~24V 1 Output 3A ESOP-8",
+ "package": "ESOP-8",
+ "lifecycle": {
+  "status": "unknown"
+ },
+ "datasheets": [
+  {
+   "sha256": "3b0920a4e56a0b3f5f214a6317d3c06cff6e541e5054024adc31c30acc50c04a",
+   "file": "lmr33630.pdf",
+   "url": "https://www.ti.com/lit/ds/symlink/lmr33630.pdf",
+   "title": "",
+   "revision": ""
+  }
+ ],
+ "datasheet_url": "https://datasheet.lcsc.com/datasheet/pdf/a9fc243185b3d8658039a6c3f8a8d047.pdf?productCode=C841384",
+ "suppliers": [
+  {
+   "name": "LCSC",
+   "sku": "C841384",
+   "url": "https://www.lcsc.com/product-detail/C841384.html",
+   "verified": "2026-10-17"
+  }
+ ],
+ "supplier_params": {
+  "Operating Temperature": "-40℃~+125℃@(TJ)",
+  "Frequency - Switching": "400kHz",
+  "Function": "Step-down type",
+  "Number of Outputs": "1",
+  "Features": "Cycle-by-cycle current limiting;Hiccup current limiting;Light load efficient mode;Operating status indication;Built-in LDO regulator;Overcurrent Protection",
+  "Output Type": "Adjustable",
+  "Topology": "Buck",
+  "Operating Voltage": "3.8V~36V",
+  "Switch tube (built-in/external)": "Built-in",
+  "Output Voltage": "1V~24V",
+  "Output Current": "3A",
+  "Quiescent Current": "24uA"
+ },
+ "facts": {
+  "summary": {
+   "iout": {
+    "max": 3,
+    "unit": "A",
+    "ref": {
+     "page": 1,
+     "quote": "LMR33630 SIMPLE SWITCHER® 3.8-V to 36-V, 3-A",
+     "mode": "raw"
+    }
+   },
+   "topology": {
+    "value": "synchronous buck, integrated FETs",
+    "unit": "-",
+    "ref": {
+     "page": 1,
+     "quote": "Synchronous Step-down Voltage Converter",
+     "mode": "raw"
+    }
+   },
+   "package": {
+    "value": "HSOIC-8 (DDA) with PowerPAD",
+    "unit": "-",
+    "ref": {
+     "page": 41,
+     "quote": "LMR33630ADDAR Active Production SO PowerPAD",
+     "mode": "table"
+    }
+   }
+  },
+  "abs_max": {
+   "vin": {
+    "min": -0.3,
+    "max": 38,
+    "unit": "V",
+    "cond": "VIN to PGND",
+    "ref": {
+     "page": 6,
+     "quote": "VIN to PGND –0.3 38",
+     "mode": "table"
+    }
+   },
+   "voltage@en": {
+    "min": -0.3,
+    "unit": "V",
+    "cond": "EN to AGND, max VIN + 0.3 V",
+    "ref": {
+     "page": 6,
+     "quote": "EN to AGND(2) –0.3 VIN + 0.3",
+     "mode": "table"
+    }
+   },
+   "voltage@fb": {
+    "min": -0.3,
+    "max": 5.5,
+    "unit": "V",
+    "cond": "FB to AGND",
+    "ref": {
+     "page": 6,
+     "quote": "FB to AGND –0.3 5.5",
+     "mode": "table"
+    }
+   },
+   "voltage@pg": {
+    "min": 0,
+    "max": 22,
+    "unit": "V",
+    "cond": "PG to AGND",
+    "ref": {
+     "page": 6,
+     "quote": "PG to AGND(2) 0 22",
+     "mode": "table"
+    }
+   },
+   "voltage@sw_transient": {
+    "min": -3.5,
+    "max": 38,
+    "unit": "V",
+    "cond": "SW to PGND, < 100 ns",
+    "ref": {
+     "page": 6,
+     "quote": "SW to PGND less than 100-ns transients –3.5 38",
+     "mode": "table"
+    }
+   },
+   "voltage@boot_sw": {
+    "min": -0.3,
+    "max": 5.5,
+    "unit": "V",
+    "cond": "BOOT to SW",
+    "ref": {
+     "page": 6,
+     "quote": "BOOT to SW –0.3 5.5",
+     "mode": "table"
+    }
+   },
+   "voltage@vcc": {
+    "min": -0.3,
+    "max": 5.5,
+    "unit": "V",
+    "cond": "VCC to AGND",
+    "ref": {
+     "page": 6,
+     "quote": "VCC to AGND(4) –0.3 5.5",
+     "mode": "table"
+    }
+   },
+   "tj": {
+    "min": -40,
+    "max": 150,
+    "unit": "degC",
+    "cond": "above 125 degC lifetime degrades (note 3)",
+    "ref": {
+     "page": 6,
+     "quote": "TJ Junction temperature(3) –40 150",
+     "mode": "table"
+    }
+   },
+   "tstg": {
+    "min": -55,
+    "max": 150,
+    "unit": "degC",
+    "ref": {
+     "page": 6,
+     "quote": "Tstg Storage temperature –55 150",
+     "mode": "table"
+    }
+   },
+   "esd_hbm": {
+    "value": 2500,
+    "unit": "V",
+    "ref": {
+     "page": 6,
+     "quote": "Human-body model (HBM) (1) ±2500",
+     "mode": "table"
+    }
+   }
+  },
+  "recommended": {
+   "vin": {
+    "min": 3.8,
+    "max": 36,
+    "unit": "V",
+    "ref": {
+     "page": 6,
+     "quote": "VIN to PGND 3.8 36",
+     "mode": "table"
+    }
+   },
+   "vout": {
+    "min": 1,
+    "max": 24,
+    "unit": "V",
+    "ref": {
+     "page": 6,
+     "quote": "Adjustable output voltage VOUT (3) 1 24 V",
+     "mode": "table"
+    }
+   },
+   "iout": {
+    "min": 0,
+    "max": 3,
+    "unit": "A",
+    "ref": {
+     "page": 6,
+     "quote": "Output current IOUT 0 3 A",
+     "mode": "table"
+    }
+   },
+   "t_op": {
+    "min": -40,
+    "max": 125,
+    "unit": "degC",
+    "cond": "junction",
+    "ref": {
+     "page": 6,
+     "quote": "Over the recommended operating temperature range of –40 °C to 125 °C",
+     "mode": "table"
+    }
+   }
+  },
+  "electrical": {
+   "vref": {
+    "min": 0.985,
+    "typ": 1.0,
+    "max": 1.015,
+    "unit": "V",
+    "cond": "TJ -40 to 125 degC",
+    "ref": {
+     "page": 7,
+     "quote": "VFB Feedback voltage; ADJ option 0.985 1 1.015 V",
+     "mode": "table"
+    }
+   },
+   "iq": {
+    "typ": 2.4e-05,
+    "max": 3.4e-05,
+    "unit": "A",
+    "cond": "non-switching, VFB 1.2 V",
+    "ref": {
+     "page": 7,
+     "quote": "IQ Non-switching input current; VFB = 1.2 V 24 34",
+     "mode": "table"
+    }
+   },
+   "ishdn": {
+    "typ": 5e-06,
+    "max": 1e-05,
+    "unit": "A",
+    "cond": "EN = 0",
+    "ref": {
+     "page": 7,
+     "quote": "ISD Shutdown quiescent current; EN = 0 5 10",
+     "mode": "table"
+    }
+   },
+   "en_threshold": {
+    "min": 1.2,
+    "typ": 1.231,
+    "max": 1.26,
+    "unit": "V",
+    "cond": "rising, start switching; hysteresis 100 mV",
+    "ref": {
+     "page": 7,
+     "quote": "VEN-H EN input level required to start Rising threshold 1.2 1.231 1.26 V",
+     "mode": "table"
+    }
+   },
+   "uvlo_rise": {
+    "max": 3.8,
+    "unit": "V",
+    "cond": "minimum operating input voltage (7.5 has no separate UVLO row)",
+    "ref": {
+     "page": 7,
+     "quote": "VIN Minimum operating input 3.8 V",
+     "mode": "table"
+    }
+   },
+   "vcc": {
+    "min": 4.75,
+    "typ": 5,
+    "max": 5.25,
+    "unit": "V",
+    "ref": {
+     "page": 7,
+     "quote": "VCC Internal LDO output voltage 6 V ≤ VIN ≤ 36 V 4.75 5 5.25 V",
+     "mode": "table"
+    }
+   },
+   "ilim": {
+    "min": 3.85,
+    "typ": 4.5,
+    "max": 5.05,
+    "unit": "A",
+    "cond": "high-side peak limit, open loop (note 4)",
+    "ref": {
+     "page": 7,
+     "quote": "ISC High-side current limit LMR33630 3.85 4.5 5.05 A",
+     "mode": "table"
+    }
+   },
+   "ilim@low_side": {
+    "min": 2.9,
+    "typ": 3.5,
+    "max": 4.1,
+    "unit": "A",
+    "ref": {
+     "page": 7,
+     "quote": "ILIMIT Low-side current limit LMR33630 2.9 3.5 4.1 A",
+     "mode": "table"
+    }
+   },
+   "fsw": {
+    "min": 340000.0,
+    "typ": 400000.0,
+    "max": 460000.0,
+    "unit": "Hz",
+    "cond": "'A' version (ADDA = A, DDA package)",
+    "ref": {
+     "page": 8,
+     "quote": "ƒSW Switching frequency \"A\" Version 340 400 460 kHz",
+     "mode": "table"
+    }
+   },
+   "rds_on": {
+    "typ": 0.095,
+    "max": 0.16,
+    "unit": "ohm",
+    "cond": "high-side, DDA",
+    "ref": {
+     "page": 8,
+     "quote": "RDS-ON-HS High-side MOSFET ON- DDA package 95 160 mΩ",
+     "mode": "table"
+    }
+   },
+   "rds_on@low_side": {
+    "typ": 0.066,
+    "max": 0.11,
+    "unit": "ohm",
+    "cond": "low-side, DDA",
+    "ref": {
+     "page": 8,
+     "quote": "RDS-ON-LS Low-side MOSFET ON- DDA package 66 110 mΩ",
+     "mode": "table"
+    }
+   },
+   "t_ss": {
+    "min": 0.0029,
+    "typ": 0.004,
+    "max": 0.006,
+    "unit": "s",
+    "ref": {
+     "page": 8,
+     "quote": "tSS Internal soft-start time 2.9 4 6 ms",
+     "mode": "table"
+    }
+   },
+   "t_on_min": {
+    "typ": 7.5e-08,
+    "max": 1.08e-07,
+    "unit": "s",
+    "cond": "DDA",
+    "ref": {
+     "page": 8,
+     "quote": "tON-MIN Minimum switch on-time DDA package 75 108 ns",
+     "mode": "table"
+    }
+   },
+   "t_off_min": {
+    "typ": 5e-08,
+    "max": 8.5e-08,
+    "unit": "s",
+    "cond": "DDA",
+    "ref": {
+     "page": 8,
+     "quote": "tOFF-MIN Minimum switch off-time DDA package 50 85 ns",
+     "mode": "table"
+    }
+   },
+   "tsd": {
+    "typ": 165,
+    "unit": "degC",
+    "cond": "recovery 148 degC",
+    "ref": {
+     "page": 9,
+     "quote": "Thermal shutdown temperature Shutdown temperature 165 °C",
+     "mode": "table"
+    }
+   },
+   "duty_max": {
+    "typ": 98,
+    "unit": "%",
+    "cond": "VIN = VOUT = 12 V, 1 A",
+    "ref": {
+     "page": 9,
+     "quote": "Maximum switch duty cycle(2) VIN = VOUT = 12 V, IOUT = 1 A 98%",
+     "mode": "table"
+    }
+   }
+  },
+  "thermal": {
+   "rth_ja": {
+    "typ": 42.9,
+    "unit": "degC/W",
+    "cond": "JEDEC 4-layer board, comparison only - not for design (note 2)",
+    "ref": {
+     "page": 7,
+     "quote": "RθJA Junction-to-ambient thermal resistance 42.9(2)",
+     "mode": "table"
+    }
+   },
+   "rth_jb": {
+    "typ": 13.6,
+    "unit": "degC/W",
+    "ref": {
+     "page": 7,
+     "quote": "RθJB Junction-to-board thermal resistance 13.6",
+     "mode": "table"
+    }
+   },
+   "rth_jc": {
+    "typ": 4.3,
+    "unit": "degC/W",
+    "cond": "to the bottom pad",
+    "ref": {
+     "page": 7,
+     "quote": "RθJC(bot) Junction-to-case (bottom) thermal resistance 4.3",
+     "mode": "table"
+    }
+   }
+  },
+  "compliance": {
+   "msl": {
+    "value": "2, 260 degC, 1 year",
+    "unit": "-",
+    "ref": {
+     "page": 41,
+     "quote": "Level-2-260C-1 YEAR",
+     "mode": "table"
+    }
+   }
+  },
+  "ordering": {
+   "type": {
+    "value": "device marking 33630A",
+    "unit": "-",
+    "ref": {
+     "page": 41,
+     "quote": "-40 to 125 33630A",
+     "mode": "table"
+    }
+   }
+  }
+ },
+ "pins": [
+  {
+   "number": "1",
+   "name": "PGND",
+   "type": "ground",
+   "description": "Power ground. Connect to system ground and AGND; to the input bypass capacitor with short wide traces.",
+   "ref": {
+    "page": 5,
+    "quote": "PGND 1 8 SW",
+    "mode": "layout"
+   }
+  },
+  {
+   "number": "2",
+   "name": "VIN",
+   "type": "power",
+   "description": "Input supply. Bypass capacitor(s) directly to this pin and PGND.",
+   "ref": {
+    "page": 5,
+    "quote": "VIN 2 7 BOOT",
+    "mode": "layout"
+   }
+  },
+  {
+   "number": "3",
+   "name": "EN",
+   "type": "input",
+   "description": "Enable: high = on, low = off. Can connect directly to VIN. Do not float.",
+   "ref": {
+    "page": 5,
+    "quote": "EN 3 6",
+    "mode": "layout"
+   }
+  },
+  {
+   "number": "4",
+   "name": "PG",
+   "type": "open_drain",
+   "description": "Power-good open-drain output; pull up through a resistor. Low when EN is low. May be left open.",
+   "ref": {
+    "page": 5,
+    "quote": "PG 4 5 FB",
+    "mode": "layout"
+   }
+  },
+  {
+   "number": "5",
+   "name": "FB",
+   "type": "input",
+   "description": "Feedback input: tap of the divider. Do not float, do not ground.",
+   "ref": {
+    "page": 5,
+    "quote": "PG 4 5 FB",
+    "mode": "layout"
+   }
+  },
+  {
+   "number": "6",
+   "name": "VCC",
+   "type": "power",
+   "description": "Internal 5 V LDO output for internal circuits; no external loads. 1 uF ceramic to GND.",
+   "ref": {
+    "page": 5,
+    "quote": "EN 3 6",
+    "mode": "layout"
+   }
+  },
+  {
+   "number": "7",
+   "name": "BOOT",
+   "type": "power",
+   "description": "Bootstrap supply for the high-side driver: 100 nF ceramic from BOOT to SW.",
+   "ref": {
+    "page": 5,
+    "quote": "VIN 2 7 BOOT",
+    "mode": "layout"
+   }
+  },
+  {
+   "number": "8",
+   "name": "SW",
+   "type": "power",
+   "description": "Switch node: connect to the power inductor.",
+   "ref": {
+    "page": 5,
+    "quote": "PGND 1 8 SW",
+    "mode": "layout"
+   }
+  },
+  {
+   "number": "EP",
+   "name": "AGND",
+   "type": "ground",
+   "description": "Thermal pad = analog ground and heat sink; must be soldered to the ground plane.",
+   "ref": {
+    "page": 5,
+    "quote": "This pad must be soldered to a ground plane",
+    "mode": "raw"
+   }
+  }
+ ],
+ "notes": {
+  "application": [
+   {
+    "text": "Feedback: VREF nominally 1 V; RFBB from Equation 3. TI's 5 V / 400 kHz example uses RFBT 100 k and RFBB 24.9 k.",
+    "ref": {
+     "page": 21,
+     "quote": "For this 5-V example, RFBT = 100 kΩ and RFBB = 24.9 kΩ are chosen.",
+     "mode": "raw"
+    }
+   },
+   {
+    "text": "Inductor ripple current: choose 20 % to 40 % of the maximum output current (30 % suggested); use the device maximum current when the load is much lower.",
+    "ref": {
+     "page": 21,
+     "quote": "range of 20% to 40%",
+     "mode": "raw"
+    }
+   },
+   {
+    "text": "Inductor ripple must stay above about 10 % of the device maximum rated current.",
+    "ref": {
+     "page": 22,
+     "quote": "minimum inductor ripple current must be no less than about 10% of the device maximum rated current",
+     "mode": "raw"
+    }
+   },
+   {
+    "text": "Input: at least 10 uF of ceramic capacitance, plus a small ceramic as close to the device as possible.",
+    "ref": {
+     "page": 23,
+     "quote": "A minimum of 10 µF of ceramic capacitance is required",
+     "mode": "raw"
+    }
+   },
+   {
+    "text": "Typical components for 5 V / 400 kHz: L 8 uH, COUT 4 x 22 uF, RFBT 100 k, RFBB 24.9 k, CIN 10 uF + 220 nF, CBOOT 100 nF, CVCC 1 uF, CFF open.",
+    "ref": {
+     "page": 20,
+     "quote": "400 5 8 4 × 22 µF 100 k 24.9 k 10 µF + 220 nF 100 nF 1 µF open",
+     "mode": "raw"
+    }
+   },
+   {
+    "text": "Use effective capacitance (after DC bias and temperature), low-ESR ceramics, X5R or better.",
+    "ref": {
+     "page": 19,
+     "quote": "Use high-quality, low-ESR, ceramic",
+     "mode": "raw"
+    }
+   }
+  ],
+  "layout": [
+   {
+    "text": "Input-capacitor / PGND loop is the most critical: wide, short traces, smallest loop area.",
+    "ref": {
+     "page": 33,
+     "quote": "the most critical PCB feature is the loop formed by the input capacitor or input capacitors, and power ground",
+     "mode": "raw"
+    }
+   },
+   {
+    "text": "Input capacitor(s) as close as possible to VIN and GND; VCC capacitor close to VCC; CBOOT close with short wide traces to BOOT and SW.",
+    "ref": {
+     "page": 33,
+     "quote": "Place the input capacitor or capacitors as close as possible to the VIN and GND terminals.",
+     "mode": "raw"
+    }
+   },
+   {
+    "text": "Feedback divider close to FB; keep the VOUT sense trace away from SW.",
+    "ref": {
+     "page": 33,
+     "quote": "Place the feedback divider as close as possible to the FB pin of the device.",
+     "mode": "raw"
+    }
+   },
+   {
+    "text": "Solder the thermal pad to the ground plane; array of thermal vias to the bottom plane; 2 oz outer copper recommended (no less than 1 oz).",
+    "ref": {
+     "page": 33,
+     "quote": "Connect the thermal pad to the ground plane.",
+     "mode": "raw"
+    }
+   },
+   {
+    "text": "Keep the SW node area small and short/wide to the inductor (radiated EMI).",
+    "ref": {
+     "page": 33,
+     "quote": "Keep switch area small.",
+     "mode": "raw"
+    }
+   }
+  ]
+ },
+ "catalog_ids": [
+  "U_LMR33630ADDA"
+ ],
+ "review": {
+  "status": "extracted",
+  "created": "2026-10-17",
+  "open": [
+   "electrical.uvlo_rise holds the minimum operating VIN (3.8 V max): section 7.5 has no separate UVLO row",
+   "rth_ja is a JEDEC comparison number; the datasheet says not to use it for design (use 9.2.2.11 / board copper)",
+   "pins 3 and 6 cite one line of the pin figure ('EN 3 6'): confirm VCC = pin 6 on p5"
+  ],
+  "extracted_by": "Claude (AI) from datasheet page text, parts.py",
+  "extracted": "2026-10-17"
+ }
+}

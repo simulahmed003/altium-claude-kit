@@ -1,0 +1,264 @@
+{
+ "schema": "part/1",
+ "mpn": "CSD0910B-100M",
+ "mfr": "Codaca",
+ "category": "passives/inductor_power",
+ "description": "5A 10uH ±20% 5.6A 18.7mΩ SMD-4P,10x9mm Fixed Inductors RoHS",
+ "package": "SMD-4P,10x9mm",
+ "lifecycle": {
+  "status": "unknown"
+ },
+ "datasheets": [
+  {
+   "sha256": "6d64bdd5e55bf71c6a212cbb185259f89788bc28ebaf760a2f37e450b4d8fb9f",
+   "file": "CSD0910B-100M_C17699381.pdf",
+   "url": "",
+   "title": "",
+   "revision": ""
+  }
+ ],
+ "datasheet_url": "https://datasheet.lcsc.com/datasheet/pdf/97bccaaf5c708af112f36a462a6b456b.pdf?productCode=C17699381",
+ "suppliers": [
+  {
+   "name": "LCSC",
+   "sku": "C17699381",
+   "url": "https://www.lcsc.com/product-detail/C17699381.html",
+   "verified": "2026-10-17"
+  }
+ ],
+ "supplier_params": {
+  "Current Rating": "5A",
+  "Inductance": "10uH",
+  "Tolerance": "±20%",
+  "Current - Saturation(Isat)": "5.6A",
+  "DC Resistance(DCR)": "18.7mΩ"
+ },
+ "facts": {
+  "summary": {
+   "inductance": {
+    "value": 1e-05,
+    "unit": "H",
+    "cond": "per winding (1-2)/(3-4); 1 kHz, 1 V",
+    "ref": {
+     "page": 1,
+     "quote": "CSD0910B-100M 10.0 15.6 18.7 5.60 5.00",
+     "mode": "raw"
+    }
+   },
+   "tolerance": {
+    "min": -20,
+    "max": 20,
+    "unit": "%",
+    "ref": {
+     "page": 1,
+     "quote": "20% Typical Max. Typical Typical",
+     "mode": "raw"
+    }
+   }
+  },
+  "electrical": {
+   "dcr": {
+    "typ": 0.0156,
+    "max": 0.0187,
+    "unit": "ohm",
+    "cond": "per winding",
+    "ref": {
+     "page": 1,
+     "quote": "CSD0910B-100M 10.0 15.6 18.7 5.60 5.00",
+     "mode": "raw"
+    }
+   },
+   "isat": {
+    "typ": 5.6,
+    "unit": "A",
+    "cond": "inductance drops 25 %, 25 degC",
+    "ref": {
+     "page": 1,
+     "quote": "CSD0910B-100M 10.0 15.6 18.7 5.60 5.00",
+     "mode": "raw"
+    }
+   },
+   "irms": {
+    "typ": 5.0,
+    "unit": "A",
+    "cond": "temperature rise 40 K at Ta 25 degC",
+    "ref": {
+     "page": 1,
+     "quote": "CSD0910B-100M 10.0 15.6 18.7 5.60 5.00",
+     "mode": "raw"
+    }
+   }
+  },
+  "recommended": {
+   "t_op": {
+    "min": -40,
+    "max": 125,
+    "unit": "degC",
+    "cond": "including coil self temperature rise",
+    "ref": {
+     "page": 1,
+     "quote": "Operating temperature range: -40 +125",
+     "mode": "raw"
+    }
+   }
+  },
+  "package": {
+   "length": {
+    "min": 9.5,
+    "typ": 10.0,
+    "max": 10.5,
+    "unit": "mm",
+    "ref": {
+     "page": 1,
+     "quote": "Product Dimensions 10.0±0.5",
+     "visual": true
+    }
+   },
+   "width": {
+    "min": 8.5,
+    "typ": 9.0,
+    "max": 9.5,
+    "unit": "mm",
+    "ref": {
+     "page": 1,
+     "quote": "Product Dimensions 9.0±0.5",
+     "visual": true
+    }
+   },
+   "height": {
+    "max": 10.0,
+    "unit": "mm",
+    "ref": {
+     "page": 1,
+     "quote": "Product Dimensions 10.0Max",
+     "visual": true
+    }
+   },
+   "mass": {
+    "typ": 3.1,
+    "unit": "g",
+    "ref": {
+     "page": 1,
+     "quote": "Weight:3.10 g",
+     "mode": "raw"
+    }
+   }
+  },
+  "compliance": {
+   "rohs": {
+    "value": "RoHS, REACH, halogen free",
+    "unit": "-",
+    "ref": {
+     "page": 1,
+     "quote": "Environmental: RoHS, Reach compliant ,Halogen free",
+     "mode": "raw"
+    }
+   },
+   "msl": {
+    "value": "1",
+    "unit": "-",
+    "ref": {
+     "page": 1,
+     "quote": "Moisture Sensitivity:Level (MSL) 1",
+     "mode": "raw"
+    }
+   },
+   "aec_q": {
+    "value": "AEC-Q200 (banner only)",
+    "unit": "-",
+    "ref": {
+     "page": 1,
+     "quote": "AEC-Q200 banner on the product photo",
+     "visual": true
+    }
+   }
+  }
+ },
+ "pins": [
+  {
+   "number": "1",
+   "name": "1",
+   "type": "passive",
+   "description": "winding A",
+   "ref": {
+    "page": 1,
+    "quote": "Schematic: windings 1-2 and 3-4",
+    "visual": true
+   }
+  },
+  {
+   "number": "2",
+   "name": "2",
+   "type": "passive",
+   "description": "winding A",
+   "ref": {
+    "page": 1,
+    "quote": "Schematic: windings 1-2 and 3-4",
+    "visual": true
+   }
+  },
+  {
+   "number": "3",
+   "name": "3",
+   "type": "passive",
+   "description": "winding B",
+   "ref": {
+    "page": 1,
+    "quote": "Schematic: windings 1-2 and 3-4",
+    "visual": true
+   }
+  },
+  {
+   "number": "4",
+   "name": "4",
+   "type": "passive",
+   "description": "winding B",
+   "ref": {
+    "page": 1,
+    "quote": "Schematic: windings 1-2 and 3-4",
+    "visual": true
+   }
+  }
+ ],
+ "notes": {
+  "layout": [
+   {
+    "text": "Typical land pattern (4 pads): pad 3.1 x 2.4 mm; outer span 10.5 x 9.5 mm, inner span 8.1 x 5.5 mm.",
+    "ref": {
+     "page": 1,
+     "quote": "Typical Land Pattern 10.5 8.1 9.5 5.5 2.4 3.1",
+     "visual": true
+    }
+   }
+  ],
+  "application": [
+   {
+    "text": "Two windings in one body (2-in-1), intended as the LPF inductor of a Class-D amplifier; not a single-winding buck inductor.",
+    "ref": {
+     "page": 1,
+     "quote": "2-in-1structure offers space-saving.",
+     "mode": "raw"
+    }
+   },
+   {
+    "text": "Maker states the part is not authorized for safety-related applications.",
+    "ref": {
+     "page": 1,
+     "quote": "This product is not authorized for use in any application related to safety.",
+     "mode": "raw"
+    }
+   }
+  ]
+ },
+ "catalog_ids": [],
+ "review": {
+  "status": "extracted",
+  "created": "2026-10-17",
+  "open": [
+   "dimensions, land and pin/winding mapping read from the drawing (visual refs): confirm on p1",
+   "not in the catalog: buck-12v-5v-3a candidate, not chosen (ai/part_list.md deviation 1: 2-in-1 dual winding with unstated coupling)"
+  ],
+  "extracted_by": "Claude (AI) from datasheet page text, parts.py",
+  "extracted": "2026-10-17"
+ }
+}

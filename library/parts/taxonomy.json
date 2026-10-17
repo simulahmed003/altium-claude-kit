@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "about": "Category tree for library/parts. category/family = folder. 'required' lists the fact keys (section.key) that must be extracted before a part leaves draft. Field names and units only, no values. Add a family by pull request; never rename one (ids are folder paths).",
+  "units": {
+    "V": "volt", "A": "ampere", "W": "watt", "ohm": "ohm", "F": "farad", "H": "henry", "Hz": "hertz", "s": "second",
+    "C": "coulomb", "J": "joule", "degC": "degree Celsius", "degC/W": "kelvin per watt", "%": "percent",
+    "ppm/degC": "parts per million per kelvin", "mm": "millimetre", "mm2": "square millimetre", "N.m": "newton metre", "g": "gram", "dB": "decibel", "V/us": "volt per microsecond",
+    "-": "dimensionless or text", "count": "integer count"
+  },
+  "keys": {
+    "voltage": "V", "vin": "V", "vout": "V", "vref": "V", "vds": "V", "vgs": "V", "vgs_th": "V", "vf": "V", "vr": "V", "vrrm": "V",
+    "vbr": "V", "vclamp": "V", "vcc": "V", "vih": "V", "vil": "V", "voh": "V", "vol": "V", "uvlo_rise": "V", "uvlo_fall": "V",
+    "en_threshold": "V", "dropout": "V", "rated_voltage": "V", "working_voltage": "V", "overload_voltage": "V", "esd_hbm": "V",
+    "current": "A", "iout": "A", "id": "A", "id_pulse": "A", "if": "A", "ifsm": "A", "ir": "A", "iq": "A", "ishdn": "A",
+    "isat": "A", "irms": "A", "ilim": "A", "rated_current": "A", "ipp": "A",
+    "power": "W", "pd": "W", "rated_power": "W",
+    "resistance": "ohm", "rds_on": "ohm", "dcr": "ohm", "esr": "ohm", "contact_resistance": "ohm", "insulation_resistance": "ohm",
+    "capacitance": "F", "ciss": "F", "coss": "F", "crss": "F", "cj": "F",
+    "inductance": "H",
+    "qg": "C", "qgd": "C", "qgs": "C", "qrr": "C",
+    "fsw": "Hz", "frequency": "Hz", "srf": "Hz", "bandwidth": "Hz",
+    "trr": "s", "t_ss": "s", "t_on_min": "s", "t_off_min": "s", "rise_time": "s", "fall_time": "s",
+    "tj": "degC", "tstg": "degC", "t_op": "degC", "t_solder": "degC", "tsd": "degC", "tsd_hyst": "degC",
+    "rth_ja": "degC/W", "rth_jc": "degC/W", "rth_jl": "degC/W", "rth_jb": "degC/W",
+    "tolerance": "%", "accuracy": "%", "efficiency": "%", "duty_max": "%", "duty_min": "%",
+    "tcr": "ppm/degC", "tcc": "ppm/degC",
+    "length": "mm", "width": "mm", "height": "mm", "pitch": "mm", "wire_range_min": "mm2", "wire_range_max": "mm2", "hole_diameter": "mm", "torque": "N.m",
+    "mass": "g",
+    "pins": "count", "positions": "count", "mating_cycles": "count",
+    "dielectric": "-", "channel": "-", "package": "-", "msl": "-", "aec_q": "-", "rohs": "-", "type": "-", "topology": "-",
+    "interface": "-", "i2c_address": "-", "mounting": "-", "shielding": "-", "material": "-", "flammability": "-"
+  },
+  "sections": {
+    "summary": "key selection specs (what you filter on)",
+    "abs_max": "absolute maximum ratings - never mix with recommended",
+    "recommended": "recommended operating conditions",
+    "electrical": "electrical characteristics tables (min / typ / max with conditions)",
+    "thermal": "thermal resistances and limits",
+    "package": "package dimensions and the datasheet's recommended land pattern",
+    "compliance": "RoHS, AEC-Q, MSL, flammability",
+    "ordering": "part-number decoding and marking"
+  },
+  "note_sections": {
+    "application": "circuit design: required external parts, equations, typical application",
+    "layout": "placement and routing guidance",
+    "software": "interfaces, addresses, registers, timing needed for firmware",
+    "handling": "soldering profile, storage, MSL handling"
+  },
+  "categories": {
+    "passives": {
+      "resistor": {"required": ["summary.resistance", "summary.tolerance", "summary.rated_power", "abs_max.working_voltage", "summary.tcr", "recommended.t_op", "package.length", "package.width"], "lcsc": ["Chip Resistor - Surface Mount", "Through Hole Resistors", "Current Sense Resistors"]},
+      "capacitor_mlcc": {"required": ["summary.capacitance", "summary.tolerance", "summary.rated_voltage", "summary.dielectric", "recommended.t_op", "package.length", "package.width"], "lcsc": ["Multilayer Ceramic Capacitors MLCC - SMD/SMT"]},
+      "capacitor_electrolytic": {"required": ["summary.capacitance", "summary.tolerance", "summary.rated_voltage", "electrical.esr", "electrical.irms", "recommended.t_op"], "lcsc": ["Aluminum Electrolytic Capacitors - SMD", "Aluminum Electrolytic Capacitors - Leaded"]},
+      "capacitor_polymer": {"required": ["summary.capacitance", "summary.rated_voltage", "electrical.esr", "electrical.irms", "recommended.t_op"], "lcsc": ["Polymer Aluminum Capacitors", "Tantalum Capacitors"]},
+      "inductor_power": {"required": ["summary.inductance", "summary.tolerance", "electrical.dcr", "electrical.isat", "electrical.irms", "recommended.t_op", "package.length", "package.width", "package.height"], "lcsc": ["Power Inductors", "Inductors (SMD)"]},
+      "ferrite_bead": {"required": ["summary.resistance", "electrical.dcr", "summary.rated_current"], "lcsc": ["Ferrite Beads"]}
+    },
+    "discretes": {
+      "mosfet": {"required": ["summary.channel", "abs_max.vds", "abs_max.vgs", "abs_max.id", "electrical.rds_on", "electrical.vgs_th", "electrical.qg", "thermal.rth_ja", "abs_max.tj"], "lcsc": ["MOSFETs"]},
+      "diode_rectifier": {"required": ["abs_max.vrrm", "abs_max.if", "electrical.vf", "electrical.ir", "abs_max.tj"], "lcsc": ["Diodes - General Purpose", "Bridge Rectifiers"]},
+      "diode_schottky": {"required": ["abs_max.vrrm", "abs_max.if", "electrical.vf", "electrical.ir", "abs_max.tj"], "lcsc": ["Schottky Diodes"]},
+      "diode_zener": {"required": ["electrical.vbr", "summary.tolerance", "abs_max.pd"], "lcsc": ["Zener Diodes"]},
+      "diode_tvs": {"required": ["electrical.working_voltage", "electrical.vbr", "electrical.vclamp", "electrical.ipp"], "lcsc": ["TVS", "ESD and Surge Protection (TVS/ESD)"]},
+      "led": {"required": ["electrical.vf", "abs_max.if"], "lcsc": ["Light Emitting Diodes (LED)"]},
+      "bjt": {"required": ["summary.channel", "abs_max.voltage", "abs_max.current", "abs_max.pd"], "lcsc": ["Bipolar (BJT)"]}
+    },
+    "ics": {
+      "power_buck": {"required": ["recommended.vin", "summary.iout", "electrical.vref", "electrical.fsw", "abs_max.vin", "electrical.iq", "electrical.uvlo_rise", "thermal.rth_ja", "abs_max.tj"], "lcsc": ["DC-DC Converters"]},
+      "power_boost": {"required": ["recommended.vin", "summary.vout", "electrical.vref", "electrical.fsw", "abs_max.vin", "thermal.rth_ja"], "lcsc": []},
+      "power_ldo": {"required": ["recommended.vin", "summary.vout", "summary.iout", "electrical.dropout", "abs_max.vin", "thermal.rth_ja"], "lcsc": ["Voltage Regulators - Linear, Low Drop Out (LDO) Regulators"]},
+      "power_switch": {"required": ["recommended.vin", "electrical.rds_on", "electrical.ilim"], "lcsc": ["Power Distribution Switches"]},
+      "mcu": {"required": ["recommended.vcc", "summary.frequency", "summary.interface"], "lcsc": ["Microcontrollers (MCU/MPU/SOC)"]},
+      "interface": {"required": ["recommended.vcc", "summary.interface"], "lcsc": []},
+      "analog": {"required": ["recommended.vcc", "summary.type"], "lcsc": ["Operational Amplifiers", "Comparators"]},
+      "sensor": {"required": ["recommended.vcc", "summary.interface"], "lcsc": []},
+      "logic": {"required": ["recommended.vcc", "summary.type"], "lcsc": []},
+      "memory": {"required": ["recommended.vcc", "summary.interface"], "lcsc": []},
+      "clock": {"required": ["recommended.vcc", "summary.frequency"], "lcsc": []}
+    },
+    "connectors": {
+      "terminal_block": {"required": ["summary.positions", "summary.pitch", "summary.rated_current", "summary.rated_voltage", "summary.wire_range_max"], "lcsc": ["Screw Terminal Blocks", "Pluggable System Terminal Block"]},
+      "header": {"required": ["summary.positions", "summary.pitch", "summary.rated_current"], "lcsc": ["Pin Headers", "Female Headers"]},
+      "usb": {"required": ["summary.type", "summary.rated_current"], "lcsc": ["USB Connectors"]},
+      "board_to_board": {"required": ["summary.positions", "summary.pitch"], "lcsc": []},
+      "test_point": {"required": ["summary.type"], "lcsc": ["Test Points"]}
+    },
+    "frequency": {
+      "crystal": {"required": ["summary.frequency", "summary.tolerance", "electrical.capacitance", "electrical.esr"], "lcsc": ["Crystals"]},
+      "oscillator": {"required": ["summary.frequency", "recommended.vcc"], "lcsc": ["Oscillators"]}
+    },
+    "protection": {
+      "fuse": {"required": ["summary.rated_current", "summary.rated_voltage", "summary.type"], "lcsc": ["Fuses", "Resettable Fuses"]}
+    },
+    "electromechanical": {
+      "switch": {"required": ["summary.type", "summary.rated_current", "summary.rated_voltage"], "lcsc": []},
+      "relay": {"required": ["summary.type", "summary.rated_current", "summary.rated_voltage", "electrical.voltage"], "lcsc": []}
+    }
+  }
+}

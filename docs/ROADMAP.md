@@ -24,9 +24,11 @@ Status: ✅ done · 🔨 in progress · ⬜ not started
 | ✅ Kit layer | skills folder + orchestrator draft, architecture, roadmap, AI-contributor guide |
 
 ## Next
-### M1 Component facts database ⬜ (next)
-`library/facts/` schema, `facts.py get / check / draft`, facts for the 16 buck parts, PROPOSED change to RQ-01.
-Done when the buck schematic phase needs zero datasheet PDF opens for catalog parts.
+### M1 Component database 🔨
+Built 2026-10-17: `library/parts/` (taxonomy, manufacturers, one record per MPN), `parts.py` (new from LCSC, fetch,
+page text, locate, check with page + quote, index, find, market), 17 buck datasheet parts `extracted`.
+Left: a person verifies the 17 records (65 visual values), the PROPOSED change to RQ-01, catalog_check linking catalog
+components to part records. Done when the buck schematic phase needs zero datasheet PDF opens for catalog parts.
 
 ### M2 Front of the flow ⬜
 Requirements and architecture rules (with the planned G0 gate), part selection against facts, the first

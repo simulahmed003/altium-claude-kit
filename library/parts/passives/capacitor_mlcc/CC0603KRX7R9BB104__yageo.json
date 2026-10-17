@@ -1,0 +1,178 @@
+{
+ "schema": "part/1",
+ "mpn": "CC0603KRX7R9BB104",
+ "mfr": "YAGEO",
+ "category": "passives/capacitor_mlcc",
+ "description": "100nF ±10% 50V Ceramic Capacitor X7R 0603",
+ "package": "0603",
+ "lifecycle": {
+  "status": "unknown"
+ },
+ "datasheets": [
+  {
+   "sha256": "61a606825ab314ea318cfb5362848a62fdffb851efa9818d642e9a541c56a648",
+   "file": "CC0603KRX7R9BB104_C14663.pdf",
+   "url": "https://jlcpcb.com/partdetail/C107083",
+   "title": "",
+   "revision": ""
+  }
+ ],
+ "datasheet_url": "https://datasheet.lcsc.com/datasheet/pdf/23ccee80ee542e7cf156a772bb589942.pdf?productCode=C14663",
+ "suppliers": [
+  {
+   "name": "LCSC",
+   "sku": "C14663",
+   "url": "https://www.lcsc.com/product-detail/C14663.html",
+   "verified": "2026-10-17"
+  }
+ ],
+ "supplier_params": {
+  "Capacitance": "100nF",
+  "Temperature Coefficient": "X7R",
+  "Tolerance": "±10%",
+  "Voltage Rating": "50V"
+ },
+ "facts": {
+  "summary": {
+   "tolerance": {
+    "min": -10,
+    "max": 10,
+    "unit": "%",
+    "derivation": "MPN code K",
+    "ref": {
+     "page": 2,
+     "quote": "K = ± 10%"
+    }
+   },
+   "rated_voltage": {
+    "value": 50,
+    "unit": "V",
+    "derivation": "MPN code 9",
+    "ref": {
+     "page": 2,
+     "quote": "9 = 50 V"
+    }
+   },
+   "dielectric": {
+    "value": "X7R",
+    "unit": "-",
+    "ref": {
+     "page": 2,
+     "quote": "General Purpose & High Cap. X7R 6.3 V to 250 V"
+    }
+   },
+   "capacitance": {
+    "value": 1e-07,
+    "unit": "F",
+    "derivation": "MPN code 104 = 10 x 10^4 pF",
+    "ref": {
+     "page": 2,
+     "quote": "The 3rd digit signifies the multiplying factor, and letter R is decimal point"
+    }
+   }
+  },
+  "recommended": {
+   "t_op": {
+    "min": -55,
+    "max": 125,
+    "unit": "degC",
+    "ref": {
+     "page": 14,
+     "quote": "Operating temperature range: –55 °C to +125 °C"
+    }
+   }
+  },
+  "package": {
+   "length": {
+    "min": 1.5,
+    "typ": 1.6,
+    "max": 1.7,
+    "unit": "mm",
+    "cond": "dimension code DA",
+    "ref": {
+     "page": 5,
+     "quote": "1.6 ± 0.1   0.8 ± 0.1   0.8 ± 0.1   DA",
+     "mode": "table"
+    }
+   },
+   "width": {
+    "min": 0.7,
+    "typ": 0.8,
+    "max": 0.9,
+    "unit": "mm",
+    "cond": "dimension code DA",
+    "ref": {
+     "page": 5,
+     "quote": "1.6 ± 0.1   0.8 ± 0.1   0.8 ± 0.1   DA",
+     "mode": "table"
+    }
+   },
+   "height": {
+    "min": 0.7,
+    "typ": 0.8,
+    "max": 0.9,
+    "unit": "mm",
+    "cond": "dimension code DA",
+    "ref": {
+     "page": 5,
+     "quote": "1.6 ± 0.1   0.8 ± 0.1   0.8 ± 0.1   DA",
+     "mode": "table"
+    }
+   }
+  },
+  "compliance": {
+   "rohs": {
+    "value": "RoHS compliant, halogen free",
+    "unit": "-",
+    "ref": {
+     "page": 2,
+     "quote": "RoHS compliant"
+    }
+   },
+   "msl": {
+    "value": "1",
+    "unit": "-",
+    "ref": {
+     "page": 2,
+     "quote": "MSL class : level 1"
+    }
+   }
+  },
+  "ordering": {
+   "package": {
+    "value": "DA",
+    "unit": "-",
+    "cond": "50 V column of table 3 (0603): dimension code DA",
+    "ref": {
+     "page": 5,
+     "quote": "100 nF  DA  DA  DA  DA  DA  DA",
+     "mode": "table"
+    }
+   }
+  }
+ },
+ "pins": [],
+ "notes": {
+  "layout": [
+   {
+    "text": "No recommended land pattern in this datasheet. The a/b/c table on p22 (0603: 1.0 / 3.0 / 1.2 mm) is the bend-test substrate, not a footprint: use IPC-7351 for the land.",
+    "ref": {
+     "page": 22,
+     "quote": "Bending Strength"
+    }
+   }
+  ]
+ },
+ "catalog_ids": [
+  "C_100n_50V_X7R_0603"
+ ],
+ "review": {
+  "status": "extracted",
+  "created": "2026-10-17",
+  "open": [
+   "dimension code DA read from the 50 V column of table 3 (p5); confirm the column on the PDF"
+  ],
+  "extracted_by": "Claude (AI) from datasheet page text, parts.py",
+  "extracted": "2026-10-17"
+ }
+}

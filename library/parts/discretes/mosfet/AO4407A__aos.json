@@ -1,0 +1,331 @@
+{
+ "schema": "part/1",
+ "mpn": "AO4407A",
+ "mfr": "Alpha & Omega Semiconductor",
+ "category": "discretes/mosfet",
+ "description": "P-Channel 30V 12A 3.1W Surface Mount SOIC-8",
+ "package": "SOIC-8",
+ "lifecycle": {
+  "status": "unknown"
+ },
+ "datasheets": [
+  {
+   "sha256": "747519e70105cd648686595995dc8cd25f218d8a0c76f56b1e5ee34755312e0d",
+   "file": "AO4407A_C16072.pdf",
+   "url": "",
+   "title": "",
+   "revision": ""
+  }
+ ],
+ "datasheet_url": "https://datasheet.lcsc.com/datasheet/pdf/6bf17916e7274c4fb32122c6ec48f2db.pdf?productCode=C16072",
+ "suppliers": [
+  {
+   "name": "LCSC",
+   "sku": "C16072",
+   "url": "https://www.lcsc.com/product-detail/C16072.html",
+   "verified": "2026-10-17"
+  }
+ ],
+ "supplier_params": {
+  "Output Capacitance(Coss)": "370pF",
+  "Ciss-Input Capacitance": "2.6nF",
+  "Pd - Power Dissipation": "3.1W",
+  "Configuration": "-",
+  "Operating Temperature": "-",
+  "Drain to Source Voltage": "30V",
+  "Current - Continuous Drain(Id)": "12A",
+  "Reverse Transfer Capacitance (Crss)": "295pF",
+  "RDS(on)": "38mΩ@5V",
+  "Number": "1 P-Channel",
+  "Gate Charge(Qg)": "39nC@10V",
+  "Vgs": "±25V",
+  "Gate Threshold Voltage (Vgs(th))": "3V",
+  "Type": "P-Channel"
+ },
+ "facts": {
+  "summary": {
+   "channel": {
+    "value": "P",
+    "unit": "-",
+    "ref": {
+     "page": 1,
+     "quote": "P-Channel Enhancement Mode Field Effect Transistor",
+     "visual": true
+    }
+   }
+  },
+  "abs_max": {
+   "vds": {
+    "value": -30,
+    "unit": "V",
+    "ref": {
+     "page": 1,
+     "quote": "Drain-Source Voltage VDS -30 V",
+     "mode": "table"
+    }
+   },
+   "vgs": {
+    "min": -25,
+    "max": 25,
+    "unit": "V",
+    "ref": {
+     "page": 1,
+     "quote": "Gate-Source Voltage VGS ±25 V",
+     "mode": "table"
+    }
+   },
+   "id": {
+    "value": -12,
+    "unit": "A",
+    "cond": "TA 25 degC, t <= 10 s column; steady state -9.2 A",
+    "ref": {
+     "page": 1,
+     "quote": "Continuous Drain TA=25°C -12 -9.2",
+     "mode": "table"
+    }
+   },
+   "id_pulse": {
+    "value": -60,
+    "unit": "A",
+    "ref": {
+     "page": 1,
+     "quote": "Pulsed Drain Current B IDM -60",
+     "mode": "table"
+    }
+   },
+   "pd": {
+    "value": 3.1,
+    "unit": "W",
+    "cond": "TA 25 degC, t <= 10 s; steady state 1.7 W",
+    "ref": {
+     "page": 1,
+     "quote": "Power Dissipation A TA=25°C PD 3.1 1.7 W",
+     "mode": "table"
+    }
+   },
+   "tj": {
+    "min": -55,
+    "max": 150,
+    "unit": "degC",
+    "ref": {
+     "page": 1,
+     "quote": "Junction and Storage Temperature Range TJ, TSTG -55 to 150",
+     "mode": "table"
+    }
+   }
+  },
+  "electrical": {
+   "rds_on": {
+    "typ": 0.01,
+    "max": 0.013,
+    "unit": "ohm",
+    "cond": "VGS -10 V, ID -12 A",
+    "ref": {
+     "page": 2,
+     "quote": "VGS = -10V, ID = -12A 10 13",
+     "mode": "table"
+    }
+   },
+   "rds_on@vgs_5v": {
+    "typ": 0.027,
+    "max": 0.038,
+    "unit": "ohm",
+    "cond": "VGS -5 V, ID -10 A",
+    "ref": {
+     "page": 2,
+     "quote": "VGS = -5V, ID = -10A 27 38",
+     "mode": "table"
+    }
+   },
+   "rds_on@vgs_20v": {
+    "typ": 0.0085,
+    "max": 0.011,
+    "unit": "ohm",
+    "cond": "VGS -20 V, ID -12 A",
+    "ref": {
+     "page": 2,
+     "quote": "VGS = -20V, ID = -12A 8.5 11",
+     "mode": "table"
+    }
+   },
+   "vgs_th": {
+    "min": -1.7,
+    "typ": -2.3,
+    "max": -3,
+    "unit": "V",
+    "ref": {
+     "page": 2,
+     "quote": "Gate Threshold Voltage VDS = VGS ID = -250µA -1.7 -2.3 -3",
+     "mode": "table"
+    }
+   },
+   "qg": {
+    "typ": 3e-08,
+    "max": 3.9e-08,
+    "unit": "C",
+    "cond": "VGS -10 V, VDS -15 V, ID -12 A",
+    "ref": {
+     "page": 2,
+     "quote": "Qg Total Gate Charge 30 39",
+     "mode": "table"
+    }
+   },
+   "qgd": {
+    "typ": 1e-08,
+    "unit": "C",
+    "ref": {
+     "page": 2,
+     "quote": "Qgd Gate Drain Charge 10",
+     "mode": "table"
+    }
+   },
+   "ciss": {
+    "typ": 2.06e-09,
+    "max": 2.6e-09,
+    "unit": "F",
+    "ref": {
+     "page": 2,
+     "quote": "Ciss Input Capacitance 2060 2600",
+     "mode": "table"
+    }
+   },
+   "vf": {
+    "typ": -0.7,
+    "max": -1,
+    "unit": "V",
+    "ref": {
+     "page": 2,
+     "quote": "Diode Forward Voltage IS = -1A,VGS = 0V -0.7 -1",
+     "mode": "table"
+    }
+   }
+  },
+  "thermal": {
+   "rth_ja": {
+    "typ": 60,
+    "max": 75,
+    "unit": "degC/W",
+    "cond": "steady state",
+    "ref": {
+     "page": 1,
+     "quote": "Maximum Junction-to-Ambient A Steady State 60 75",
+     "mode": "table"
+    }
+   },
+   "rth_jl": {
+    "typ": 17,
+    "max": 24,
+    "unit": "degC/W",
+    "ref": {
+     "page": 1,
+     "quote": "Maximum Junction-to-Lead C Steady State RθJL 17 24",
+     "mode": "table"
+    }
+   }
+  }
+ },
+ "pins": [
+  {
+   "number": "1",
+   "name": "S",
+   "type": "passive",
+   "description": "source",
+   "ref": {
+    "page": 1,
+    "quote": "SO-8 top view: pins 1-3 S, 4 G, 5-8 D",
+    "visual": true
+   }
+  },
+  {
+   "number": "2",
+   "name": "S",
+   "type": "passive",
+   "description": "source",
+   "ref": {
+    "page": 1,
+    "quote": "SO-8 top view: pins 1-3 S, 4 G, 5-8 D",
+    "visual": true
+   }
+  },
+  {
+   "number": "3",
+   "name": "S",
+   "type": "passive",
+   "description": "source",
+   "ref": {
+    "page": 1,
+    "quote": "SO-8 top view: pins 1-3 S, 4 G, 5-8 D",
+    "visual": true
+   }
+  },
+  {
+   "number": "4",
+   "name": "G",
+   "type": "passive",
+   "description": "gate",
+   "ref": {
+    "page": 1,
+    "quote": "SO-8 top view: pins 1-3 S, 4 G, 5-8 D",
+    "visual": true
+   }
+  },
+  {
+   "number": "5",
+   "name": "D",
+   "type": "passive",
+   "description": "drain",
+   "ref": {
+    "page": 1,
+    "quote": "SO-8 top view: pins 1-3 S, 4 G, 5-8 D",
+    "visual": true
+   }
+  },
+  {
+   "number": "6",
+   "name": "D",
+   "type": "passive",
+   "description": "drain",
+   "ref": {
+    "page": 1,
+    "quote": "SO-8 top view: pins 1-3 S, 4 G, 5-8 D",
+    "visual": true
+   }
+  },
+  {
+   "number": "7",
+   "name": "D",
+   "type": "passive",
+   "description": "drain",
+   "ref": {
+    "page": 1,
+    "quote": "SO-8 top view: pins 1-3 S, 4 G, 5-8 D",
+    "visual": true
+   }
+  },
+  {
+   "number": "8",
+   "name": "D",
+   "type": "passive",
+   "description": "drain",
+   "ref": {
+    "page": 1,
+    "quote": "SO-8 top view: pins 1-3 S, 4 G, 5-8 D",
+    "visual": true
+   }
+  }
+ ],
+ "notes": {},
+ "catalog_ids": [],
+ "review": {
+  "status": "extracted",
+  "created": "2026-10-17",
+  "open": [
+   "not in the catalog: buck-12v-5v-3a comparison part for AO4407C (ai/part_list.md deviation 2)",
+   "RDS(on) rows on p2 were matched by condition text; the TJ 125 degC row (11.5 / 15 mOhm) sits between them: confirm which VGS it belongs to",
+   "pin map from the page image (visual): confirm on p1",
+   "datasheet inconsistency: p1 features say RDS(ON) < 38 mOhm at VGS -10 V, the p2 table gives 38 mOhm max at VGS -5 V (stored per the table)"
+  ],
+  "extracted_by": "Claude (AI) from datasheet page text, parts.py",
+  "extracted": "2026-10-17"
+ }
+}

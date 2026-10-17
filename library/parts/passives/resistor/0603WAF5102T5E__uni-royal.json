@@ -1,0 +1,203 @@
+{
+ "schema": "part/1",
+ "mpn": "0603WAF5102T5E",
+ "mfr": "UNI-ROYAL",
+ "category": "passives/resistor",
+ "description": "51kΩ ±1% 100mW 0603 Thick Film Resistor",
+ "package": "0603",
+ "lifecycle": {
+  "status": "unknown"
+ },
+ "datasheets": [
+  {
+   "sha256": "11cd644d5d8a34a6d12775afb80bf58d8fc11f0c3b700dbd0f7a59942ceaa5ef",
+   "file": "0603WAF1002T5E_C25804.pdf",
+   "url": "https://jlcpcb.com/partdetail/C23196",
+   "title": "",
+   "revision": ""
+  }
+ ],
+ "datasheet_url": "https://datasheet.lcsc.com/datasheet/pdf/0a975aaa49b7c97f38a963127be4a823.pdf?productCode=C23196",
+ "suppliers": [
+  {
+   "name": "LCSC",
+   "sku": "C23196",
+   "url": "https://www.lcsc.com/product-detail/C23196.html",
+   "verified": "2026-10-17"
+  }
+ ],
+ "supplier_params": {
+  "Power(Watts)": "100mW",
+  "Resistance": "51kΩ",
+  "Voltage Rating": "75V",
+  "Type": "Thick Film Resistor",
+  "Temperature Coefficient": "±100ppm/℃",
+  "Tolerance": "±1%",
+  "Operating Temperature": "-55℃~+155℃"
+ },
+ "facts": {
+  "summary": {
+   "tolerance": {
+    "min": -1,
+    "max": 1,
+    "unit": "%",
+    "ref": {
+     "page": 2,
+     "quote": "F=±1%"
+    }
+   },
+   "rated_power": {
+    "value": 0.1,
+    "unit": "W",
+    "cond": "at 70 degC ambient, derated above 70 degC (p5 figure 1)",
+    "ref": {
+     "page": 4,
+     "quote": "0603 1/10W 1Ω-10MΩ 0.01Ω-10MΩ",
+     "mode": "raw"
+    }
+   },
+   "tcr": {
+    "min": -100,
+    "max": 100,
+    "unit": "ppm/degC",
+    "cond": "0603 size, R > 10 ohm",
+    "ref": {
+     "page": 6,
+     "quote": "0.05Ω＜R＜1Ω: ±800PPM/°C 1Ω≤R≤10Ω: ±200PPM/°C >10Ω: ±100PPM/℃",
+     "mode": "raw"
+    }
+   },
+   "resistance": {
+    "value": 51000,
+    "unit": "ohm",
+    "derivation": "MPN codes 8-11 = 5102: 510 x 10^2",
+    "ref": {
+     "page": 2,
+     "quote": "8th~10th codes are significant figures of the resistance, and 11th code is the power of ten"
+    }
+   }
+  },
+  "abs_max": {
+   "working_voltage": {
+    "max": 75,
+    "unit": "V",
+    "cond": "0603 max. working voltage; also limited to RCWV = sqrt(P x R) (p5)",
+    "ref": {
+     "page": 5,
+     "quote": "0603 75V 150V 300V <50mΩ 1A 2A -55℃~155℃",
+     "mode": "raw"
+    }
+   },
+   "overload_voltage": {
+    "max": 150,
+    "unit": "V",
+    "cond": "0603 max. overload voltage",
+    "ref": {
+     "page": 5,
+     "quote": "0603 75V 150V 300V <50mΩ 1A 2A -55℃~155℃",
+     "mode": "raw"
+    }
+   }
+  },
+  "recommended": {
+   "t_op": {
+    "min": -55,
+    "max": 155,
+    "unit": "degC",
+    "cond": "0603 operating temperature",
+    "ref": {
+     "page": 5,
+     "quote": "0603 75V 150V 300V <50mΩ 1A 2A -55℃~155℃",
+     "mode": "raw"
+    }
+   }
+  },
+  "package": {
+   "length": {
+    "min": 1.5,
+    "typ": 1.6,
+    "max": 1.7,
+    "unit": "mm",
+    "ref": {
+     "page": 4,
+     "quote": "0603 1.60±0.10 0.80±0.10 0.45±0.10 0.30±0.20 0.30±0.20",
+     "mode": "raw"
+    }
+   },
+   "width": {
+    "min": 0.7,
+    "typ": 0.8,
+    "max": 0.9,
+    "unit": "mm",
+    "ref": {
+     "page": 4,
+     "quote": "0603 1.60±0.10 0.80±0.10 0.45±0.10 0.30±0.20 0.30±0.20",
+     "mode": "raw"
+    }
+   },
+   "height": {
+    "min": 0.35,
+    "typ": 0.45,
+    "max": 0.55,
+    "unit": "mm",
+    "ref": {
+     "page": 4,
+     "quote": "0603 1.60±0.10 0.80±0.10 0.45±0.10 0.30±0.20 0.30±0.20",
+     "mode": "raw"
+    }
+   }
+  },
+  "compliance": {
+   "rohs": {
+    "value": "lead free (14th code E)",
+    "unit": "-",
+    "ref": {
+     "page": 2,
+     "quote": "E = Environmental Protection, Lead Free"
+    }
+   }
+  }
+ },
+ "pins": [],
+ "notes": {
+  "layout": [
+   {
+    "text": "Recommended land pattern for 0603 (table 8): A 0.9 +/-0.05, B 0.65 +/-0.05, C 0.8 +/-0.05, D 2.1 +/-0.05 mm. The meaning of A-D is only in the figure on page 5, not in the text.",
+    "ref": {
+     "page": 5,
+     "quote": "0603 0.9±0.05 0.65±0.05 0.8±0.05 2.1±0.05",
+     "mode": "table"
+    }
+   }
+  ],
+  "application": [
+   {
+    "text": "Power rating holds from -55 to 70 degC ambient; above 70 degC derate per figure 1.",
+    "ref": {
+     "page": 5,
+     "quote": "For temperature in excess of 70℃, the load shall be derated as shown in figure 1"
+    }
+   },
+   {
+    "text": "Rated continuous working voltage RCWV = sqrt(P x R), never above the max. working voltage; overload voltage = 2.5 x RCWV or the max. overload voltage, whichever is less.",
+    "ref": {
+     "page": 5,
+     "quote": "The overload voltage is 2.5 times RCWV or Max. Overload voltage whichever is less"
+    }
+   }
+  ]
+ },
+ "catalog_ids": [
+  "R_51k_1%_0603"
+ ],
+ "review": {
+  "status": "extracted",
+  "created": "2026-10-17",
+  "open": [
+   "land pattern letters A-D: read the figure on p5",
+   "TCR quote is the 0603 block on p6; confirm against the PDF"
+  ],
+  "extracted_by": "Claude (AI) from datasheet page text, parts.py",
+  "extracted": "2026-10-17"
+ }
+}
