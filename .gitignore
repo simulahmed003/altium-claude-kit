@@ -1,0 +1,15 @@
+# Datasheets stay in the local cache, never in Git (licensing + size)
+*.pdf
+cache/
+.cache/
+__pycache__/
+*.pyc
+.venv/
+# Altium noise
+History/
+__Previews/
+Project Logs for */
+Project Outputs for */
+*.PcbDoc.htm
+*.SchDocPreview
+*.PcbDocPreview

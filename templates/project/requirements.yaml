@@ -1,0 +1,6 @@
+# Every requirement needs a number and a way to verify it.
+- id: R-1
+  text: "Input voltage range"
+  value: {min: null, max: null, unit: V}
+  verify: "datasheet + calc"        # calc | sim | test | review
+  source: "user"

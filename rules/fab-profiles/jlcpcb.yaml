@@ -1,0 +1,6 @@
+# JLCPCB standard process. Values NOT yet verified: check https://jlcpcb.com/capabilities/pcb-capabilities
+# and set `checked:` before relying on them (roadmap M5). Until then designs use generic.yaml limits.
+name: jlcpcb
+status: unverified
+checked: null
+source: https://jlcpcb.com/capabilities/pcb-capabilities

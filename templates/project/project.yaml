@@ -1,0 +1,19 @@
+# Single source of project state. Claude reads this first and updates it after each task.
+name: my-board
+kit_version: 0.1.0-dev
+altium_version: ""            # e.g. the release you design in; kit supports latest + 2 previous
+fab_profile: jlcpcb           # file in <kit>/rules/fab-profiles/
+tools:                        # only what is really connected; Claude must not assume others
+  mcp: []                     # names of the Altium/other MCP servers available
+  simulation: []              # e.g. ltspice, ngspice, altium-mixed-sim
+phase: requirements           # requirements | architecture | component-selection | library-cad |
+                              # schematic-design | schematic-review | pcb-setup | placement |
+                              # routing | analysis | silkscreen-dfm | fab-release | done
+gates:                        # human approvals; set required: false to delegate
+  G1: {name: requirements + architecture, required: true, status: pending}
+  G2: {name: critical parts + schematic freeze, required: true, status: pending}
+  G3: {name: layout freeze, required: true, status: pending}
+  G4: {name: fab release, required: true, status: pending}
+checks: {}                    # check_id: {status: passed|failed|invalidated|waived, report: reports/x.md}
+issues: []                    # - {id: I-1, phase: placement, text: "...", status: open}
+next_action: "Capture requirements in requirements.yaml"
