@@ -15,10 +15,10 @@
 - Status: CHECKLIST
 
 ### COM-03 New downloads
-- MUST: ask before the first download of a new file type.
+- MUST: ask before the first download of a new file type. Exception: datasheet PDFs from the maker's website or LCSC for a part being added to the component database (RQ-01) are downloaded without asking; the source link is recorded in library\datasheets\index.json.
 - Why: user request.
 - Check: checklist
-- Source: user brief 2026-10-13
+- Source: user brief 2026-10-13; datasheet exception: user 2026-10-17
 - Status: CHECKLIST
 
 ### COM-04 Destructive edits

@@ -17,7 +17,6 @@
    "revision": ""
   }
  ],
- "datasheet_url": "https://datasheet.lcsc.com/datasheet/pdf/97bccaaf5c708af112f36a462a6b456b.pdf?productCode=C17699381",
  "suppliers": [
   {
    "name": "LCSC",
@@ -260,5 +259,11 @@
   ],
   "extracted_by": "Claude (AI) from datasheet page text, parts.py",
   "extracted": "2026-10-17"
- }
+ },
+ "datasheet_urls": [
+  {
+   "source": "lcsc",
+   "url": "https://datasheet.lcsc.com/datasheet/pdf/97bccaaf5c708af112f36a462a6b456b.pdf?productCode=C17699381"
+  }
+ ]
 }

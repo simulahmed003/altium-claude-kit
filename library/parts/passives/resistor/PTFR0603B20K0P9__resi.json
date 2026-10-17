@@ -17,7 +17,6 @@
    "revision": ""
   }
  ],
- "datasheet_url": "https://datasheet.lcsc.com/datasheet/pdf/19fb9d121ec124c867093c26b2505da9.pdf?productCode=C328424",
  "suppliers": [
   {
    "name": "LCSC",
@@ -174,5 +173,15 @@
   ],
   "extracted_by": "Claude (AI) from datasheet page text, parts.py",
   "extracted": "2026-10-17"
- }
+ },
+ "datasheet_urls": [
+  {
+   "source": "lcsc",
+   "url": "https://datasheet.lcsc.com/datasheet/pdf/19fb9d121ec124c867093c26b2505da9.pdf?productCode=C328424"
+  },
+  {
+   "source": "jlcpcb",
+   "url": "https://jlcpcb.com/partdetail/C5382597"
+  }
+ ]
 }

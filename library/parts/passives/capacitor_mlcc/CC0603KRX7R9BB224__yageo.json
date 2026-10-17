@@ -17,7 +17,6 @@
    "revision": ""
   }
  ],
- "datasheet_url": "https://datasheet.lcsc.com/datasheet/pdf/23ccee80ee542e7cf156a772bb589942.pdf?productCode=C107083",
  "suppliers": [
   {
    "name": "LCSC",
@@ -174,5 +173,15 @@
   ],
   "extracted_by": "Claude (AI) from datasheet page text, parts.py",
   "extracted": "2026-10-17"
- }
+ },
+ "datasheet_urls": [
+  {
+   "source": "lcsc",
+   "url": "https://datasheet.lcsc.com/datasheet/pdf/23ccee80ee542e7cf156a772bb589942.pdf?productCode=C107083"
+  },
+  {
+   "source": "jlcpcb",
+   "url": "https://jlcpcb.com/partdetail/C107083"
+  }
+ ]
 }

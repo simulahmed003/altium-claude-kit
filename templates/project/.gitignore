@@ -1,0 +1,2 @@
+# datasheet PDFs stay local (rule RQ-01): get them with tools\scripts\parts.py datasheet --project <this folder>
+*.pdf
