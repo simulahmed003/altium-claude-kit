@@ -19,6 +19,7 @@ Each has a docstring, `--help`, and exit code 0 = PASS / 1 = FAIL. Tests: `tools
 | place.py | placement plan: courtyards, board edge (fab profile), plan vs saved PcbDoc | PCB-02, 12 | `python place.py ai\place.json --pcb hw\x\x.PcbDoc` |
 | jlc.py | JLCPCB BOM / CPL from plan + PcbDoc; BOM parse check (only after G4) | FAB-01, 04, RQ-03 | `python jlc.py bom ai\plan.json out\bom.csv --catalog ...` |
 | gate_check.py | evidence pack ai\review\<gate>_evidence.md; gate order; never ticks a gate | WF-01..03, FAB-01, TOOL-09 | `python gate_check.py S1 projects\x` |
+| first_run_test.py | runs docs\FIRST_RUN_TESTS.md on Windows (live calls through `claude -p`, so the guard decides); log lines to logs\MCP_LOG.md | TOOL-01 | `python tools\scripts\first_run_test.py` |
 | libcat.py | shared catalog / manifest code for the lib scripts (import it) | LIB-05, 06 | - |
 | lib_promote.py | project parts -> global catalog after G1; plans the altium-lib copies (catalog vs libs, idempotent; `- --plan` rebuilds); `--verify` | LIB-06 | `python lib_promote.py projects\x --info info.json` |
 | lib_pull.py | plan global -> project copies; `--verify` records them in lib_manifest.json | LIB-06 | `python lib_pull.py projects\x R_10k_1%_0603` |

@@ -3,6 +3,9 @@
 Do these before you trust the automatic bridge switching. Altium Designer must be installed; start it for tests 2-5.
 Write each result as one line in `logs\MCP_LOG.md` (a local file, not in git).
 
+Shortcut: `python tools\scripts\first_run_test.py` runs all six and writes the log lines for you. It asks before
+`app_detach` and the kill switch, and you still start `StartMCPServer` and answer the popups.
+
 1. `bridge.cmd status` prints without an error.
 2. Start Altium, run `StartMCPServer` (File > Run Script), then `bridge.cmd status`: the eda-agent loop should say "responding".
    If it says the opposite, the loop check in `tools\bridge\lib.ps1` is wrong for your machine: use `bridge.cmd force eda` / `force coffee`

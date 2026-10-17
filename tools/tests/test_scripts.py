@@ -10,7 +10,7 @@ B = os.path.join(HERE, "fixtures", "broken")
 f = lambda d, n: os.path.join(d, n)
 
 import altium_io, pin_match, conn_check, dots, sch_overlap, merge_plan, sch_plan, gen_sym, calcs_run, place, jlc, \
-    gate_check, rules_lint
+    gate_check, rules_lint, first_run_test
 
 
 def run(mod, *argv):
@@ -257,6 +257,18 @@ class RulesLint(unittest.TestCase):
         code, out = run(rules_lint, "--rules", f(B, "rules"))
         self.assertEqual(code, 1)
         self.assertIn("X-01: missing Status", out)
+
+
+class FirstRunTest(unittest.TestCase):
+    def test_parse_status(self):
+        s = first_run_test.parse_status("Active bridge  : none\nAltium running : True\neda-agent loop : not responding\n")
+        self.assertEqual(s["eda-agent loop"], "not responding")
+        self.assertEqual(s["altium running"], "True")
+
+    def test_duplicate_script_projects(self):
+        self.assertEqual(first_run_test.duplicate_names(["a/Altium_API.PrjScr", "b/altium_api.PrjScr", "a/X.PrjScr"]),
+                         ["altium_api.prjscr"])
+        self.assertEqual(first_run_test.duplicate_names(["a/Altium_API.PrjScr", "a/X.PrjScr"]), [])
 
 
 if __name__ == "__main__":
