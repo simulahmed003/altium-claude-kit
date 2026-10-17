@@ -1,0 +1,720 @@
+{
+ "spec": "12 V (9-18 V) to 5 V 3 A synchronous buck, LMR33630ADDA 400 kHz, reverse-polarity PMOS, EN UVLO ~7.5 V",
+ "summary": "buck-12v-5v-3a main sheet, generated from ai/part_list.md and calcs.md (2026-10-13)",
+ "topology": "buck",
+ "sheets": [
+  {
+   "name": "Buck",
+   "title": "buck-12v-5v-3a: 12 V to 5 V 3 A",
+   "size": "A3"
+  }
+ ],
+ "parts": [
+  {
+   "refdes": "U1",
+   "lib_ref": "U_LMR33630ADDA",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "LMR33630ADDAR",
+   "footprint": "LMR33630_HSOIC8_DDA",
+   "manufacturer": "Texas Instruments",
+   "mpn": "LMR33630ADDAR",
+   "datasheet_url": "projects/buck-12v-5v-3a/docs/datasheets/lmr33630.pdf",
+   "role": "ic",
+   "rationale": "user choice",
+   "sheet": "Buck"
+  },
+  {
+   "refdes": "L1",
+   "lib_ref": "L_10u_CDRH10D60",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "10uH",
+   "footprint": "IND_CDRH10D60",
+   "manufacturer": "Sumida",
+   "mpn": "CDRH10D60BT150NP-100MC",
+   "datasheet_url": "projects/buck-12v-5v-3a/docs/datasheets/CDRH10D60BT150NP-100MC_C2594362.pdf",
+   "role": "inductor",
+   "rationale": "Isat 6.2 A > ISC 5.05 A",
+   "sheet": "Buck"
+  },
+  {
+   "refdes": "Q1",
+   "lib_ref": "Q_AO4407C",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "AO4407C",
+   "footprint": "SOIC8_MS012",
+   "manufacturer": "Alpha & Omega Semicon",
+   "mpn": "AO4407C",
+   "datasheet_url": "projects/buck-12v-5v-3a/docs/datasheets/AO4407C_C469397.pdf",
+   "role": "reverse_protection",
+   "rationale": "high-side PMOS reverse protection",
+   "sheet": "Buck"
+  },
+  {
+   "refdes": "R6",
+   "lib_ref": "R_10k_1%_0603",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "10k",
+   "footprint": "RESC1608_0603",
+   "manufacturer": "UNI-ROYAL",
+   "mpn": "0603WAF1002T5E",
+   "datasheet_url": "projects/buck-12v-5v-3a/docs/datasheets/0603WAF1002T5E_C25804.pdf",
+   "role": "q_gate",
+   "rationale": "Q1 gate pull-down",
+   "sheet": "Buck"
+  },
+  {
+   "refdes": "C1",
+   "lib_ref": "C_10u_50V_X7R_1206",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "10uF",
+   "footprint": "CAPC3216_1206",
+   "manufacturer": "FH",
+   "mpn": "1206B106K500NT",
+   "datasheet_url": "projects/buck-12v-5v-3a/docs/datasheets/1206B106K500NT_C303950.pdf",
+   "role": "cin_bulk",
+   "rationale": "CIN >= 10 uF",
+   "sheet": "Buck"
+  },
+  {
+   "refdes": "C2",
+   "lib_ref": "C_10u_50V_X7R_1206",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "10uF",
+   "footprint": "CAPC3216_1206",
+   "manufacturer": "FH",
+   "mpn": "1206B106K500NT",
+   "datasheet_url": "projects/buck-12v-5v-3a/docs/datasheets/1206B106K500NT_C303950.pdf",
+   "role": "cin_bulk",
+   "rationale": "CIN >= 10 uF",
+   "sheet": "Buck"
+  },
+  {
+   "refdes": "C3",
+   "lib_ref": "C_220n_50V_X7R_0603",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "220nF",
+   "footprint": "CAPC1608_0603",
+   "manufacturer": "YAGEO",
+   "mpn": "CC0603KRX7R9BB224",
+   "datasheet_url": "projects/buck-12v-5v-3a/docs/datasheets/CC0603KRX7R9BB224_C107083.pdf",
+   "role": "cin_hf",
+   "rationale": "CHF 220 nF",
+   "sheet": "Buck"
+  },
+  {
+   "refdes": "C4",
+   "lib_ref": "C_100n_50V_X7R_0603",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "100nF",
+   "footprint": "CAPC1608_0603",
+   "manufacturer": "YAGEO",
+   "mpn": "CC0603KRX7R9BB104",
+   "datasheet_url": "projects/buck-12v-5v-3a/docs/datasheets/CC0603KRX7R9BB104_C14663.pdf",
+   "role": "cboot",
+   "rationale": "CBOOT 100 nF",
+   "sheet": "Buck"
+  },
+  {
+   "refdes": "C5",
+   "lib_ref": "C_1u_50V_X5R_0603",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "1uF",
+   "footprint": "CAPC1608_0603",
+   "manufacturer": "Samsung",
+   "mpn": "CL10A105KB8NNNC",
+   "datasheet_url": "projects/buck-12v-5v-3a/docs/datasheets/CL10A105KB8NNNC_C15849.pdf",
+   "role": "cvcc",
+   "rationale": "CVCC 1 uF",
+   "sheet": "Buck"
+  },
+  {
+   "refdes": "C6",
+   "lib_ref": "C_22u_25V_X5R_1206",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "22uF",
+   "footprint": "CAPC3216_1206",
+   "manufacturer": "Samsung",
+   "mpn": "CL31A226KAHNNNE",
+   "datasheet_url": "projects/buck-12v-5v-3a/docs/datasheets/CL31A226KAHNNNE_C12891.pdf",
+   "role": "cout",
+   "rationale": "6 x 22 uF (calcs.md)",
+   "sheet": "Buck"
+  },
+  {
+   "refdes": "C7",
+   "lib_ref": "C_22u_25V_X5R_1206",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "22uF",
+   "footprint": "CAPC3216_1206",
+   "manufacturer": "Samsung",
+   "mpn": "CL31A226KAHNNNE",
+   "datasheet_url": "projects/buck-12v-5v-3a/docs/datasheets/CL31A226KAHNNNE_C12891.pdf",
+   "role": "cout",
+   "rationale": "6 x 22 uF (calcs.md)",
+   "sheet": "Buck"
+  },
+  {
+   "refdes": "C8",
+   "lib_ref": "C_22u_25V_X5R_1206",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "22uF",
+   "footprint": "CAPC3216_1206",
+   "manufacturer": "Samsung",
+   "mpn": "CL31A226KAHNNNE",
+   "datasheet_url": "projects/buck-12v-5v-3a/docs/datasheets/CL31A226KAHNNNE_C12891.pdf",
+   "role": "cout",
+   "rationale": "6 x 22 uF (calcs.md)",
+   "sheet": "Buck"
+  },
+  {
+   "refdes": "C9",
+   "lib_ref": "C_22u_25V_X5R_1206",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "22uF",
+   "footprint": "CAPC3216_1206",
+   "manufacturer": "Samsung",
+   "mpn": "CL31A226KAHNNNE",
+   "datasheet_url": "projects/buck-12v-5v-3a/docs/datasheets/CL31A226KAHNNNE_C12891.pdf",
+   "role": "cout",
+   "rationale": "6 x 22 uF (calcs.md)",
+   "sheet": "Buck"
+  },
+  {
+   "refdes": "C10",
+   "lib_ref": "C_22u_25V_X5R_1206",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "22uF",
+   "footprint": "CAPC3216_1206",
+   "manufacturer": "Samsung",
+   "mpn": "CL31A226KAHNNNE",
+   "datasheet_url": "projects/buck-12v-5v-3a/docs/datasheets/CL31A226KAHNNNE_C12891.pdf",
+   "role": "cout",
+   "rationale": "6 x 22 uF (calcs.md)",
+   "sheet": "Buck"
+  },
+  {
+   "refdes": "C11",
+   "lib_ref": "C_22u_25V_X5R_1206",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "22uF",
+   "footprint": "CAPC3216_1206",
+   "manufacturer": "Samsung",
+   "mpn": "CL31A226KAHNNNE",
+   "datasheet_url": "projects/buck-12v-5v-3a/docs/datasheets/CL31A226KAHNNNE_C12891.pdf",
+   "role": "cout",
+   "rationale": "6 x 22 uF (calcs.md)",
+   "sheet": "Buck"
+  },
+  {
+   "refdes": "C12",
+   "lib_ref": "C_100n_50V_X7R_0603",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "100nF",
+   "footprint": "CAPC1608_0603",
+   "manufacturer": "YAGEO",
+   "mpn": "CC0603KRX7R9BB104",
+   "datasheet_url": "projects/buck-12v-5v-3a/docs/datasheets/CC0603KRX7R9BB104_C14663.pdf",
+   "role": "cout_hf",
+   "rationale": "output HF bypass",
+   "sheet": "Buck"
+  },
+  {
+   "refdes": "C13",
+   "lib_ref": "C_DNP_0603",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "DNP",
+   "footprint": "CAPC1608_0603",
+   "manufacturer": "-",
+   "mpn": "DNP",
+   "datasheet_url": null,
+   "role": "cff",
+   "rationale": "CFF footprint, open per Table 9-2",
+   "sheet": "Buck"
+  },
+  {
+   "refdes": "R1",
+   "lib_ref": "R_20k0_0.1%_0603",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "20.0k",
+   "footprint": "RESC1608_0603",
+   "manufacturer": "RESI",
+   "mpn": "PTFR0603B20K0P9",
+   "datasheet_url": "projects/buck-12v-5v-3a/docs/datasheets/PTFR0603B20K0P9_C328424.pdf",
+   "role": "rfb_top",
+   "rationale": "RFBT",
+   "sheet": "Buck"
+  },
+  {
+   "refdes": "R2",
+   "lib_ref": "R_4k99_0.1%_0603",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "4.99k",
+   "footprint": "RESC1608_0603",
+   "manufacturer": "RESI",
+   "mpn": "PTFR0603B4K99P9",
+   "datasheet_url": "projects/buck-12v-5v-3a/docs/datasheets/PTFR0603B4K99P9_C5382597.pdf",
+   "role": "rfb_bot",
+   "rationale": "RFBB",
+   "sheet": "Buck"
+  },
+  {
+   "refdes": "R3",
+   "lib_ref": "R_51k_1%_0603",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "51k",
+   "footprint": "RESC1608_0603",
+   "manufacturer": "UNI-ROYAL",
+   "mpn": "0603WAF5102T5E",
+   "datasheet_url": "projects/buck-12v-5v-3a/docs/datasheets/0603WAF5102T5E_C23196.pdf",
+   "role": "ren_top",
+   "rationale": "EN UVLO top",
+   "sheet": "Buck"
+  },
+  {
+   "refdes": "R4",
+   "lib_ref": "R_10k_1%_0603",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "10k",
+   "footprint": "RESC1608_0603",
+   "manufacturer": "UNI-ROYAL",
+   "mpn": "0603WAF1002T5E",
+   "datasheet_url": "projects/buck-12v-5v-3a/docs/datasheets/0603WAF1002T5E_C25804.pdf",
+   "role": "ren_bot",
+   "rationale": "EN UVLO bottom",
+   "sheet": "Buck"
+  },
+  {
+   "refdes": "R5",
+   "lib_ref": "R_100k_1%_0603",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "100k",
+   "footprint": "RESC1608_0603",
+   "manufacturer": "UNI-ROYAL",
+   "mpn": "0603WAF1003T5E",
+   "datasheet_url": "projects/buck-12v-5v-3a/docs/datasheets/0603WAF1003T5E_C25803.pdf",
+   "role": "pg_pullup",
+   "rationale": "PG pull-up to VCC",
+   "sheet": "Buck"
+  },
+  {
+   "refdes": "J1",
+   "lib_ref": "J_MKDS1.5-2-5.08",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "12V IN",
+   "footprint": "TB_MKDS1.5-2-5.08",
+   "manufacturer": "Phoenix Contact",
+   "mpn": "1715721",
+   "datasheet_url": "projects/buck-12v-5v-3a/docs/datasheets/1715721_C480516.pdf",
+   "role": "vin_conn",
+   "rationale": "input terminal",
+   "sheet": "Buck"
+  },
+  {
+   "refdes": "J2",
+   "lib_ref": "J_MKDS1.5-2-5.08",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "5V OUT",
+   "footprint": "TB_MKDS1.5-2-5.08",
+   "manufacturer": "Phoenix Contact",
+   "mpn": "1715721",
+   "datasheet_url": "projects/buck-12v-5v-3a/docs/datasheets/1715721_C480516.pdf",
+   "role": "vout_conn",
+   "rationale": "output terminal",
+   "sheet": "Buck"
+  },
+  {
+   "refdes": "TP1",
+   "lib_ref": "TP_PAD",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "TP_VIN",
+   "footprint": "TP_PAD_D1.5",
+   "manufacturer": "-",
+   "mpn": "TEST-PAD",
+   "datasheet_url": null,
+   "role": "tp",
+   "rationale": "test pad VIN",
+   "sheet": "Buck"
+  },
+  {
+   "refdes": "TP2",
+   "lib_ref": "TP_PAD",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "TP_VOUT",
+   "footprint": "TP_PAD_D1.5",
+   "manufacturer": "-",
+   "mpn": "TEST-PAD",
+   "datasheet_url": null,
+   "role": "tp",
+   "rationale": "test pad VOUT",
+   "sheet": "Buck"
+  },
+  {
+   "refdes": "TP3",
+   "lib_ref": "TP_PAD",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "TP_SW",
+   "footprint": "TP_PAD_D1.5",
+   "manufacturer": "-",
+   "mpn": "TEST-PAD",
+   "datasheet_url": null,
+   "role": "tp",
+   "rationale": "test pad SW",
+   "sheet": "Buck"
+  },
+  {
+   "refdes": "TP4",
+   "lib_ref": "TP_PAD",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "TP_FB",
+   "footprint": "TP_PAD_D1.5",
+   "manufacturer": "-",
+   "mpn": "TEST-PAD",
+   "datasheet_url": null,
+   "role": "tp",
+   "rationale": "test pad FB",
+   "sheet": "Buck"
+  },
+  {
+   "refdes": "TP5",
+   "lib_ref": "TP_PAD",
+   "lib_path": "projects/buck-12v-5v-3a/libs/buck.SchLib",
+   "value": "TP_GND",
+   "footprint": "TP_PAD_D1.5",
+   "manufacturer": "-",
+   "mpn": "TEST-PAD",
+   "datasheet_url": null,
+   "role": "tp",
+   "rationale": "test pad GND (output side, rule o)",
+   "sheet": "Buck"
+  }
+ ],
+ "nets": [
+  {
+   "name": "VIN_RAW",
+   "pins": [
+    {
+     "refdes": "J1",
+     "pin": "1"
+    },
+    {
+     "refdes": "Q1",
+     "pin": "5"
+    },
+    {
+     "refdes": "Q1",
+     "pin": "6"
+    },
+    {
+     "refdes": "Q1",
+     "pin": "7"
+    },
+    {
+     "refdes": "Q1",
+     "pin": "8"
+    }
+   ]
+  },
+  {
+   "name": "VIN",
+   "is_power": true,
+   "pins": [
+    {
+     "refdes": "Q1",
+     "pin": "1"
+    },
+    {
+     "refdes": "Q1",
+     "pin": "2"
+    },
+    {
+     "refdes": "Q1",
+     "pin": "3"
+    },
+    {
+     "refdes": "U1",
+     "pin": "2"
+    },
+    {
+     "refdes": "C1",
+     "pin": "1"
+    },
+    {
+     "refdes": "C2",
+     "pin": "1"
+    },
+    {
+     "refdes": "C3",
+     "pin": "1"
+    },
+    {
+     "refdes": "R3",
+     "pin": "1"
+    },
+    {
+     "refdes": "TP1",
+     "pin": "1"
+    }
+   ]
+  },
+  {
+   "name": "GND",
+   "is_ground": true,
+   "pins": [
+    {
+     "refdes": "J1",
+     "pin": "2"
+    },
+    {
+     "refdes": "J2",
+     "pin": "2"
+    },
+    {
+     "refdes": "U1",
+     "pin": "1"
+    },
+    {
+     "refdes": "U1",
+     "pin": "9"
+    },
+    {
+     "refdes": "C1",
+     "pin": "2"
+    },
+    {
+     "refdes": "C2",
+     "pin": "2"
+    },
+    {
+     "refdes": "C3",
+     "pin": "2"
+    },
+    {
+     "refdes": "C5",
+     "pin": "2"
+    },
+    {
+     "refdes": "C6",
+     "pin": "2"
+    },
+    {
+     "refdes": "C7",
+     "pin": "2"
+    },
+    {
+     "refdes": "C8",
+     "pin": "2"
+    },
+    {
+     "refdes": "C9",
+     "pin": "2"
+    },
+    {
+     "refdes": "C10",
+     "pin": "2"
+    },
+    {
+     "refdes": "C11",
+     "pin": "2"
+    },
+    {
+     "refdes": "C12",
+     "pin": "2"
+    },
+    {
+     "refdes": "R2",
+     "pin": "2"
+    },
+    {
+     "refdes": "R4",
+     "pin": "2"
+    },
+    {
+     "refdes": "R6",
+     "pin": "2"
+    },
+    {
+     "refdes": "TP5",
+     "pin": "1"
+    }
+   ]
+  },
+  {
+   "name": "Q1_G",
+   "pins": [
+    {
+     "refdes": "Q1",
+     "pin": "4"
+    },
+    {
+     "refdes": "R6",
+     "pin": "1"
+    }
+   ]
+  },
+  {
+   "name": "EN",
+   "pins": [
+    {
+     "refdes": "U1",
+     "pin": "3"
+    },
+    {
+     "refdes": "R3",
+     "pin": "2"
+    },
+    {
+     "refdes": "R4",
+     "pin": "1"
+    }
+   ]
+  },
+  {
+   "name": "PG",
+   "pins": [
+    {
+     "refdes": "U1",
+     "pin": "4"
+    },
+    {
+     "refdes": "R5",
+     "pin": "1"
+    }
+   ]
+  },
+  {
+   "name": "VCC_LDO",
+   "pins": [
+    {
+     "refdes": "U1",
+     "pin": "6"
+    },
+    {
+     "refdes": "C5",
+     "pin": "1"
+    },
+    {
+     "refdes": "R5",
+     "pin": "2"
+    }
+   ]
+  },
+  {
+   "name": "BOOT",
+   "pins": [
+    {
+     "refdes": "U1",
+     "pin": "7"
+    },
+    {
+     "refdes": "C4",
+     "pin": "2"
+    }
+   ]
+  },
+  {
+   "name": "SW",
+   "pins": [
+    {
+     "refdes": "U1",
+     "pin": "8"
+    },
+    {
+     "refdes": "C4",
+     "pin": "1"
+    },
+    {
+     "refdes": "L1",
+     "pin": "1"
+    },
+    {
+     "refdes": "TP3",
+     "pin": "1"
+    }
+   ]
+  },
+  {
+   "name": "VOUT",
+   "is_power": true,
+   "pins": [
+    {
+     "refdes": "L1",
+     "pin": "2"
+    },
+    {
+     "refdes": "C6",
+     "pin": "1"
+    },
+    {
+     "refdes": "C7",
+     "pin": "1"
+    },
+    {
+     "refdes": "C8",
+     "pin": "1"
+    },
+    {
+     "refdes": "C9",
+     "pin": "1"
+    },
+    {
+     "refdes": "C10",
+     "pin": "1"
+    },
+    {
+     "refdes": "C11",
+     "pin": "1"
+    },
+    {
+     "refdes": "C12",
+     "pin": "1"
+    },
+    {
+     "refdes": "R1",
+     "pin": "1"
+    },
+    {
+     "refdes": "C13",
+     "pin": "1"
+    },
+    {
+     "refdes": "J2",
+     "pin": "1"
+    },
+    {
+     "refdes": "TP2",
+     "pin": "1"
+    },
+    {
+     "refdes": "R1",
+     "pin": "2"
+    }
+   ]
+  },
+  {
+   "name": "FB",
+   "pins": [
+    {
+     "refdes": "U1",
+     "pin": "5"
+    },
+    {
+     "refdes": "R2",
+     "pin": "1"
+    },
+    {
+     "refdes": "C13",
+     "pin": "2"
+    },
+    {
+     "refdes": "TP4",
+     "pin": "1"
+    }
+   ]
+  }
+ ],
+ "open_questions": [
+  "L1 DCR max 22.1 mOhm vs 20 target",
+  "Q1 datasheet Preliminary",
+  "footprints await G1"
+ ]
+}
