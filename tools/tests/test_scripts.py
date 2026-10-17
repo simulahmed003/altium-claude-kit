@@ -258,6 +258,11 @@ class RulesLint(unittest.TestCase):
         self.assertEqual(code, 1)
         self.assertIn("X-01: missing Status", out)
 
+    def test_big_rule_file_warns(self):
+        rules = [dict(id=f"A-{i}", file="01_A.md") for i in range(rules_lint.MAX_PER_FILE + 1)]
+        self.assertEqual(len(rules_lint.size_warnings(rules)), 1)
+        self.assertEqual(rules_lint.size_warnings(rules[1:]), [])
+
 
 class FirstRunTest(unittest.TestCase):
     def test_parse_status(self):

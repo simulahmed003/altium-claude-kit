@@ -35,3 +35,4 @@ __pycache__/
 tools/tests/_tmp/
 # migration backups (tools/migrate_from_workspace.py)
 migration_backup/
+standards/local/

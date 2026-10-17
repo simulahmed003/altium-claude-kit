@@ -7,4 +7,5 @@ and playbooks; it never copies rule text. Template: `docs/templates/SKILL_TEMPLA
 | Skill | Status |
 |---|---|
 | altium-orchestrator | draft |
+| altium-rule-harvest | draft: design feedback → rule, guideline and user-standard proposals (docs/RULE_FEEDBACK_LOOP.md) |
 | phase skills (requirements, architecture, part selection, library, schematic, layout, analysis, fab) | planned, see `docs/ROADMAP.md` |
