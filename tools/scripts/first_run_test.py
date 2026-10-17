@@ -40,12 +40,10 @@ def parse_status(text):
     return out
 
 
-def duplicate_names(paths):
-    """Script project file names that appear in more than one folder."""
-    seen = {}
-    for p in paths:
-        seen.setdefault(os.path.basename(p).lower(), set()).add(os.path.dirname(os.path.abspath(p)).lower())
-    return sorted(n for n, dirs in seen.items() if len(dirs) > 1)
+def clashes(eda_paths, coffee_paths):
+    """Script project file names that both live servers install (Altium may open the wrong one)."""
+    names = lambda ps: {os.path.basename(p).lower() for p in ps}
+    return sorted(names(eda_paths) & names(coffee_paths))
 
 
 class Runner:
@@ -129,14 +127,15 @@ class Runner:
 
     def t5(self):
         home = os.path.expanduser("~")
-        found = (glob.glob(os.path.join(home, "EDA Agent", "scripts", "**", "*.PrjScr"), recursive=True) +
-                 glob.glob(os.path.join(ROOT, "tools", "mcp", "altium-mcp", "**", "*.PrjScr"), recursive=True))
-        for p in found:
+        eda = glob.glob(os.path.join(home, "EDA Agent", "scripts", "**", "*.PrjScr"), recursive=True)
+        coffee = glob.glob(os.path.join(ROOT, "tools", "mcp", "altium-mcp", "**", "*.PrjScr"), recursive=True)
+        for p in eda + coffee:
             print(f"   {p}")
-        dup = duplicate_names(found)
-        if not found:
-            return self.record(5, None, "no script projects found (eda-agent install-scripts not run?)")
-        self.record(5, not dup, f"{len(found)} script projects, same name in two places: {dup or 'none'}")
+        if not eda or not coffee:
+            return self.record(5, None, "script projects of one server not found (eda-agent install-scripts not run?)")
+        dup = clashes(eda, coffee)
+        self.record(5, not dup, f"{len(eda)} eda-agent + {len(coffee)} coffee script projects, "
+                                f"same name in both: {dup or 'none'}")
 
     def t6(self):
         if not self.ask("Engage the kill switch now (stops the MCP servers, never touches Altium; REARM follows)?"):

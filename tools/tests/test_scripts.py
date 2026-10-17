@@ -265,11 +265,12 @@ class FirstRunTest(unittest.TestCase):
         self.assertEqual(s["eda-agent loop"], "not responding")
         self.assertEqual(s["altium running"], "True")
 
-    def test_duplicate_script_projects(self):
-        self.assertEqual(first_run_test.duplicate_names(["a/Altium_API.PrjScr", "b/altium_api.PrjScr", "a/X.PrjScr"]),
-                         ["altium_api.prjscr"])
-        self.assertEqual(first_run_test.duplicate_names(["a/Altium_API.PrjScr", "a/X.PrjScr"]), [])
-
+    def test_script_project_clash_between_servers(self):
+        eda = ["u/EDA Agent/scripts/Altium_API.PrjScr"]
+        coffee = ["m/server/AltiumScript/altium_api.PrjScr", "m/dev/sandbox/Sandbox.PrjScr",
+                  "m/server/SandboxScript/Sandbox.PrjScr"]
+        self.assertEqual(first_run_test.clashes(eda, coffee), ["altium_api.prjscr"])
+        self.assertEqual(first_run_test.clashes(eda, coffee[1:]), [])
 
 if __name__ == "__main__":
     unittest.main()
