@@ -10,7 +10,7 @@ B = os.path.join(HERE, "fixtures", "broken")
 f = lambda d, n: os.path.join(d, n)
 
 import altium_io, pin_match, conn_check, dots, sch_overlap, merge_plan, sch_plan, gen_sym, calcs_run, place, jlc, \
-    gate_check, rules_lint, first_run_test
+    gate_check, rules_lint, first_run_test, coffee_script_rename
 
 
 def run(mod, *argv):
@@ -286,6 +286,29 @@ class FirstRunTest(unittest.TestCase):
         self.assertEqual(len(first_run_test.mixup_risks(eda, main, dict(pas, **{"x.pas": "p := ScriptProjectPath(W);"}))), 1)
         self.assertEqual(len(first_run_test.mixup_risks(eda, main, {"Altium_API.pas": "ROOT_DIR := ScriptsPath;"})), 1)
         self.assertEqual(len(first_run_test.mixup_risks(eda, main.replace('ProjectName="{', 'ProjectName="Altium_API'), pas)), 1)
+
+
+class CoffeeScriptRename(unittest.TestCase):
+    def test_copy_and_config(self):
+        d = tempfile.mkdtemp()
+        try:
+            folder = os.path.join(d, "altium-mcp", "server", "AltiumScript")
+            os.makedirs(folder)
+            open(os.path.join(folder, "Altium_API.PrjScr"), "w").write("[Design]\n")
+            cfg = os.path.join(d, "home", "config.json")
+            os.makedirs(os.path.dirname(cfg))
+            json.dump({"altium_exe_path": "X2.EXE"}, open(cfg, "w"))
+            args = ["--coffee", os.path.join(d, "altium-mcp"), "--config", cfg]
+            self.assertEqual(run(coffee_script_rename, "--check", *args)[0], 1)
+            self.assertEqual(run(coffee_script_rename, *args)[0], 0)
+            saved = json.load(open(cfg))
+            self.assertEqual(saved["altium_exe_path"], "X2.EXE")
+            self.assertTrue(saved["script_path"].endswith("AltiumCoffee.PrjScr"))
+            self.assertTrue(os.path.isfile(saved["script_path"]))
+            self.assertEqual(run(coffee_script_rename, "--check", *args)[0], 0)
+        finally:
+            shutil.rmtree(d)
+
 
 if __name__ == "__main__":
     unittest.main()
