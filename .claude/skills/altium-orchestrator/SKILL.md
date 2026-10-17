@@ -12,7 +12,7 @@ Find the next valid task for the project and load only what that task needs.
 - `projects/<name>/project.json`: rules version, fab profile.
 
 ## Phase from gate state
-| Ticked so far | Current work | Rules + playbook (see `_rules/00_INDEX.md`) |
+| Ticked so far | Current work | Rules + playbook (see `rules/00_INDEX.md`) |
 |---|---|---|
 | none, no requirements | requirements, calcs, parts | 01, 02, 08; P1, P2 |
 | none, parts chosen | library | 03, 07; P2, P4 → present G1 |

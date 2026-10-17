@@ -12,14 +12,14 @@ once someone tests them.
 | Layer | Folder | Owns | Changed by |
 |---|---|---|---|
 | Agent contract | `CLAUDE.md` | non-negotiables, MCP routing, where to look | maintainer |
-| Rules | `_rules/` | HOW we work: MUST, Why, Check, Source, Status; versioned | reviewed PR (WF-04) |
-| Playbooks | `_rules/playbooks/` | tested step lists for recurring tasks | reviewed PR |
+| Rules | `rules/` | HOW we work: MUST, Why, Check, Source, Status; versioned | reviewed PR (WF-04) |
+| Playbooks | `rules/playbooks/` | tested step lists for recurring tasks | reviewed PR |
 | Skills | `.claude/skills/` | per-phase entry points: goal, what to load, how to judge | reviewed PR |
-| Guidelines | `_guidelines/` | WHAT a good design needs (system-level limits), draft | maintainer approves each |
-| Checkers and generators | `_tools/scripts/` | anything deterministic: checks, calcs, plans, BOM | PR with tests |
-| Altium bridge | `_tools/bridge/`, hook | one live script engine, kill switch, popups | PR tested on real Altium |
-| Global library | `_global/` | catalog, category libraries, revisions, hashes | `lib_promote.py` after G1 |
-| Component facts | `_global/facts/` (planned M1) | datasheet facts per catalog part, with page refs | ingest + review |
+| Guidelines | `guidelines/` | WHAT a good design needs (system-level limits), draft | maintainer approves each |
+| Checkers and generators | `tools/scripts/` | anything deterministic: checks, calcs, plans, BOM | PR with tests |
+| Altium bridge | `tools/bridge/`, hook | one live script engine, kill switch, popups | PR tested on real Altium |
+| Global library | `library/` | catalog, category libraries, revisions, hashes | `lib_promote.py` after G1 |
+| Component facts | `library/facts/` (planned M1) | datasheet facts per catalog part, with page refs | ingest + review |
 | Projects | `projects/<name>/` (git-ignored) | one design, its own git repo, local library copies | the designer |
 
 Rules say how to work, guidelines say what good looks like, the project says the numbers for one board.
@@ -29,7 +29,7 @@ Skills point to rules by ID and never copy them.
 
 | Phase | Rules | Playbook | Gate (only the user ticks) |
 |---|---|---|---|
-| Requirements, architecture | 01, 02, `_guidelines/` | P1 | (planned: G0 requirements) |
+| Requirements, architecture | 01, 02, `guidelines/` | P1 | (planned: G0 requirements) |
 | Calculations, part choice | 02 | P1, P2 | |
 | Library (symbols, footprints, 3D) | 03, 07 | P2, P4 | G1 footprints |
 | Schematic | 04, 07 | P3 | S1 schematic readability |
@@ -54,7 +54,7 @@ Only one live bridge at a time (TOOL-01). The guard hook enforces it.
 Problem: RQ-01 makes Claude open the datasheet PDF for every number, in every project. That is the biggest token cost.
 
 Design:
-- One file per catalog part: `_global/facts/<catalog id>.json`. Standard-library JSON, like every other workspace file.
+- One file per catalog part: `library/facts/<catalog id>.json`. Standard-library JSON, like every other workspace file.
 - Sections match phases so a query returns only what a phase needs: `selection`, `abs_max`, `recommended`, `pins`,
   `application`, `layout`, `thermal`, `package`.
 - Every value: `{"value"|"min"|"typ"|"max", "unit", "ref": "p12 table 7.5", "cond"}`. Abs max never mixed with recommended.
@@ -69,7 +69,7 @@ entry, because the entry cites the page and the PDF hash; the PDF is opened only
 
 ## Token discipline
 1. Start from `PROJECT.md` and `gates.md`, not from chat history.
-2. One skill, one rule-file set, one playbook per phase (`_rules/00_INDEX.md` "Read before each phase").
+2. One skill, one rule-file set, one playbook per phase (`rules/00_INDEX.md` "Read before each phase").
 3. Facts by section, not PDFs.
 4. Scripts print PASS/FAIL summaries; full output goes to `ai/review/`.
 5. A correction made twice becomes a rule or a check (WF-04), not a longer prompt.

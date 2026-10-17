@@ -14,8 +14,8 @@ description: <One sentence: what this phase produces and when to use it, e.g. "P
 - part facts for the parts in scope (component facts DB, roadmap M1)
 
 ## Rules to load
-- `_rules/0X_<TOPIC>.md` (cite IDs)
-- playbook `_rules/playbooks/PX_*.md`
+- `rules/0X_<TOPIC>.md` (cite IDs)
+- playbook `rules/playbooks/PX_*.md`
 - fab profile from `project.json`
 
 ## Approach
@@ -24,7 +24,7 @@ description: <One sentence: what this phase produces and when to use it, e.g. "P
 ## Exit checks
 | Check | How | Pass when |
 |---|---|---|
-| <rule ID> | <script in _tools/scripts, or checklist> | <measurable condition> |
+| <rule ID> | <script in tools/scripts, or checklist> | <measurable condition> |
 
 ## Write back
 - `PROJECT.md`: decisions and open issues

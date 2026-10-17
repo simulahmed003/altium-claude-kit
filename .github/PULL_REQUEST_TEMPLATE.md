@@ -13,6 +13,6 @@
 - [ ] Written with an AI assistant (model: ______) that was given docs/AI-CONTRIBUTOR.md
 
 ## Checklist
-- [ ] `python _tools/selftest.py` passes
-- [ ] Rules touched: `rules_lint.py --write-index` run, `_rules/VERSION` and CHANGELOG bumped
+- [ ] `python tools/selftest.py` passes
+- [ ] Rules touched: `rules_lint.py --write-index` run, `rules/VERSION` and CHANGELOG bumped
 - [ ] No PDFs, designs, personal paths or keys

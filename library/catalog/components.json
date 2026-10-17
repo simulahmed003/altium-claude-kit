@@ -1,0 +1,816 @@
+{
+ "schema": 1,
+ "components": [
+  {
+   "id": "J_MKDS1.5-2-5.08",
+   "category": "connectors",
+   "symbol": "J_MKDS1.5-2-5.08",
+   "global_lib": "symbols/connectors.SchLib",
+   "rev": 1,
+   "symbol_hash": "83c02a7de56e5d27",
+   "footprint": "TB_MKDS1.5-2-5.08",
+   "value": "MKDS 1,5/2-5,08",
+   "description": "Screw terminal 2-pos 5.08 mm, 17.5 A, 250 V",
+   "mfr": "Phoenix Contact",
+   "mpn": "1715721",
+   "lcsc": "C480516",
+   "lcsc_verified": true,
+   "jlc_tier": "Extended (hand-soldered, not in SMT order)",
+   "datasheet": {
+    "path": "datasheets/1715721_C480516.pdf",
+    "sha256": "91f50b23c422c69acac6b23d2a7614383f17ebab56b61ad807aa0e286fe4cccd",
+    "url": "https://jlcpcb.com/partdetail/C480516"
+   },
+   "preferred": false,
+   "caveats": [
+    "hand-soldered, not in the SMT order"
+   ],
+   "source_project": "buck-12v-5v-3a",
+   "promoted": {
+    "date": "2026-10-13",
+    "gate": "G1",
+    "rules_version": "1.0.0"
+   },
+   "history": [
+    {
+     "rev": 1,
+     "date": "2026-10-13",
+     "hash": "83c02a7de56e5d27",
+     "project": "buck-12v-5v-3a"
+    }
+   ]
+  },
+  {
+   "id": "TP_PAD",
+   "category": "connectors",
+   "symbol": "TP_PAD",
+   "global_lib": "symbols/connectors.SchLib",
+   "rev": 1,
+   "symbol_hash": "b6371b2fe4d2ddca",
+   "footprint": "TP_PAD_D1.5",
+   "value": "TP",
+   "description": "Test pad 1.5 mm",
+   "mfr": "-",
+   "mpn": "-",
+   "lcsc": "-",
+   "lcsc_verified": false,
+   "jlc_tier": "- (copper pad, no part)",
+   "datasheet": null,
+   "preferred": true,
+   "caveats": [
+    "copper pad, no part",
+    "symbol pin length 70 mil (accepted exception, LIB-03)"
+   ],
+   "source_project": "buck-12v-5v-3a",
+   "promoted": {
+    "date": "2026-10-13",
+    "gate": "G1",
+    "rules_version": "1.0.0"
+   },
+   "history": [
+    {
+     "rev": 1,
+     "date": "2026-10-13",
+     "hash": "b6371b2fe4d2ddca",
+     "project": "buck-12v-5v-3a"
+    }
+   ]
+  },
+  {
+   "id": "Q_AO4407C",
+   "category": "discretes",
+   "symbol": "Q_AO4407C",
+   "global_lib": "symbols/discretes.SchLib",
+   "rev": 1,
+   "symbol_hash": "ea5d023029a34f7a",
+   "footprint": "SOIC8_MS012",
+   "value": "AO4407C",
+   "description": "P-MOSFET -30 V, VGS +/-25 V, RDS(on) < 11.5 mOhm @ -10 V, < 18.5 mOhm @ -4.5 V, SO-8 (datasheet Preliminary)",
+   "mfr": "Alpha & Omega Semicon",
+   "mpn": "AO4407C",
+   "lcsc": "C469397",
+   "lcsc_verified": true,
+   "jlc_tier": "Extended",
+   "datasheet": {
+    "path": "datasheets/AO4407C_C469397.pdf",
+    "sha256": "b0bb64c3af922943a9399cda1e7630936c7637b91c3d097d375050b2ad69eba1",
+    "url": "https://jlcpcb.com/partdetail/C469397"
+   },
+   "preferred": false,
+   "caveats": [
+    "AO4407C datasheet is marked Preliminary",
+    "alternative AO4407A C16072 (not in library)"
+   ],
+   "source_project": "buck-12v-5v-3a",
+   "promoted": {
+    "date": "2026-10-13",
+    "gate": "G1",
+    "rules_version": "1.0.0"
+   },
+   "history": [
+    {
+     "rev": 1,
+     "date": "2026-10-13",
+     "hash": "ea5d023029a34f7a",
+     "project": "buck-12v-5v-3a"
+    }
+   ]
+  },
+  {
+   "id": "U_LMR33630ADDA",
+   "category": "ics",
+   "symbol": "U_LMR33630ADDA",
+   "global_lib": "symbols/ics.SchLib",
+   "rev": 1,
+   "symbol_hash": "bb72cdf379d85ed4",
+   "footprint": "LMR33630_HSOIC8_DDA",
+   "value": "LMR33630ADDAR",
+   "description": "Sync buck 3.8-36 V in, 3 A, 400 kHz (A), HSOIC-8 PowerPAD; EP = AGND",
+   "mfr": "Texas Instruments",
+   "mpn": "LMR33630ADDAR",
+   "lcsc": "C841384",
+   "lcsc_verified": true,
+   "jlc_tier": "Extended",
+   "datasheet": {
+    "path": "datasheets/lmr33630.pdf",
+    "sha256": "3b0920a4e56a0b3f5f214a6317d3c06cff6e541e5054024adc31c30acc50c04a",
+    "url": "https://www.ti.com/lit/ds/symlink/lmr33630.pdf"
+   },
+   "preferred": true,
+   "caveats": [
+    "EP = AGND, tie to GND copper with vias (footprint has tented vias)"
+   ],
+   "source_project": "buck-12v-5v-3a",
+   "promoted": {
+    "date": "2026-10-13",
+    "gate": "G1",
+    "rules_version": "1.0.0"
+   },
+   "history": [
+    {
+     "rev": 1,
+     "date": "2026-10-13",
+     "hash": "bb72cdf379d85ed4",
+     "project": "buck-12v-5v-3a"
+    }
+   ]
+  },
+  {
+   "id": "C_100n_50V_X7R_0603",
+   "category": "passives",
+   "symbol": "C_100n_50V_X7R_0603",
+   "global_lib": "symbols/passives.SchLib",
+   "rev": 1,
+   "symbol_hash": "0d73e31b8687a186",
+   "footprint": "CAPC1608_0603",
+   "value": "100n 50V X7R",
+   "description": "CBOOT / HF bypass: 100 nF 50 V X7R 0603",
+   "mfr": "YAGEO",
+   "mpn": "CC0603KRX7R9BB104",
+   "lcsc": "C14663",
+   "lcsc_verified": true,
+   "jlc_tier": "Basic",
+   "datasheet": {
+    "path": "datasheets/CC0603KRX7R9BB104_C14663.pdf",
+    "sha256": "61a606825ab314ea318cfb5362848a62fdffb851efa9818d642e9a541c56a648",
+    "url": "https://jlcpcb.com/partdetail/C14663"
+   },
+   "preferred": true,
+   "caveats": [
+    "symbol pin length 80 mil (accepted exception, LIB-03)"
+   ],
+   "source_project": "buck-12v-5v-3a",
+   "promoted": {
+    "date": "2026-10-13",
+    "gate": "G1",
+    "rules_version": "1.0.0"
+   },
+   "history": [
+    {
+     "rev": 1,
+     "date": "2026-10-13",
+     "hash": "0d73e31b8687a186",
+     "project": "buck-12v-5v-3a"
+    }
+   ]
+  },
+  {
+   "id": "C_10u_50V_X7R_1206",
+   "category": "passives",
+   "symbol": "C_10u_50V_X7R_1206",
+   "global_lib": "symbols/passives.SchLib",
+   "rev": 1,
+   "symbol_hash": "211b5fce972ea6e2",
+   "footprint": "CAPC3216_1206",
+   "value": "10u 50V X7R",
+   "description": "CIN: 10 uF 50 V X7R 10% 1206",
+   "mfr": "FH",
+   "mpn": "1206B106K500NT",
+   "lcsc": "C303950",
+   "lcsc_verified": true,
+   "jlc_tier": "Extended",
+   "datasheet": {
+    "path": "datasheets/1206B106K500NT_C303950.pdf",
+    "sha256": "705023d3be0454148a96fc2715d249a32d8ff442e70b64d1116d3490ed1d8136",
+    "url": "https://jlcpcb.com/partdetail/C303950"
+   },
+   "preferred": false,
+   "caveats": [
+    "symbol pin length 80 mil (accepted exception, LIB-03)"
+   ],
+   "source_project": "buck-12v-5v-3a",
+   "promoted": {
+    "date": "2026-10-13",
+    "gate": "G1",
+    "rules_version": "1.0.0"
+   },
+   "history": [
+    {
+     "rev": 1,
+     "date": "2026-10-13",
+     "hash": "211b5fce972ea6e2",
+     "project": "buck-12v-5v-3a"
+    }
+   ]
+  },
+  {
+   "id": "C_1u_50V_X5R_0603",
+   "category": "passives",
+   "symbol": "C_1u_50V_X5R_0603",
+   "global_lib": "symbols/passives.SchLib",
+   "rev": 1,
+   "symbol_hash": "3d7307d8521036a5",
+   "footprint": "CAPC1608_0603",
+   "value": "1u 50V X5R",
+   "description": "CVCC: 1 uF 50 V X5R 0603",
+   "mfr": "Samsung",
+   "mpn": "CL10A105KB8NNNC",
+   "lcsc": "C15849",
+   "lcsc_verified": true,
+   "jlc_tier": "Basic",
+   "datasheet": {
+    "path": "datasheets/CL10A105KB8NNNC_C15849.pdf",
+    "sha256": "96baebe4bd0ce363e87be28b5b003f511f1502e084a6fc4f02333ded56c808f6",
+    "url": "https://jlcpcb.com/partdetail/C15849"
+   },
+   "preferred": true,
+   "caveats": [
+    "symbol pin length 80 mil (accepted exception, LIB-03)"
+   ],
+   "source_project": "buck-12v-5v-3a",
+   "promoted": {
+    "date": "2026-10-13",
+    "gate": "G1",
+    "rules_version": "1.0.0"
+   },
+   "history": [
+    {
+     "rev": 1,
+     "date": "2026-10-13",
+     "hash": "3d7307d8521036a5",
+     "project": "buck-12v-5v-3a"
+    }
+   ]
+  },
+  {
+   "id": "C_220n_50V_X7R_0603",
+   "category": "passives",
+   "symbol": "C_220n_50V_X7R_0603",
+   "global_lib": "symbols/passives.SchLib",
+   "rev": 1,
+   "symbol_hash": "65190a626452e77d",
+   "footprint": "CAPC1608_0603",
+   "value": "220n 50V X7R",
+   "description": "CHF: 220 nF 50 V X7R 0603",
+   "mfr": "YAGEO",
+   "mpn": "CC0603KRX7R9BB224",
+   "lcsc": "C107083",
+   "lcsc_verified": true,
+   "jlc_tier": "Extended",
+   "datasheet": {
+    "path": "datasheets/CC0603KRX7R9BB224_C107083.pdf",
+    "sha256": "61a606825ab314ea318cfb5362848a62fdffb851efa9818d642e9a541c56a648",
+    "url": "https://jlcpcb.com/partdetail/C107083"
+   },
+   "preferred": false,
+   "caveats": [
+    "symbol pin length 80 mil (accepted exception, LIB-03)"
+   ],
+   "source_project": "buck-12v-5v-3a",
+   "promoted": {
+    "date": "2026-10-13",
+    "gate": "G1",
+    "rules_version": "1.0.0"
+   },
+   "history": [
+    {
+     "rev": 1,
+     "date": "2026-10-13",
+     "hash": "65190a626452e77d",
+     "project": "buck-12v-5v-3a"
+    }
+   ]
+  },
+  {
+   "id": "C_22u_25V_X5R_1206",
+   "category": "passives",
+   "symbol": "C_22u_25V_X5R_1206",
+   "global_lib": "symbols/passives.SchLib",
+   "rev": 1,
+   "symbol_hash": "11e0d75117212090",
+   "footprint": "CAPC3216_1206",
+   "value": "22u 25V X5R",
+   "description": "COUT: 22 uF 25 V X5R 10% 1206",
+   "mfr": "Samsung",
+   "mpn": "CL31A226KAHNNNE",
+   "lcsc": "C12891",
+   "lcsc_verified": true,
+   "jlc_tier": "Basic",
+   "datasheet": {
+    "path": "datasheets/CL31A226KAHNNNE_C12891.pdf",
+    "sha256": "96baebe4bd0ce363e87be28b5b003f511f1502e084a6fc4f02333ded56c808f6",
+    "url": "https://jlcpcb.com/partdetail/C12891"
+   },
+   "preferred": true,
+   "caveats": [
+    "symbol pin length 80 mil (accepted exception, LIB-03)",
+    "DC-bias derating at 5 V assumed 0.72 in buck calcs"
+   ],
+   "source_project": "buck-12v-5v-3a",
+   "promoted": {
+    "date": "2026-10-13",
+    "gate": "G1",
+    "rules_version": "1.0.0"
+   },
+   "history": [
+    {
+     "rev": 1,
+     "date": "2026-10-13",
+     "hash": "11e0d75117212090",
+     "project": "buck-12v-5v-3a"
+    }
+   ]
+  },
+  {
+   "id": "C_DNP_0603",
+   "category": "passives",
+   "symbol": "C_DNP_0603",
+   "global_lib": "symbols/passives.SchLib",
+   "rev": 1,
+   "symbol_hash": "81644e0445472d78",
+   "footprint": "CAPC1608_0603",
+   "value": "DNP",
+   "description": "CFF footprint only, do not populate (lmr33630 Table 9-2: CFF open)",
+   "mfr": "-",
+   "mpn": "-",
+   "lcsc": "-",
+   "lcsc_verified": false,
+   "jlc_tier": "-",
+   "datasheet": null,
+   "preferred": false,
+   "caveats": [
+    "footprint-only placeholder, value DNP, no part",
+    "symbol pin length 80 mil (accepted exception, LIB-03)"
+   ],
+   "source_project": "buck-12v-5v-3a",
+   "promoted": {
+    "date": "2026-10-13",
+    "gate": "G1",
+    "rules_version": "1.0.0"
+   },
+   "history": [
+    {
+     "rev": 1,
+     "date": "2026-10-13",
+     "hash": "81644e0445472d78",
+     "project": "buck-12v-5v-3a"
+    }
+   ]
+  },
+  {
+   "id": "L_10u_CDRH10D60",
+   "category": "passives",
+   "symbol": "L_10u_CDRH10D60",
+   "global_lib": "symbols/passives.SchLib",
+   "rev": 1,
+   "symbol_hash": "6ec656676f429dec",
+   "footprint": "IND_CDRH10D60",
+   "value": "10u 6.2A",
+   "description": "10 uH 20%, DCR 17 mOhm +/-30%, Isat 6.2 A, Itemp 6.9 A, shielded, AEC-Q200",
+   "mfr": "Sumida",
+   "mpn": "CDRH10D60BT150NP-100MC",
+   "lcsc": "C2594362",
+   "lcsc_verified": true,
+   "jlc_tier": "Extended",
+   "datasheet": {
+    "path": "datasheets/CDRH10D60BT150NP-100MC_C2594362.pdf",
+    "sha256": "ee22421426e1fff8bf42e21087f89242e4e132e2e860821b25834969f647a423",
+    "url": "https://jlcpcb.com/partdetail/C2594362"
+   },
+   "preferred": false,
+   "caveats": [
+    "buck deviation accepted at G1: DCR max 22.1 mOhm > 20 mOhm target, body 10.3 mm > 10 mm limit - re-check per project"
+   ],
+   "source_project": "buck-12v-5v-3a",
+   "promoted": {
+    "date": "2026-10-13",
+    "gate": "G1",
+    "rules_version": "1.0.0"
+   },
+   "history": [
+    {
+     "rev": 1,
+     "date": "2026-10-13",
+     "hash": "6ec656676f429dec",
+     "project": "buck-12v-5v-3a"
+    }
+   ]
+  },
+  {
+   "id": "R_100k_1%_0603",
+   "category": "passives",
+   "symbol": "R_100k_1%_0603",
+   "global_lib": "symbols/passives.SchLib",
+   "rev": 1,
+   "symbol_hash": "5affe47895a9f9d2",
+   "footprint": "RESC1608_0603",
+   "value": "100k",
+   "description": "PG pull-up 100 kOhm 1% 0603",
+   "mfr": "UNI-ROYAL",
+   "mpn": "0603WAF1003T5E",
+   "lcsc": "C25803",
+   "lcsc_verified": true,
+   "jlc_tier": "Basic",
+   "datasheet": {
+    "path": "datasheets/0603WAF1003T5E_C25803.pdf",
+    "sha256": "11cd644d5d8a34a6d12775afb80bf58d8fc11f0c3b700dbd0f7a59942ceaa5ef",
+    "url": "https://jlcpcb.com/partdetail/C25803"
+   },
+   "preferred": true,
+   "caveats": [],
+   "source_project": "buck-12v-5v-3a",
+   "promoted": {
+    "date": "2026-10-13",
+    "gate": "G1",
+    "rules_version": "1.0.0"
+   },
+   "history": [
+    {
+     "rev": 1,
+     "date": "2026-10-13",
+     "hash": "5affe47895a9f9d2",
+     "project": "buck-12v-5v-3a"
+    }
+   ]
+  },
+  {
+   "id": "R_10k_1%_0603",
+   "category": "passives",
+   "symbol": "R_10k_1%_0603",
+   "global_lib": "symbols/passives.SchLib",
+   "rev": 1,
+   "symbol_hash": "3542ec2ffb6efbef",
+   "footprint": "RESC1608_0603",
+   "value": "10k",
+   "description": "10 kOhm 1% 100mW 0603 (RENB, MOSFET gate)",
+   "mfr": "UNI-ROYAL",
+   "mpn": "0603WAF1002T5E",
+   "lcsc": "C25804",
+   "lcsc_verified": true,
+   "jlc_tier": "Basic",
+   "datasheet": {
+    "path": "datasheets/0603WAF1002T5E_C25804.pdf",
+    "sha256": "11cd644d5d8a34a6d12775afb80bf58d8fc11f0c3b700dbd0f7a59942ceaa5ef",
+    "url": "https://jlcpcb.com/partdetail/C25804"
+   },
+   "preferred": true,
+   "caveats": [],
+   "source_project": "buck-12v-5v-3a",
+   "promoted": {
+    "date": "2026-10-13",
+    "gate": "G1",
+    "rules_version": "1.0.0"
+   },
+   "history": [
+    {
+     "rev": 1,
+     "date": "2026-10-13",
+     "hash": "3542ec2ffb6efbef",
+     "project": "buck-12v-5v-3a"
+    }
+   ]
+  },
+  {
+   "id": "R_20k0_0.1%_0603",
+   "category": "passives",
+   "symbol": "R_20k0_0.1%_0603",
+   "global_lib": "symbols/passives.SchLib",
+   "rev": 1,
+   "symbol_hash": "294638dd934ceacc",
+   "footprint": "RESC1608_0603",
+   "value": "20.0k 0.1%",
+   "description": "RFBT: 20.0 kOhm 0.1% 25ppm 100mW 0603 thin film",
+   "mfr": "RESI",
+   "mpn": "PTFR0603B20K0P9",
+   "lcsc": "C328424",
+   "lcsc_verified": true,
+   "jlc_tier": "Extended",
+   "datasheet": {
+    "path": "datasheets/PTFR0603B20K0P9_C328424.pdf",
+    "sha256": "ce6a100ade2073ba8416627461be900b0efb807a330bea476227f7f9128a7ec8",
+    "url": "https://jlcpcb.com/partdetail/C328424"
+   },
+   "preferred": false,
+   "caveats": [],
+   "source_project": "buck-12v-5v-3a",
+   "promoted": {
+    "date": "2026-10-13",
+    "gate": "G1",
+    "rules_version": "1.0.0"
+   },
+   "history": [
+    {
+     "rev": 1,
+     "date": "2026-10-13",
+     "hash": "294638dd934ceacc",
+     "project": "buck-12v-5v-3a"
+    }
+   ]
+  },
+  {
+   "id": "R_4k99_0.1%_0603",
+   "category": "passives",
+   "symbol": "R_4k99_0.1%_0603",
+   "global_lib": "symbols/passives.SchLib",
+   "rev": 1,
+   "symbol_hash": "8d13081280604548",
+   "footprint": "RESC1608_0603",
+   "value": "4.99k 0.1%",
+   "description": "RFBB: 4.99 kOhm 0.1% 25ppm 100mW 0603 thin film",
+   "mfr": "RESI",
+   "mpn": "PTFR0603B4K99P9",
+   "lcsc": "C5382597",
+   "lcsc_verified": true,
+   "jlc_tier": "Extended",
+   "datasheet": {
+    "path": "datasheets/PTFR0603B4K99P9_C5382597.pdf",
+    "sha256": "ce6a100ade2073ba8416627461be900b0efb807a330bea476227f7f9128a7ec8",
+    "url": "https://jlcpcb.com/partdetail/C5382597"
+   },
+   "preferred": false,
+   "caveats": [],
+   "source_project": "buck-12v-5v-3a",
+   "promoted": {
+    "date": "2026-10-13",
+    "gate": "G1",
+    "rules_version": "1.0.0"
+   },
+   "history": [
+    {
+     "rev": 1,
+     "date": "2026-10-13",
+     "hash": "8d13081280604548",
+     "project": "buck-12v-5v-3a"
+    }
+   ]
+  },
+  {
+   "id": "R_51k_1%_0603",
+   "category": "passives",
+   "symbol": "R_51k_1%_0603",
+   "global_lib": "symbols/passives.SchLib",
+   "rev": 1,
+   "symbol_hash": "dd5a83f6782f17ce",
+   "footprint": "RESC1608_0603",
+   "value": "51k",
+   "description": "RENT: 51 kOhm 1% 100mW 0603",
+   "mfr": "UNI-ROYAL",
+   "mpn": "0603WAF5102T5E",
+   "lcsc": "C23196",
+   "lcsc_verified": true,
+   "jlc_tier": "Basic",
+   "datasheet": {
+    "path": "datasheets/0603WAF5102T5E_C23196.pdf",
+    "sha256": "11cd644d5d8a34a6d12775afb80bf58d8fc11f0c3b700dbd0f7a59942ceaa5ef",
+    "url": "https://jlcpcb.com/partdetail/C23196"
+   },
+   "preferred": true,
+   "caveats": [],
+   "source_project": "buck-12v-5v-3a",
+   "promoted": {
+    "date": "2026-10-13",
+    "gate": "G1",
+    "rules_version": "1.0.0"
+   },
+   "history": [
+    {
+     "rev": 1,
+     "date": "2026-10-13",
+     "hash": "dd5a83f6782f17ce",
+     "project": "buck-12v-5v-3a"
+    }
+   ]
+  }
+ ],
+ "footprints": [
+  {
+   "name": "TB_MKDS1.5-2-5.08",
+   "category": "connectors",
+   "global_lib": "footprints/connectors.PcbLib",
+   "rev": 1,
+   "footprint_hash": "67b1ce8e34365ffb",
+   "status": "datasheet-verified",
+   "status_source": "Phoenix 1715721 datasheet p1-2 (pitch 5.08, hole 1.3); G1 user 2026-10-13",
+   "caveats": [
+    "body outline position relative to the pins assumed centred - check with a real part"
+   ],
+   "courtyard_mm": null,
+   "step": null,
+   "source_project": "buck-12v-5v-3a",
+   "history": [
+    {
+     "rev": 1,
+     "date": "2026-10-13",
+     "hash": "67b1ce8e34365ffb",
+     "project": "buck-12v-5v-3a"
+    }
+   ]
+  },
+  {
+   "name": "TP_PAD_D1.5",
+   "category": "connectors",
+   "global_lib": "footprints/connectors.PcbLib",
+   "rev": 1,
+   "footprint_hash": "62c6c445fa2796c9",
+   "status": "derived",
+   "status_source": "test pad sized for the user's probes; G1 user 2026-10-13",
+   "caveats": [
+    "no datasheet (copper pad)"
+   ],
+   "courtyard_mm": null,
+   "step": null,
+   "source_project": "buck-12v-5v-3a",
+   "history": [
+    {
+     "rev": 1,
+     "date": "2026-10-13",
+     "hash": "62c6c445fa2796c9",
+     "project": "buck-12v-5v-3a"
+    }
+   ]
+  },
+  {
+   "name": "SOIC8_MS012",
+   "category": "discretes",
+   "global_lib": "footprints/discretes.PcbLib",
+   "rev": 1,
+   "footprint_hash": "d06429490de32ab5",
+   "status": "unverified-accepted",
+   "status_source": "user at G1 2026-10-13",
+   "caveats": [
+    "NOT verified against an AOS package drawing (none in the AO4407C/AO4407A datasheets)"
+   ],
+   "courtyard_mm": null,
+   "step": null,
+   "source_project": "buck-12v-5v-3a",
+   "history": [
+    {
+     "rev": 1,
+     "date": "2026-10-13",
+     "hash": "d06429490de32ab5",
+     "project": "buck-12v-5v-3a"
+    }
+   ]
+  },
+  {
+   "name": "LMR33630_HSOIC8_DDA",
+   "category": "ics",
+   "global_lib": "footprints/ics.PcbLib",
+   "rev": 1,
+   "footprint_hash": "18ebb63dda8fa32d",
+   "status": "datasheet-verified",
+   "status_source": "lmr33630.pdf p55/p58 (DDA0008B); G1 user 2026-10-13",
+   "caveats": [
+    "vias 0.3/0.6 mm in the EP (TI shows 0.2 mm), tented both sides (G1 decision)"
+   ],
+   "courtyard_mm": null,
+   "step": null,
+   "source_project": "buck-12v-5v-3a",
+   "history": [
+    {
+     "rev": 1,
+     "date": "2026-10-13",
+     "hash": "18ebb63dda8fa32d",
+     "project": "buck-12v-5v-3a"
+    }
+   ]
+  },
+  {
+   "name": "CAPC1608_0603",
+   "category": "passives",
+   "global_lib": "footprints/passives.PcbLib",
+   "rev": 1,
+   "footprint_hash": "ff68b2dc6d793ab2",
+   "status": "derived",
+   "status_source": "no numeric land in Yageo/Samsung datasheets; G1 user 2026-10-13",
+   "caveats": [
+    "derived land"
+   ],
+   "courtyard_mm": null,
+   "step": null,
+   "source_project": "buck-12v-5v-3a",
+   "history": [
+    {
+     "rev": 1,
+     "date": "2026-10-13",
+     "hash": "ff68b2dc6d793ab2",
+     "project": "buck-12v-5v-3a"
+    }
+   ]
+  },
+  {
+   "name": "CAPC3216_1206",
+   "category": "passives",
+   "global_lib": "footprints/passives.PcbLib",
+   "rev": 1,
+   "footprint_hash": "e0cef86b9ca17930",
+   "status": "derived",
+   "status_source": "no numeric land in Samsung/FH datasheets; IPC-style land, width per Samsung 2/3W < b < W; G1 user 2026-10-13",
+   "caveats": [
+    "derived land"
+   ],
+   "courtyard_mm": null,
+   "step": null,
+   "source_project": "buck-12v-5v-3a",
+   "history": [
+    {
+     "rev": 1,
+     "date": "2026-10-13",
+     "hash": "e0cef86b9ca17930",
+     "project": "buck-12v-5v-3a"
+    }
+   ]
+  },
+  {
+   "name": "IND_CDRH10D60",
+   "category": "passives",
+   "global_lib": "footprints/passives.PcbLib",
+   "rev": 1,
+   "footprint_hash": "e2f0c1a1bc6673f1",
+   "status": "datasheet-verified",
+   "status_source": "Sumida CDRH10D60 datasheet p1; G1 user 2026-10-13",
+   "caveats": [],
+   "courtyard_mm": null,
+   "step": null,
+   "source_project": "buck-12v-5v-3a",
+   "history": [
+    {
+     "rev": 1,
+     "date": "2026-10-13",
+     "hash": "e2f0c1a1bc6673f1",
+     "project": "buck-12v-5v-3a"
+    }
+   ]
+  },
+  {
+   "name": "RESC1608_0603",
+   "category": "passives",
+   "global_lib": "footprints/passives.PcbLib",
+   "rev": 1,
+   "footprint_hash": "f90c0271aced9f18",
+   "status": "derived",
+   "status_source": "no numeric land in UNI-ROYAL/RESI datasheets; G1 user 2026-10-13",
+   "caveats": [
+    "derived land"
+   ],
+   "courtyard_mm": null,
+   "step": null,
+   "source_project": "buck-12v-5v-3a",
+   "history": [
+    {
+     "rev": 1,
+     "date": "2026-10-13",
+     "hash": "f90c0271aced9f18",
+     "project": "buck-12v-5v-3a"
+    }
+   ]
+  }
+ ],
+ "generic": [
+  {
+   "id": "R_GENERIC_0603",
+   "footprint": "RESC1608_0603",
+   "spec": "specs/generic_passives.json"
+  },
+  {
+   "id": "C_GENERIC_0603",
+   "footprint": "CAPC1608_0603",
+   "spec": "specs/generic_passives.json"
+  },
+  {
+   "id": "C_GENERIC_1206",
+   "footprint": "CAPC3216_1206",
+   "spec": "specs/generic_passives.json"
+  }
+ ]
+}

@@ -4,12 +4,12 @@ Built one module at a time and proven on the buck converter (12 V to 5 V, 3 A) b
 Status: ✅ done · 🔨 in progress · ⬜ not started
 
 ## How each module is built
-1. **Rules first**: add or tighten rules in `_rules/` (MUST, Why, Check, Source, Status). New rules start PROPOSED.
-2. **Check second**: a script in `_tools/scripts/` with a test, so the rule can be ENFORCED.
+1. **Rules first**: add or tighten rules in `rules/` (MUST, Why, Check, Source, Status). New rules start PROPOSED.
+2. **Check second**: a script in `tools/scripts/` with a test, so the rule can be ENFORCED.
 3. **Skill third**: a short skill in `.claude/skills/` from `docs/templates/SKILL_TEMPLATE.md`.
 4. **Prove it** on the buck design. Record tokens, human corrections and datasheet opens per phase.
 5. **Fix from evidence**: a correction made twice becomes a rule or a check (WF-04).
-6. **Commit**: one PR per module; bump `_rules/VERSION` when rules change.
+6. **Commit**: one PR per module; bump `rules/VERSION` when rules change.
 
 ## Done (from altium-claude-workspace, rules v1.1.0)
 | Module | What exists |
@@ -25,12 +25,12 @@ Status: ✅ done · 🔨 in progress · ⬜ not started
 
 ## Next
 ### M1 Component facts database ⬜ (next)
-`_global/facts/` schema, `facts.py get / check / draft`, facts for the 16 buck parts, PROPOSED change to RQ-01.
+`library/facts/` schema, `facts.py get / check / draft`, facts for the 16 buck parts, PROPOSED change to RQ-01.
 Done when the buck schematic phase needs zero datasheet PDF opens for catalog parts.
 
 ### M2 Front of the flow ⬜
 Requirements and architecture rules (with the planned G0 gate), part selection against facts, the first
-`_guidelines/` entries the user approves. Skills: requirements, architecture, part selection.
+`guidelines/` entries the user approves. Skills: requirements, architecture, part selection.
 
 ### M3 PCB rules from SEED to ENFORCED ⬜
 PCB-01..12 checked by scripts (fab profile → Altium rules, `place.py` extensions), routing and copper pour rules,
@@ -48,4 +48,4 @@ a second reference design by another contributor, `v1.0` release.
 
 ## Open (needs the maintainer)
 - Approve the RQ-01 change in M1 once the facts DB works.
-- Decide whether RQ-06 and RQ-07 move to `_guidelines/` (see `_guidelines/BACKLOG.md`).
+- Decide whether RQ-06 and RQ-07 move to `guidelines/` (see `guidelines/BACKLOG.md`).

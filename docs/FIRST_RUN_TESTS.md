@@ -1,11 +1,11 @@
 # First-run tests (once, 15-30 minutes)
 
 Do these before you trust the automatic bridge switching. Altium Designer must be installed; start it for tests 2-5.
-Write each result as one line in `_logs\MCP_LOG.md` (a local file, not in git).
+Write each result as one line in `logs\MCP_LOG.md` (a local file, not in git).
 
 1. `bridge.cmd status` prints without an error.
 2. Start Altium, run `StartMCPServer` (File > Run Script), then `bridge.cmd status`: the eda-agent loop should say "responding".
-   If it says the opposite, the loop check in `_tools\bridge\lib.ps1` is wrong for your machine: use `bridge.cmd force eda` / `force coffee`
+   If it says the opposite, the loop check in `tools\bridge\lib.ps1` is wrong for your machine: use `bridge.cmd force eda` / `force coffee`
    instead of the automatic checks, and tell Claude.
 3. With the loop running, ask Claude for one `altium-coffee` tool (for example `get_server_status`). Note whether the guard asked you to
    release the loop and whether Altium hung.
