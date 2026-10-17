@@ -28,6 +28,7 @@ Each has a docstring, `--help`, and exit code 0 = PASS / 1 = FAIL. Tests: `tools
 | lib_status.py | drift report by content hash: OK / UPDATE / LOCAL CHANGED / MISSING / LOCAL ONLY | LIB-06 | `python lib_status.py projects\x` |
 | datasheets_fetch.py | download the catalog's datasheet PDFs (not in git) from `datasheet.url`; keeps a file only if its sha256 matches; never overwrites a good file | RQ-01 | `python datasheets_fetch.py` |
 | parts.py | component database: new part (LCSC), datasheet fetch, page text for extraction, facts with page + quote, `check` verifies every quote on its page, index, find, price/stock | RQ-01, 03, 04 | `python parts.py new --lcsc C25804`, `python parts.py check` |
+| parts_verify.py | walks a person through the person checks (pins, abs max, package, visual values) part by part, opens each PDF, records yes answers with parts.py verify, ends with check --gate | RQ-01 | `python tools\scripts\parts_verify.py` |
 | catalog_check.py | catalog fields, datasheet sha256 (PDF not on disk = NOT FETCHED note), LCSC verified, footprint status, global file hashes | RQ-01, 03, LIB-05, 06 | `python catalog_check.py --project projects\x` |
 | cad_register.py, cad_check.py | 3D model store (STEP header, sha256, index), structure only | LIB phase 2 | `python cad_check.py` |
 | rules_lint.py | rule-file format; ENFORCED rules name existing scripts; `--write-index` | WF-04 | `python rules_lint.py --write-index` |
