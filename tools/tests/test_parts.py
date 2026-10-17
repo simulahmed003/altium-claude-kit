@@ -31,6 +31,9 @@ class Parts(unittest.TestCase):
             "file": "xyz1.pdf", "url": "", "source": "test", "mfr": "", "title": "", "revision": "", "added": "", "pages": 2,
             "covers": ["XYZ1"]}}})
         os.makedirs(P.p("datasheets", "_text"))
+        if P.pdftotext_exe():               # mark the fixture cache as made by this machine's tool, so it is kept
+            with open(P.p("datasheets", "_text", "TOOL.txt"), "w", encoding="utf-8") as f:
+                f.write(P.tool_stamp(P.pdftotext_exe()) + "\n")
         for m, pages in PAGES.items():
             with open(P.p("datasheets", "_text", f"{SHA[:16]}.{m}.txt"), "w", encoding="utf-8") as f:
                 f.write("\f".join(pages) + "\f")

@@ -36,7 +36,8 @@ Supplier parameters (supplier_params) are for search only and never a source (ru
 A key may carry a condition tag after '@' (rds_on@vgs_4v5) when the datasheet gives the same quantity under
 several conditions; units and required-fact checks use the part before '@'.
 min / typ / max are stored as the datasheet columns print them; all-negative values (P-channel) are ordered by magnitude.
-Python standard library only; text extraction calls pdftotext (poppler, shipped with Git for Windows).
+Python standard library only; text extraction calls the xpdf pdftotext shipped with Git for Windows (4.00),
+the build the stored quotes were made with; a cache made by another build is rebuilt.
 Exit 0 = PASS, 1 = FAIL / not found.
 """
 import argparse, datetime, glob, hashlib, json, os, re, shutil, subprocess, sys, unicodedata, urllib.request
@@ -161,14 +162,45 @@ def ds_index():
     return load_json(p("datasheets", "index.json"), {"schema": 1, "datasheets": {}})
 
 
+GIT_PDFTOTEXT = (r"C:\Program Files\Git\mingw64\bin\pdftotext.exe", r"C:\Program Files (x86)\Git\mingw64\bin\pdftotext.exe")
+_TOOL = []
+_STAMPED = set()
+
+
 def pdftotext_exe():
-    exe = shutil.which("pdftotext")
-    if exe:
-        return exe
-    for c in (r"C:\Program Files\Git\mingw64\bin\pdftotext.exe", r"C:\Program Files (x86)\Git\mingw64\bin\pdftotext.exe"):
-        if os.path.isfile(c):
-            return c
-    return None
+    """The xpdf pdftotext (shipped with Git for Windows) that the stored quotes were extracted with. Other builds on PATH
+    (Poppler, e.g. MiKTeX's) lack -table and split text differently, so they are used only if they offer every mode."""
+    if _TOOL:
+        return _TOOL[0]
+    found = None
+    for c in list(GIT_PDFTOTEXT) + [shutil.which("pdftotext")]:
+        if not c or not os.path.isfile(c):
+            continue
+        r = subprocess.run([c, "-h"], capture_output=True, text=True, errors="replace")
+        if all(f"-{m}" in (r.stdout + r.stderr) for m in MODES):
+            found = c
+            break
+    _TOOL.append(found)
+    return found
+
+
+def tool_stamp(exe):
+    r = subprocess.run([exe, "-v"], capture_output=True, text=True, errors="replace")
+    return f"{exe} | {(r.stdout + r.stderr).strip().splitlines()[0] if (r.stdout + r.stderr).strip() else '?'}"
+
+
+def check_cache_tool(exe):
+    """Wipe the page-text cache when it was built by another pdftotext (quotes depend on the tool)."""
+    d = p("datasheets", "_text")
+    stamp_file = os.path.join(d, "TOOL.txt")
+    stamp = tool_stamp(exe)
+    old = open(stamp_file, encoding="utf-8").read().strip() if os.path.isfile(stamp_file) else None
+    if old != stamp:
+        for f in glob.glob(os.path.join(d, "*.txt")):
+            os.remove(f)
+        os.makedirs(d, exist_ok=True)
+        with open(stamp_file, "w", encoding="utf-8") as f:
+            f.write(stamp + "\n")
 
 
 # Symbol-font characters that PDFs put in the private use area (U+F0xx = Symbol code xx) -> real characters
@@ -180,6 +212,10 @@ MODES = ("layout", "raw", "table")   # pdftotext modes; raw keeps a table row on
 
 def pages_of(sha, mode="layout"):
     """Page texts of a datasheet in one pdftotext mode (list, page 1 = index 0), cached. None if no PDF or no tool."""
+    exe = pdftotext_exe()
+    if exe and lib_root() not in _STAMPED:   # once per library: a cache built by another pdftotext build is wiped
+        check_cache_tool(exe)
+        _STAMPED.add(lib_root())
     cache = p("datasheets", "_text", f"{sha[:16]}.{mode}.txt")
     if not os.path.isfile(cache):
         entry = ds_index()["datasheets"].get(sha)
