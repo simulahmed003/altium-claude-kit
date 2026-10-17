@@ -276,5 +276,16 @@ class FirstRunTest(unittest.TestCase):
         self.assertEqual(first_run_test.clashes(eda, coffee), ["altium_api.prjscr"])
         self.assertEqual(first_run_test.clashes(eda, coffee[1:]), [])
 
+    def test_same_name_is_safe_while_coffee_runs_by_path(self):
+        main = 'command = f\'"{exe}" -RScriptingSystem:RunScript(ProjectName="{script_path}"^|ProcName="Altium_API>Run")\''
+        pas = {"Altium_API.pas": r"ROOT_DIR := 'C:\Users\Public\altium_mcp\';",
+               "other_utils.pas": "function ScriptProjectPath(Workspace: IWorkspace) : String;"}
+        eda = ["Dispatcher.pas", "Main.pas"]
+        self.assertEqual(first_run_test.mixup_risks(eda, main, pas), [])
+        self.assertEqual(len(first_run_test.mixup_risks(eda + ["Altium_API.pas"], main, pas)), 1)
+        self.assertEqual(len(first_run_test.mixup_risks(eda, main, dict(pas, **{"x.pas": "p := ScriptProjectPath(W);"}))), 1)
+        self.assertEqual(len(first_run_test.mixup_risks(eda, main, {"Altium_API.pas": "ROOT_DIR := ScriptsPath;"})), 1)
+        self.assertEqual(len(first_run_test.mixup_risks(eda, main.replace('ProjectName="{', 'ProjectName="Altium_API'), pas)), 1)
+
 if __name__ == "__main__":
     unittest.main()
