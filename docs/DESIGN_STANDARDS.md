@@ -37,14 +37,27 @@ A design choice belongs to the **user standard**, not the central repo, when its
 
 It belongs to the **project** when it follows from that board's requirements (input voltage, size, enclosure).
 
-It is **general** (a central guideline or rule) when all of these hold:
+### Sorting test (ask in order; the first yes decides)
+1. Only true for this board? → **project**.
+2. Taste, house style or company policy, with no source beyond "we prefer"? → **user standard**.
+3. Depends on what one fab can build? → **fab profile**.
+4. A sourced engineering target for a class of circuits? → **guideline**.
+5. Correctness, safety, manufacturability or tool behaviour that would bite any user? → **rule**.
+Anything else is a lesson for `docs/LESSONS_LEARNED.md`.
+
+It goes **central** (rule, guideline or fab profile) only when all of these hold:
 1. **Source:** it follows from physics, a standard, a datasheet or a tool's behaviour, and the source is cited.
 2. **Reach:** it would help any user designing that kind of circuit, not only this user.
-3. **Evidence:** it prevented or fixed a real defect, or it was seen in two or more projects or by two or more users.
+3. **Evidence:** seen in two or more projects or by two or more users, or once if missing it could damage hardware or waste a fab run.
 4. **Checkable:** a script can check it, or a checklist line can be judged yes/no.
 5. **Generalised:** no project numbers, part numbers, customer names or paths, unless they are the subject (a catalog part).
 
 Failing 1 or 2 means user standard. Failing 3 means it stays PROPOSED until the evidence exists.
+
+### Already in the central rules but looks user-specific (to settle in the rule-by-rule review)
+- Parts of `04_SCHEMATIC.md` came from one user's S1 brief: whole A3 sheet, titled blocks of about 8 parts, one GND per cluster. Candidates for a user standard.
+- FAB-04 (JLCPCB BOM columns) belongs with the JLCPCB fab profile.
+- RQ-06 (capacitor rating) and RQ-07 (thermal target) are design targets, so guideline candidates.
 
 ## Starting with no user standard
 A new user starts with rules, guidelines and a fab profile only. Copy `standards/TEMPLATE.md` to `standards/local/<name>.md`
