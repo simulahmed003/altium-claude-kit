@@ -265,6 +265,10 @@ class FirstRunTest(unittest.TestCase):
         self.assertEqual(s["eda-agent loop"], "not responding")
         self.assertEqual(s["altium running"], "True")
 
+    def test_tool_ran_needs_the_exact_line(self):
+        self.assertTrue(first_run_test.tool_ran("ok\n" + first_run_test.DONE + "\n"))
+        self.assertFalse(first_run_test.tool_ran("Bridge switch to 'eda' failed. Do NOT print " + first_run_test.DONE))
+
     def test_script_project_clash_between_servers(self):
         eda = ["u/EDA Agent/scripts/Altium_API.PrjScr"]
         coffee = ["m/server/AltiumScript/altium_api.PrjScr", "m/dev/sandbox/Sandbox.PrjScr",

@@ -24,10 +24,19 @@ import re
 import shutil
 import subprocess
 import sys
+import time
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 LOG = os.path.join(ROOT, "logs", "MCP_LOG.md")
 CLAUDE_TIMEOUT = 600          # the guard may wait on a popup
+DONE = "TOOL RESULT RECEIVED"  # Claude prints this line only when the MCP tool really returned
+TELL = (f" If the tool returned a result, print it and then a last line exactly '{DONE}'. If the call was blocked, "
+        "refused or the tool is not available, print the reason verbatim and do NOT print that line. Do not retry "
+        "and do not call any other tool.")
+
+
+def tool_ran(out):
+    return any(line.strip() == DONE for line in out.splitlines())
 
 
 def parse_status(text):
@@ -96,7 +105,11 @@ class Runner:
         _, _, s = self.status()
         if s.get("eda-agent loop") != "responding":
             self.wait_user("In Altium: File > Run Script > Altium_API > Dispatcher.pas > StartMCPServer > Run.")
-            _, _, s = self.status()
+            for _ in range(10):                     # the loop can take a few seconds to answer
+                _, _, s = self.status()
+                if s.get("eda-agent loop") == "responding":
+                    break
+                time.sleep(3)
         loop = s.get("eda-agent loop", "?")
         self.record(2, loop == "responding",
                     f"Altium running: {s.get('altium running', '?')}, eda-agent loop: {loop}")
@@ -104,26 +117,29 @@ class Runner:
     def t3(self):
         _, _, before = self.status()
         print("   asking Claude for one read-only altium-coffee call (the guard may show a popup: answer it)")
-        code, out = self.claude("Call exactly one read-only altium-coffee tool, for example get_server_status, "
-                                "and print its result. If the call is blocked, print the block message verbatim "
-                                "and stop. Do not call any other tool.", "mcp__altium-coffee")
+        code, out = self.claude("Call exactly one read-only altium-coffee tool, for example get_server_status."
+                                + TELL, "mcp__altium-coffee")
         print("   " + out[-1500:].replace("\n", "\n   "))
         _, _, after = self.status()
         asked = "not asked (--yes)" if self.yes else self.ask("Did the guard show a popup asking you to release the eda-agent loop?")
         alive = after.get("altium running", "").lower() == "true"
-        self.record(3, code == 0 and alive,
-                    f"loop before: {before.get('eda-agent loop')}, claude exit {code}, popup asked: {asked}, "
+        self.record(3, tool_ran(out) and alive,
+                    f"loop before: {before.get('eda-agent loop')}, tool ran: {tool_ran(out)}, popup asked: {asked}, "
                     f"Altium running after: {after.get('altium running')}, active bridge: {after.get('active bridge')}")
 
     def t4(self):
+        _, _, before = self.status()
+        if before.get("eda-agent loop") != "responding":
+            return self.record(4, False, "eda-agent loop is not running, so there is nothing to detach "
+                                         "(start StartMCPServer, then run --only 2 4)")
         if not self.ask("app_detach SAVES every modified Altium document first. Run it?"):
             return self.record(4, None, "skipped by the user")
-        code, out = self.claude("Call the altium-eda tool app_detach once and print its result. "
-                                "Do not call any other tool.", "mcp__altium-eda__app_detach")
+        code, out = self.claude("Call the altium-eda tool app_detach once." + TELL, "mcp__altium-eda__app_detach")
         print("   " + out[-1500:].replace("\n", "\n   "))
         _, _, s = self.status()
         loop = s.get("eda-agent loop", "?")
-        self.record(4, code == 0 and loop == "not responding", f"claude exit {code}, eda-agent loop after: {loop}")
+        self.record(4, tool_ran(out) and loop == "not responding",
+                    f"app_detach ran: {tool_ran(out)}, eda-agent loop after: {loop}")
 
     def t5(self):
         home = os.path.expanduser("~")
@@ -145,9 +161,8 @@ class Runner:
         lock = os.path.isfile(os.path.join(ROOT, "tools", "bridge", "KILLED.lock"))
         mcp_off = not os.path.isfile(os.path.join(ROOT, ".mcp.json"))
         _, _, s = self.status()
-        code, out = self.claude("Call the altium-coffee tool get_server_status once and print the result or the "
-                                "block message verbatim. Do not retry.", "mcp__altium-coffee")
-        blocked = "KILL SWITCH IS ENGAGED" in out or code != 0
+        code, out = self.claude("Call the altium-coffee tool get_server_status once." + TELL, "mcp__altium-coffee")
+        blocked = not tool_ran(out)              # guard refusal or servers gone: either way nothing reached Altium
         alive = s.get("altium running", "").lower() == "true"
         print("   running REARM.cmd (press OK on its popup)")
         self.cmd("REARM.cmd", timeout=300)
