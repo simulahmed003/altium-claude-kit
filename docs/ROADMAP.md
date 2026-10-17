@@ -27,7 +27,8 @@ Status: ✅ done · 🔨 in progress · ⬜ not started
 ### M1 Component database 🔨
 Built 2026-10-17: `library/parts/` (taxonomy, manufacturers, one record per MPN), `parts.py` (new from LCSC, fetch,
 page text, locate, check with page + quote, index, find, market), 17 buck datasheet parts `extracted`.
-Left: a person verifies the 17 records (65 visual values), the PROPOSED change to RQ-01, catalog_check linking catalog
+RQ-01 now reads the database first (rules 1.2.0, user 2026-10-17).
+Left: a person verifies the 17 records (65 visual values), catalog_check linking catalog
 components to part records. Done when the buck schematic phase needs zero datasheet PDF opens for catalog parts.
 
 ### M2 Front of the flow ⬜
@@ -49,5 +50,4 @@ Altium 25 and 24 tested (rules marked per version where they differ), more fab p
 a second reference design by another contributor, `v1.0` release.
 
 ## Open (needs the maintainer)
-- Approve the RQ-01 change in M1 once the facts DB works.
 - Decide whether RQ-06 and RQ-07 move to `guidelines/` (see `guidelines/BACKLOG.md`).

@@ -16,6 +16,7 @@ once someone tests them.
 | Playbooks | `rules/playbooks/` | tested step lists for recurring tasks | reviewed PR |
 | Skills | `.claude/skills/` | per-phase entry points: goal, what to load, how to judge | reviewed PR |
 | Guidelines | `guidelines/` | WHAT a good design needs (system-level limits), draft | maintainer approves each |
+| User standards | `standards/local/` (git-ignored) | one user's or company's house style and policies | that user (docs/DESIGN_STANDARDS.md) |
 | Checkers and generators | `tools/scripts/` | anything deterministic: checks, calcs, plans, BOM | PR with tests |
 | Altium bridge | `tools/bridge/`, hook | one live script engine, kill switch, popups | PR tested on real Altium |
 | Global library | `library/` | catalog, category libraries, revisions, hashes | `lib_promote.py` after G1 |
@@ -51,7 +52,7 @@ Only one live bridge at a time (TOOL-01). The guard hook enforces it.
 
 ## Component database (roadmap M1, built 2026-10-17)
 
-Problem: RQ-01 makes Claude open the datasheet PDF for every number, in every project. That is the biggest token cost.
+Problem: opening the datasheet PDF for every number, in every project, was the biggest token cost. Since rules 1.2.0, RQ-01 reads the part record first.
 
 Design (details and workflow: `library/parts/README.md`):
 - One record per orderable part: `library/parts/<category>/<family>/<MPN>__<mfr>.json`, keyed by manufacturer part
@@ -67,15 +68,16 @@ Design (details and workflow: `library/parts/README.md`):
 - `datasheets/index.json` (in git) ties each record to one PDF revision by sha256; PDFs and page text stay local.
 - Price and stock are dated local snapshots (`parts.py market`), checked at BOM time (RQ-04).
 
-Rule change this needs (PROPOSED, the user approves through WF-04): RQ-01 accepts a number from a `verified` record,
-because it cites the page, a quote and the PDF hash; the PDF is opened only for a missing or disputed field.
+RQ-01 (rules 1.2.0, approved by the user 2026-10-17): numbers come from the record, which cites the page, a quote and
+the PDF hash. A missing part or fact is fetched and extracted into the record first; a flaw stops the work and goes to
+the user. The PDF is opened only to extract, to verify, or for a disputed field.
 
 ## Token discipline
 1. Start from `PROJECT.md` and `gates.md`, not from chat history.
 2. One skill, one rule-file set, one playbook per phase (`rules/00_INDEX.md` "Read before each phase").
 3. Facts by section, not PDFs.
 4. Scripts print PASS/FAIL summaries; full output goes to `ai/review/`.
-5. A correction made twice becomes a rule or a check (WF-04), not a longer prompt.
+5. A correction made twice becomes a rule or a check (WF-04), not a longer prompt. Feedback is logged and harvested at each gate (WF-08, docs/RULE_FEEDBACK_LOOP.md).
 
 ## Contributions
 Humans and their AI assistants contribute the same way: one topic per PR, evidence for every value, checks pass.
