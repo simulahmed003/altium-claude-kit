@@ -1,0 +1,171 @@
+{
+ "schema": "part/1",
+ "mpn": "CL31A226KAHNNNE",
+ "mfr": "Samsung Electro-Mechanics",
+ "category": "passives/capacitor_mlcc",
+ "description": "22uF ±10% 25V Ceramic Capacitor X5R 1206",
+ "package": "1206",
+ "lifecycle": {
+  "status": "unknown"
+ },
+ "datasheets": [
+  {
+   "sha256": "96baebe4bd0ce363e87be28b5b003f511f1502e084a6fc4f02333ded56c808f6",
+   "file": "CL10A105KB8NNNC_C15849.pdf",
+   "url": "https://jlcpcb.com/partdetail/C12891",
+   "title": "",
+   "revision": ""
+  }
+ ],
+ "datasheet_url": "https://datasheet.lcsc.com/datasheet/pdf/02336ea48ea44ca18c72517dd3cb7b47.pdf?productCode=C12891",
+ "suppliers": [
+  {
+   "name": "LCSC",
+   "sku": "C12891",
+   "url": "https://www.lcsc.com/product-detail/C12891.html",
+   "verified": "2026-10-17"
+  }
+ ],
+ "supplier_params": {
+  "Capacitance": "22uF",
+  "Temperature Coefficient": "X5R",
+  "Tolerance": "±10%",
+  "Voltage Rating": "25V"
+ },
+ "facts": {
+  "summary": {
+   "capacitance": {
+    "value": 2.2e-05,
+    "unit": "F",
+    "derivation": "MPN code 226 = 22 x 10^6 pF",
+    "ref": {
+     "page": 22,
+     "quote": "22 CL31A226KAHNNN 22ʈ 25 10% 1.80",
+     "mode": "layout"
+    }
+   },
+   "tolerance": {
+    "min": -10,
+    "max": 10,
+    "unit": "%",
+    "derivation": "MPN code K",
+    "ref": {
+     "page": 22,
+     "quote": "22 CL31A226KAHNNN 22ʈ 25 10% 1.80",
+     "mode": "layout"
+    }
+   },
+   "rated_voltage": {
+    "value": 25,
+    "unit": "V",
+    "derivation": "MPN code A = 25 V (p4)",
+    "ref": {
+     "page": 22,
+     "quote": "22 CL31A226KAHNNN 22ʈ 25 10% 1.80",
+     "mode": "layout"
+    }
+   },
+   "dielectric": {
+    "value": "X5R",
+    "unit": "-",
+    "derivation": "MPN code A",
+    "ref": {
+     "page": 4,
+     "quote": "C =C0G A =X5R F =Y5V",
+     "mode": "raw"
+    }
+   }
+  },
+  "recommended": {
+   "t_op": {
+    "min": -55,
+    "max": 85,
+    "unit": "degC",
+    "cond": "X5R",
+    "ref": {
+     "page": 5,
+     "quote": "Class II: A X5R -55 ~ +85, capacitance change ±15",
+     "visual": true
+    }
+   }
+  },
+  "package": {
+   "length": {
+    "typ": 3.2,
+    "unit": "mm",
+    "ref": {
+     "page": 22,
+     "quote": "Size L x W 3.20x1.60",
+     "visual": true
+    }
+   },
+   "width": {
+    "typ": 1.6,
+    "unit": "mm",
+    "ref": {
+     "page": 22,
+     "quote": "Size L x W 3.20x1.60",
+     "visual": true
+    }
+   },
+   "height": {
+    "min": 1.4,
+    "typ": 1.6,
+    "max": 1.8,
+    "unit": "mm",
+    "cond": "thickness code H = 1.60 +/-0.20 for 1206 (p5 table); lineup p22 gives max 1.80",
+    "ref": {
+     "page": 4,
+     "quote": "C = 0.85 H =1.60 M = 1.15 U = 1.80",
+     "mode": "raw"
+    }
+   }
+  },
+  "ordering": {
+   "package": {
+    "value": "E: embossed tape, 7 inch reel",
+    "unit": "-",
+    "ref": {
+     "page": 4,
+     "quote": "11. PACKAGING CODE E = Embossed Type, 7\" Reel",
+     "visual": true
+    }
+   }
+  }
+ },
+ "pins": [],
+ "notes": {
+  "layout": [
+   {
+    "text": "Solder land rule: pad width b between 2/3 W and W, pad length a between 2/3 T and T (general guideline with figure, p76).",
+    "ref": {
+     "page": 76,
+     "quote": "2 / 3W < b < W",
+     "mode": "table"
+    }
+   },
+   {
+    "text": "Recommended soldering method (flow / reflow) depends on size and capacitance: see the table on p56 before choosing wave soldering.",
+    "ref": {
+     "page": 56,
+     "quote": "Recommended Soldering Method",
+     "mode": "table"
+    }
+   }
+  ]
+ },
+ "catalog_ids": [
+  "C_22u_25V_X5R_1206"
+ ],
+ "review": {
+  "status": "extracted",
+  "created": "2026-10-17",
+  "open": [
+   "L/W tolerance not decoded; typ only",
+   "several values read from page images (visual refs): confirm on p4, p5, p22",
+   "DC-bias derating not extracted: needed for the buck output-cap C_eff calculation"
+  ],
+  "extracted_by": "Claude (AI) from datasheet page text, parts.py",
+  "extracted": "2026-10-17"
+ }
+}

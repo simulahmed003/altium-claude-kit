@@ -1,0 +1,541 @@
+{
+ "schema": 1,
+ "generated_by": "parts.py index",
+ "count": 17,
+ "parts": [
+  {
+   "mpn": "1715721",
+   "mfr": "Phoenix Contact",
+   "category": "connectors/terminal_block",
+   "package": "Through Hole,P=5.08mm",
+   "description": "2 Position Wire to Board Terminal Block Through Hole 5.08mm",
+   "skus": [
+    "LCSC:C480516"
+   ],
+   "status": "extracted",
+   "catalog_ids": [
+    "J_MKDS1.5-2-5.08"
+   ],
+   "file": "connectors/terminal_block/1715721__phoenix-contact.json",
+   "summary": {
+    "positions": {
+     "value": 2,
+     "unit": "count"
+    },
+    "pitch": {
+     "value": 5.08,
+     "unit": "mm"
+    },
+    "rated_current": {
+     "value": 17.5,
+     "unit": "A"
+    },
+    "rated_voltage": {
+     "value": 250,
+     "unit": "V"
+    },
+    "wire_range_max": {
+     "value": 2.5,
+     "unit": "mm2"
+    },
+    "type": {
+     "value": "screw connection, PCB solder pins",
+     "unit": "-"
+    }
+   }
+  },
+  {
+   "mpn": "AO4407A",
+   "mfr": "Alpha & Omega Semiconductor",
+   "category": "discretes/mosfet",
+   "package": "SOIC-8",
+   "description": "P-Channel 30V 12A 3.1W Surface Mount SOIC-8",
+   "skus": [
+    "LCSC:C16072"
+   ],
+   "status": "extracted",
+   "catalog_ids": [],
+   "file": "discretes/mosfet/AO4407A__aos.json",
+   "summary": {
+    "channel": {
+     "value": "P",
+     "unit": "-"
+    }
+   }
+  },
+  {
+   "mpn": "AO4407C",
+   "mfr": "Alpha & Omega Semiconductor",
+   "category": "discretes/mosfet",
+   "package": "SOIC-8",
+   "description": "P-Channel 30V Surface Mount SOIC-8",
+   "skus": [
+    "LCSC:C469397"
+   ],
+   "status": "extracted",
+   "catalog_ids": [
+    "Q_AO4407C"
+   ],
+   "file": "discretes/mosfet/AO4407C__aos.json",
+   "summary": {
+    "channel": {
+     "value": "P",
+     "unit": "-"
+    },
+    "package": {
+     "value": "SO-8",
+     "unit": "-"
+    }
+   }
+  },
+  {
+   "mpn": "LMR33630ADDAR",
+   "mfr": "Texas Instruments",
+   "category": "ics/power_buck",
+   "package": "ESOP-8",
+   "description": "Buck Switching Regulator IC Adjustable 1V~24V 1 Output 3A ESOP-8",
+   "skus": [
+    "LCSC:C841384"
+   ],
+   "status": "extracted",
+   "catalog_ids": [
+    "U_LMR33630ADDA"
+   ],
+   "file": "ics/power_buck/LMR33630ADDAR__ti.json",
+   "summary": {
+    "iout": {
+     "max": 3,
+     "unit": "A"
+    },
+    "topology": {
+     "value": "synchronous buck, integrated FETs",
+     "unit": "-"
+    },
+    "package": {
+     "value": "HSOIC-8 (DDA) with PowerPAD",
+     "unit": "-"
+    }
+   }
+  },
+  {
+   "mpn": "TPS54302DDCR",
+   "mfr": "Texas Instruments",
+   "category": "ics/power_buck",
+   "package": "SOT-23-THIN (DDC), 6 pins",
+   "description": "TPS54302 4.5V to 28V Input, 3A Output, EMI-Friendly Synchronous Step-Down Converter",
+   "skus": [],
+   "status": "extracted",
+   "catalog_ids": [],
+   "file": "ics/power_buck/TPS54302DDCR__ti.json",
+   "summary": {
+    "iout": {
+     "max": 3,
+     "unit": "A"
+    },
+    "topology": {
+     "value": "synchronous buck, integrated FETs",
+     "unit": "-"
+    },
+    "package": {
+     "value": "SOT-23-THIN (DDC), 6 pins",
+     "unit": "-"
+    }
+   }
+  },
+  {
+   "mpn": "1206B106K500NT",
+   "mfr": "FH (Guangdong Fenghua)",
+   "category": "passives/capacitor_mlcc",
+   "package": "1206",
+   "description": "10uF ±10% 50V Ceramic Capacitor X7R 1206",
+   "skus": [
+    "LCSC:C303950"
+   ],
+   "status": "extracted",
+   "catalog_ids": [
+    "C_10u_50V_X7R_1206"
+   ],
+   "file": "passives/capacitor_mlcc/1206B106K500NT__fh.json",
+   "summary": {
+    "capacitance": {
+     "value": 1e-05,
+     "unit": "F"
+    },
+    "tolerance": {
+     "min": -10,
+     "max": 10,
+     "unit": "%"
+    },
+    "rated_voltage": {
+     "value": 50,
+     "unit": "V"
+    },
+    "dielectric": {
+     "value": "X7R",
+     "unit": "-"
+    }
+   }
+  },
+  {
+   "mpn": "CC0603KRX7R9BB104",
+   "mfr": "YAGEO",
+   "category": "passives/capacitor_mlcc",
+   "package": "0603",
+   "description": "100nF ±10% 50V Ceramic Capacitor X7R 0603",
+   "skus": [
+    "LCSC:C14663"
+   ],
+   "status": "extracted",
+   "catalog_ids": [
+    "C_100n_50V_X7R_0603"
+   ],
+   "file": "passives/capacitor_mlcc/CC0603KRX7R9BB104__yageo.json",
+   "summary": {
+    "tolerance": {
+     "min": -10,
+     "max": 10,
+     "unit": "%"
+    },
+    "rated_voltage": {
+     "value": 50,
+     "unit": "V"
+    },
+    "dielectric": {
+     "value": "X7R",
+     "unit": "-"
+    },
+    "capacitance": {
+     "value": 1e-07,
+     "unit": "F"
+    }
+   }
+  },
+  {
+   "mpn": "CC0603KRX7R9BB224",
+   "mfr": "YAGEO",
+   "category": "passives/capacitor_mlcc",
+   "package": "0603",
+   "description": "220nF ±10% 50V Ceramic Capacitor X7R 0603",
+   "skus": [
+    "LCSC:C107083"
+   ],
+   "status": "extracted",
+   "catalog_ids": [
+    "C_220n_50V_X7R_0603"
+   ],
+   "file": "passives/capacitor_mlcc/CC0603KRX7R9BB224__yageo.json",
+   "summary": {
+    "tolerance": {
+     "min": -10,
+     "max": 10,
+     "unit": "%"
+    },
+    "rated_voltage": {
+     "value": 50,
+     "unit": "V"
+    },
+    "dielectric": {
+     "value": "X7R",
+     "unit": "-"
+    },
+    "capacitance": {
+     "value": 2.2e-07,
+     "unit": "F"
+    }
+   }
+  },
+  {
+   "mpn": "CL10A105KB8NNNC",
+   "mfr": "Samsung Electro-Mechanics",
+   "category": "passives/capacitor_mlcc",
+   "package": "0603",
+   "description": "1uF ±10% 50V Ceramic Capacitor X5R 0603",
+   "skus": [
+    "LCSC:C15849"
+   ],
+   "status": "extracted",
+   "catalog_ids": [
+    "C_1u_50V_X5R_0603"
+   ],
+   "file": "passives/capacitor_mlcc/CL10A105KB8NNNC__samsung-em.json",
+   "summary": {
+    "capacitance": {
+     "value": 1e-06,
+     "unit": "F"
+    },
+    "tolerance": {
+     "min": -10,
+     "max": 10,
+     "unit": "%"
+    },
+    "rated_voltage": {
+     "value": 50,
+     "unit": "V"
+    },
+    "dielectric": {
+     "value": "X5R",
+     "unit": "-"
+    }
+   }
+  },
+  {
+   "mpn": "CL31A226KAHNNNE",
+   "mfr": "Samsung Electro-Mechanics",
+   "category": "passives/capacitor_mlcc",
+   "package": "1206",
+   "description": "22uF ±10% 25V Ceramic Capacitor X5R 1206",
+   "skus": [
+    "LCSC:C12891"
+   ],
+   "status": "extracted",
+   "catalog_ids": [
+    "C_22u_25V_X5R_1206"
+   ],
+   "file": "passives/capacitor_mlcc/CL31A226KAHNNNE__samsung-em.json",
+   "summary": {
+    "capacitance": {
+     "value": 2.2e-05,
+     "unit": "F"
+    },
+    "tolerance": {
+     "min": -10,
+     "max": 10,
+     "unit": "%"
+    },
+    "rated_voltage": {
+     "value": 25,
+     "unit": "V"
+    },
+    "dielectric": {
+     "value": "X5R",
+     "unit": "-"
+    }
+   }
+  },
+  {
+   "mpn": "CDRH10D60BT150NP-100MC",
+   "mfr": "Sumida",
+   "category": "passives/inductor_power",
+   "package": "SMD,10.3x10mm",
+   "description": "6.2A 10uH ±20% 17mΩ 6.2A SMD,10.3x10mm Fixed Inductors RoHS",
+   "skus": [
+    "LCSC:C2594362"
+   ],
+   "status": "extracted",
+   "catalog_ids": [
+    "L_10u_CDRH10D60"
+   ],
+   "file": "passives/inductor_power/CDRH10D60BT150NP-100MC__sumida.json",
+   "summary": {
+    "inductance": {
+     "value": 1e-05,
+     "unit": "H"
+    },
+    "tolerance": {
+     "min": -20,
+     "max": 20,
+     "unit": "%"
+    }
+   }
+  },
+  {
+   "mpn": "CSD0910B-100M",
+   "mfr": "Codaca",
+   "category": "passives/inductor_power",
+   "package": "SMD-4P,10x9mm",
+   "description": "5A 10uH ±20% 5.6A 18.7mΩ SMD-4P,10x9mm Fixed Inductors RoHS",
+   "skus": [
+    "LCSC:C17699381"
+   ],
+   "status": "extracted",
+   "catalog_ids": [],
+   "file": "passives/inductor_power/CSD0910B-100M__codaca.json",
+   "summary": {
+    "inductance": {
+     "value": 1e-05,
+     "unit": "H"
+    },
+    "tolerance": {
+     "min": -20,
+     "max": 20,
+     "unit": "%"
+    }
+   }
+  },
+  {
+   "mpn": "0603WAF1002T5E",
+   "mfr": "UNI-ROYAL",
+   "category": "passives/resistor",
+   "package": "0603",
+   "description": "10kΩ ±1% 100mW 0603 Thick Film Resistor",
+   "skus": [
+    "LCSC:C25804"
+   ],
+   "status": "extracted",
+   "catalog_ids": [
+    "R_10k_1%_0603"
+   ],
+   "file": "passives/resistor/0603WAF1002T5E__uni-royal.json",
+   "summary": {
+    "tolerance": {
+     "min": -1,
+     "max": 1,
+     "unit": "%"
+    },
+    "rated_power": {
+     "value": 0.1,
+     "unit": "W"
+    },
+    "tcr": {
+     "min": -100,
+     "max": 100,
+     "unit": "ppm/degC"
+    },
+    "resistance": {
+     "value": 10000,
+     "unit": "ohm"
+    }
+   }
+  },
+  {
+   "mpn": "0603WAF1003T5E",
+   "mfr": "UNI-ROYAL",
+   "category": "passives/resistor",
+   "package": "0603",
+   "description": "100kΩ ±1% 100mW 0603 Thick Film Resistor",
+   "skus": [
+    "LCSC:C25803"
+   ],
+   "status": "extracted",
+   "catalog_ids": [
+    "R_100k_1%_0603"
+   ],
+   "file": "passives/resistor/0603WAF1003T5E__uni-royal.json",
+   "summary": {
+    "tolerance": {
+     "min": -1,
+     "max": 1,
+     "unit": "%"
+    },
+    "rated_power": {
+     "value": 0.1,
+     "unit": "W"
+    },
+    "tcr": {
+     "min": -100,
+     "max": 100,
+     "unit": "ppm/degC"
+    },
+    "resistance": {
+     "value": 100000,
+     "unit": "ohm"
+    }
+   }
+  },
+  {
+   "mpn": "0603WAF5102T5E",
+   "mfr": "UNI-ROYAL",
+   "category": "passives/resistor",
+   "package": "0603",
+   "description": "51kΩ ±1% 100mW 0603 Thick Film Resistor",
+   "skus": [
+    "LCSC:C23196"
+   ],
+   "status": "extracted",
+   "catalog_ids": [
+    "R_51k_1%_0603"
+   ],
+   "file": "passives/resistor/0603WAF5102T5E__uni-royal.json",
+   "summary": {
+    "tolerance": {
+     "min": -1,
+     "max": 1,
+     "unit": "%"
+    },
+    "rated_power": {
+     "value": 0.1,
+     "unit": "W"
+    },
+    "tcr": {
+     "min": -100,
+     "max": 100,
+     "unit": "ppm/degC"
+    },
+    "resistance": {
+     "value": 51000,
+     "unit": "ohm"
+    }
+   }
+  },
+  {
+   "mpn": "PTFR0603B20K0P9",
+   "mfr": "RESI",
+   "category": "passives/resistor",
+   "package": "0603",
+   "description": "100mW 20kΩ 100V Thin Film Resistor ±25ppm/℃ ±0.1% 0603 Chip Resistor - Surface Mount RoHS",
+   "skus": [
+    "LCSC:C328424"
+   ],
+   "status": "extracted",
+   "catalog_ids": [
+    "R_20k0_0.1%_0603"
+   ],
+   "file": "passives/resistor/PTFR0603B20K0P9__resi.json",
+   "summary": {
+    "tolerance": {
+     "min": -0.1,
+     "max": 0.1,
+     "unit": "%"
+    },
+    "rated_power": {
+     "value": 0.1,
+     "unit": "W"
+    },
+    "tcr": {
+     "min": -25,
+     "max": 25,
+     "unit": "ppm/degC"
+    },
+    "resistance": {
+     "value": 20000,
+     "unit": "ohm"
+    }
+   }
+  },
+  {
+   "mpn": "PTFR0603B4K99P9",
+   "mfr": "RESI",
+   "category": "passives/resistor",
+   "package": "0603",
+   "description": "4.99kΩ 100mW 100V Thin Film Resistor ±25ppm/℃ ±0.1% 0603 Chip Resistor - Surface Mount RoHS",
+   "skus": [
+    "LCSC:C5382597"
+   ],
+   "status": "extracted",
+   "catalog_ids": [
+    "R_4k99_0.1%_0603"
+   ],
+   "file": "passives/resistor/PTFR0603B4K99P9__resi.json",
+   "summary": {
+    "tolerance": {
+     "min": -0.1,
+     "max": 0.1,
+     "unit": "%"
+    },
+    "rated_power": {
+     "value": 0.1,
+     "unit": "W"
+    },
+    "tcr": {
+     "min": -25,
+     "max": 25,
+     "unit": "ppm/degC"
+    },
+    "resistance": {
+     "value": 4990,
+     "unit": "ohm"
+    }
+   }
+  }
+ ]
+}

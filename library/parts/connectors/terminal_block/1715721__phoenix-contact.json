@@ -1,0 +1,222 @@
+{
+ "schema": "part/1",
+ "mpn": "1715721",
+ "mfr": "Phoenix Contact",
+ "category": "connectors/terminal_block",
+ "description": "2 Position Wire to Board Terminal Block Through Hole 5.08mm",
+ "package": "Through Hole,P=5.08mm",
+ "lifecycle": {
+  "status": "unknown"
+ },
+ "datasheets": [
+  {
+   "sha256": "91f50b23c422c69acac6b23d2a7614383f17ebab56b61ad807aa0e286fe4cccd",
+   "file": "1715721_C480516.pdf",
+   "url": "https://jlcpcb.com/partdetail/C480516",
+   "title": "",
+   "revision": ""
+  }
+ ],
+ "datasheet_url": "https://datasheet.lcsc.com/datasheet/pdf/451ddc8e0fd091a5d2c5c858e4388910.pdf?productCode=C480516",
+ "suppliers": [
+  {
+   "name": "LCSC",
+   "sku": "C480516",
+   "url": "https://www.lcsc.com/product-detail/C480516.html",
+   "verified": "2026-10-17"
+  }
+ ],
+ "supplier_params": {
+  "Operating Temperature": "-",
+  "Current Rating": "17.5A",
+  "Number of Positions or Pins": "1x2P",
+  "Voltage Rating (Max)": "250V",
+  "Color": "Green",
+  "Number of Pins": "2P",
+  "Wire Gauge - AWG": "14~30",
+  "Mounting Type": "Through Hole",
+  "Number of PINs Per Row": "2",
+  "Number of Rows": "1",
+  "Pitch": "5.08mm"
+ },
+ "facts": {
+  "summary": {
+   "positions": {
+    "value": 2,
+    "unit": "count",
+    "ref": {
+     "page": 2,
+     "quote": "Number of positions 2",
+     "mode": "raw"
+    }
+   },
+   "pitch": {
+    "value": 5.08,
+    "unit": "mm",
+    "ref": {
+     "page": 1,
+     "quote": "Pitch 5.08 mm",
+     "mode": "raw"
+    }
+   },
+   "rated_current": {
+    "value": 17.5,
+    "unit": "A",
+    "cond": "nominal current IN",
+    "ref": {
+     "page": 1,
+     "quote": "PC terminal block, Nominal current: 17.5 A, Nom. voltage: 250",
+     "mode": "raw"
+    }
+   },
+   "rated_voltage": {
+    "value": 250,
+    "unit": "V",
+    "cond": "nominal voltage UN",
+    "ref": {
+     "page": 1,
+     "quote": "PC terminal block, Nominal current: 17.5 A, Nom. voltage: 250",
+     "mode": "raw"
+    }
+   },
+   "wire_range_max": {
+    "value": 2.5,
+    "unit": "mm2",
+    "cond": "solid conductor",
+    "ref": {
+     "page": 2,
+     "quote": "Conductor cross section solid max. 2.5 mm²",
+     "mode": "raw"
+    }
+   },
+   "type": {
+    "value": "screw connection, PCB solder pins",
+    "unit": "-",
+    "ref": {
+     "page": 1,
+     "quote": "Type of connection:",
+     "mode": "raw"
+    }
+   }
+  },
+  "electrical": {
+   "current": {
+    "max": 22,
+    "unit": "A",
+    "cond": "maximum load current",
+    "ref": {
+     "page": 2,
+     "quote": "Maximum load current 22 A",
+     "mode": "raw"
+    }
+   },
+   "rated_voltage@iii2": {
+    "value": 400,
+    "unit": "V",
+    "cond": "overvoltage category III, pollution degree 2",
+    "ref": {
+     "page": 2,
+     "quote": "Rated voltage (III/2) 400 V",
+     "mode": "raw"
+    }
+   },
+   "rated_voltage@ii2": {
+    "value": 630,
+    "unit": "V",
+    "cond": "overvoltage category II, pollution degree 2",
+    "ref": {
+     "page": 2,
+     "quote": "Rated voltage (II/2) 630 V",
+     "mode": "raw"
+    }
+   }
+  },
+  "package": {
+   "length": {
+    "value": 9.8,
+    "unit": "mm",
+    "ref": {
+     "page": 1,
+     "quote": "Length 9.8 mm",
+     "mode": "raw"
+    }
+   },
+   "height": {
+    "value": 13.8,
+    "unit": "mm",
+    "ref": {
+     "page": 1,
+     "quote": "Height 13.8 mm",
+     "mode": "raw"
+    }
+   },
+   "hole_diameter": {
+    "value": 1.3,
+    "unit": "mm",
+    "cond": "PCB hole; pin 0.9 x 0.9 mm",
+    "ref": {
+     "page": 2,
+     "quote": "Hole diameter 1.3 mm",
+     "mode": "raw"
+    }
+   }
+  },
+  "compliance": {
+   "flammability": {
+    "value": "UL 94 V0",
+    "unit": "-",
+    "ref": {
+     "page": 2,
+     "quote": "Inflammability class acc. to UL 94 V0",
+     "mode": "raw"
+    }
+   },
+   "rohs": {
+    "value": "RoHS since 2003-01-01",
+    "unit": "-",
+    "ref": {
+     "page": 1,
+     "quote": "WEEE/RoHS-compliant since:"
+    }
+   }
+  }
+ },
+ "pins": [],
+ "notes": {
+  "handling": [
+   {
+    "text": "Screw M3, tightening torque 0.5-0.6 Nm; stripping length 7 mm.",
+    "ref": {
+     "page": 2,
+     "quote": "Tightening torque max 0.6 Nm",
+     "mode": "raw"
+    }
+   }
+  ],
+  "layout": [
+   {
+    "text": "Through-hole: pin 0.9 x 0.9 mm square, PCB hole 1.3 mm, pitch 5.08 mm. No pad size is given.",
+    "ref": {
+     "page": 2,
+     "quote": "Pin dimensions 0,9 x 0,9 mm",
+     "mode": "raw"
+    }
+   }
+  ]
+ },
+ "catalog_ids": [
+  "J_MKDS1.5-2-5.08"
+ ],
+ "review": {
+  "status": "extracted",
+  "created": "2026-10-17",
+  "open": [
+   "catalog extract dated 2010 (page 1 footer): check for a newer Phoenix datasheet",
+   "layout-mode text of this PDF is shifted by one line; all quotes use raw mode",
+   "pin numbering is not defined in the datasheet (positions 1-2 by convention)",
+   "no operating temperature in this extract"
+  ],
+  "extracted_by": "Claude (AI) from datasheet page text, parts.py",
+  "extracted": "2026-10-17"
+ }
+}

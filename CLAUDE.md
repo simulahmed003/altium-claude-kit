@@ -7,7 +7,9 @@ Objective (user): automate the work an engineer does by hand in the tools. Syste
 
 ## Non-negotiables
 1. Human gates G1, S1, G2, G3, G4 (`gates.md`) need an explicit user sign-off. Never tick a gate yourself.
-2. Datasheet first: every number about a part comes from a PDF in the project's `docs\datasheets\`. Missing -> ask.
+2. Component database first (RQ-01): every number about a part comes from its record in `library\parts\` (`parts.py get`),
+   which cites the datasheet page. Missing -> fetch the datasheet and extract it into the record (`library\parts\README.md`),
+   then read it from the record. A flaw (check fails, a contradiction, an open review item) -> ask the user.
 3. Calculations in code (`tools\scripts\calclib.py`, `calcs_run.py`), copied to `calcs.md`. Never mental arithmetic.
 4. Reads before writes. Announce every destructive edit and get a yes first.
 5. Never edit `tools\bridge\`, `.mcp.json` or `.claude\` (the user controls those). Never bypass the guard hook.

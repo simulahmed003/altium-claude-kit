@@ -17,7 +17,8 @@ and the copy plans. Only altium-lib writes .SchLib / .PcbLib files.
 | `models/step/`, `models/index.json` | 3D models (STEP) with sha256 and placement offsets | cad_register.py |
 | `models/spice/` | simulation models (planned, roadmap M4) | - |
 | `specs/` | gen_sym.py specs for generic symbols (generic passives) | designer |
-| `facts/` | datasheet facts per catalog part, with page references (planned, roadmap M1) | facts.py + review |
+| `parts/` | component database: one record per orderable part, datasheet facts with page + quote (see `parts/README.md`) | parts.py + extractor + review |
+| `datasheets/index.json` | every datasheet by sha256: file, url, pages, covered MPNs (the PDFs themselves stay out of git) | parts.py |
 | `datasheets/` | local cache of the PDFs the catalog points to (not in git, sha256 in the catalog) | datasheets_fetch.py |
 
 ## Categories

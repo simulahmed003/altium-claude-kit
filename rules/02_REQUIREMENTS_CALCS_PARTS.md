@@ -1,11 +1,12 @@
 # 02 Requirements, calculations, parts
 
-### RQ-01 Datasheet first
-- MUST: take every device number (pinout, rating, land pattern) from a PDF saved in the project's docs\datasheets\ (catalog stores its sha256).
-- MUST NOT: use memory, distributor text or symbol metadata as the source.
-- Why: wrong numbers become wrong hardware.
-- Check: catalog_check.py (datasheet path + sha256 present per component); checklist for each quoted number
-- Source: workspace CLAUDE.md "Datasheet first"
+### RQ-01 Component database first
+- MUST: take every device number (pinout, rating, package, land pattern) from the part's record in library\parts\ (`parts.py get`); each fact cites its datasheet page, quote and PDF sha256.
+- MUST: if the part or the fact is missing, fetch the datasheet and extract it into the record until `parts.py check` passes, then read it from the record. If the record fails check, contradicts its datasheet or another source, or the fact rests on an open review item, stop and ask the user.
+- MUST NOT: use memory, distributor text or symbol metadata as the source; pins, abs max and package are used for G1 only when the record is verified by the user.
+- Why: wrong numbers become wrong hardware; one checked record per part saves opening the PDF in every project.
+- Check: parts.py check (page + quote per fact, units, abs max vs recommended); catalog_check.py (datasheet sha256)
+- Source: workspace CLAUDE.md "Datasheet first"; user 2026-10-17 (database first, fetch and extract when missing, ask on a flaw)
 - Status: ENFORCED
 
 ### RQ-02 Calculations in code

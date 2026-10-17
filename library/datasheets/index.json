@@ -1,0 +1,166 @@
+{
+ "schema": 1,
+ "datasheets": {
+  "11cd644d5d8a34a6d12775afb80bf58d8fc11f0c3b700dbd0f7a59942ceaa5ef": {
+   "file": "0603WAF1002T5E_C25804.pdf",
+   "url": "https://jlcpcb.com/partdetail/C23196",
+   "source": "pre-existing file (buck project, 2026-10-13)",
+   "mfr": "UNI-ROYAL",
+   "title": "",
+   "revision": "",
+   "added": "2026-10-17",
+   "pages": 9,
+   "covers": [
+    "0603WAF1002T5E",
+    "0603WAF1003T5E",
+    "0603WAF5102T5E"
+   ]
+  },
+  "ce6a100ade2073ba8416627461be900b0efb807a330bea476227f7f9128a7ec8": {
+   "file": "PTFR0603B20K0P9_C328424.pdf",
+   "url": "https://jlcpcb.com/partdetail/C5382597",
+   "source": "pre-existing file (buck project, 2026-10-13)",
+   "mfr": "RESI",
+   "title": "",
+   "revision": "",
+   "added": "2026-10-17",
+   "pages": 14,
+   "covers": [
+    "PTFR0603B20K0P9",
+    "PTFR0603B4K99P9"
+   ]
+  },
+  "61a606825ab314ea318cfb5362848a62fdffb851efa9818d642e9a541c56a648": {
+   "file": "CC0603KRX7R9BB104_C14663.pdf",
+   "url": "https://jlcpcb.com/partdetail/C107083",
+   "source": "pre-existing file (buck project, 2026-10-13)",
+   "mfr": "YAGEO",
+   "title": "",
+   "revision": "",
+   "added": "2026-10-17",
+   "pages": 29,
+   "covers": [
+    "CC0603KRX7R9BB104",
+    "CC0603KRX7R9BB224"
+   ]
+  },
+  "705023d3be0454148a96fc2715d249a32d8ff442e70b64d1116d3490ed1d8136": {
+   "file": "1206B106K500NT_C303950.pdf",
+   "url": "https://jlcpcb.com/partdetail/C303950",
+   "source": "pre-existing file (buck project, 2026-10-13)",
+   "mfr": "FH (Guangdong Fenghua)",
+   "title": "",
+   "revision": "",
+   "added": "2026-10-17",
+   "pages": 30,
+   "covers": [
+    "1206B106K500NT"
+   ]
+  },
+  "96baebe4bd0ce363e87be28b5b003f511f1502e084a6fc4f02333ded56c808f6": {
+   "file": "CL10A105KB8NNNC_C15849.pdf",
+   "url": "https://jlcpcb.com/partdetail/C12891",
+   "source": "pre-existing file (buck project, 2026-10-13)",
+   "mfr": "Samsung Electro-Mechanics",
+   "title": "",
+   "revision": "",
+   "added": "2026-10-17",
+   "pages": 84,
+   "covers": [
+    "CL10A105KB8NNNC",
+    "CL31A226KAHNNNE"
+   ]
+  },
+  "ee22421426e1fff8bf42e21087f89242e4e132e2e860821b25834969f647a423": {
+   "file": "CDRH10D60BT150NP-100MC_C2594362.pdf",
+   "url": "https://jlcpcb.com/partdetail/C2594362",
+   "source": "pre-existing file (buck project, 2026-10-13)",
+   "mfr": "Sumida",
+   "title": "",
+   "revision": "",
+   "added": "2026-10-17",
+   "pages": 4,
+   "covers": [
+    "CDRH10D60BT150NP-100MC"
+   ]
+  },
+  "6d64bdd5e55bf71c6a212cbb185259f89788bc28ebaf760a2f37e450b4d8fb9f": {
+   "file": "CSD0910B-100M_C17699381.pdf",
+   "url": "",
+   "source": "pre-existing file (buck project, 2026-10-13)",
+   "mfr": "Codaca",
+   "title": "",
+   "revision": "",
+   "added": "2026-10-17",
+   "pages": 5,
+   "covers": [
+    "CSD0910B-100M"
+   ]
+  },
+  "b0bb64c3af922943a9399cda1e7630936c7637b91c3d097d375050b2ad69eba1": {
+   "file": "AO4407C_C469397.pdf",
+   "url": "https://jlcpcb.com/partdetail/C469397",
+   "source": "pre-existing file (buck project, 2026-10-13)",
+   "mfr": "Alpha & Omega Semiconductor",
+   "title": "",
+   "revision": "",
+   "added": "2026-10-17",
+   "pages": 5,
+   "covers": [
+    "AO4407C"
+   ]
+  },
+  "747519e70105cd648686595995dc8cd25f218d8a0c76f56b1e5ee34755312e0d": {
+   "file": "AO4407A_C16072.pdf",
+   "url": "",
+   "source": "pre-existing file (buck project, 2026-10-13)",
+   "mfr": "Alpha & Omega Semiconductor",
+   "title": "",
+   "revision": "",
+   "added": "2026-10-17",
+   "pages": 4,
+   "covers": [
+    "AO4407A"
+   ]
+  },
+  "3b0920a4e56a0b3f5f214a6317d3c06cff6e541e5054024adc31c30acc50c04a": {
+   "file": "lmr33630.pdf",
+   "url": "https://www.ti.com/lit/ds/symlink/lmr33630.pdf",
+   "source": "pre-existing file (buck project, 2026-10-13)",
+   "mfr": "Texas Instruments",
+   "title": "",
+   "revision": "",
+   "added": "2026-10-17",
+   "pages": 60,
+   "covers": [
+    "LMR33630ADDAR"
+   ]
+  },
+  "91f50b23c422c69acac6b23d2a7614383f17ebab56b61ad807aa0e286fe4cccd": {
+   "file": "1715721_C480516.pdf",
+   "url": "https://jlcpcb.com/partdetail/C480516",
+   "source": "pre-existing file (buck project, 2026-10-13)",
+   "mfr": "Phoenix Contact",
+   "title": "",
+   "revision": "",
+   "added": "2026-10-17",
+   "pages": 6,
+   "covers": [
+    "1715721"
+   ]
+  },
+  "1632b388d1ba3a46c8e8f090ddfec2114c0f538cfb8364ddcda583fee3fdbdc5": {
+   "file": "tps54302.pdf",
+   "url": "",
+   "source": "pre-existing file (buck project, 2026-10-13)",
+   "mfr": "Texas Instruments",
+   "title": "",
+   "revision": "",
+   "added": "2026-10-17",
+   "pages": 32,
+   "covers": [
+    "TPS54302DDCR"
+   ]
+  }
+ }
+}

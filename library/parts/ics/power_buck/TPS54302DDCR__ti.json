@@ -1,0 +1,548 @@
+{
+ "schema": "part/1",
+ "mpn": "TPS54302DDCR",
+ "mfr": "Texas Instruments",
+ "category": "ics/power_buck",
+ "description": "TPS54302 4.5V to 28V Input, 3A Output, EMI-Friendly Synchronous Step-Down Converter",
+ "package": "SOT-23-THIN (DDC), 6 pins",
+ "lifecycle": {
+  "status": "unknown"
+ },
+ "datasheets": [
+  {
+   "sha256": "1632b388d1ba3a46c8e8f090ddfec2114c0f538cfb8364ddcda583fee3fdbdc5",
+   "file": "tps54302.pdf",
+   "url": "",
+   "title": "",
+   "revision": ""
+  }
+ ],
+ "datasheet_url": "",
+ "suppliers": [],
+ "supplier_params": {},
+ "facts": {
+  "summary": {
+   "iout": {
+    "max": 3,
+    "unit": "A",
+    "cond": "continuous output current",
+    "ref": {
+     "page": 1,
+     "quote": "TPS54302 4.5V to 28V Input, 3A Output, EMI-Friendly",
+     "mode": "raw"
+    }
+   },
+   "topology": {
+    "value": "synchronous buck, integrated FETs",
+    "unit": "-",
+    "ref": {
+     "page": 1,
+     "quote": "Synchronous Step-Down Converter",
+     "mode": "raw"
+    }
+   },
+   "package": {
+    "value": "SOT-23-THIN (DDC), 6 pins",
+    "unit": "-",
+    "ref": {
+     "page": 3,
+     "quote": "Figure 4-1. DDC Package 6-Pin SOT-23-THIN (Top View)",
+     "mode": "table"
+    }
+   }
+  },
+  "abs_max": {
+   "vin": {
+    "min": -0.3,
+    "max": 30,
+    "unit": "V",
+    "ref": {
+     "page": 4,
+     "quote": "VIN –0.3 30 V",
+     "mode": "table"
+    }
+   },
+   "voltage@en": {
+    "min": -0.3,
+    "max": 7,
+    "unit": "V",
+    "cond": "EN",
+    "ref": {
+     "page": 4,
+     "quote": "Input voltage, VI EN –0.3 7 V",
+     "mode": "table"
+    }
+   },
+   "voltage@fb": {
+    "min": -0.3,
+    "max": 7,
+    "unit": "V",
+    "cond": "FB",
+    "ref": {
+     "page": 4,
+     "quote": "FB –0.3 7 V",
+     "mode": "table"
+    }
+   },
+   "voltage@boot_sw": {
+    "min": -0.3,
+    "max": 7,
+    "unit": "V",
+    "cond": "BOOT-SW",
+    "ref": {
+     "page": 4,
+     "quote": "BOOT-SW –0.3 7 V",
+     "mode": "table"
+    }
+   },
+   "voltage@sw": {
+    "min": -0.3,
+    "max": 30,
+    "unit": "V",
+    "cond": "SW",
+    "ref": {
+     "page": 4,
+     "quote": "Output voltage, VO SW –0.3 30 V",
+     "mode": "table"
+    }
+   },
+   "voltage@sw_transient": {
+    "min": -5,
+    "max": 30,
+    "unit": "V",
+    "cond": "SW, 20 ns transient",
+    "ref": {
+     "page": 4,
+     "quote": "SW (20ns transient) –5 30 V",
+     "mode": "table"
+    }
+   },
+   "tj": {
+    "min": -40,
+    "max": 150,
+    "unit": "degC",
+    "ref": {
+     "page": 4,
+     "quote": "Operating junction temperature, TJ –40 150 °C",
+     "mode": "table"
+    }
+   },
+   "tstg": {
+    "min": -65,
+    "max": 150,
+    "unit": "degC",
+    "ref": {
+     "page": 4,
+     "quote": "Storage temperature, Tstg –65 150 °C",
+     "mode": "table"
+    }
+   },
+   "esd_hbm": {
+    "value": 2500,
+    "unit": "V",
+    "ref": {
+     "page": 4,
+     "quote": "Human-body model (HBM), per ANSI/ESDA/JEDEC JS-001(1) ±2500",
+     "mode": "table"
+    }
+   }
+  },
+  "recommended": {
+   "vin": {
+    "min": 4.5,
+    "max": 28,
+    "unit": "V",
+    "ref": {
+     "page": 4,
+     "quote": "VIN 4.5 28 V",
+     "mode": "table"
+    }
+   },
+   "voltage@en": {
+    "min": -0.1,
+    "max": 5.5,
+    "unit": "V",
+    "cond": "EN",
+    "ref": {
+     "page": 4,
+     "quote": "VI Input voltage EN –0.1 5.5 V",
+     "mode": "table"
+    }
+   },
+   "voltage@fb": {
+    "min": -0.1,
+    "max": 5.5,
+    "unit": "V",
+    "cond": "FB",
+    "ref": {
+     "page": 4,
+     "quote": "FB –0.1 5.5 V",
+     "mode": "table"
+    }
+   },
+   "voltage@sw": {
+    "min": -0.1,
+    "max": 28,
+    "unit": "V",
+    "cond": "SW",
+    "ref": {
+     "page": 4,
+     "quote": "SW –0.1 28 V",
+     "mode": "table"
+    }
+   },
+   "t_op": {
+    "min": -40,
+    "max": 125,
+    "unit": "degC",
+    "cond": "junction",
+    "ref": {
+     "page": 4,
+     "quote": "TJ Operating junction temperature –40 125 °C",
+     "mode": "table"
+    }
+   }
+  },
+  "electrical": {
+   "vref": {
+    "min": 0.581,
+    "typ": 0.596,
+    "max": 0.611,
+    "unit": "V",
+    "cond": "VIN 12 V, TJ -40 to 125 degC",
+    "ref": {
+     "page": 5,
+     "quote": "VFB Feedback Voltage VIN = 12V 0.581 0.596 0.611 V",
+     "mode": "table"
+    }
+   },
+   "iq": {
+    "typ": 4.5e-05,
+    "unit": "A",
+    "ref": {
+     "page": 5,
+     "quote": "IQ Non switching quiescent current EN = 5V, VFB = 1V 45",
+     "mode": "table"
+    }
+   },
+   "ishdn": {
+    "typ": 2e-06,
+    "unit": "A",
+    "ref": {
+     "page": 5,
+     "quote": "IOFF Shut down current EN = GND 2",
+     "mode": "table"
+    }
+   },
+   "uvlo_rise": {
+    "min": 3.8,
+    "typ": 4.1,
+    "max": 4.4,
+    "unit": "V",
+    "ref": {
+     "page": 5,
+     "quote": "VIN under voltage lockout Rising VIN 3.8 4.1 4.4 V",
+     "mode": "table"
+    }
+   },
+   "uvlo_fall": {
+    "min": 3.3,
+    "typ": 3.6,
+    "max": 3.9,
+    "unit": "V",
+    "ref": {
+     "page": 5,
+     "quote": "VIN(UVLO) Falling VIN 3.3 3.6 3.9 V",
+     "mode": "table"
+    }
+   },
+   "en_threshold": {
+    "typ": 1.23,
+    "max": 1.28,
+    "unit": "V",
+    "cond": "rising",
+    "ref": {
+     "page": 5,
+     "quote": "VENrising Enable threshold Rising 1.23 1.28 V",
+     "mode": "table"
+    }
+   },
+   "en_threshold@falling": {
+    "min": 1.1,
+    "typ": 1.16,
+    "unit": "V",
+    "cond": "falling",
+    "ref": {
+     "page": 5,
+     "quote": "VENfalling Falling 1.1 1.16 V",
+     "mode": "table"
+    }
+   },
+   "rds_on": {
+    "typ": 0.085,
+    "unit": "ohm",
+    "cond": "high-side, 25 degC",
+    "ref": {
+     "page": 5,
+     "quote": "R(HSD) High-side FET on resistance TA = 25°C, VBST – SW = 5V 85",
+     "mode": "table"
+    }
+   },
+   "rds_on@low_side": {
+    "typ": 0.04,
+    "unit": "ohm",
+    "cond": "low-side, 25 degC",
+    "ref": {
+     "page": 5,
+     "quote": "R(LSD) Low-side FET on resistance TA = 25°C, VIN = 12V 40",
+     "mode": "table"
+    }
+   },
+   "ilim": {
+    "min": 4,
+    "typ": 5,
+    "max": 6,
+    "unit": "A",
+    "cond": "peak inductor current",
+    "ref": {
+     "page": 5,
+     "quote": "I(LIM_HS) High-side current limit Maximum inductor peak current 4 5 6 A",
+     "mode": "table"
+    }
+   },
+   "ilim@low_side": {
+    "min": 3.1,
+    "typ": 4,
+    "max": 5.5,
+    "unit": "A",
+    "cond": "valley",
+    "ref": {
+     "page": 5,
+     "quote": "I(LIM_LS) Low-side source current limit Maximum inductor valley current 3.1 4 5.5 A",
+     "mode": "table"
+    }
+   },
+   "fsw": {
+    "min": 290000.0,
+    "typ": 400000.0,
+    "max": 510000.0,
+    "unit": "Hz",
+    "ref": {
+     "page": 5,
+     "quote": "fSW Centre switching frequency 290 400 510 kHz",
+     "mode": "table"
+    }
+   },
+   "tsd": {
+    "typ": 160,
+    "unit": "degC",
+    "cond": "not production tested; hysteresis 10 degC",
+    "ref": {
+     "page": 5,
+     "quote": "Rising temperature 160 °C",
+     "mode": "table"
+    }
+   },
+   "t_ss": {
+    "typ": 0.005,
+    "unit": "s",
+    "ref": {
+     "page": 5,
+     "quote": "tSS Soft-start time 5 ms",
+     "mode": "table"
+    }
+   },
+   "t_on_min": {
+    "typ": 1.1e-07,
+    "unit": "s",
+    "cond": "not production tested",
+    "ref": {
+     "page": 5,
+     "quote": "tMIN_ON (1) Minimum on time, measured at 90% to 90% and 1A 110 ns",
+     "mode": "table"
+    }
+   }
+  },
+  "thermal": {
+   "rth_ja": {
+    "typ": 118.9,
+    "unit": "degC/W",
+    "cond": "JEDEC board",
+    "ref": {
+     "page": 4,
+     "quote": "RθJA Junction-to-ambient thermal resistance 118.9",
+     "mode": "table"
+    }
+   },
+   "rth_ja@evm": {
+    "typ": 57.2,
+    "unit": "degC/W",
+    "cond": "TI EVM board",
+    "ref": {
+     "page": 4,
+     "quote": "RθJA_EVM Junction-to-ambient thermal resistance on official EVM board 57.2",
+     "mode": "table"
+    }
+   },
+   "rth_jb": {
+    "typ": 35.0,
+    "unit": "degC/W",
+    "ref": {
+     "page": 4,
+     "quote": "RθJB Junction-to-board thermal resistance 35.0",
+     "mode": "table"
+    }
+   }
+  }
+ },
+ "pins": [
+  {
+   "number": "1",
+   "name": "GND",
+   "type": "ground",
+   "description": "Ground: low-side FET source and controller ground; connect the feedback ground here at a single point.",
+   "ref": {
+    "page": 3,
+    "quote": "GND 1 6 BOOT",
+    "mode": "table"
+   }
+  },
+  {
+   "number": "2",
+   "name": "SW",
+   "type": "power",
+   "description": "Switch node between the high-side and low-side FETs.",
+   "ref": {
+    "page": 3,
+    "quote": "SW 2 5 EN",
+    "mode": "table"
+   }
+  },
+  {
+   "number": "3",
+   "name": "VIN",
+   "type": "power",
+   "description": "Input supply; drain of the high-side FET.",
+   "ref": {
+    "page": 3,
+    "quote": "VIN 3 4 FB",
+    "mode": "table"
+   }
+  },
+  {
+   "number": "4",
+   "name": "FB",
+   "type": "input",
+   "description": "Feedback input from the output divider.",
+   "ref": {
+    "page": 3,
+    "quote": "VIN 3 4 FB",
+    "mode": "table"
+   }
+  },
+  {
+   "number": "5",
+   "name": "EN",
+   "type": "input",
+   "description": "Enable; float to enable (internal pull-up current).",
+   "ref": {
+    "page": 3,
+    "quote": "SW 2 5 EN",
+    "mode": "table"
+   }
+  },
+  {
+   "number": "6",
+   "name": "BOOT",
+   "type": "power",
+   "description": "High-side gate-drive supply: 0.1 uF between BOOT and SW.",
+   "ref": {
+    "page": 3,
+    "quote": "GND 1 6 BOOT",
+    "mode": "table"
+   }
+  }
+ ],
+ "notes": {
+  "application": [
+   {
+    "text": "Input: ceramic decoupling capacitor over 10 uF; optional 0.1 uF VIN-GND for high frequency; voltage rating above the maximum input.",
+    "ref": {
+     "page": 15,
+     "quote": "TI recommends a ceramic capacitor over 10µF for the decoupling capacitor.",
+     "mode": "raw"
+    }
+   },
+   {
+    "text": "Feedback: R2 (top) about 100 k; TI's 5 V example uses R2 100 k and R3 13.3 k (VREF 0.596 V typ).",
+    "ref": {
+     "page": 15,
+     "quote": "Select a value of R2 to be approximately 100kΩ.",
+     "mode": "raw"
+    }
+   },
+   {
+    "text": "Inductor: LMIN = VIN(MAX) x KIND x IOUT x fsw relation (Equation in 7.2.3); KIND = ripple / max output current.",
+    "ref": {
+     "page": 16,
+     "quote": "KIND is a coefficient that represents the amount of inductor ripple current relative to the maximum output",
+     "mode": "raw"
+    }
+   },
+   {
+    "text": "EN has an internal pull-up current: floating EN enables the device.",
+    "ref": {
+     "page": 10,
+     "quote": "The EN pin has an internal pullup-current source which allows the user to float the EN pin to enable the device.",
+     "mode": "raw"
+    }
+   },
+   {
+    "text": "If the supply is more than a few inches away, add bulk capacitance (47 uF electrolytic typical).",
+    "ref": {
+     "page": 21,
+     "quote": "An electrolytic capacitor with a",
+     "mode": "raw"
+    }
+   }
+  ],
+  "layout": [
+   {
+    "text": "VIN and GND traces as wide as possible; input and output capacitors as close to the device as possible with sufficient vias.",
+    "ref": {
+     "page": 21,
+     "quote": "The VIN and GND traces should be as wide as possible to reduce trace impedance.",
+     "mode": "raw"
+    }
+   },
+   {
+    "text": "SW trace short and wide; no switching current under the device.",
+    "ref": {
+     "page": 21,
+     "quote": "Do not allow switching current to flow under the device.",
+     "mode": "raw"
+    }
+   },
+   {
+    "text": "Separate VOUT sense path to the upper feedback resistor; Kelvin connection to GND for the feedback; keep the feedback away from SW, preferably shielded by ground.",
+    "ref": {
+     "page": 21,
+     "quote": "Make a Kelvin connection to the GND pin for the feedback path.",
+     "mode": "raw"
+    }
+   }
+  ]
+ },
+ "catalog_ids": [],
+ "review": {
+  "status": "extracted",
+  "created": "2026-10-17",
+  "open": [
+   "not in the catalog: buck-12v-5v-3a candidate, rejected for its +/-2.5 % reference (PROJECT.md 2026-10-13 stage 4)",
+   "summary.iout is taken from the title line; the recommended table has no IOUT row",
+   "datasheet source URL unknown (file from the buck project)"
+  ],
+  "extracted_by": "Claude (AI) from datasheet page text, parts.py",
+  "extracted": "2026-10-17"
+ }
+}

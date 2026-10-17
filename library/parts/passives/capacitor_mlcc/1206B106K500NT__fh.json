@@ -1,0 +1,175 @@
+{
+ "schema": "part/1",
+ "mpn": "1206B106K500NT",
+ "mfr": "FH (Guangdong Fenghua)",
+ "category": "passives/capacitor_mlcc",
+ "description": "10uF ±10% 50V Ceramic Capacitor X7R 1206",
+ "package": "1206",
+ "lifecycle": {
+  "status": "unknown"
+ },
+ "datasheets": [
+  {
+   "sha256": "705023d3be0454148a96fc2715d249a32d8ff442e70b64d1116d3490ed1d8136",
+   "file": "1206B106K500NT_C303950.pdf",
+   "url": "https://jlcpcb.com/partdetail/C303950",
+   "title": "",
+   "revision": ""
+  }
+ ],
+ "datasheet_url": "https://datasheet.lcsc.com/datasheet/pdf/09fe2daf22580a99fa7fea93ccb20fb7.pdf?productCode=C303950",
+ "suppliers": [
+  {
+   "name": "LCSC",
+   "sku": "C303950",
+   "url": "https://www.lcsc.com/product-detail/C303950.html",
+   "verified": "2026-10-17"
+  }
+ ],
+ "supplier_params": {
+  "Capacitance": "10uF",
+  "Temperature Coefficient": "X7R",
+  "Tolerance": "±10%",
+  "Voltage Rating": "50V"
+ },
+ "facts": {
+  "summary": {
+   "capacitance": {
+    "value": 1e-05,
+    "unit": "F",
+    "derivation": "MPN code 106 = 10 x 10^6 pF",
+    "ref": {
+     "page": 4,
+     "quote": "denotes number of zeros;",
+     "mode": "table"
+    }
+   },
+   "tolerance": {
+    "min": -10,
+    "max": 10,
+    "unit": "%",
+    "derivation": "MPN code K",
+    "ref": {
+     "page": 4,
+     "quote": "K ±10%",
+     "mode": "table"
+    }
+   },
+   "rated_voltage": {
+    "value": 50,
+    "unit": "V",
+    "derivation": "MPN code 500 = 50 x 10^0",
+    "ref": {
+     "page": 4,
+     "quote": "500 50×100",
+     "mode": "table"
+    }
+   },
+   "dielectric": {
+    "value": "X7R",
+    "unit": "-",
+    "derivation": "MPN code B",
+    "ref": {
+     "page": 4,
+     "quote": "B X7R",
+     "mode": "layout"
+    }
+   }
+  },
+  "recommended": {
+   "t_op": {
+    "min": -55,
+    "max": 125,
+    "unit": "degC",
+    "ref": {
+     "page": 5,
+     "quote": "X7R 25°C ±15% -55℃～125℃",
+     "mode": "table"
+    }
+   }
+  },
+  "package": {
+   "length": {
+    "min": 2.9,
+    "typ": 3.2,
+    "max": 3.5,
+    "unit": "mm",
+    "ref": {
+     "page": 5,
+     "quote": "1206 3216 3.20±0.30 1.60±0.30 1.25±0.25 0.60±0.30 FB",
+     "mode": "table"
+    }
+   },
+   "width": {
+    "min": 1.3,
+    "typ": 1.6,
+    "max": 1.9,
+    "unit": "mm",
+    "ref": {
+     "page": 5,
+     "quote": "1206 3216 3.20±0.30 1.60±0.30 1.25±0.25 0.60±0.30 FB",
+     "mode": "table"
+    }
+   },
+   "height": {
+    "min": 1.3,
+    "typ": 1.6,
+    "max": 1.9,
+    "unit": "mm",
+    "cond": "size code FC",
+    "ref": {
+     "page": 5,
+     "quote": "1.60±0.30 FC",
+     "mode": "table"
+    }
+   }
+  },
+  "ordering": {
+   "package": {
+    "value": "FC",
+    "unit": "-",
+    "cond": "1206 X7R table p12, 10 uF row: size code FC in every voltage column",
+    "ref": {
+     "page": 12,
+     "quote": "10μF FC FC FC FC FC",
+     "mode": "table"
+    }
+   }
+  }
+ },
+ "pins": [],
+ "notes": {
+  "layout": [
+   {
+    "text": "Recommended reflow pad for 1206: A 1.90-2.10, B 1.00-1.30, C 1.60-1.90 mm (letters defined in the figure on p28).",
+    "ref": {
+     "page": 28,
+     "quote": "1206 3.20±0.30 1.60±0.30 1.90~2.10 1.00~1.30 1.60~1.90",
+     "mode": "table"
+    }
+   }
+  ],
+  "handling": [
+   {
+    "text": "Reflow preheat: keep the difference between solder temperature and chip surface temperature <= 150 degC.",
+    "ref": {
+     "page": 28,
+     "quote": "please keep the temperature difference between soldering temperature and surface temperature of chips"
+    }
+   }
+  ]
+ },
+ "catalog_ids": [
+  "C_10u_50V_X7R_1206"
+ ],
+ "review": {
+  "status": "extracted",
+  "created": "2026-10-17",
+  "open": [
+   "no DC-bias derating curve in this datasheet: effective capacitance at 12 V unknown (needed by calcs)",
+   "pad letters A-C: read the figure on p28"
+  ],
+  "extracted_by": "Claude (AI) from datasheet page text, parts.py",
+  "extracted": "2026-10-17"
+ }
+}

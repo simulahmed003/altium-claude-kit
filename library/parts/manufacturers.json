@@ -1,0 +1,16 @@
+{
+ "schema": 1,
+ "about": "Canonical manufacturer names. parts.py maps any alias (case-insensitive) to the canonical name and uses 'slug' in file names. Add a manufacturer when a part needs it.",
+ "manufacturers": {
+  "Texas Instruments": {"slug": "ti", "aliases": ["TI", "Texas Instruments Inc."]},
+  "Alpha & Omega Semiconductor": {"slug": "aos", "aliases": ["AOS", "Alpha & Omega Semicon", "Alpha and Omega Semiconductor"]},
+  "Samsung Electro-Mechanics": {"slug": "samsung-em", "aliases": ["SAMSUNG", "Samsung", "Samsung Electro-Mechanics Co."]},
+  "YAGEO": {"slug": "yageo", "aliases": ["Yageo"]},
+  "UNI-ROYAL": {"slug": "uni-royal", "aliases": ["Uniroyal Elec", "UNI-ROYAL(Uniroyal Elec)", "Uniroyal"]},
+  "FH (Guangdong Fenghua)": {"slug": "fh", "aliases": ["FH", "Guangdong Fenghua Advanced Tech"]},
+  "RESI": {"slug": "resi", "aliases": ["Resi"]},
+  "Sumida": {"slug": "sumida", "aliases": ["SUMIDA"]},
+  "Codaca": {"slug": "codaca", "aliases": ["CODACA"]},
+  "Phoenix Contact": {"slug": "phoenix-contact", "aliases": ["PHOENIX CONTACT"]}
+ }
+}
