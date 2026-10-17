@@ -76,6 +76,10 @@ rules version in their `project.json`.
 | `altium-lib` cannot write a library | The file is open in Altium (close it), or the folder is not in `allowed_paths` (step 4). |
 
 ## Upgrading an install from altium-claude-workspace
+Fastest way: close Altium and Claude Code, then run `python migrate_from_workspace.py` (from `tools\` of the kit, or downloaded on its own)
+in an Administrator terminal. It does every step below, backs up each file it changes, and runs setup and selftest.
+Use `--dry-run` first to see the plan.
+
 The folders were renamed on 2026-10-17 (rules 1.1.1): `_rules` → `rules`, `_tools` → `tools`, `_global` → `library`,
 `_guidelines` → `guidelines`, `_logs` → `logs`, `_tools/templates` → `templates`. Run `tools\setup.ps1` again so the hook,
 `.mcp.json` and the kill-switch shortcut point to the new paths, change `allowed_paths` (step 4) to `.../library`, and move
