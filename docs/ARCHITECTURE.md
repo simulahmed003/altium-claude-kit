@@ -16,6 +16,7 @@ once someone tests them.
 | Playbooks | `rules/playbooks/` | tested step lists for recurring tasks | reviewed PR |
 | Skills | `.claude/skills/` | per-phase entry points: goal, what to load, how to judge | reviewed PR |
 | Guidelines | `guidelines/` | WHAT a good design needs (system-level limits), draft | maintainer approves each |
+| User standards | `standards/local/` (git-ignored) | one user's or company's house style and policies | that user (docs/DESIGN_STANDARDS.md) |
 | Checkers and generators | `tools/scripts/` | anything deterministic: checks, calcs, plans, BOM | PR with tests |
 | Altium bridge | `tools/bridge/`, hook | one live script engine, kill switch, popups | PR tested on real Altium |
 | Global library | `library/` | catalog, category libraries, revisions, hashes | `lib_promote.py` after G1 |
@@ -72,7 +73,7 @@ entry, because the entry cites the page and the PDF hash; the PDF is opened only
 2. One skill, one rule-file set, one playbook per phase (`rules/00_INDEX.md` "Read before each phase").
 3. Facts by section, not PDFs.
 4. Scripts print PASS/FAIL summaries; full output goes to `ai/review/`.
-5. A correction made twice becomes a rule or a check (WF-04), not a longer prompt.
+5. A correction made twice becomes a rule or a check (WF-04), not a longer prompt. Feedback is logged and harvested at each gate (WF-08, docs/RULE_FEEDBACK_LOOP.md).
 
 ## Contributions
 Humans and their AI assistants contribute the same way: one topic per PR, evidence for every value, checks pass.

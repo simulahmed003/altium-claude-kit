@@ -1,0 +1,2 @@
+{"date": "2026-10-13", "phase": "schematic", "gate": "S1", "kind": "correction", "what": "power ports placed at the bottom of the sheet", "feedback": "rails go at the top, GND at the bottom", "fix": "moved VIN/5V ports up", "rules": ["SCH-A"], "cause": "house-style", "evidence": "ai/review/S1_evidence.md"}
+{"date": "2026-10-13", "phase": "library", "gate": "G1", "kind": "improvement", "what": "test pad 1.0 mm", "feedback": "use 1.5 mm pads, my probes slip on 1.0 mm", "fix": "TP_PAD_D1.5", "rules": [], "cause": "equipment", "evidence": "library/catalog/components.md"}
