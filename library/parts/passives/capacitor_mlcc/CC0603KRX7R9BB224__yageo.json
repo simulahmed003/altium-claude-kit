@@ -166,13 +166,31 @@
   "C_220n_50V_X7R_0603"
  ],
  "review": {
-  "status": "extracted",
+  "status": "verified",
   "created": "2026-10-17",
   "open": [
    "dimension code DA read from the 50 V column of table 3 (p5); confirm the column on the PDF"
   ],
   "extracted_by": "Claude (AI) from datasheet page text, parts.py",
-  "extracted": "2026-10-17"
+  "extracted": "2026-10-17",
+  "person_checks": {
+   "pins": {
+    "by": "Simul",
+    "date": "2026-10-17"
+   },
+   "abs_max": {
+    "by": "Simul",
+    "date": "2026-10-17"
+   },
+   "package": {
+    "by": "Simul",
+    "date": "2026-10-17"
+   },
+   "visual": {
+    "by": "Simul",
+    "date": "2026-10-17"
+   }
+  }
  },
  "datasheet_urls": [
   {

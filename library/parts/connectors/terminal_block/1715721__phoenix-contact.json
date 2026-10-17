@@ -207,7 +207,7 @@
   "J_MKDS1.5-2-5.08"
  ],
  "review": {
-  "status": "extracted",
+  "status": "verified",
   "created": "2026-10-17",
   "open": [
    "catalog extract dated 2010 (page 1 footer): check for a newer Phoenix datasheet",
@@ -216,7 +216,25 @@
    "no operating temperature in this extract"
   ],
   "extracted_by": "Claude (AI) from datasheet page text, parts.py",
-  "extracted": "2026-10-17"
+  "extracted": "2026-10-17",
+  "person_checks": {
+   "pins": {
+    "by": "Simul",
+    "date": "2026-10-17"
+   },
+   "abs_max": {
+    "by": "Simul",
+    "date": "2026-10-17"
+   },
+   "package": {
+    "by": "Simul",
+    "date": "2026-10-17"
+   },
+   "visual": {
+    "by": "Simul",
+    "date": "2026-10-17"
+   }
+  }
  },
  "datasheet_urls": [
   {
