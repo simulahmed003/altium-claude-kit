@@ -9,9 +9,10 @@ Usage (close Altium Designer and every Claude Code window first):
 What it does, in order (every changed file is backed up under <root>\\migration_backup\\<time>\\ first):
   1 git: point origin to altium-claude-kit and fast-forward to its main (refuses on uncommitted tracked changes).
   2 move local, git-ignored files to the new folders: _tools\\mcp, _tools\\libraries, _logs\\*, _global\\datasheets\\*.pdf.
-  3 rewrite old paths in each projects\\<name>\\ text file (project.json, *.md, ai\\*.json) and in
+  3 rewrite old paths in each projects\\<name>\\ text file (project.json, *.md, ai\\*.json), in
+    .claude\\settings.json (guard hook path, deny list) and in
     %USERPROFILE%\\.altium-designer-mcp\\config.json (allowed_paths, audit log).
-  4 run tools\\setup.ps1 (rewrites .mcp.json, the hook in .claude\\settings.json and the kill-switch shortcut).
+  4 run tools\\setup.ps1 (rewrites .mcp.json and the kill-switch shortcut; it leaves an existing settings.json alone).
   5 run tools\\selftest.py.
 Standard library only. Exit code 0 = done, 1 = stopped with a message.
 """
@@ -68,7 +69,10 @@ class Migration:
 
     def save_backup(self, path):
         path = os.path.abspath(path)
-        inside = os.path.commonpath([path, self.root]) == self.root
+        try:
+            inside = os.path.commonpath([path, self.root]) == self.root
+        except ValueError:                  # another drive (C:\Users\... config while the root is on D:)
+            inside = False
         rel = os.path.relpath(path, self.root) if inside else os.path.join("outside", os.path.basename(path))
         dst = os.path.join(self.backup, rel)
         os.makedirs(os.path.dirname(dst), exist_ok=True)
@@ -117,11 +121,13 @@ class Migration:
                 if dp == proj:
                     continue                    # projects\README.md belongs to the kit repo
                 files += [os.path.join(dp, f) for f in fns if f.lower().endswith(TEXT_EXT)]
+        if os.path.isfile(self.p(".claude", "settings.json")):
+            files.append(self.p(".claude", "settings.json"))     # setup.ps1 never rewrites an existing one
         if self.mcp_config and os.path.isfile(self.mcp_config):
             files.append(os.path.abspath(self.mcp_config))
         for f in files:
             try:
-                s = open(f, encoding="utf-8").read()
+                s = open(f, encoding="utf-8", newline="").read()
             except (UnicodeDecodeError, OSError):
                 continue
             if rewrite(s) != s:
@@ -175,7 +181,7 @@ class Migration:
                 print(f"  moved {os.path.relpath(src, self.root)}")
             elif kind == "rewrite":
                 self.save_backup(arg)
-                s = open(arg, encoding="utf-8").read()
+                s = open(arg, encoding="utf-8", newline="").read()   # keep CRLF as it was
                 with open(arg, "w", encoding="utf-8", newline="") as f:
                     f.write(rewrite(s))
                 print(f"  rewrote {arg}")

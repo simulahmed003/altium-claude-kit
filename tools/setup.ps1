@@ -92,7 +92,11 @@ Section 'Embedded Society: altium-designer-mcp (offline libraries)' {
 
 Section 'coffeenmusic: altium-mcp (live PCB bridge)' {
     $dest = Join-Path $Mcp 'altium-mcp'
-    if (Test-Path (Join-Path $dest '.git')) { Run 'git' @('pull', '--ff-only') $dest }
+    if (Test-Path (Join-Path $dest '.git')) {
+        # Sandbox.pas is scratch that run_altium_script rewrites on every call; a local copy blocks the pull
+        Run 'git' @('checkout', '--', 'server/SandboxScript/Sandbox.pas') $dest
+        Run 'git' @('pull', '--ff-only') $dest
+    }
     else { Run 'git' @('clone', '--depth', '1', 'https://github.com/coffeenmusic/altium-mcp', $dest) $Mcp }
     $start = Join-Path $dest 'start_server.py'
     if (-not (Test-Path $start)) { throw 'start_server.py missing - the repository layout changed' }
