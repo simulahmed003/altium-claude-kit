@@ -17,18 +17,23 @@ quote (RQ-01). A part or fact that is missing is added first, then read from the
 
 ## Approach
 1. `parts.py find <mpn or C-number>`. Found and PASS: read only the section needed (`parts.py get <mpn> --section abs_max`).
-2. Not found: `parts.py new --lcsc C123` (or offline `--mpn --mfr --category`), `parts.py fetch <mpn>` (prefer the
-   maker's PDF), `parts.py locate <mpn>`, then extract per README step 5: every required fact, pins with the exposed pad,
+2. Not found: `parts.py new --lcsc C123` (or offline `--mpn --mfr --category`), `parts.py fetch <mpn> --project <p>`
+   (maker's website first for the English original, LCSC second; downloads need no question), `parts.py locate <mpn>`, then extract per README step 5: every required fact, pins with the exposed pad,
    abs max, recommended, package and land pattern, application, layout and firmware notes, each with page and quote.
 3. Found but the needed fact is missing: fetch the datasheet if it is not on disk, extract that fact into the record.
 4. `parts.py check <mpn>` until PASS, then `parts.py index`. Read the number from the record, not from your notes.
 5. Values the text layer lacks: read the page image, mark `visual`, add to `review.open`.
+6. The project's PDFs stay local in `docs/datasheets/`: `parts.py datasheet <parts> --project <p>` (or `--manifest`)
+   copies them from the library cache or `--search` folders, else downloads from the record's link. Never commit a PDF.
+7. Extracted records may be used while designing. Before G1 the user checks pins, abs max, package and every visual
+   value and records it with `parts.py verify`; `parts.py check --gate` must PASS.
 
 ## Stop and ask the user (do not guess) when
 - `parts.py check` fails and the cause is in the datasheet itself (missing page, unreadable table)
 - the datasheet contradicts itself, another datasheet, the supplier data or the catalog
+- a downloaded datasheet has another sha256 than recorded (the maker revised it)
 - the decision rests on an open `review.open` item or a `visual` value
-- pins, abs max or package are needed for G1 and the record is not `verified`
+- G1 is next and `parts.py check --gate` fails (pins, abs max, package or visual values not checked by the user)
 State the part, the fact, the pages and the options, and wait.
 
 ## Exit checks
@@ -36,8 +41,8 @@ State the part, the fact, the pages and the options, and wait.
 |---|---|---|
 | record valid | `parts.py check <mpn>` | PASS |
 | index current | `parts.py index` | the part is found by `parts.py find` |
-| G1 ready | record `review.status` | `verified` for pins, abs max, package |
+| G1 ready | `parts.py check --gate` | PASS |
 
 ## Write back
-- the record, `library/datasheets/index.json`, `library/parts/index.json` (never the PDF)
+- the record, `library/datasheets/index.json`, `library/parts/index.json` (never a PDF, in any repo)
 - `PROJECT.md`: parts added and any open questions to the user

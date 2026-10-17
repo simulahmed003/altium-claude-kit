@@ -17,7 +17,6 @@
    "revision": ""
   }
  ],
- "datasheet_url": "https://datasheet.lcsc.com/datasheet/pdf/09fe2daf22580a99fa7fea93ccb20fb7.pdf?productCode=C303950",
  "suppliers": [
   {
    "name": "LCSC",
@@ -171,5 +170,15 @@
   ],
   "extracted_by": "Claude (AI) from datasheet page text, parts.py",
   "extracted": "2026-10-17"
- }
+ },
+ "datasheet_urls": [
+  {
+   "source": "lcsc",
+   "url": "https://datasheet.lcsc.com/datasheet/pdf/09fe2daf22580a99fa7fea93ccb20fb7.pdf?productCode=C303950"
+  },
+  {
+   "source": "jlcpcb",
+   "url": "https://jlcpcb.com/partdetail/C303950"
+  }
+ ]
 }

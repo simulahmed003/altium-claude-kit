@@ -61,15 +61,17 @@ Conventions:
 - A value decoded from the part number gives the decoding rule as the quote and the arithmetic in `derivation`.
 - Abs max and recommended never mix. `check` fails a recommended max above the abs max.
 
-## Workflow: the first time a project meets a part
-1. `parts.py find <mpn or C-number>` - already there? Use it (read sections with `parts.py get <mpn> --section abs_max`).
+## Workflow: the first time a project meets a part (rule RQ-01)
+1. `parts.py find <mpn or C-number>` - already there? Read it: `parts.py get <mpn> --section abs_max`. Stop here.
 2. `parts.py new --lcsc C123` (or `--mpn --mfr --category` offline). LCSC gives MPN, maker, package, description,
-   parameters and the datasheet link; the maker name is mapped to its canonical name.
-3. `parts.py fetch <mpn>` downloads the datasheet (or `--file` for a PDF you already have), records its sha256 and
-   pages, and builds the page text. Prefer the maker's PDF over a distributor copy when both exist (`--url`).
+   parameters and its datasheet link; the maker name is mapped to its canonical name. LCSC is the default supplier.
+3. Datasheet: the maker's website first (good English version), LCSC second.
+   `parts.py fetch <mpn> --url <maker PDF> --project projects\<name>` downloads it, records its sha256 and pages,
+   builds the page text and puts a copy in the project's `docs\datasheets\`. Without `--url` the record's links are
+   tried, maker first. A PDF you already have: `--file`. PDFs are never committed (project template `.gitignore`).
 4. `parts.py locate <mpn>` lists the pages per section. `parts.py text <mpn> --pages 5-6 --mode table` shows them.
    Read tables in `raw` or `table` mode: `layout` mode can move a value onto the wrong row.
-5. The extractor (an AI agent or a person) writes facts, pins and notes with page and quote. What to extract:
+5. The extractor (an AI agent or a person) writes facts, pins and notes with page and quote:
    - every `required` fact of the family, plus pins (with the exposed pad), abs max, recommended, key electrical,
      thermal, package dimensions and the datasheet's recommended land pattern;
    - application notes: required external parts, equations and the maker's example values;
@@ -77,12 +79,21 @@ Conventions:
    - software notes for parts with an interface: address, registers, timing.
    When the text layer lacks a value, read the page image, mark `visual: true`, and add it to `review.open`.
    Do not take a table that only looks like a land pattern (YAGEO's bend-test board): say so in a note.
-6. `parts.py check <mpn>` until PASS: schema, units, every quote found on its page, abs max vs recommended,
-   required facts. Set `review.status` to `extracted`.
-7. A person verifies pins, abs max and package against the PDF (and every `visual` value), then sets `verified`
-   with name and date. Design work reads numbers from the record (rule RQ-01); pins, abs max and package must be `verified` before G1.
+6. `parts.py check <mpn>` until PASS; `review.status` = `extracted`. Extracted values may be used while designing.
+7. Before G1 a person checks pins, abs max, package and every visual value against the PDF:
+   `parts.py verify <mpn> --by <name> --items pins abs_max package visual` (all four = `verified`).
+   `parts.py check --gate` fails any part still missing a person check.
 8. `parts.py index`. Commit the record, `datasheets\index.json` and `parts\index.json` (never the PDF).
 9. Price and stock: `parts.py market <mpn>` at BOM time (rule RQ-04). The snapshot is local and dated.
+
+## Datasheets in a project
+A project keeps the PDFs of its parts in `docs\datasheets\`, local only. On a new machine or a new project:
+`parts.py datasheet <mpn or catalog id ...> --project projects\<name>` (or `--manifest` for every part in
+`libs\lib_manifest.json`). It copies the PDF from `library\datasheets\` or a folder given with `--search`, else downloads
+it from the record's links (maker first) and keeps it only when the sha256 matches the record. A different sha256 means the
+maker revised the datasheet: nothing is saved, and the user decides whether to re-extract the part from the new revision.
+Removing PDFs breaks no check, but quotes can then only be checked while the page-text cache (`datasheets\_text\`) exists;
+`parts.py check` reports quotes it could not check and `--strict` fails them.
 
 ## Status on 2026-10-17
 17 parts from the buck-12v-5v-3a datasheets (12 PDFs), all `extracted`, `parts.py check` 17 PASS, 65 values marked

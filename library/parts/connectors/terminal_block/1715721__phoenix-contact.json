@@ -17,7 +17,6 @@
    "revision": ""
   }
  ],
- "datasheet_url": "https://datasheet.lcsc.com/datasheet/pdf/451ddc8e0fd091a5d2c5c858e4388910.pdf?productCode=C480516",
  "suppliers": [
   {
    "name": "LCSC",
@@ -218,5 +217,15 @@
   ],
   "extracted_by": "Claude (AI) from datasheet page text, parts.py",
   "extracted": "2026-10-17"
- }
+ },
+ "datasheet_urls": [
+  {
+   "source": "lcsc",
+   "url": "https://datasheet.lcsc.com/datasheet/pdf/451ddc8e0fd091a5d2c5c858e4388910.pdf?productCode=C480516"
+  },
+  {
+   "source": "jlcpcb",
+   "url": "https://jlcpcb.com/partdetail/C480516"
+  }
+ ]
 }

@@ -17,7 +17,6 @@
    "revision": ""
   }
  ],
- "datasheet_url": "https://datasheet.lcsc.com/datasheet/pdf/a9fc243185b3d8658039a6c3f8a8d047.pdf?productCode=C841384",
  "suppliers": [
   {
    "name": "LCSC",
@@ -662,5 +661,15 @@
   ],
   "extracted_by": "Claude (AI) from datasheet page text, parts.py",
   "extracted": "2026-10-17"
- }
+ },
+ "datasheet_urls": [
+  {
+   "source": "lcsc",
+   "url": "https://datasheet.lcsc.com/datasheet/pdf/a9fc243185b3d8658039a6c3f8a8d047.pdf?productCode=C841384"
+  },
+  {
+   "source": "maker",
+   "url": "https://www.ti.com/lit/ds/symlink/lmr33630.pdf"
+  }
+ ]
 }

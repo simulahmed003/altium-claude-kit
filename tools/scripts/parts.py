@@ -12,13 +12,19 @@ Commands:
   find <text> [--category c]           search the index (mpn, mfr, supplier sku, description, category)
   new --mpn M --mfr F --category c/f [--lcsc C123] [--package P] [--description D]   offline skeleton
   new --lcsc C123 [--category c/f]     online: mpn, mfr, package, description, supplier params and datasheet url from LCSC
-  fetch <mpn> [--url U | --file PDF]   download (or register a local) datasheet: sha256, datasheets\\index.json, link
+  fetch <mpn> [--url U | --file PDF] [--project P]   download (maker's link first, then LCSC) or register a
+                                       local datasheet: sha256, datasheets\\index.json; --project also copies it there
+  datasheet <mpn|catalog id ...> --project P [--manifest] [--search DIR ...]   put each part's PDF into
+                                       P\\docs\\datasheets (local only, never committed): copy from the library cache
+                                       or DIR, else download; a PDF with another hash is not saved (revised: ask the user)
+  verify <mpn> --by NAME --items pins abs_max package visual   record what a person checked against the PDF
   text <mpn> [--pages 3-5] [--grep RE] [--mode layout|raw|table]   page text for the extractor; --grep lists
                                        matching pages; raw keeps a table row on one line (quote the row label with it)
   locate <mpn>                         pages that hold each section (abs max, recommended, pins, package, layout ...)
   market <mpn>                         refresh LCSC price and stock into market\\ (RQ-04: check at BOM time)
   get <mpn> [--section S]              print a record or one section (market snapshot shown with its date)
-  check [<mpn> ...] [--strict]         schema, taxonomy, units, every quote found on its cited page, abs max vs recommended
+  check [<mpn> ...] [--strict] [--gate]   schema, taxonomy, units, every quote found on its cited page, abs max
+                                       vs recommended; --gate also fails missing person checks (before G1)
   index                                rebuild parts\\index.json
   status                               counts by category and review status
 Facts are written by the extractor (an AI agent or a person) from the page text; this script never invents a value.
@@ -399,7 +405,7 @@ def cmd_new(a):
         print(f"FAIL category {a.category} not in taxonomy.json (category/family)")
         return 1
     rec = {"schema": SCHEMA, "mpn": mpn, "mfr": mfr, "category": a.category, "description": desc, "package": package,
-           "lifecycle": {"status": "unknown"}, "datasheets": [], "datasheet_url": ds_url, "suppliers": sup,
+           "lifecycle": {"status": "unknown"}, "datasheets": [], "datasheet_urls": [{"source": "lcsc", "url": ds_url}] if ds_url else [], "suppliers": sup,
            "supplier_params": params, "facts": {}, "pins": [], "notes": {}, "catalog_ids": [],
            "review": {"status": "draft", "created": today(), "open": []}}
     path = record_path(rec)
@@ -407,32 +413,73 @@ def cmd_new(a):
         print(f"FAIL exists: {os.path.relpath(path, lib_root())}")
         return 1
     save_json(path, rec)
-    print(f"created {os.path.relpath(path, lib_root())}" + (f"; datasheet url from LCSC: {ds_url}" if ds_url else ""))
+    print(f"created {os.path.relpath(path, lib_root())}" + ("; LCSC datasheet link stored. Look for the maker's PDF "
+          "first (good English version) and fetch it with --url" if ds_url else ""))
     return 0
+
+
+def url_source(url):
+    u = url.lower()
+    return "lcsc" if "lcsc.com" in u else "jlcpcb" if "jlcpcb.com" in u else "maker"
+
+
+def url_candidates(r):
+    """Datasheet links of a record in download order: the maker's site first (good English version), then LCSC/JLCPCB."""
+    urls = [(u.get("source") or url_source(u["url"]), u["url"]) for u in r.get("datasheet_urls", []) if u.get("url")]
+    urls += [(url_source(d["url"]), d["url"]) for d in r.get("datasheets", []) if d.get("url")]
+    order = {"maker": 0, "lcsc": 1, "jlcpcb": 2}
+    seen, out = set(), []
+    for src, u in sorted(urls, key=lambda x: order.get(x[0], 3)):
+        if u not in seen:
+            seen.add(u)
+            out.append((src, u))
+    return out
+
+
+def download_pdf(url):
+    """PDF bytes from a direct link or a JLCPCB part page (signed link read from the page)."""
+    links = [url]
+    if url_source(url) == "jlcpcb":
+        sys.path.insert(0, HERE)
+        import datasheets_fetch
+        links = datasheets_fetch.candidates(url)
+    for link in links:
+        data = http_get(link)
+        if data.startswith(b"%PDF"):
+            return data
+    raise ValueError(f"{url} did not return a PDF")
 
 
 def cmd_fetch(a):
     f, r = one(a.key)
     if not r:
         return 1
-    src = a.file
-    url = a.url or r.get("datasheet_url", "")
+    src, url = a.file, a.url or ""
     if not src:
-        if not url:
-            print("FAIL no --url, --file or datasheet_url in the record")
+        tries = [(url_source(url), url)] if url else url_candidates(r)
+        if not tries:
+            print("FAIL no --url or --file, and the record has no datasheet link")
             return 1
-        data = http_get(url)
-        if not data.startswith(b"%PDF"):
-            print(f"FAIL {url} did not return a PDF")
+        for _, u in tries:
+            try:
+                data = download_pdf(u)
+                url = u
+                break
+            except (OSError, ValueError) as e:
+                print(f"  {u}: {e}")
+        else:
+            print("FAIL no datasheet link gave a PDF")
             return 1
-        sku = next((s["sku"] for s in r["suppliers"] if s.get("name") == "LCSC"), "")
+        if url_source(url) != "maker":
+            print("  note: this is a distributor copy; the maker's PDF is preferred when it can be found")
+        sku = next((x["sku"] for x in r["suppliers"] if x.get("name") == "LCSC"), "")
         src = p("datasheets", f"{slug(r['mpn'])}{'_' + sku if sku else ''}.pdf")
         if os.path.isfile(src):
             src = src[:-4] + f"_{hashlib.sha256(data).hexdigest()[:8]}.pdf"
         os.makedirs(os.path.dirname(src), exist_ok=True)
         with open(src, "wb") as out:
             out.write(data)
-    sha = add_datasheet(src, url=url, source=a.source or ("lcsc" if "lcsc.com" in url else "manual" if not url else "web"),
+    sha = add_datasheet(src, url=url, source=a.source or (url_source(url) if url else "manual"),
                         mfr=r["mfr"], covers=[r["mpn"]], title=a.title or "", revision=a.revision or "")
     if not any(d.get("sha256") == sha for d in r["datasheets"]):
         e = ds_index()["datasheets"][sha]
@@ -442,6 +489,97 @@ def cmd_fetch(a):
     pages = pages_of(sha)
     print(f"datasheet {sha[:12]} {ds_index()['datasheets'][sha]['file']}: "
           + (f"{len(pages)} pages of text" if pages is not None else "no text (pdftotext missing?)"))
+    if a.project:
+        return place_in_project(r, sha, a.project, [])
+    return 0
+
+
+def find_pdf_by_hash(sha, folders):
+    for d in folders:
+        for f in glob.glob(os.path.join(d, "**", "*.pdf"), recursive=True):
+            if sha256(f) == sha:
+                return f
+    return None
+
+
+def place_in_project(r, sha, project, search):
+    """Put the datasheet with this sha256 into <project>/docs/datasheets: copy it from the library cache or another
+    folder, else download it (maker first) and keep it only if the hash matches. The project copy is never committed."""
+    dest_dir = os.path.join(project, "docs", "datasheets")
+    entry = ds_index()["datasheets"].get(sha, {})
+    name = entry.get("file") or f"{slug(r['mpn'])}.pdf"
+    dest = os.path.join(dest_dir, name)
+    if os.path.isfile(dest) and sha256(dest) == sha:
+        print(f"OK    {r['mpn']}: {name} already in the project")
+        return 0
+    src = find_pdf_by_hash(sha, [p("datasheets")] + list(search))
+    if src:
+        os.makedirs(dest_dir, exist_ok=True)
+        shutil.copyfile(src, dest)
+        print(f"COPY  {r['mpn']}: {name} from {src}")
+        return 0
+    for src_name, u in url_candidates(r):
+        try:
+            data = download_pdf(u)
+        except (OSError, ValueError) as e:
+            print(f"      {r['mpn']}: {u}: {e}")
+            continue
+        got = hashlib.sha256(data).hexdigest()
+        if got != sha:
+            print(f"DIFF  {r['mpn']}: {u} gives a different PDF ({got[:12]}, recorded {sha[:12]}): the maker may have "
+                  f"revised it. Not saved - ask the user whether to re-extract the part from the new revision.")
+            continue
+        os.makedirs(dest_dir, exist_ok=True)
+        with open(dest, "wb") as out:
+            out.write(data)
+        print(f"GET   {r['mpn']}: {name} from {u} ({src_name})")
+        return 0
+    print(f"FAIL  {r['mpn']}: datasheet {sha[:12]} not found locally and not downloadable with a matching hash")
+    return 1
+
+
+def cmd_datasheet(a):
+    """Make sure the project has the datasheet PDF of each part (by MPN or catalog id; --manifest = every part in the
+    project's libs/lib_manifest.json)."""
+    keys = list(a.keys)
+    if a.manifest:
+        m = load_json(os.path.join(a.project, "libs", "lib_manifest.json")) or {}
+        keys += list((m.get("components") or {}).keys())
+    fails = 0
+    for k in keys:
+        hits = find_record(k) or [(f, r) for f, r in all_records() if k in r.get("catalog_ids", [])]
+        if not hits:
+            print(f"MISS  {k}: no part record (generic part, or not yet in the database)")
+            continue
+        for f, r in hits:
+            if not r["datasheets"]:
+                print(f"FAIL  {r['mpn']}: record has no datasheet")
+                fails += 1
+            for d in r["datasheets"]:
+                fails += place_in_project(r, d["sha256"], a.project, a.search or [])
+    print(f"\ndatasheets for {a.project}: {fails} FAIL")
+    return 1 if fails else 0
+
+
+PERSON_CHECKS = ("pins", "abs_max", "package", "visual")   # what a person checks against the PDF (user, 2026-10-17)
+
+
+def cmd_verify(a):
+    f, r = one(a.key)
+    if not r:
+        return 1
+    bad = [i for i in a.items if i not in PERSON_CHECKS]
+    if bad:
+        print(f"FAIL unknown items {bad}; use {PERSON_CHECKS}")
+        return 1
+    pc = r["review"].setdefault("person_checks", {})
+    for i in a.items:
+        pc[i] = {"by": a.by, "date": today()}
+    if all(i in pc for i in PERSON_CHECKS):
+        r["review"]["status"] = "verified"
+    save_json(f, r)
+    missing = [i for i in PERSON_CHECKS if i not in pc]
+    print(f"{r['mpn']}: checked by a person {sorted(pc)}; " + (f"still to check {missing}" if missing else "status verified"))
     return 0
 
 
@@ -539,9 +677,18 @@ def cmd_check(a):
     if a.keys and not recs:
         print("FAIL no matching parts")
         return 1
-    fails = 0
+    fails = total_unchecked = 0
     for f, r in recs:
         bad, notes = check_record(f, r, tax, a.strict)
+        todo = [i for i in PERSON_CHECKS if i not in r.get("review", {}).get("person_checks", {})]
+        if todo and a.gate:
+            bad.append(f"person check missing (gate): {', '.join(todo)} - check the PDF, then parts.py verify")
+        elif todo:
+            notes.append(f"person check still to do: {', '.join(todo)}")
+        unchecked = sum("quote not checked" in n for n in notes)
+        if unchecked and a.strict:
+            bad.append(f"{unchecked} quotes cannot be checked: PDF and page text missing (--strict)")
+        total_unchecked += unchecked
         name = f"{r.get('mpn')} ({r.get('review', {}).get('status')})"
         print(f"{'FAIL' if bad else 'PASS'}  {name}" + (f": {len(bad)} problems" if bad else ""))
         for b in bad:
@@ -549,7 +696,8 @@ def cmd_check(a):
         for n in notes[:3] if not a.verbose else notes:
             print(f"      note: {n}")
         fails += bool(bad)
-    print(f"\nparts check: {len(recs)} parts, {fails} FAIL")
+    print(f"\nparts check: {len(recs)} parts, {fails} FAIL"
+          + (f", {total_unchecked} quotes NOT CHECKED (PDF and page text missing)" if total_unchecked else ""))
     return 1 if fails else 0
 
 
@@ -599,6 +747,7 @@ def main(argv=None):
     s.add_argument("--category", default=""); s.add_argument("--lcsc", default=""); s.add_argument("--package")
     s.add_argument("--description"); s.add_argument("--offline", action="store_true"); s.set_defaults(fn=cmd_new)
     s = sp.add_parser("fetch"); s.add_argument("key"); s.add_argument("--url"); s.add_argument("--file")
+    s.add_argument("--project", help="also put the PDF into <project>/docs/datasheets")
     s.add_argument("--source"); s.add_argument("--title"); s.add_argument("--revision"); s.set_defaults(fn=cmd_fetch)
     s = sp.add_parser("text"); s.add_argument("key"); s.add_argument("--pages"); s.add_argument("--grep")
     s.add_argument("--mode", choices=MODES, default="layout")
@@ -607,7 +756,14 @@ def main(argv=None):
     s = sp.add_parser("market"); s.add_argument("key"); s.set_defaults(fn=cmd_market)
     s = sp.add_parser("get"); s.add_argument("key"); s.add_argument("--section"); s.set_defaults(fn=cmd_get)
     s = sp.add_parser("check"); s.add_argument("keys", nargs="*"); s.add_argument("--strict", action="store_true")
-    s.add_argument("--verbose", action="store_true"); s.set_defaults(fn=cmd_check)
+    s.add_argument("--verbose", action="store_true")
+    s.add_argument("--gate", action="store_true", help="also fail parts whose person checks are missing (G1)")
+    s.set_defaults(fn=cmd_check)
+    s = sp.add_parser("datasheet"); s.add_argument("keys", nargs="*"); s.add_argument("--project", required=True)
+    s.add_argument("--manifest", action="store_true"); s.add_argument("--search", nargs="*")
+    s.set_defaults(fn=cmd_datasheet)
+    s = sp.add_parser("verify"); s.add_argument("key"); s.add_argument("--by", required=True)
+    s.add_argument("--items", nargs="+", required=True); s.set_defaults(fn=cmd_verify)
     s = sp.add_parser("index"); s.set_defaults(fn=cmd_index)
     s = sp.add_parser("find"); s.add_argument("text"); s.add_argument("--category", default=""); s.set_defaults(fn=cmd_find)
     s = sp.add_parser("status"); s.set_defaults(fn=cmd_status)

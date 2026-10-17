@@ -110,6 +110,37 @@ class Parts(unittest.TestCase):
         self.assertEqual(run("new", "--mpn", "Q1", "--mfr", "AOS", "--category", "discretes/nope", "--offline")[0], 1)
         self.assertEqual(run("new", "--mpn", "XYZ1", "--mfr", "TI", "--category", "ics/power_buck", "--offline")[0], 1)
 
+    def test_verify_and_gate(self):
+        self.assertEqual(run("check", "XYZ1", "--gate")[0], 1)
+        self.assertEqual(run("verify", "XYZ1", "--by", "tester", "--items", "pins", "abs_max")[0], 0)
+        self.assertNotEqual(P.one("XYZ1")[1]["review"]["status"], "verified")
+        self.assertEqual(run("verify", "XYZ1", "--by", "tester", "--items", "package", "visual")[0], 0)
+        self.assertEqual(P.one("XYZ1")[1]["review"]["status"], "verified")
+        self.assertEqual(run("verify", "XYZ1", "--by", "tester", "--items", "colour")[0], 1)
+
+    def test_datasheet_into_project_by_hash(self):
+        pdf = os.path.join(self.t, "elsewhere", "x.pdf")
+        os.makedirs(os.path.dirname(pdf))
+        with open(pdf, "wb") as f:
+            f.write(b"%PDF-1.4 test")
+        sha = P.sha256(pdf)
+        idx = P.ds_index()
+        idx["datasheets"][sha] = {"file": "xyz1_real.pdf", "covers": ["XYZ1"]}
+        P.save_json(P.p("datasheets", "index.json"), idx)
+        self.r["datasheets"] = [{"sha256": sha, "file": "xyz1_real.pdf"}]
+        P.save_json(self.f, self.r)
+        proj = os.path.join(self.t, "proj")
+        self.assertEqual(run("datasheet", "XYZ1", "--project", proj)[0], 1)          # not found, no link
+        code, out = run("datasheet", "XYZ1", "--project", proj, "--search", os.path.dirname(pdf))
+        self.assertEqual(code, 0, out)
+        self.assertEqual(P.sha256(os.path.join(proj, "docs", "datasheets", "xyz1_real.pdf")), sha)
+        self.assertIn("already in the project", run("datasheet", "XYZ1", "--project", proj)[1])
+
+    def test_url_order_maker_first(self):
+        r = {"datasheet_urls": [{"source": "lcsc", "url": "https://datasheet.lcsc.com/a.pdf"}],
+             "datasheets": [{"url": "https://www.ti.com/lit/ds/symlink/x.pdf"}]}
+        self.assertEqual([s for s, _ in P.url_candidates(r)], ["maker", "lcsc"])
+
 
 class RealLibrary(unittest.TestCase):
     def test_checked_in_records_pass(self):

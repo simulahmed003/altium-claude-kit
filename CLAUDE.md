@@ -7,9 +7,11 @@ Objective (user): automate the work an engineer does by hand in the tools. Syste
 
 ## Non-negotiables
 1. Human gates G1, S1, G2, G3, G4 (`gates.md`) need an explicit user sign-off. Never tick a gate yourself.
-2. Component database first (RQ-01): every number about a part comes from its record in `library\parts\` (`parts.py get`),
-   which cites the datasheet page. Missing -> fetch the datasheet and extract it into the record (`library\parts\README.md`),
-   then read it from the record. A flaw (check fails, a contradiction, an open review item) -> ask the user.
+2. Datasheet first, through the component database (`library\parts\`, rule RQ-01): read part numbers with `parts.py get`.
+   Part or value missing -> datasheet (maker's site first, LCSC second) into the project's `docs\datasheets\` (local, never
+   committed) -> `parts.py fetch` + extract with page and quote -> `parts.py check` PASS -> read it from the database.
+   A person checks pins, abs max, package and visual values (`parts.py verify`) before G1. Never from memory.
+   A flaw (check fails, a contradiction, an open review item, a revised datasheet) -> ask the user.
 3. Calculations in code (`tools\scripts\calclib.py`, `calcs_run.py`), copied to `calcs.md`. Never mental arithmetic.
 4. Reads before writes. Announce every destructive edit and get a yes first.
 5. Never edit `tools\bridge\`, `.mcp.json` or `.claude\` (the user controls those). Never bypass the guard hook.

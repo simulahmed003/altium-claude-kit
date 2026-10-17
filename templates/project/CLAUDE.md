@@ -12,6 +12,6 @@ Before each phase read the files in ../../rules/00_INDEX.md "Read before each ph
 Checkers and generators: ../../tools/scripts (README.md there). Evidence per gate: ai/review/ (gate_check.py).
 Libraries: local copies only (libs/), recorded in libs/lib_manifest.json; global parts via lib_pull.py.
 
-Folders: `hw\` Altium project, `libs\` project libraries, `docs\datasheets\` project-only datasheets (part numbers come from `library\parts\` records first, RQ-01),
+Folders: `hw\` Altium project, `libs\` project libraries, `docs\datasheets\` datasheet PDFs (local only, never committed; numbers come from the component database, RQ-01),
 `outputs\` Gerbers/BOM, `ai\` plans, reports and session notes.
 Current phase: see PROJECT.md. Gates: see gates.md.
