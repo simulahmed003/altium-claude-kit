@@ -20,7 +20,8 @@
 | Lessons from the buck project | LESSONS_LEARNED.md |
 | Architecture: layers, flow, facts database | ARCHITECTURE.md |
 | Roadmap: done, next, how modules are built | ROADMAP.md |
-| Proposal: design-standard layers and the feedback-to-rules loop (not binding) | proposals/FEEDBACK_TO_RULES.md |
+| Design standards: rules, guidelines, fab profile, user standard, project; what is general vs user-specific | DESIGN_STANDARDS.md |
+| Design feedback → rules loop (WF-08, skill altium-rule-harvest) | RULE_FEEDBACK_LOOP.md |
 | Instructions for AI assistants that contribute | AI-CONTRIBUTOR.md |
 | Phase skills (loaded by Claude Code) | ../.claude/skills/README.md |
 | Skill template | templates/SKILL_TEMPLATE.md |

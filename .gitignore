@@ -38,3 +38,4 @@ migration_backup/
 # component database caches (parts.py): page text and daily price/stock snapshots
 library/datasheets/_text/
 library/market/
+standards/local/
