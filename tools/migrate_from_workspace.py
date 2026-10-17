@@ -69,7 +69,10 @@ class Migration:
 
     def save_backup(self, path):
         path = os.path.abspath(path)
-        inside = os.path.commonpath([path, self.root]) == self.root
+        try:
+            inside = os.path.commonpath([path, self.root]) == self.root
+        except ValueError:                  # another drive (C:\Users\... config while the root is on D:)
+            inside = False
         rel = os.path.relpath(path, self.root) if inside else os.path.join("outside", os.path.basename(path))
         dst = os.path.join(self.backup, rel)
         os.makedirs(os.path.dirname(dst), exist_ok=True)
