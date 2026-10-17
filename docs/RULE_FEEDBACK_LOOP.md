@@ -36,7 +36,8 @@ The agent proposes the `cause`; the user can change it at harvest. Example: `tem
 
 ## 2. Harvest (at the end of every design stage)
 Feedback comes in every stage, not only at gates: requirements, architecture, calculations, part choice, library,
-schematic, placement, routing, analysis and fab output. So the agent runs the `altium-rule-harvest` skill when a stage
+schematic, placement, routing, analysis and fab output, and after the board is built (bring-up, measurements,
+rework). Feedback from the built board weighs most, because it was measured on real hardware. So the agent runs the `altium-rule-harvest` skill when a stage
 ends: when the user ticks its gate, or, for a stage with no gate, when the user accepts its result. A small harvest
 per stage is quicker for the user to sort and keeps the context fresh. The skill:
 1. Reads `ai/feedback.jsonl` for that stage, and the earlier harvests of this project.
@@ -81,6 +82,11 @@ designers join, the rules would grow past what an agent can load per stage. Thre
    - a CHECKLIST rule a script could check: name the script to write
    - a rule nobody has needed in several projects: retire it, or move it to a pack
    - a PROPOSED rule with no new evidence after several projects: drop it
+
+IDs are never reused. A rule that is moved or merged keeps its old ID as an alias, so older projects still resolve.
+
+The limits (rules per file, how many projects without use before a rule is retired) are the maintainer's decision.
+`rules_lint.py` starts with 20 rules per file as a warning only, until the maintainer sets the number.
 
 Domain packs are created when the first contributor from that field arrives. Until then everything stays in core.
 Each pack gets a maintainer from that field (CODEOWNERS), and the core maintainer approves changes to core.

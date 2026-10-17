@@ -42,7 +42,8 @@ It belongs to the **project** when it follows from that board's requirements (in
 2. Taste, house style or company policy, with no source beyond "we prefer"? → **user standard**.
 3. Depends on what one fab can build? → **fab profile**.
 4. A sourced engineering target for a class of circuits? → **guideline**.
-5. Correctness, safety, manufacturability or tool behaviour that would bite any user? → **rule**.
+5. Only true for one field (power electronics, high-speed, RF)? → that field's **domain pack**.
+6. Correctness, safety, manufacturability or tool behaviour that would bite any user? → **rule** (core).
 Anything else is a lesson for `docs/LESSONS_LEARNED.md`.
 
 It goes **central** (rule, guideline or fab profile) only when all of these hold:
