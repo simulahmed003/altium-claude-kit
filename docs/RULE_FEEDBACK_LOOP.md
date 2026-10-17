@@ -6,7 +6,7 @@ guidelines and user standards without letting one person's taste leak into the c
 "general or specific" test: [DESIGN_STANDARDS.md](DESIGN_STANDARDS.md). Skill: `altium-rule-harvest`.
 
 ```
- design ──► user feedback ──► ai/feedback.jsonl ──► gate approved ──► harvest ──► user sorts each item
+ design stage ──► user feedback ──► ai/feedback.jsonl ──► stage done ──► harvest ──► user sorts each item
                                                                                    │
                        ┌─────────────────────────┬──────────────────────┬─────────┴────────────┐
                        ▼                         ▼                      ▼                      ▼
@@ -34,9 +34,12 @@ Every time the user corrects the agent, rejects an option, or picks a better one
 
 The agent proposes the `cause`; the user can change it at harvest. Example: `templates/project/ai/feedback.example.jsonl`.
 
-## 2. Harvest (when the user ticks a gate)
-After a gate is signed off, the agent runs the `altium-rule-harvest` skill. It:
-1. Reads `ai/feedback.jsonl` for that gate, and the earlier harvests of this project.
+## 2. Harvest (at the end of every design stage)
+Feedback comes in every stage, not only at gates: requirements, architecture, calculations, part choice, library,
+schematic, placement, routing, analysis and fab output. So the agent runs the `altium-rule-harvest` skill when a stage
+ends: when the user ticks its gate, or, for a stage with no gate, when the user accepts its result. A small harvest
+per stage is quicker for the user to sort and keeps the context fresh. The skill:
+1. Reads `ai/feedback.jsonl` for that stage, and the earlier harvests of this project.
 2. Groups lines that are the same problem.
 3. For each group, decides which case it is:
    - **Rule existed and was not followed** → the fix is a better check or a clearer skill, not a new rule.
@@ -44,7 +47,7 @@ After a gate is signed off, the agent runs the `altium-rule-harvest` skill. It:
    - **User standard** (cause `house-style`, `policy`, `equipment`, `preference`) → a line for `standards/local/<name>.md`.
    - **Central candidate** (cause `physics`, `standard`, `datasheet`, `fab`, `tool`, `process`, and passes the five tests) →
      a generalised rule or guideline in house format, Status PROPOSED, with the source and a check idea.
-4. Writes `ai/review/harvest_<gate>.md` (one table, one row per group) and asks the user to sort each row:
+4. Writes `ai/review/harvest_<stage>.md` (one table, one row per group) and asks the user to sort each row:
    **central / mine / project / drop**. Nothing is written anywhere else before that.
 
 ## 3. Apply (after the user sorts)
@@ -61,6 +64,27 @@ After a gate is signed off, the agent runs the `altium-rule-harvest` skill. It:
    checker script exists and names it.
 5. Users get it by pulling the kit; each project keeps the rules version it started with (WF-03) until it chooses to move.
 
-## 5. Measure
+## 5. Keeping the rules manageable as more fields join
+Today the rules cover one kind of board (a small 2-layer power board). When power-electronics, high-speed or server
+designers join, the rules would grow past what an agent can load per stage. Three mechanisms keep them small:
+
+1. **Core plus domain packs.** `rules/` keeps only what every board needs (gates, evidence, library, schematic basics,
+   tooling). Field-specific rules go in a domain pack, `rules/domains/<domain>/`, with its own ID prefix
+   (for example `PWR-`, `HS-`, `SRV-`) and its own guidelines. A project lists its domains in `project.json`
+   (`"domains": ["power"]`), and the agent loads only core plus those packs. A rule moves from a pack to core only
+   when two or more packs need it.
+2. **Stages per domain.** A domain pack may add stages and checks (for example impedance and length matching for
+   high-speed, creepage and thermal for power). It adds them to the stage table in its own README; the core gates stay.
+3. **The harvest also proposes upkeep.** Each harvest ends with a "rules health" row, as a proposal the user sorts like the rest:
+   - a rule file over the size limit (`rules_lint.py` warns above 20 rules per file): split it or move rules to a pack
+   - duplicate or overlapping rules: merge them
+   - a CHECKLIST rule a script could check: name the script to write
+   - a rule nobody has needed in several projects: retire it, or move it to a pack
+   - a PROPOSED rule with no new evidence after several projects: drop it
+
+Domain packs are created when the first contributor from that field arrives. Until then everything stays in core.
+Each pack gets a maintainer from that field (CODEOWNERS), and the core maintainer approves changes to core.
+
+## 6. Measure
 Per rules version and per phase: feedback lines per project, corrections vs improvements, and how many came from a rule
 that already existed. The goal is fewer corrections per board with every release.

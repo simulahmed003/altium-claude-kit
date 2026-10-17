@@ -1,14 +1,14 @@
 ---
 name: altium-rule-harvest
-description: Turn the user's design feedback from a project into rule, guideline and user-standard proposals; use right after the user ticks a gate, or when asked what the kit should learn from a design.
+description: Turn the user's design feedback from a project into rule, guideline and user-standard proposals, plus upkeep that keeps the rules small; use at the end of every design stage, or when asked what the kit should learn from a design.
 ---
 
 ## Goal
-Sort every piece of user feedback from one gate into: better check, project only, user standard, or central
+Sort every piece of user feedback from one design stage into: better check, project only, user standard, or central
 candidate. Write the proposals; change nothing until the user has sorted them.
 
 ## Inputs
-- `projects/<name>/ai/feedback.jsonl` (lines for this gate; WF-08 PROPOSED)
+- `projects/<name>/ai/feedback.jsonl` (lines for this stage; WF-08 PROPOSED)
 - `projects/<name>/ai/review/harvest_*.md` (earlier harvests: do not propose a dropped item again)
 - `projects/<name>/project.json` (`standard`, `rules_version`), `PROJECT.md`
 - the user standard named in `project.json`, if any
@@ -27,14 +27,16 @@ candidate. Write the proposals; change nothing until the user has sorted them.
    user standard: it is cheap to promote later and costly to push one person's taste to everyone.
 4. Central candidates must pass the five tests. Rewrite them in house format (ID, MUST, Why, Check, Source, Status
    PROPOSED) with project numbers removed. Never invent a value or a source; write NOT SET and say what is missing.
-5. Write `ai/review/harvest_<gate>.md`, one table:
+5. Add one "rules health" row (RULE_FEEDBACK_LOOP.md section 5): run `python tools/scripts/rules_lint.py` and report its
+   WARN lines, rules that overlap, CHECKLIST rules a script could check, and rules that belong in a domain pack.
+6. Write `ai/review/harvest_<stage>.md`, one table:
    | # | Feedback lines | Case | Proposed text | Source | Evidence | Your call |
    Leave "Your call" empty, then ask the user to fill each row: central / mine / project / drop.
 
 ## Exit checks
 | Check | How | Pass when |
 |---|---|---|
-| every feedback line of the gate is in a row | count lines vs rows | none missing |
+| every feedback line of the stage is in a row | count lines vs rows | none missing |
 | central rows pass the five tests | DESIGN_STANDARDS.md | source, reach, evidence, checkable, no project data |
 | new rule text is valid | `python tools/scripts/rules_lint.py` on a scratch copy | exit 0 |
 

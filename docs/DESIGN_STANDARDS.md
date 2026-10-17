@@ -10,12 +10,12 @@ standard). This page defines the layers of the design standard, which one wins, 
 | # | Layer | Where | Holds | Owner | Shared? |
 |---|---|---|---|---|---|
 | 1 | Rules | `rules/` | HOW agents work: gates, evidence, tool use, file formats, checks | maintainer (WF-04) | central, everyone |
-| 2 | Guidelines | `guidelines/` | WHAT a good design needs, from physics, standards (IPC, JEDEC) and datasheets, with a source for every value | maintainer, one at a time | central, everyone |
+| 2 | Guidelines | `guidelines/` (core) and `rules/domains/<domain>/` (per field, planned) | WHAT a good design needs, from physics, standards (IPC, JEDEC) and datasheets, with a source for every value | maintainer, one at a time | central, everyone |
 | 3 | Fab profile | `rules/fab-profiles/<fab>.json` | what one manufacturer can build (min trace, drill, annular ring) | maintainer, dated from the fab's page | central, picked per project |
 | 4 | User standard | `standards/local/<name>.md` | one person's or one company's house style and policies | that user or company | local only, never pushed |
 | 5 | Project | `projects/<name>/requirements.md`, `constraints.md` | the numbers of one board | the designer | the project's own repo |
 
-`project.json` names the fab profile and the user standard a project uses (`fab_profile`, `standard`).
+`project.json` names the fab profile, the user standard and (planned) the domain packs a project uses (`fab_profile`, `standard`, `domains`).
 
 ## Which one wins
 1. **Rules always apply.** A project may deviate only with a recorded user approval (RQ-05).

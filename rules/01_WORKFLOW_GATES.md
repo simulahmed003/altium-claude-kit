@@ -55,8 +55,8 @@ until the user approves) / SEED (starting value, refined in its phase).
 - Status: CHECKLIST
 
 ### WF-08 Design feedback log and harvest
-- MUST: append one line to `ai/feedback.jsonl` whenever the user corrects the work, rejects an option or picks a better one; after the user ticks a gate, run the altium-rule-harvest skill and let the user sort every item before anything is written to a standard or proposed upstream.
+- MUST: append one line to `ai/feedback.jsonl` whenever the user corrects the work, rejects an option or picks a better one; at the end of every design stage (gate ticked or result accepted), run the altium-rule-harvest skill and let the user sort every item before anything is written to a standard or proposed upstream.
 - Why: user feedback is the evidence for better rules; without a log it is lost, and without the user's sort one person's taste leaks into the central rules.
-- Check: checklist (feedback.jsonl lines, ai/review/harvest_<gate>.md with every row sorted)
+- Check: checklist (feedback.jsonl lines, ai/review/harvest_<stage>.md with every row sorted)
 - Source: user brief 2026-10-17 (design feedback should improve the central rules); docs/RULE_FEEDBACK_LOOP.md
 - Status: PROPOSED
