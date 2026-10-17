@@ -361,7 +361,7 @@
   "Q_AO4407C"
  ],
  "review": {
-  "status": "extracted",
+  "status": "verified",
   "created": "2026-10-17",
   "open": [
    "datasheet is PRELIMINARY (watermark)",
@@ -370,7 +370,25 @@
    "vf stored with the datasheet's sign (negative for the P-channel body diode); min/typ/max follow the table columns"
   ],
   "extracted_by": "Claude (AI) from datasheet page text, parts.py",
-  "extracted": "2026-10-17"
+  "extracted": "2026-10-17",
+  "person_checks": {
+   "pins": {
+    "by": "simulahmed003",
+    "date": "2026-10-17"
+   },
+   "abs_max": {
+    "by": "simulahmed003",
+    "date": "2026-10-17"
+   },
+   "package": {
+    "by": "simulahmed003",
+    "date": "2026-10-17"
+   },
+   "visual": {
+    "by": "simulahmed003",
+    "date": "2026-10-17"
+   }
+  }
  },
  "datasheet_urls": [
   {

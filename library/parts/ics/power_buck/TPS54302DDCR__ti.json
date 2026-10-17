@@ -534,7 +534,7 @@
  },
  "catalog_ids": [],
  "review": {
-  "status": "extracted",
+  "status": "verified",
   "created": "2026-10-17",
   "open": [
    "not in the catalog: buck-12v-5v-3a candidate, rejected for its +/-2.5 % reference (PROJECT.md 2026-10-13 stage 4)",
@@ -542,7 +542,25 @@
    "datasheet source URL unknown (file from the buck project)"
   ],
   "extracted_by": "Claude (AI) from datasheet page text, parts.py",
-  "extracted": "2026-10-17"
+  "extracted": "2026-10-17",
+  "person_checks": {
+   "pins": {
+    "by": "simulahmed003",
+    "date": "2026-10-17"
+   },
+   "abs_max": {
+    "by": "simulahmed003",
+    "date": "2026-10-17"
+   },
+   "package": {
+    "by": "simulahmed003",
+    "date": "2026-10-17"
+   },
+   "visual": {
+    "by": "simulahmed003",
+    "date": "2026-10-17"
+   }
+  }
  },
  "datasheet_urls": []
 }

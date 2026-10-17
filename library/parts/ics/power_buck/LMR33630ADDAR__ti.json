@@ -652,7 +652,7 @@
   "U_LMR33630ADDA"
  ],
  "review": {
-  "status": "extracted",
+  "status": "verified",
   "created": "2026-10-17",
   "open": [
    "electrical.uvlo_rise holds the minimum operating VIN (3.8 V max): section 7.5 has no separate UVLO row",
@@ -660,7 +660,25 @@
    "pins 3 and 6 cite one line of the pin figure ('EN 3 6'): confirm VCC = pin 6 on p5"
   ],
   "extracted_by": "Claude (AI) from datasheet page text, parts.py",
-  "extracted": "2026-10-17"
+  "extracted": "2026-10-17",
+  "person_checks": {
+   "pins": {
+    "by": "simulahmed003",
+    "date": "2026-10-17"
+   },
+   "abs_max": {
+    "by": "simulahmed003",
+    "date": "2026-10-17"
+   },
+   "package": {
+    "by": "simulahmed003",
+    "date": "2026-10-17"
+   },
+   "visual": {
+    "by": "simulahmed003",
+    "date": "2026-10-17"
+   }
+  }
  },
  "datasheet_urls": [
   {

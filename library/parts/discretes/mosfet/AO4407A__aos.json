@@ -316,7 +316,7 @@
  "notes": {},
  "catalog_ids": [],
  "review": {
-  "status": "extracted",
+  "status": "verified",
   "created": "2026-10-17",
   "open": [
    "not in the catalog: buck-12v-5v-3a comparison part for AO4407C (ai/part_list.md deviation 2)",
@@ -325,7 +325,25 @@
    "datasheet inconsistency: p1 features say RDS(ON) < 38 mOhm at VGS -10 V, the p2 table gives 38 mOhm max at VGS -5 V (stored per the table)"
   ],
   "extracted_by": "Claude (AI) from datasheet page text, parts.py",
-  "extracted": "2026-10-17"
+  "extracted": "2026-10-17",
+  "person_checks": {
+   "pins": {
+    "by": "simulahmed003",
+    "date": "2026-10-17"
+   },
+   "abs_max": {
+    "by": "simulahmed003",
+    "date": "2026-10-17"
+   },
+   "package": {
+    "by": "simulahmed003",
+    "date": "2026-10-17"
+   },
+   "visual": {
+    "by": "simulahmed003",
+    "date": "2026-10-17"
+   }
+  }
  },
  "datasheet_urls": [
   {

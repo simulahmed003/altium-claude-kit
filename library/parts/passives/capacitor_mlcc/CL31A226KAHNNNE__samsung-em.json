@@ -157,7 +157,7 @@
   "C_22u_25V_X5R_1206"
  ],
  "review": {
-  "status": "extracted",
+  "status": "verified",
   "created": "2026-10-17",
   "open": [
    "L/W tolerance not decoded; typ only",
@@ -165,7 +165,25 @@
    "DC-bias derating not extracted: needed for the buck output-cap C_eff calculation"
   ],
   "extracted_by": "Claude (AI) from datasheet page text, parts.py",
-  "extracted": "2026-10-17"
+  "extracted": "2026-10-17",
+  "person_checks": {
+   "pins": {
+    "by": "simulahmed003",
+    "date": "2026-10-17"
+   },
+   "abs_max": {
+    "by": "simulahmed003",
+    "date": "2026-10-17"
+   },
+   "package": {
+    "by": "simulahmed003",
+    "date": "2026-10-17"
+   },
+   "visual": {
+    "by": "simulahmed003",
+    "date": "2026-10-17"
+   }
+  }
  },
  "datasheet_urls": [
   {

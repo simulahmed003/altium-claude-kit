@@ -157,7 +157,7 @@
   "C_1u_50V_X5R_0603"
  ],
  "review": {
-  "status": "extracted",
+  "status": "verified",
   "created": "2026-10-17",
   "open": [
    "L/W tolerance not decoded (size-tolerance table p4 is keyed by a code this MPN does not show); typ only",
@@ -165,7 +165,25 @@
    "DC-bias derating not extracted: X5R loses capacitance under DC bias; look for the characteristic curves before using C_eff"
   ],
   "extracted_by": "Claude (AI) from datasheet page text, parts.py",
-  "extracted": "2026-10-17"
+  "extracted": "2026-10-17",
+  "person_checks": {
+   "pins": {
+    "by": "simulahmed003",
+    "date": "2026-10-17"
+   },
+   "abs_max": {
+    "by": "simulahmed003",
+    "date": "2026-10-17"
+   },
+   "package": {
+    "by": "simulahmed003",
+    "date": "2026-10-17"
+   },
+   "visual": {
+    "by": "simulahmed003",
+    "date": "2026-10-17"
+   }
+  }
  },
  "datasheet_urls": [
   {
