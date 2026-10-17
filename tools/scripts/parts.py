@@ -539,9 +539,13 @@ def cmd_check(a):
     if a.keys and not recs:
         print("FAIL no matching parts")
         return 1
-    fails = 0
+    fails = total_unchecked = 0
     for f, r in recs:
         bad, notes = check_record(f, r, tax, a.strict)
+        unchecked = sum("quote not checked" in n for n in notes)
+        if unchecked and a.strict:
+            bad.append(f"{unchecked} quotes cannot be checked: PDF and page text missing (--strict)")
+        total_unchecked += unchecked
         name = f"{r.get('mpn')} ({r.get('review', {}).get('status')})"
         print(f"{'FAIL' if bad else 'PASS'}  {name}" + (f": {len(bad)} problems" if bad else ""))
         for b in bad:
@@ -549,7 +553,8 @@ def cmd_check(a):
         for n in notes[:3] if not a.verbose else notes:
             print(f"      note: {n}")
         fails += bool(bad)
-    print(f"\nparts check: {len(recs)} parts, {fails} FAIL")
+    print(f"\nparts check: {len(recs)} parts, {fails} FAIL"
+          + (f", {total_unchecked} quotes NOT CHECKED (PDF and page text missing)" if total_unchecked else ""))
     return 1 if fails else 0
 
 
