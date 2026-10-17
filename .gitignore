@@ -33,3 +33,5 @@ Project Outputs for */
 __pycache__/
 # selftest scratch
 tools/tests/_tmp/
+# migration backups (tools/migrate_from_workspace.py)
+migration_backup/
