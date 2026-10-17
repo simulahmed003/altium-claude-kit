@@ -1,54 +1,92 @@
 # altium-claude-kit
 
-An open kit that lets Claude design embedded hardware in **Altium Designer** from requirements to fab files,
-with as little human back-and-forth and as few tokens as possible.
+Rules, checkers and a managed component library for AI-assisted PCB design with Altium Designer 26 and Claude Code.
+The agent works under written rules and human sign-off gates, scripts check its work, and you stay in control.
 
-It has three parts:
+> Status: first public version. Built and tested on Windows 10 with one design (a 12 V to 5 V, 3 A buck converter).
+> Expect rough edges. Fixes and better rules are welcome: see [CONTRIBUTING.md](CONTRIBUTING.md).
 
-| Part | Folder | What it is |
-|---|---|---|
-| **Skills** | `skills/` | One skill per design phase. Says what the phase must achieve and how to check it. Claude decides how. |
-| **Rules** | `rules/` | Engineering standards a PCB designer follows, written once, numbered (`PL-03`), referenced by skills. |
-| **Component database + library** | `components/` | One folder per exact MPN: datasheet facts already extracted (with page refs), plus symbol, footprint, 3D and SPICE. |
-
-And the glue:
-
-| Folder | What it is |
+## What is in this repo
+| Part | What it does |
 |---|---|
-| `tools/` | Deterministic scripts. `comp` is the only way Claude reads or writes the component database. |
-| `templates/project/` | The skeleton copied into every new Altium project. |
-| `examples/` | Reference designs, also used as regression tests (first: a buck converter). |
-| `docs/` | Architecture, usage guide, roadmap, guide for AI contributors. |
+| `.claude/skills/` | Phase skills Claude Code loads automatically: goal, what to read, how to judge. Draft; see the roadmap. |
+| `rules/` | Versioned rules (workflow, requirements, library, schematic, PCB, fab output, tooling, communication) and playbooks P1-P8. Every rule says how it is checked. Index: `rules/00_INDEX.md`. |
+| `tools/scripts/` | Offline checkers and generators: pins = pads, connectivity, text overlaps, calculations, gate evidence, BOM. Python standard library only. No Altium needed. |
+| `tools/bridge/`, `.claude` hook | A guard that lets only one live Altium bridge run at a time, plus a kill switch. |
+| `library/` | Managed global component library: catalog, category libraries, hashes, promote / pull / update scripts. Projects work on local copies. |
+| `guidelines/` | Draft area for system-level design guidelines. Empty by design; set per team. |
+| `templates/project/` | Template for a new design (requirements, constraints, gates). |
+| `docs/` | Setup guide, first-run tests, lessons learned, architecture, roadmap, guide for AI contributors. |
 
-## Why it saves tokens
+Your designs are **not** part of this repo. `projects/` is git-ignored: keep each design in its own (private) git repo inside it.
 
-- **A datasheet is read once, ever.** After ingest, every project queries `comp get <MPN> --section pins` instead of opening the PDF.
-- **Project state lives in files** (`project.yaml`, `decisions.md`), so a new session resumes without replaying chat.
-- **Skills are short goal-and-gate files**, and they load only the rules and component fields their phase needs.
-- **Calculations and checks are scripts**, which return a 10-line summary and keep the full logs on disk.
+## Requirements (install before running setup)
+| Need | Version | Why |
+|---|---|---|
+| Windows | 10 or 11 | The live Altium bridge, guard and kill switch use PowerShell and Win32. The Python checkers also run elsewhere. |
+| Altium Designer | 26 (commercial licence) | Only for the live schematic / PCB bridges. Offline libraries and checkers do not need it. |
+| Python | 3.11 or newer | `setup.ps1` builds the MCP servers' virtual environments with it. The workspace scripts need nothing extra. |
+| Git | any recent | Clone this repo; `setup.ps1` clones two MCP servers. |
+| Claude Code | current | The agent. Needs a Claude account that can run Claude Code. See the official docs for install. |
+| Internet to github.com and PyPI | | `setup.ps1` downloads three MCP servers (see Third-party tools). |
+| GitHub CLI `gh` | optional | Only if you contribute pull requests. |
+
+PowerShell 5.1 is built into Windows. Example installs: `winget install Python.Python.3.12`, `winget install Git.Git`, `winget install GitHub.cli`.
 
 ## Quick start
-
-```bash
-git clone https://github.com/<owner>/altium-claude-kit.git
-pip install -r altium-claude-kit/requirements.txt
-python altium-claude-kit/tools/comp/comp.py new-project ~/designs/my-board   # copies the template
-cd ~/designs/my-board && claude                                              # Claude reads CLAUDE.md and project.yaml
 ```
+git clone https://github.com/simulahmed003/altium-claude-kit.git D:\EDA
+cd D:\EDA
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\setup.ps1
+```
+Read the SUMMARY at the end of the script. Re-running it is safe. Then:
+1. Do the one manual Altium step (register the eda-agent scripts). See [docs/SETUP.md](docs/SETUP.md).
+2. Open a new terminal: `cd D:\EDA`, `claude`, then type `/mcp`. You should see `altium-lib`, `altium-coffee`, `altium-eda`.
+3. Check the install: `python tools\selftest.py` (all steps PASS; the buck design regression is SKIPPED because designs are not in this repo).
+   Vendor datasheet PDFs are not in git either: `python tools\scripts\datasheets_fetch.py` downloads and hash-checks them.
+4. Do the first-run tests once: [docs/FIRST_RUN_TESTS.md](docs/FIRST_RUN_TESTS.md).
 
-Full walkthrough: [docs/USAGE.md](docs/USAGE.md).
+You can clone to another folder; the examples use `D:\EDA`. Always start `claude` from the workspace folder, because the hook and permissions only apply there.
 
-## Status
+## Start a design
+```
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\newproject.ps1 -Name my-board
+```
+Then ask Claude to start the project following playbook P1 (`rules/playbooks/P1_new_project.md`).
+The agent reads `CLAUDE.md` and the rules, works through the gates G1, S1, G2, G3, G4, and stops at each one. **Only you tick a gate.**
+Put the design under its own git repo: `cd projects\my-board`, `git init`.
 
-Early skeleton (v0.1-dev). What exists and what is planned: [docs/ROADMAP.md](docs/ROADMAP.md).
-Design rationale: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+## Everyday commands
+| Command | What it does |
+|---|---|
+| `bridge.cmd status` | active bridge, health, kill switch, Altium and loop state |
+| `bridge.cmd use coffee` / `use eda` | switch the live bridge by hand (the hook does it automatically) |
+| `bridge.cmd force eda` | skip the checks if a check misbehaves |
+| `bridge.cmd recover` | popup for a crashed Altium script engine |
+| `KILL.cmd` / `REARM.cmd` | emergency stop / re-enable |
+| `python tools\selftest.py` | run every checker and test |
+| `python tools\scripts\rules_lint.py` | check the rule files |
 
-## Contributing
+## Update
+`git pull`, run `tools\setup.ps1` again, run `python tools\selftest.py`, and read `rules/CHANGELOG.md`. A design keeps the rules version it was started with (`project.json`).
 
-Parts, rules, skills and tools are all welcome, and you may use your own AI to write them.
-Read [CONTRIBUTING.md](CONTRIBUTING.md); point your AI at [docs/AI-CONTRIBUTOR.md](docs/AI-CONTRIBUTOR.md).
+## Roadmap
+What exists and what comes next (component facts database, front-of-flow phases, PCB rules, analysis): [docs/ROADMAP.md](docs/ROADMAP.md). Design: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
-## License
+## Contribute
+Found a better rule, a bug, a new checker or a footprint? See [CONTRIBUTING.md](CONTRIBUTING.md). Using an AI assistant? Give it [docs/AI-CONTRIBUTOR.md](docs/AI-CONTRIBUTOR.md) first. Rules change only through a reviewed pull request that bumps `rules/VERSION` and the changelog.
 
-Code and docs: MIT ([LICENSE](LICENSE)). Component CAD files keep their source licence, recorded in each part's `source.yaml`.
-Datasheet PDFs are never committed.
+## Known limits
+- The live bridge, guard and kill switch cover Claude Code started from the workspace folder only.
+- A crashed Altium script engine can only be noticed by a missing reply; fixing it needs you. See playbook P8.
+- Never export PDF or open print preview through Altium while the agent works: the preview window blocks every tool.
+- Vendor datasheet PDFs are not stored here. The catalog keeps their path and sha256 (see `library/datasheets/README.md`).
+
+## Third-party tools (installed by `setup.ps1`, not bundled)
+[embedded-society/altium-designer-mcp](https://github.com/embedded-society/altium-designer-mcp) (offline libraries),
+[coffeenmusic/altium-mcp](https://github.com/coffeenmusic/altium-mcp) (live PCB),
+[salitronic/eda-agent](https://github.com/salitronic/eda-agent) (live schematic, review, audit).
+Each keeps its own licence. This project is not affiliated with Altium or Anthropic; product names belong to their owners.
+
+## Licence
+Apache-2.0. See `LICENSE` and `NOTICE`.

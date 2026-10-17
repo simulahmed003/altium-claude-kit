@@ -1,28 +1,70 @@
-# Operating contract for Claude (kit-wide)
+# EDA workspace rules (Altium Designer 26, three MCP servers)
 
-You are an engineering design agent for embedded hardware in Altium Designer. Optimize for correctness,
-traceability and low token use, not for volume of text.
+Always start Claude Code from this workspace folder (D:\EDA in the examples). The hook, .mcp.json and permissions only apply here.
+Projects live in `projects\<name>\`. Before touching a project read its `CLAUDE.md`, `PROJECT.md`,
+`requirements.md`, `constraints.md` and `gates.md`. Rules: `rules\` (VERSION, 79 rules). Index: `docs\README.md`.
+Objective (user): automate the work an engineer does by hand in the tools. System-level design guidelines come later in `guidelines\` (DRAFT, empty, not binding, separate from `rules\`); never invent values for them.
 
-## Principles
-1. **Evaluate, then act.** Know the goal, current state (`project.yaml`), missing evidence and risks. Take the smallest useful next step.
-2. **Evidence only.** Part facts come from `comp get`, never from memory. If the DB lacks a fact, run `comp ingest` or read the one cited datasheet page. Never invent specs, pins or tool results.
-3. **Facts vs assumptions.** Label anything not from a datasheet or tool as `assumed` or `derived` in `decisions.md`.
-4. **Abs max ≠ recommended operating.** Design to recommended conditions with margin; never to absolute maximum.
-5. **Scripts for numbers.** Use `tools/calc/` and checks in `tools/` for any calculation or validation. Do not do arithmetic in prose.
-6. **Small context.** Load one skill, the rule files it names, and only the `comp get --section` you need. Read full logs only when diagnosing.
-7. **Rework the earliest affected phase only.** On a failed check, record the issue in `project.yaml`, go back to the phase that owns it, and mark downstream checks invalidated.
-8. **Honest status.** A check passes only when a real tool or a documented review passed it. If a tool is missing, say so and what that leaves unverified.
+## Non-negotiables
+1. Human gates G1, S1, G2, G3, G4 (`gates.md`) need an explicit user sign-off. Never tick a gate yourself.
+2. Datasheet first: every number about a part comes from a PDF in the project's `docs\datasheets\`. Missing -> ask.
+3. Calculations in code (`tools\scripts\calclib.py`, `calcs_run.py`), copied to `calcs.md`. Never mental arithmetic.
+4. Reads before writes. Announce every destructive edit and get a yes first.
+5. Never edit `tools\bridge\`, `.mcp.json` or `.claude\` (the user controls those). Never bypass the guard hook.
+6. "KILL SWITCH IS ENGAGED" in any result: stop all Altium work, tell the user, do not try to bypass it.
+7. Never claim what is on the screen without evidence (tool result, file, capture). Run the checkers before "done".
+8. New footprints go to the project's `libs\` first; the global library changes only via `lib_promote.py` after G1.
+9. After each work session append decisions and open issues to the project's `PROJECT.md`.
 
-## Where things are
-- Phase skills: `skills/` (start with `altium-orchestrator`).
-- Rules: `rules/*.md`, cited by ID (e.g. `PL-03`). Fab numbers: `rules/fab-profiles/<fab>.yaml`.
-- Parts: `python tools/comp/comp.py --help`.
+## The three MCP servers
+| Server | Use it for | Needs Altium open |
+|---|---|---|
+| `altium-lib` | create / edit / diff / validate .SchLib and .PcbLib (offline) | no |
+| `altium-coffee` | live PCB: placement, check_placement, net classes, screenshots, output jobs | yes |
+| `altium-eda` | live schematic, design review, audits, SPICE setup | yes |
 
-## Autonomy
-Do freely: search, ingest drafts, calculations, formatting, re-running checks, placement/routing within rules.
-Stop and ask at the gates in `project.yaml` (default: G1 architecture, G2 critical parts + schematic freeze,
-G3 layout freeze, G4 fab release) and for anything that breaks a rule or a requirement.
+Routing:
+1. Library work -> `altium-lib`. Dry-run first (libs\_dryrun\). Never write a library that is open in Altium.
+2. Schematic capture and review/audit -> `altium-eda`. Audits only on a COPY of the project.
+3. PCB layout, screenshots, output jobs -> `altium-coffee`.
+4. Only ONE live bridge (coffee or eda) at a time. A hook switches automatically and may show a popup.
+   If a call is blocked, read the message, tell the user, and wait. Never retry in a loop.
 
-## After each task
-Update `project.yaml` (status, issues, next action) and append one line per decision to `decisions.md`:
-`date | phase | decision | reason | evidence`. Report: result, evidence, what is still unverified, next action.
+Phase skills in `.claude\skills\` (start with `altium-orchestrator`) load the right rules and playbook for you.
+
+## Read before each phase (full table: `rules\00_INDEX.md`)
+| Phase | Rule files | Playbook |
+|---|---|---|
+| Start a project | 01_WORKFLOW_GATES, 02_REQUIREMENTS_CALCS_PARTS, 08_COMMUNICATION | P1 |
+| Library work | 03_LIBRARY, 07_TOOLING_ALTIUM | P2, P4 |
+| Schematic | 04_SCHEMATIC, 07_TOOLING_ALTIUM | P3 |
+| PCB layout | 05_PCB, 07_TOOLING_ALTIUM | P5 |
+| Before any gate / fab output | 01_WORKFLOW_GATES, 06_FAB_OUTPUT | P6 |
+| Commit / handoff | 01_WORKFLOW_GATES | P7 |
+| Altium stuck | 07_TOOLING_ALTIUM | P8 |
+Playbooks: `rules\playbooks\`. Rule changes: only the user approves (propose with `rules\RETRO_TEMPLATE.md`).
+
+## Offline tools (`tools\scripts\`, see its README.md; no Altium needed)
+| Need | Script |
+|---|---|
+| New project | `new_project.py <name>` |
+| Symbol pins = pads, style | `pin_match.py <SchLib> <PcbLib> --style` |
+| Sheet connectivity + dots | `conn_check.py <sheet.SchDoc> ai\plan.json` |
+| Sheet readability | `sch_overlap.py <sheet.SchDoc>` |
+| Gate evidence | `gate_check.py <G1/S1/G2/G3/G4> projects\<name>` -> ai\review\ |
+| Global library | `lib_pull.py`, `lib_status.py`, `lib_promote.py`, `catalog_check.py` (`library\README.md`) |
+| Everything still works | `python tools\selftest.py` |
+
+## Popups for problems the scripts cannot detect
+When a tool error matches a symptom, run `bridge.cmd popup <id>` (from the workspace folder). Exit code 0 = user pressed Retry
+(retry the call ONCE), 1 = Cancel (stop and ask).
+| Symptom | id |
+|---|---|
+| coffee timeout / no reply while the eda-agent loop may be running | run `bridge.cmd status` FIRST. If the loop is "responding", it is the cause (Altium refuses a second script): do NOT press Ctrl+F3 and do NOT show `script_crashed`. Tell the user and release the loop through the guard's "release eda-agent loop" popup or with eda-agent `app_detach` (it SAVES all modified documents first - announce that and get a yes), then wait |
+| timeout / no reply from Altium (loop not responding) | `script_crashed`, then `unknown_modal` if that did not help |
+| `update_pcb` adds 0 components while not in sync | `eco_dialog` |
+| "no active PCB/schematic document" | `wrong_document` |
+| offline server cannot write a library (file locked) | `library_open` |
+| unsaved documents block an operation | `unsaved_docs` |
+
+Logs: bridge switches and failures in `logs\MCP_LOG.md` (written by the scripts); lessons in `docs\LESSONS_LEARNED.md`.

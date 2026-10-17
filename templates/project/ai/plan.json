@@ -1,0 +1,8 @@
+{
+ "spec": "",
+ "summary": "{{NAME}} - fill from requirements.md and calcs.md",
+ "topology": "",
+ "sheets": [{"name": "Main", "title": "{{NAME}}", "size": "A3"}],
+ "parts": [],
+ "nets": []
+}

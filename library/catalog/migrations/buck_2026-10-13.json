@@ -1,0 +1,31 @@
+{
+ "note": "First migration: buck-12v-5v-3a libraries after G1 (signed off by the user 2026-10-13). Sources: projects/buck-12v-5v-3a/gates.md G1 list, ai/part_list.md, ai/footprint_checks.md. LCSC numbers VERIFIED in ai/part_list.md (page confirmed MPN + package).",
+ "components": {
+  "U_LMR33630ADDA": {"lcsc_verified": true, "preferred": true, "caveats": ["EP = AGND, tie to GND copper with vias (footprint has tented vias)"]},
+  "Q_AO4407C": {"lcsc_verified": true, "caveats": ["AO4407C datasheet is marked Preliminary", "alternative AO4407A C16072 (not in library)"]},
+  "L_10u_CDRH10D60": {"lcsc_verified": true, "caveats": ["buck deviation accepted at G1: DCR max 22.1 mOhm > 20 mOhm target, body 10.3 mm > 10 mm limit - re-check per project"]},
+  "R_20k0_0.1%_0603": {"lcsc_verified": true},
+  "R_4k99_0.1%_0603": {"lcsc_verified": true},
+  "R_51k_1%_0603": {"lcsc_verified": true, "preferred": true},
+  "R_10k_1%_0603": {"lcsc_verified": true, "preferred": true},
+  "R_100k_1%_0603": {"lcsc_verified": true, "preferred": true},
+  "C_22u_25V_X5R_1206": {"lcsc_verified": true, "preferred": true, "caveats": ["symbol pin length 80 mil (accepted exception, LIB-03)", "DC-bias derating at 5 V assumed 0.72 in buck calcs"]},
+  "C_10u_50V_X7R_1206": {"lcsc_verified": true, "caveats": ["symbol pin length 80 mil (accepted exception, LIB-03)"]},
+  "C_220n_50V_X7R_0603": {"lcsc_verified": true, "caveats": ["symbol pin length 80 mil (accepted exception, LIB-03)"]},
+  "C_100n_50V_X7R_0603": {"lcsc_verified": true, "preferred": true, "caveats": ["symbol pin length 80 mil (accepted exception, LIB-03)"]},
+  "C_1u_50V_X5R_0603": {"lcsc_verified": true, "preferred": true, "caveats": ["symbol pin length 80 mil (accepted exception, LIB-03)"]},
+  "C_DNP_0603": {"lcsc_verified": false, "caveats": ["footprint-only placeholder, value DNP, no part", "symbol pin length 80 mil (accepted exception, LIB-03)"]},
+  "J_MKDS1.5-2-5.08": {"lcsc_verified": true, "caveats": ["hand-soldered, not in the SMT order"]},
+  "TP_PAD": {"lcsc_verified": false, "preferred": true, "caveats": ["copper pad, no part", "symbol pin length 70 mil (accepted exception, LIB-03)"]}
+ },
+ "footprints": {
+  "LMR33630_HSOIC8_DDA": {"status": "datasheet-verified", "status_source": "lmr33630.pdf p55/p58 (DDA0008B); G1 user 2026-10-13", "caveats": ["vias 0.3/0.6 mm in the EP (TI shows 0.2 mm), tented both sides (G1 decision)"]},
+  "SOIC8_MS012": {"status": "unverified-accepted", "status_source": "user at G1 2026-10-13", "caveats": ["NOT verified against an AOS package drawing (none in the AO4407C/AO4407A datasheets)"]},
+  "IND_CDRH10D60": {"status": "datasheet-verified", "status_source": "Sumida CDRH10D60 datasheet p1; G1 user 2026-10-13"},
+  "CAPC3216_1206": {"status": "derived", "status_source": "no numeric land in Samsung/FH datasheets; IPC-style land, width per Samsung 2/3W < b < W; G1 user 2026-10-13", "caveats": ["derived land"]},
+  "CAPC1608_0603": {"status": "derived", "status_source": "no numeric land in Yageo/Samsung datasheets; G1 user 2026-10-13", "caveats": ["derived land"]},
+  "RESC1608_0603": {"status": "derived", "status_source": "no numeric land in UNI-ROYAL/RESI datasheets; G1 user 2026-10-13", "caveats": ["derived land"]},
+  "TB_MKDS1.5-2-5.08": {"status": "datasheet-verified", "status_source": "Phoenix 1715721 datasheet p1-2 (pitch 5.08, hole 1.3); G1 user 2026-10-13", "caveats": ["body outline position relative to the pins assumed centred - check with a real part"]},
+  "TP_PAD_D1.5": {"status": "derived", "status_source": "test pad sized for the user's probes; G1 user 2026-10-13", "caveats": ["no datasheet (copper pad)"]}
+ }
+}

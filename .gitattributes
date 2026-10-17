@@ -1,0 +1,9 @@
+* text=auto
+*.SchLib binary
+*.PcbLib binary
+*.SchDoc binary
+*.PcbDoc binary
+*.LibPkg text
+*.pdf binary
+*.png binary
+*.zip binary

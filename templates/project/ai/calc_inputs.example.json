@@ -1,0 +1,5 @@
+{"checks": [
+ {"name": "example: FB divider", "fn": "divider_worst", "ref": 5.0,
+  "args": {"vref3": [0.985, 1.0, 1.015], "rt": 20000, "rb": 4990, "r_tol": 0.001},
+  "limits": {"lo_pct": [-2, 2], "hi_pct": [-2, 2]}, "source": "datasheet equation (cite page)"}
+]}

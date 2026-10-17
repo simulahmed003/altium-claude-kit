@@ -1,0 +1,29 @@
+{
+ "pcblib": "passives.PcbLib",
+ "symbols": [
+  {
+   "name": "R_GENERIC_0603",
+   "kind": "R",
+   "prefix": "R",
+   "footprint": "RESC1608_0603",
+   "value": "?",
+   "description": "Generic 0603 resistor: set Value, MPN, LCSC per instance or use a catalog part"
+  },
+  {
+   "name": "C_GENERIC_0603",
+   "kind": "C",
+   "prefix": "C",
+   "footprint": "CAPC1608_0603",
+   "value": "?",
+   "description": "Generic 0603 capacitor: set Value, voltage, dielectric, MPN, LCSC per instance"
+  },
+  {
+   "name": "C_GENERIC_1206",
+   "kind": "C",
+   "prefix": "C",
+   "footprint": "CAPC3216_1206",
+   "value": "?",
+   "description": "Generic 1206 capacitor: set Value, voltage, dielectric, MPN, LCSC per instance"
+  }
+ ]
+}

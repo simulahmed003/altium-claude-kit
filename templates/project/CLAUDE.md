@@ -1,10 +1,17 @@
-# Project instructions
+# Project {{NAME}}
 
-Kit: `{{KIT_PATH}}` (follow `{{KIT_PATH}}/CLAUDE.md`).
-Parts tool: `python {{KIT_PATH}}/tools/comp/comp.py` (run from this folder).
+Created {{DATE}}. Workspace rules in ../../CLAUDE.md apply. Rules snapshot: rules VERSION {{RULES_VERSION}}
+(recorded in project.json; a newer workspace VERSION does not change this project silently - WF-03).
 
-Start every session by reading `project.yaml` and the last 10 lines of `decisions.md`, then use the
-`altium-orchestrator` skill. Project-specific rule overrides go below, each with a reason.
+@requirements.md
+@constraints.md
+@schematic_standards.md
+@PROJECT.md
 
-## Overrides
-<!-- e.g. PL-03 relaxed to 3 mm: board edge connector forces it; approved by <name> <date> -->
+Before each phase read the files in ../../rules/00_INDEX.md "Read before each phase" and the playbook named there.
+Checkers and generators: ../../tools/scripts (README.md there). Evidence per gate: ai/review/ (gate_check.py).
+Libraries: local copies only (libs/), recorded in libs/lib_manifest.json; global parts via lib_pull.py.
+
+Folders: `hw\` Altium project, `libs\` project libraries, `docs\datasheets\` datasheets (cite only these),
+`outputs\` Gerbers/BOM, `ai\` plans, reports and session notes.
+Current phase: see PROJECT.md. Gates: see gates.md.

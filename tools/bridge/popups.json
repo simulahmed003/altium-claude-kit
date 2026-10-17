@@ -1,0 +1,99 @@
+{
+  "script_crashed": {
+    "title": "Altium's script engine seems stuck or crashed",
+    "steps": [
+      "Switch to Altium Designer.",
+      "Press Ctrl+F3 (Run > Stop Script). If a script debugger is paused, stop it there.",
+      "If Altium still does not respond, save your work and restart Altium.",
+      "Come back here and press Retry."
+    ]
+  },
+  "eda_loop_active": {
+    "title": "eda-agent is still holding Altium's scripting engine",
+    "steps": [
+      "Easiest: in Claude, ask it to call the eda-agent tool app_detach (do not use any other Altium tool). It SAVES all modified Altium documents first.",
+      "Or, if you do not want anything saved: in Altium press Ctrl+F3 to stop the running script (StartMCPServer).",
+      "Wait about 5 seconds, then press Retry."
+    ]
+  },
+  "eda_loop_not_started": {
+    "title": "eda-agent loop is not running in Altium",
+    "steps": [
+      "In Altium: File > Run Script...",
+      "Choose StartMCPServer (from the eda-agent script project) and run it.",
+      "A small eda-agent status window should appear.",
+      "If it is missing: DXP > Preferences > Scripting System > Global Projects > add the eda-agent script project (the folder printed by 'eda-agent install-scripts').",
+      "Press Retry."
+    ]
+  },
+  "altium_not_running": {
+    "title": "Altium Designer is not running",
+    "steps": [
+      "Start Altium Designer.",
+      "Open the project you want to work on (File > Open).",
+      "Press Retry."
+    ]
+  },
+  "eco_dialog": {
+    "title": "The schematic-to-PCB update (ECO) needs you",
+    "steps": [
+      "In Altium look for the Engineering Change Order dialog (it may be behind other windows).",
+      "Click Validate Changes, then Execute Changes, then Close.",
+      "Press Retry."
+    ]
+  },
+  "wrong_document": {
+    "title": "The wrong Altium document is in focus",
+    "steps": [
+      "In Altium, open the .PcbDoc (or .SchDoc) the tool needs.",
+      "Click its tab so it is the focused document.",
+      "Press Retry."
+    ]
+  },
+  "library_open": {
+    "title": "A library file is open in Altium",
+    "steps": [
+      "In Altium, close the .SchLib / .PcbLib that is being edited (save it first).",
+      "Press Retry. Reopen the library in Altium after the offline tool finishes."
+    ]
+  },
+  "unsaved_docs": {
+    "title": "Altium has unsaved documents",
+    "steps": [
+      "In Altium choose File > Save All.",
+      "Press Retry."
+    ]
+  },
+  "unknown_modal": {
+    "title": "Altium is not answering - a dialog may be hiding",
+    "steps": [
+      "Look at the taskbar and behind other windows for an Altium dialog box.",
+      "Close or answer the dialog.",
+      "Press Retry."
+    ]
+  },
+  "restart_needed": {
+    "title": "The bridge could not recover - restart needed",
+    "steps": [
+      "Save everything in Altium, then close and reopen Altium.",
+      "If the loop check is giving wrong answers, you can skip it with:  bridge.cmd force coffee   or   bridge.cmd force eda",
+      "Ask Claude to try again."
+    ]
+  },
+  "kill_engaged": {
+    "title": "KILL SWITCH ENGAGED",
+    "steps": [
+      "All Altium MCP calls are now blocked and the MCP server processes were stopped.",
+      "Altium itself was NOT touched. Save your work in Altium. If a script is running press Ctrl+F3 there.",
+      "Restart any open Claude Code session before using it again.",
+      "To re-enable later, double-click REARM.cmd in the workspace folder."
+    ]
+  },
+  "kill_rearmed": {
+    "title": "Kill switch released",
+    "steps": [
+      "The MCP configuration was restored. Nothing was started.",
+      "Start a new Claude Code session in the workspace folder to load the servers again."
+    ]
+  }
+}
