@@ -80,7 +80,7 @@ Conventions:
 6. `parts.py check <mpn>` until PASS: schema, units, every quote found on its page, abs max vs recommended,
    required facts. Set `review.status` to `extracted`.
 7. A person verifies pins, abs max and package against the PDF (and every `visual` value), then sets `verified`
-   with name and date. Only `verified` facts may later replace opening the PDF (rule RQ-01 change, PROPOSED).
+   with name and date. Design work reads numbers from the record (rule RQ-01); pins, abs max and package must be `verified` before G1.
 8. `parts.py index`. Commit the record, `datasheets\index.json` and `parts\index.json` (never the PDF).
 9. Price and stock: `parts.py market <mpn>` at BOM time (rule RQ-04). The snapshot is local and dated.
 
