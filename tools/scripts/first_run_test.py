@@ -12,7 +12,9 @@ Tests:
   2 the eda-agent loop is "responding" (you start StartMCPServer in Altium when asked)
   3 one read-only altium-coffee call while the loop runs: did the guard ask, did Altium survive
   4 eda-agent app_detach (SAVES modified documents), then the loop must be "not responding"
-  5 the two live servers do not install script projects with the same file name
+  5 the two live servers' script projects cannot be mixed up in Altium (both are named Altium_API.PrjScr; that is
+    safe while coffee runs its project by full path, finds its exchange folder by a fixed path, and calls no unit
+    that the eda-agent project also has)
   6 kill switch: KILL.cmd, then .mcp.json disabled, lock present, MCP calls blocked, Altium untouched; REARM.cmd
 Every result is printed and appended to logs/MCP_LOG.md. Exit 0 = all run tests PASS, 1 = any FAIL.
 """
@@ -53,9 +55,33 @@ def parse_status(text):
 
 
 def clashes(eda_paths, coffee_paths):
-    """Script project file names that both live servers install (Altium may open the wrong one)."""
+    """Script project file names that both live servers install."""
     names = lambda ps: {os.path.basename(p).lower() for p in ps}
     return sorted(names(eda_paths) & names(coffee_paths))
+
+
+def mixup_risks(eda_units, coffee_main, coffee_pas):
+    """Ways Altium could run the wrong script project when both servers' projects share a name.
+    eda_units: .pas file names of the eda-agent project; coffee_main: text of altium-mcp server/main.py;
+    coffee_pas: {file name: text} of coffee's Pascal units. Empty list = no known way to mix them up.
+    Same name is fine on its own: Altium keys open projects by full path (phase 0 test 5, 2026-10-13)."""
+    risks = []
+    procs = re.findall(r'ProcName="([^">]+)>', coffee_main)
+    if not procs:
+        risks.append("coffee main.py: no RunScript ProcName found (launch code changed, check it)")
+    if re.search(r'RunScript\(ProjectName="\{', coffee_main) is None:
+        risks.append("coffee main.py: RunScript no longer passes the script project by full path")
+    eda = {u.lower() for u in eda_units}
+    for unit in sorted(set(procs)):
+        if unit.lower() + ".pas" in eda:
+            risks.append(f"coffee calls unit {unit}, which the eda-agent project also has")
+    main_unit = next((t for n, t in coffee_pas.items() if n.lower() == "altium_api.pas"), "")
+    if not re.search(r"ROOT_DIR\s*:=\s*'[A-Za-z]:\\", main_unit):
+        risks.append("coffee Altium_API.pas: exchange folder ROOT_DIR is not a fixed path any more")
+    for n, t in coffee_pas.items():
+        if re.search(r"(?<!\w)ScriptProjectPath\s*\(", re.sub(r"function\s+ScriptProjectPath", "", t)):
+            risks.append(f"coffee {n} calls ScriptProjectPath (finds its project by name among open projects)")
+    return risks
 
 
 class Runner:
@@ -147,17 +173,29 @@ class Runner:
     def t5(self):
         home = os.path.expanduser("~")
         eda = glob.glob(os.path.join(home, "EDA Agent", "scripts", "**", "*.PrjScr"), recursive=True)
-        shipped = os.path.join(ROOT, "tools", "mcp", "altium-mcp", "server", "AltiumScript", "Altium_API.PrjScr")
+        cm = os.path.join(ROOT, "tools", "mcp", "altium-mcp")
+        shipped = os.path.join(cm, "server", "AltiumScript", "Altium_API.PrjScr")
         coffee = coffee_script_rename.current_project(coffee_script_rename.default_config(), shipped)
         for p in eda:
             print(f"   eda-agent: {p}")
         print(f"   coffee runs: {coffee}")
-        if not eda or not os.path.isfile(coffee):
+        main_py = os.path.join(cm, "server", "main.py")
+        if not eda or not os.path.isfile(coffee) or not os.path.isfile(main_py):
             return self.record(5, None, "script project of one server not found (eda-agent install-scripts or "
                                         "tools\\setup.ps1 not run?)")
         dup = clashes(eda, [coffee])
-        self.record(5, not dup, f"same project name in both servers: {dup or 'none'}"
-                                + (" (fix: python tools\\scripts\\coffee_script_rename.py)" if dup else ""))
+        eda_units = [os.path.basename(p) for p in glob.glob(os.path.join(home, "EDA Agent", "scripts", "**", "*.pas"),
+                                                             recursive=True)]
+        read = lambda p: open(p, encoding="utf-8", errors="replace").read()
+        coffee_pas = {os.path.basename(p): read(p) for p in
+                      glob.glob(os.path.join(cm, "server", "AltiumScript", "*.pas"))}
+        risks = mixup_risks(eda_units, read(main_py), coffee_pas)
+        for r in risks:
+            print(f"   risk: {r}")
+        self.record(5, not dup and not risks,
+                    f"same project name in both servers: {dup or 'none'}"
+                    + (" (fix: python tools\\scripts\\coffee_script_rename.py)" if dup else "")
+                    + f", ways to mix them up: {'; '.join(risks) or 'none'}")
 
     def t6(self):
         if not self.ask("Engage the kill switch now (stops the MCP servers, never touches Altium; REARM follows)?"):
