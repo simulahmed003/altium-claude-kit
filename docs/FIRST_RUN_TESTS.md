@@ -15,6 +15,8 @@ Shortcut: `python tools\scripts\first_run_test.py` runs all six and writes the l
 4. Ask Claude to call the eda-agent tool `app_detach` (it SAVES all modified Altium documents first). Then `bridge.cmd status`:
    the loop should now be "not responding".
 5. Check that the two live servers do not fight over a script project with the same name (`Altium_API.PrjScr`).
+   `tools\setup.ps1` runs `tools\scripts\coffee_script_rename.py`, which gives coffee's copy the name
+   `AltiumCoffee.PrjScr`. If Altium still has coffee's old `Altium_API.PrjScr` open, close it in the Projects panel.
 6. Kill switch: double-click `KILL.cmd`, confirm the popup, check that `claude` shows the servers gone and Altium is untouched.
    Then double-click `REARM.cmd`.
 

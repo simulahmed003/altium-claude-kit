@@ -26,6 +26,9 @@ import subprocess
 import sys
 import time
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import coffee_script_rename  # noqa: E402
+
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 LOG = os.path.join(ROOT, "logs", "MCP_LOG.md")
 CLAUDE_TIMEOUT = 600          # the guard may wait on a popup
@@ -144,14 +147,17 @@ class Runner:
     def t5(self):
         home = os.path.expanduser("~")
         eda = glob.glob(os.path.join(home, "EDA Agent", "scripts", "**", "*.PrjScr"), recursive=True)
-        coffee = glob.glob(os.path.join(ROOT, "tools", "mcp", "altium-mcp", "**", "*.PrjScr"), recursive=True)
-        for p in eda + coffee:
-            print(f"   {p}")
-        if not eda or not coffee:
-            return self.record(5, None, "script projects of one server not found (eda-agent install-scripts not run?)")
-        dup = clashes(eda, coffee)
-        self.record(5, not dup, f"{len(eda)} eda-agent + {len(coffee)} coffee script projects, "
-                                f"same name in both: {dup or 'none'}")
+        shipped = os.path.join(ROOT, "tools", "mcp", "altium-mcp", "server", "AltiumScript", "Altium_API.PrjScr")
+        coffee = coffee_script_rename.current_project(coffee_script_rename.default_config(), shipped)
+        for p in eda:
+            print(f"   eda-agent: {p}")
+        print(f"   coffee runs: {coffee}")
+        if not eda or not os.path.isfile(coffee):
+            return self.record(5, None, "script project of one server not found (eda-agent install-scripts or "
+                                        "tools\\setup.ps1 not run?)")
+        dup = clashes(eda, [coffee])
+        self.record(5, not dup, f"same project name in both servers: {dup or 'none'}"
+                                + (" (fix: python tools\\scripts\\coffee_script_rename.py)" if dup else ""))
 
     def t6(self):
         if not self.ask("Engage the kill switch now (stops the MCP servers, never touches Altium; REARM follows)?"):

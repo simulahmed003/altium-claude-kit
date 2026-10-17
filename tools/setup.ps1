@@ -111,6 +111,8 @@ Section 'coffeenmusic: altium-mcp (live PCB bridge)' {
     $cpy = Join-Path $cv.FullName 'Scripts\python.exe'
     Run $cpy @('-m', 'pip', 'install', '--quiet', '--disable-pip-version-check', 'pydantic==2.10.6', 'pydantic-core==2.27.2')
     Run $cpy @('-c', 'from mcp.server.fastmcp import FastMCP')
+    # Both live servers ship Altium_API.PrjScr; give coffee's project its own name (first_run_test test 5)
+    Run 'python' @((Join-Path $Root 'tools\scripts\coffee_script_rename.py'), '--coffee', $dest)
     $script:CoffeePy = $py
     $script:CoffeeStart = $start
 }
