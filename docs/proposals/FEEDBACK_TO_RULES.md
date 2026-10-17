@@ -55,7 +55,7 @@ Extra conditions before anything goes to the central repo (L1, L2, L3):
    `projects\<name>\ai\feedback.md`, one entry per item:
    `F-<nn> | date | phase/gate | kind: defect / better option / preference | user's words | what the agent changed | evidence (file, capture, check output)`.
    The agent never edits rules here. It only records.
-2. **Retro (at each gate sign-off and at project end).** After the user approves a gate, the agent runs the retro:
+2. **Retro (at the end of every stage, section 4a).** When the user approves the end of a stage, the agent runs the retro:
    groups the F- entries, applies the test in section 3, and fills `rules\RETRO_TEMPLATE.md` (extended with a
    "layer" and "generalized wording" column). It checks for duplicates against `rules\00_INDEX.md`.
 3. **User decision (local).** The agent shows the retro as a short table: each item with its proposed layer and
@@ -70,22 +70,75 @@ Extra conditions before anything goes to the central repo (L1, L2, L3):
 6. **Distribution.** Users pull the new version. Each project pins `rules_version` (WF-03), so a running design is not
    changed under it; the user upgrades a project on purpose, at a gate boundary.
 
+## 4a. Feedback at every stage, not only at gates
+The loop runs at the end of every design stage, and capture (step 1) runs all the time. A stage is the work between
+two checkpoints; the five human gates are only some of them.
+
+| Stage | Ends with | Retro point |
+|---|---|---|
+| 1 Requirements and architecture | user OK on requirements.md (planned gate G0) | yes |
+| 2 Calculations and part selection | user OK on calcs.md and the part list | yes |
+| 3 Library | G1 | yes |
+| 4 Schematic | S1 | yes |
+| 5 Layout | G2 | yes |
+| 6 Analysis (thermal, PDN, SI, SPICE as the domain needs) | user OK on the analysis report | yes |
+| 7 DRC and audit | G3 | yes |
+| 8 Fab release | G4 | yes |
+| 9 After the board is built (bring-up, measurements, rework) | user's bring-up notes | yes: the most valuable feedback |
+
+A domain pack (section 4b) may add stages, for example "stackup and impedance" before layout for high-speed boards.
+Each retro is short: only the entries since the last retro. Stage 9 feedback is the strongest evidence for L1/L2,
+because it was measured on a real board.
+
+## 4b. More domains without an unmanageable rule set
+When power-electronics, high-speed, RF or server/computer designers join, one flat `rules\` folder would grow into
+rules that most projects never need. Proposal:
+
+- **Core plus domain packs.** `rules\core\` holds what every board needs (today's 01, 02, 03, 07, 08 and the general
+  parts of 04, 05, 06). Each domain gets `rules\domains\<domain>\` with its own rule files, playbooks, guideline
+  topics, checker scripts and any extra stages or gates. ID prefixes per domain (for example PWR-, HS-, RF-).
+- **A project declares its domains** in `project.json` (`"domains": ["power"]`). The agent loads core plus only
+  those packs, and only the files of the current stage (the phase table in `00_INDEX.md` already does this for
+  stages). This keeps the agent's reading short however big the repo gets.
+- **The layer test gets one more question.** Between questions 4 and 5 of section 3: "Does it hold only for one
+  domain?" Then it goes to that domain pack, not to core.
+- **Domain reviewers.** Each pack names who reviews its PRs (someone who designs in that domain). Core stays with
+  the maintainer.
+
+## 4c. The AI keeps the rule set manageable
+Next to rule proposals, the agent proposes housekeeping, always as a PR the maintainer approves, never as a
+direct edit. A `rules_health.py` report (an extension of `rules_lint.py`) gives it the evidence:
+- **Too big**: a file or pack past a size limit -> propose a split. (The limit is NOT SET; the maintainer picks it.)
+- **Overlap**: two rules that say nearly the same thing -> propose a merge.
+- **Wrong home**: a core rule that only domain projects ever trigger -> propose a move to that pack; a rule that
+  several packs copy -> propose a move to core.
+- **Never used**: a rule that no check and no feedback has touched over a number of projects -> propose retiring it.
+  (The number is NOT SET.)
+- **Often broken CHECKLIST rule** -> propose a checker script so it becomes ENFORCED.
+- **Old SEED or PROPOSED** -> remind the maintainer to decide.
+- **Conflicts** between a domain pack and core, or between two packs -> flag for the maintainer.
+IDs are never reused. A moved or merged rule keeps its old ID as an alias in the index, so old projects, lessons and
+feedback entries still resolve. A structure change bumps the minor version; projects pinned to the old version
+keep working.
+
 ## 5. What to build (each item is its own small PR, after approval of this proposal)
 | # | Piece | Type |
 |---|---|---|
-| 1 | Rule WF-08 "Capture feedback" and WF-09 "Retro after each gate" (text below), status PROPOSED | rule |
+| 1 | Rule WF-08 "Capture feedback" and WF-09 "Retro after each stage" (text below), status PROPOSED | rule |
 | 2 | `templates\project\ai\feedback.md` and an extended `rules\RETRO_TEMPLATE.md` (layer + generalized wording columns) | template |
 | 3 | `standards\` folder with `README.md` and a `TEMPLATE.md` for a user/company standard (L4); `.gitignore` keeps `standards\*` local except the README and template | folder |
 | 4 | `feedback_triage.py`: reads feedback.md, finds duplicates against the rule index (by keywords and IDs), drafts the retro table; never decides the layer on its own | script + test |
 | 5 | A `rule-feedback` skill (retro and proposal steps; cites WF-08, WF-09, this file). Drafted in `docs\templates\`; the user copies it into `.claude\skills\` (Claude may not edit `.claude\`) | skill |
 | 6 | Move the user-specific parts of today's rules to L4 or L5 (see section 6); each move is a rule change the maintainer approves | rule review |
+| 7 | `rules\core\` + `rules\domains\` layout, `domains` key in project.json, loader and index support; first pack: `power` (from the buck work) | structure |
+| 8 | `rules_health.py` housekeeping report (section 4c) | script + test |
 
 Draft rule text (PROPOSED):
 - **WF-08 Capture feedback.** MUST: write every user correction or suggestion to `ai\feedback.md` when it is given,
   with phase, kind, the user's words, the change made and the evidence. MUST NOT change any rule, guideline or
   standard file at that moment. Why: feedback is the raw material for better rules; lost feedback is repeated work.
   Check: gate_check.py lists feedback entries with no retro decision (planned).
-- **WF-09 Retro after each gate.** MUST: after the user signs off a gate, classify each new feedback entry with the
+- **WF-09 Retro after each stage.** MUST: when the user approves the end of a stage (section 4a), classify each new feedback entry with the
   layer test (FEEDBACK_TO_RULES.md section 3), show the table, and apply only what the user accepts. Central
   proposals are PRs in the house format, never direct edits of `rules\`. Why: rules grow from evidence, with the
   user in control. Check: checklist (retro file per gate in `ai\review\`).
@@ -116,3 +169,6 @@ First-pass observations, to be confirmed in those sessions (not decisions):
 3. Location and privacy of L4: `standards\<owner>\`, local only (git-ignored), or its own private repo?
 4. Should WF-08 and WF-09 enter as PROPOSED now?
 5. Start the rule-by-rule review with 01_WORKFLOW_GATES?
+6. Approve retros at every stage (section 4a), including stage 9 after the board is built?
+7. Approve core plus domain packs (section 4b)? Which domains first after `power`?
+8. Approve AI housekeeping proposals (section 4c), and set the size and "never used" limits?
