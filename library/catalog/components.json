@@ -2,13 +2,13 @@
  "schema": 1,
  "components": [
   {
-   "id": "J_MKDS1.5-2-5.08",
+   "id": "J_MKDS1.5-2-5.08_1715721",
    "category": "connectors",
    "family": "terminal_block",
-   "symbol": "J_MKDS1.5-2-5.08",
+   "symbol": "J_MKDS1.5-2-5.08_1715721",
    "global_lib": "symbols/connectors/terminal_block.SchLib",
-   "rev": 1,
-   "symbol_hash": "83c02a7de56e5d27",
+   "rev": 2,
+   "symbol_hash": "415ea7f19cdd6cb8",
    "footprint": "TB_MKDS1.5-2-5.08",
    "value": "MKDS 1,5/2-5,08",
    "description": "Screw terminal 2-pos 5.08 mm, 17.5 A, 250 V",
@@ -38,7 +38,17 @@
      "date": "2026-10-13",
      "hash": "83c02a7de56e5d27",
      "project": "buck-12v-5v-3a"
+    },
+    {
+     "rev": 2,
+     "date": "2026-10-19",
+     "hash": "415ea7f19cdd6cb8",
+     "project": "-",
+     "note": "renamed from J_MKDS1.5-2-5.08 (naming: part number in the name, user 2026-10-19); content unchanged (altium-lib compare_components)"
     }
+   ],
+   "former_ids": [
+    "J_MKDS1.5-2-5.08"
    ]
   },
   {
@@ -120,13 +130,13 @@
    ]
   },
   {
-   "id": "U_LMR33630ADDA",
+   "id": "U_LMR33630ADDAR",
    "category": "ics",
    "family": "power_buck",
-   "symbol": "U_LMR33630ADDA",
+   "symbol": "U_LMR33630ADDAR",
    "global_lib": "symbols/ics/power_buck.SchLib",
-   "rev": 1,
-   "symbol_hash": "bb72cdf379d85ed4",
+   "rev": 2,
+   "symbol_hash": "5dafb202d80b6bff",
    "footprint": "LMR33630_HSOIC8_DDA",
    "value": "LMR33630ADDAR",
    "description": "Sync buck 3.8-36 V in, 3 A, 400 kHz (A), HSOIC-8 PowerPAD; EP = AGND",
@@ -156,17 +166,27 @@
      "date": "2026-10-13",
      "hash": "bb72cdf379d85ed4",
      "project": "buck-12v-5v-3a"
+    },
+    {
+     "rev": 2,
+     "date": "2026-10-19",
+     "hash": "5dafb202d80b6bff",
+     "project": "-",
+     "note": "renamed from U_LMR33630ADDA (naming: part number in the name, user 2026-10-19); content unchanged (altium-lib compare_components)"
     }
+   ],
+   "former_ids": [
+    "U_LMR33630ADDA"
    ]
   },
   {
-   "id": "C_100n_50V_X7R_0603",
+   "id": "C_100n_50V_X7R_0603_CC0603KRX7R9BB104",
    "category": "passives",
    "family": "capacitor_mlcc",
-   "symbol": "C_100n_50V_X7R_0603",
+   "symbol": "C_100n_50V_X7R_0603_CC0603KRX7R9BB104",
    "global_lib": "symbols/passives/capacitor_mlcc.SchLib",
-   "rev": 1,
-   "symbol_hash": "0d73e31b8687a186",
+   "rev": 2,
+   "symbol_hash": "a3bc654ae09ab5f8",
    "footprint": "CAPC1608_0603",
    "value": "100n 50V X7R",
    "description": "CBOOT / HF bypass: 100 nF 50 V X7R 0603",
@@ -196,17 +216,27 @@
      "date": "2026-10-13",
      "hash": "0d73e31b8687a186",
      "project": "buck-12v-5v-3a"
+    },
+    {
+     "rev": 2,
+     "date": "2026-10-19",
+     "hash": "a3bc654ae09ab5f8",
+     "project": "-",
+     "note": "renamed from C_100n_50V_X7R_0603 (naming: part number in the name, user 2026-10-19); content unchanged (altium-lib compare_components)"
     }
+   ],
+   "former_ids": [
+    "C_100n_50V_X7R_0603"
    ]
   },
   {
-   "id": "C_10u_50V_X7R_1206",
+   "id": "C_10u_50V_X7R_1206_1206B106K500NT",
    "category": "passives",
    "family": "capacitor_mlcc",
-   "symbol": "C_10u_50V_X7R_1206",
+   "symbol": "C_10u_50V_X7R_1206_1206B106K500NT",
    "global_lib": "symbols/passives/capacitor_mlcc.SchLib",
-   "rev": 1,
-   "symbol_hash": "211b5fce972ea6e2",
+   "rev": 2,
+   "symbol_hash": "199473d38bae9ab6",
    "footprint": "CAPC3216_1206",
    "value": "10u 50V X7R",
    "description": "CIN: 10 uF 50 V X7R 10% 1206",
@@ -236,17 +266,27 @@
      "date": "2026-10-13",
      "hash": "211b5fce972ea6e2",
      "project": "buck-12v-5v-3a"
+    },
+    {
+     "rev": 2,
+     "date": "2026-10-19",
+     "hash": "199473d38bae9ab6",
+     "project": "-",
+     "note": "renamed from C_10u_50V_X7R_1206 (naming: part number in the name, user 2026-10-19); content unchanged (altium-lib compare_components)"
     }
+   ],
+   "former_ids": [
+    "C_10u_50V_X7R_1206"
    ]
   },
   {
-   "id": "C_1u_50V_X5R_0603",
+   "id": "C_1u_50V_X5R_0603_CL10A105KB8NNNC",
    "category": "passives",
    "family": "capacitor_mlcc",
-   "symbol": "C_1u_50V_X5R_0603",
+   "symbol": "C_1u_50V_X5R_0603_CL10A105KB8NNNC",
    "global_lib": "symbols/passives/capacitor_mlcc.SchLib",
-   "rev": 1,
-   "symbol_hash": "3d7307d8521036a5",
+   "rev": 2,
+   "symbol_hash": "adddfe8b8f314763",
    "footprint": "CAPC1608_0603",
    "value": "1u 50V X5R",
    "description": "CVCC: 1 uF 50 V X5R 0603",
@@ -276,17 +316,27 @@
      "date": "2026-10-13",
      "hash": "3d7307d8521036a5",
      "project": "buck-12v-5v-3a"
+    },
+    {
+     "rev": 2,
+     "date": "2026-10-19",
+     "hash": "adddfe8b8f314763",
+     "project": "-",
+     "note": "renamed from C_1u_50V_X5R_0603 (naming: part number in the name, user 2026-10-19); content unchanged (altium-lib compare_components)"
     }
+   ],
+   "former_ids": [
+    "C_1u_50V_X5R_0603"
    ]
   },
   {
-   "id": "C_220n_50V_X7R_0603",
+   "id": "C_220n_50V_X7R_0603_CC0603KRX7R9BB224",
    "category": "passives",
    "family": "capacitor_mlcc",
-   "symbol": "C_220n_50V_X7R_0603",
+   "symbol": "C_220n_50V_X7R_0603_CC0603KRX7R9BB224",
    "global_lib": "symbols/passives/capacitor_mlcc.SchLib",
-   "rev": 1,
-   "symbol_hash": "65190a626452e77d",
+   "rev": 2,
+   "symbol_hash": "5117944b21cba396",
    "footprint": "CAPC1608_0603",
    "value": "220n 50V X7R",
    "description": "CHF: 220 nF 50 V X7R 0603",
@@ -316,17 +366,27 @@
      "date": "2026-10-13",
      "hash": "65190a626452e77d",
      "project": "buck-12v-5v-3a"
+    },
+    {
+     "rev": 2,
+     "date": "2026-10-19",
+     "hash": "5117944b21cba396",
+     "project": "-",
+     "note": "renamed from C_220n_50V_X7R_0603 (naming: part number in the name, user 2026-10-19); content unchanged (altium-lib compare_components)"
     }
+   ],
+   "former_ids": [
+    "C_220n_50V_X7R_0603"
    ]
   },
   {
-   "id": "C_22u_25V_X5R_1206",
+   "id": "C_22u_25V_X5R_1206_CL31A226KAHNNNE",
    "category": "passives",
    "family": "capacitor_mlcc",
-   "symbol": "C_22u_25V_X5R_1206",
+   "symbol": "C_22u_25V_X5R_1206_CL31A226KAHNNNE",
    "global_lib": "symbols/passives/capacitor_mlcc.SchLib",
-   "rev": 1,
-   "symbol_hash": "11e0d75117212090",
+   "rev": 2,
+   "symbol_hash": "14cb2a5fbba1d643",
    "footprint": "CAPC3216_1206",
    "value": "22u 25V X5R",
    "description": "COUT: 22 uF 25 V X5R 10% 1206",
@@ -357,7 +417,17 @@
      "date": "2026-10-13",
      "hash": "11e0d75117212090",
      "project": "buck-12v-5v-3a"
+    },
+    {
+     "rev": 2,
+     "date": "2026-10-19",
+     "hash": "14cb2a5fbba1d643",
+     "project": "-",
+     "note": "renamed from C_22u_25V_X5R_1206 (naming: part number in the name, user 2026-10-19); content unchanged (altium-lib compare_components)"
     }
+   ],
+   "former_ids": [
+    "C_22u_25V_X5R_1206"
    ]
   },
   {
@@ -398,13 +468,13 @@
    ]
   },
   {
-   "id": "L_10u_CDRH10D60",
+   "id": "L_10u_CDRH10D60_CDRH10D60BT150NP-100MC",
    "category": "passives",
    "family": "inductor_power",
-   "symbol": "L_10u_CDRH10D60",
+   "symbol": "L_10u_CDRH10D60_CDRH10D60BT150NP-100MC",
    "global_lib": "symbols/passives/inductor_power.SchLib",
-   "rev": 1,
-   "symbol_hash": "6ec656676f429dec",
+   "rev": 2,
+   "symbol_hash": "fffce03223612caa",
    "footprint": "IND_CDRH10D60",
    "value": "10u 6.2A",
    "description": "10 uH 20%, DCR 17 mOhm +/-30%, Isat 6.2 A, Itemp 6.9 A, shielded, AEC-Q200",
@@ -434,17 +504,27 @@
      "date": "2026-10-13",
      "hash": "6ec656676f429dec",
      "project": "buck-12v-5v-3a"
+    },
+    {
+     "rev": 2,
+     "date": "2026-10-19",
+     "hash": "fffce03223612caa",
+     "project": "-",
+     "note": "renamed from L_10u_CDRH10D60 (naming: part number in the name, user 2026-10-19); content unchanged (altium-lib compare_components)"
     }
+   ],
+   "former_ids": [
+    "L_10u_CDRH10D60"
    ]
   },
   {
-   "id": "R_100k_1%_0603",
+   "id": "R_100k_1%_0603_0603WAF1003T5E",
    "category": "passives",
    "family": "resistor",
-   "symbol": "R_100k_1%_0603",
+   "symbol": "R_100k_1%_0603_0603WAF1003T5E",
    "global_lib": "symbols/passives/resistor.SchLib",
-   "rev": 1,
-   "symbol_hash": "5affe47895a9f9d2",
+   "rev": 2,
+   "symbol_hash": "69d478270017e4d3",
    "footprint": "RESC1608_0603",
    "value": "100k",
    "description": "PG pull-up 100 kOhm 1% 0603",
@@ -472,17 +552,27 @@
      "date": "2026-10-13",
      "hash": "5affe47895a9f9d2",
      "project": "buck-12v-5v-3a"
+    },
+    {
+     "rev": 2,
+     "date": "2026-10-19",
+     "hash": "69d478270017e4d3",
+     "project": "-",
+     "note": "renamed from R_100k_1%_0603 (naming: part number in the name, user 2026-10-19); content unchanged (altium-lib compare_components)"
     }
+   ],
+   "former_ids": [
+    "R_100k_1%_0603"
    ]
   },
   {
-   "id": "R_10k_1%_0603",
+   "id": "R_10k_1%_0603_0603WAF1002T5E",
    "category": "passives",
    "family": "resistor",
-   "symbol": "R_10k_1%_0603",
+   "symbol": "R_10k_1%_0603_0603WAF1002T5E",
    "global_lib": "symbols/passives/resistor.SchLib",
-   "rev": 1,
-   "symbol_hash": "3542ec2ffb6efbef",
+   "rev": 2,
+   "symbol_hash": "1f52519f8df16fc1",
    "footprint": "RESC1608_0603",
    "value": "10k",
    "description": "10 kOhm 1% 100mW 0603 (RENB, MOSFET gate)",
@@ -510,17 +600,27 @@
      "date": "2026-10-13",
      "hash": "3542ec2ffb6efbef",
      "project": "buck-12v-5v-3a"
+    },
+    {
+     "rev": 2,
+     "date": "2026-10-19",
+     "hash": "1f52519f8df16fc1",
+     "project": "-",
+     "note": "renamed from R_10k_1%_0603 (naming: part number in the name, user 2026-10-19); content unchanged (altium-lib compare_components)"
     }
+   ],
+   "former_ids": [
+    "R_10k_1%_0603"
    ]
   },
   {
-   "id": "R_20k0_0.1%_0603",
+   "id": "R_20k0_0.1%_0603_PTFR0603B20K0P9",
    "category": "passives",
    "family": "resistor",
-   "symbol": "R_20k0_0.1%_0603",
+   "symbol": "R_20k0_0.1%_0603_PTFR0603B20K0P9",
    "global_lib": "symbols/passives/resistor.SchLib",
-   "rev": 1,
-   "symbol_hash": "294638dd934ceacc",
+   "rev": 2,
+   "symbol_hash": "276e28786066db31",
    "footprint": "RESC1608_0603",
    "value": "20.0k 0.1%",
    "description": "RFBT: 20.0 kOhm 0.1% 25ppm 100mW 0603 thin film",
@@ -548,17 +648,27 @@
      "date": "2026-10-13",
      "hash": "294638dd934ceacc",
      "project": "buck-12v-5v-3a"
+    },
+    {
+     "rev": 2,
+     "date": "2026-10-19",
+     "hash": "276e28786066db31",
+     "project": "-",
+     "note": "renamed from R_20k0_0.1%_0603 (naming: part number in the name, user 2026-10-19); content unchanged (altium-lib compare_components)"
     }
+   ],
+   "former_ids": [
+    "R_20k0_0.1%_0603"
    ]
   },
   {
-   "id": "R_4k99_0.1%_0603",
+   "id": "R_4k99_0.1%_0603_PTFR0603B4K99P9",
    "category": "passives",
    "family": "resistor",
-   "symbol": "R_4k99_0.1%_0603",
+   "symbol": "R_4k99_0.1%_0603_PTFR0603B4K99P9",
    "global_lib": "symbols/passives/resistor.SchLib",
-   "rev": 1,
-   "symbol_hash": "8d13081280604548",
+   "rev": 2,
+   "symbol_hash": "ff82f600dfa9225c",
    "footprint": "RESC1608_0603",
    "value": "4.99k 0.1%",
    "description": "RFBB: 4.99 kOhm 0.1% 25ppm 100mW 0603 thin film",
@@ -586,17 +696,27 @@
      "date": "2026-10-13",
      "hash": "8d13081280604548",
      "project": "buck-12v-5v-3a"
+    },
+    {
+     "rev": 2,
+     "date": "2026-10-19",
+     "hash": "ff82f600dfa9225c",
+     "project": "-",
+     "note": "renamed from R_4k99_0.1%_0603 (naming: part number in the name, user 2026-10-19); content unchanged (altium-lib compare_components)"
     }
+   ],
+   "former_ids": [
+    "R_4k99_0.1%_0603"
    ]
   },
   {
-   "id": "R_51k_1%_0603",
+   "id": "R_51k_1%_0603_0603WAF5102T5E",
    "category": "passives",
    "family": "resistor",
-   "symbol": "R_51k_1%_0603",
+   "symbol": "R_51k_1%_0603_0603WAF5102T5E",
    "global_lib": "symbols/passives/resistor.SchLib",
-   "rev": 1,
-   "symbol_hash": "dd5a83f6782f17ce",
+   "rev": 2,
+   "symbol_hash": "be5faf83d502cee0",
    "footprint": "RESC1608_0603",
    "value": "51k",
    "description": "RENT: 51 kOhm 1% 100mW 0603",
@@ -624,7 +744,17 @@
      "date": "2026-10-13",
      "hash": "dd5a83f6782f17ce",
      "project": "buck-12v-5v-3a"
+    },
+    {
+     "rev": 2,
+     "date": "2026-10-19",
+     "hash": "be5faf83d502cee0",
+     "project": "-",
+     "note": "renamed from R_51k_1%_0603 (naming: part number in the name, user 2026-10-19); content unchanged (altium-lib compare_components)"
     }
+   ],
+   "former_ids": [
+    "R_51k_1%_0603"
    ]
   }
  ],

@@ -63,7 +63,7 @@ read every library under `libs/` except `_dryrun`.
 
 | Item | Pattern | Examples |
 |---|---|---|
-| Component ID (one per MPN, LIB-14) | `<prefix>_<value>_<key rating>_<package>_<MPN>` | `R_10k_1%_0603_0603WAF1002T5E`, `C_10u_50V_X7R_1206_1206B106K500NT` (the 16 buck IDs from 2026-10-13 keep their old names until they are next promoted) |
+| Component ID (one per MPN, LIB-14) | by value (passives, connectors): `<prefix>_<value>_<key rating>_<package>_<MPN>`; by part number (ICs, discretes): `<prefix>_<MPN>`; parts with no MPN keep a plain name | `R_10k_1%_0603_0603WAF1002T5E`, `J_MKDS1.5-2-5.08_1715721`, `U_LMR33630ADDAR`, `Q_AO4407C`, `C_DNP_0603`, `TP_PAD`. Renamed parts keep their old ID in `former_ids`, so older projects still find them |
 | Shared symbol (LIB-10) | `<KIND>` two-pin passives, `<KIND>_<n>P_<pin names>` discretes, `<base part>_<package code>` ICs | `RES`, `CAP`, `PMOS_8P_SSSGDDDD`, `LMR33630_DDA` |
 | Footprint, IPC-7351 chip parts | `<type><metric size>_<imperial size>` | `RESC1608_0603`, `CAPC3216_1206` |
 | Footprint, IC or other package | `<package>_<drawing code>`, or `<part>_<package>_<code>` when the land is part-specific | `SOIC8_MS012`, `LMR33630_HSOIC8_DDA` |
