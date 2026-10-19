@@ -18,7 +18,7 @@ Every symbol family has a `symbols/<category>/<family>.README.md`, every footpri
 | `catalog/promote_plan.json` | altium-lib copies still to run for the last promotion | lib_promote.py |
 | `symbols/<category>/<family>.SchLib` | schematic symbols: one folder per category, one library per family | altium-lib |
 | `footprints/<package type>.PcbLib` | footprints sorted by package type (`chip`, `soic`, `sot`, `qfn_dfn` ...): each footprint exists once | altium-lib |
-| `models/step/<package type>/` | 3D models (STEP), one per footprint body, same package types as `footprints/` | cad_register.py, people |
+| `models/step/<package type>/` | 3D models (STEP), one per footprint body, same package types as `footprints/` | cad_fetch.py, cad_register.py, people |
 | `models/index.json` | every 3D model: footprint, source, sha256, placement offset and rotation | cad_register.py |
 | `models/spice/` | simulation models (planned, roadmap M4) | - |
 | `specs/` | gen_sym.py specs for generic symbols (generic passives) | designer |
@@ -108,6 +108,7 @@ entries with `preferred = true` (verified Basic parts and the TP pad).
 | `lib_status.py <project>` | Reports OK / UPDATE / LOCAL CHANGED / MISSING / LOCAL ONLY for each part. |
 | `catalog_check.py [--project p] [--strict]` | Checks catalog fields, the category/file match, datasheet sha256, footprint status, global file hashes, and pending plan items. |
 | `datasheets_fetch.py` | Downloads the catalog's PDFs into `datasheets/` and keeps only files whose hash matches. |
+| `cad_fetch.py` | Downloads a part's 3D model from JLC/EasyEDA by LCSC number and files it (LIB-13). |
 | `cad_register.py` / `cad_check.py` | Manages the 3D model store (structure only). |
 
 ## Moving an existing install to this layout (2026-10-17)

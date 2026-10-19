@@ -241,6 +241,39 @@ class GlobalLib(unittest.TestCase):
         self.assertEqual(code, 1)
         self.assertIn("sha256 changed", out)
 
+    def test_cad_fetch(self):
+        import cad_fetch
+        self.addCleanup(os.environ.pop, "EDA_GLOBAL", None)
+        self.promote()
+        os.makedirs(os.path.join(self.g, "models"), exist_ok=True)
+        json.dump({"schema": 1, "models": []}, open(os.path.join(self.g, "models", "index.json"), "w"))
+        rec = os.path.join(HERE, "..", "..", "library", "parts", "passives", "resistor", "0603WAF1002T5E__uni-royal.json")
+        os.makedirs(os.path.join(self.g, "parts", "passives", "resistor"))
+        shutil.copy(rec, os.path.join(self.g, "parts", "passives", "resistor"))
+        # stand-in for JLC2KiCadLib: writes <dir>/footprint/packages3d/R0603.step (1.6 x 0.8 x 0.45 mm box)
+        fake = os.path.join(self.t, "fake_jlc.py")
+        open(fake, "w").write(
+            "import os, sys\n"
+            "d = os.path.join(sys.argv[sys.argv.index('-dir') + 1], 'footprint', 'packages3d')\n"
+            "os.makedirs(d)\n"
+            "open(os.path.join(d, 'R0603.step'), 'w').write(\"ISO-10303-21;\\nDATA;\\n"
+            "#1=CARTESIAN_POINT('',(-0.8,-0.4,0.));\\n#2=CARTESIAN_POINT('',(0.8,0.4,0.45));\\nENDSEC;\\n\")\n"
+            "open(os.path.join(sys.argv[sys.argv.index('-dir') + 1], 'footprint', 'R0603.kicad_mod'), 'w').write('x')\n"
+            "print(sys.argv[sys.argv.index('-dir') + 1])\n")
+        code, out = run(cad_fetch, "0603WAF1002T5E", "--footprint", "RESC1608_0603", "--exe", fake, "--global-root", self.g)
+        self.assertEqual(code, 0, out)
+        self.assertIn("C25804", out)
+        self.assertIn("OK    length model 1.60 mm", out)
+        self.assertIn("OK    height model 0.45 mm", out)
+        self.assertTrue(os.path.isfile(os.path.join(self.g, "models", "step", "chip", "RESC1608_0603.step")))
+        stage = [l for l in out.splitlines() if l.startswith(">")][0].split(" -dir ")[1].split()[0]
+        self.assertFalse(os.path.exists(stage), "staging folder left behind")
+        self.assertEqual(run(cad_check, "--global-root", self.g)[0], 0)
+        code, out = run(cad_fetch, "0603WAF1002T5E", "--footprint", "RESC1608_0603", "--exe", fake, "--global-root", self.g)
+        self.assertEqual(code, 0)
+        self.assertIn("library first", out)
+        self.assertEqual(run(cad_fetch, "NOSUCHPART", "--exe", fake, "--global-root", self.g)[0], 1)
+
 
 if __name__ == "__main__":
     unittest.main()
