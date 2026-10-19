@@ -123,8 +123,10 @@
    "category": "ics/power_buck",
    "package": "SOT-23-THIN (DDC), 6 pins",
    "description": "TPS54302 4.5V to 28V Input, 3A Output, EMI-Friendly Synchronous Step-Down Converter",
-   "skus": [],
-   "status": "verified",
+   "skus": [
+    "LCSC:C311983"
+   ],
+   "status": "extracted",
    "catalog_ids": [],
    "file": "ics/power_buck/TPS54302DDCR__ti.json",
    "summary": {

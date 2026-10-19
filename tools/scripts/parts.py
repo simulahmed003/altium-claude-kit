@@ -21,6 +21,8 @@ Commands:
   text <mpn> [--pages 3-5] [--grep RE] [--mode layout|raw|table]   page text for the extractor; --grep lists
                                        matching pages; raw keeps a table row on one line (quote the row label with it)
   locate <mpn>                         pages that hold each section (abs max, recommended, pins, package, layout ...)
+  lcsc <MPN> [--add <part>]            find the LCSC number (JLCPCB parts search; exact MPN, else similar parts listed);
+                                       --add records the exact match after the LCSC page confirms it (RQ-03)
   market <mpn>                         refresh LCSC price and stock into market\\ (RQ-04: check at BOM time)
   get <mpn> [--section S]              print a record or one section (market snapshot shown with its date)
   check [<mpn> ...] [--strict] [--gate]   schema, taxonomy, units, every quote found on its cited page, abs max
@@ -673,6 +675,48 @@ def cmd_locate(a):
     return 0
 
 
+JLC_SEARCH = "https://jlcpcb.com/api/overseas-pcb-order/v1/shoppingCart/smtGood/selectSmtComponentList"
+
+
+def jlc_search(keyword, size=10):
+    """[(C-number, MPN, maker, package, stock, Basic/Extended)] from JLCPCB's parts search (LCSC's search refuses scripts)."""
+    body = json.dumps({"keyword": keyword, "currentPage": 1, "pageSize": size}).encode()
+    req = urllib.request.Request(JLC_SEARCH, data=body, headers=dict(UA, **{"Content-Type": "application/json"}))
+    with urllib.request.urlopen(req, timeout=60) as r:
+        d = json.loads(r.read().decode("utf-8"))
+    lst = ((d.get("data") or {}).get("componentPageInfo") or {}).get("list") or []
+    return [(c.get("componentCode"), c.get("componentModelEn"), c.get("componentBrandEn"), c.get("componentSpecificationEn"),
+             c.get("stockCount"), c.get("componentLibraryType")) for c in lst]
+
+
+def cmd_lcsc(a):
+    """Find the LCSC number of a part (exact MPN first). --add records it in the part after the LCSC product page
+    confirms MPN and package (rule RQ-03). No exact match: similar parts are listed; one may serve a 3D model only
+    as a marked substitute (LIB-13), never its facts."""
+    hits = jlc_search(a.mpn)
+    exact = [h for h in hits if (h[1] or "").lower() == a.mpn.lower()]
+    for h in hits:
+        print(f"{'EXACT ' if h in exact else 'similar'} {h[0]:10s} {h[1]:24s} {(h[2] or '')[:18]:18s} {(h[3] or '')[:14]:14s} stock {h[4]}  {h[5]}")
+    if not exact:
+        print("no exact match: a similar part with the same package drawing may give a 3D model only (marked substitute, LIB-13)")
+        return 1
+    if a.add:
+        best = max(exact, key=lambda h: h[4] or 0)
+        f, r = one(a.add)
+        if not r:
+            return 1
+        d = lcsc_detail(best[0])
+        if d.get("productModel", "").lower() != a.mpn.lower():
+            print(f"FAIL LCSC page for {best[0]} says {d.get('productModel')}, not {a.mpn}")
+            return 1
+        if not any(x.get("sku") == best[0] for x in r["suppliers"]):
+            r["suppliers"].append({"name": "LCSC", "sku": best[0], "url": f"https://www.lcsc.com/product-detail/{best[0]}.html",
+                                   "verified": today(), "note": f"LCSC product API: {d.get('productModel')}, {d.get('encapStandard')}"})
+            save_json(f, r)
+        print(f"added LCSC {best[0]} to {r['mpn']} (most stock of {len(exact)} exact matches; LCSC page confirms {d.get('productModel')}, {d.get('encapStandard')})")
+    return 0
+
+
 def cmd_market(a):
     f, r = one(a.key)
     if not r:
@@ -790,6 +834,8 @@ def main(argv=None):
     s.add_argument("--ds", default=""); s.set_defaults(fn=cmd_text)
     s = sp.add_parser("locate"); s.add_argument("key"); s.add_argument("--ds", default=""); s.set_defaults(fn=cmd_locate)
     s = sp.add_parser("market"); s.add_argument("key"); s.set_defaults(fn=cmd_market)
+    s = sp.add_parser("lcsc"); s.add_argument("mpn"); s.add_argument("--add", metavar="PART", help="record the exact match in this part")
+    s.set_defaults(fn=cmd_lcsc)
     s = sp.add_parser("get"); s.add_argument("key"); s.add_argument("--section"); s.set_defaults(fn=cmd_get)
     s = sp.add_parser("check"); s.add_argument("keys", nargs="*"); s.add_argument("--strict", action="store_true")
     s.add_argument("--verbose", action="store_true")
