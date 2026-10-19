@@ -19,7 +19,7 @@ once someone tests them.
 | User standards | `standards/local/` (git-ignored) | one user's or company's house style and policies | that user (docs/DESIGN_STANDARDS.md) |
 | Checkers and generators | `tools/scripts/` | anything deterministic: checks, calcs, plans, BOM | PR with tests |
 | Altium bridge | `tools/bridge/`, hook | one live script engine, kill switch, popups | PR tested on real Altium |
-| Global library | `library/` | catalog, category libraries, revisions, hashes | `lib_promote.py` after G1 |
+| Global library | `library/` | catalog, symbols by category/family, footprints by package type, revisions, hashes | `lib_promote.py` after G1 |
 | Component database | `library/parts/` (M1) | one record per orderable part, datasheet facts with page + quote | parts.py + extractor + review |
 | Projects | `projects/<name>/` (git-ignored) | one design, its own git repo, local library copies | the designer |
 

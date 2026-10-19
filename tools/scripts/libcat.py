@@ -4,7 +4,7 @@ lib_promote, lib_pull, lib_update, lib_status, catalog_check, cad_register, cad_
 Layout (D:\\EDA\\library):
   catalog\\components.json    single source of truth (components + footprints); components.md is generated
   catalog\\CHANGELOG.md       one line per promotion / revision
-  symbols\\<category>.SchLib, footprints\\<category>.PcbLib   category libraries (written by altium-lib, never by Python)
+  symbols\\<category>\\<family>.SchLib, footprints\\<package type>.PcbLib   global libraries (altium-lib writes them, never Python)
   datasheets\\                PDFs referenced by the catalog (sha256 recorded)
   models\\step\\, models\\index.json   3D models (cad_register.py / cad_check.py)
 Project side: projects\\<p>\\libs\\lib_manifest.json records which global rev and content hash each local part has.
@@ -22,11 +22,20 @@ import altium_io
 GLOBAL = os.environ.get("EDA_GLOBAL", os.path.join(ROOT, "library"))
 CATEGORIES = {"R": "passives", "C": "passives", "L": "passives", "FB": "passives", "U": "ics", "Q": "discretes",
               "D": "discretes", "J": "connectors", "TP": "connectors", "SW": "electromech", "Y": "passives"}
+# Family when the part has no component-database record: only prefixes with one obvious family. Others need
+# a database record (library\parts, by MPN) or "family" in --info.
+DEFAULT_FAMILY = {"R": "passives/resistor", "C": "passives/capacitor_mlcc", "L": "passives/inductor_power",
+                  "FB": "passives/ferrite_bead", "TP": "connectors/test_point", "LED": "discretes/led"}
+# Global footprint libraries are sorted by package type (user decision 2026-10-19): first match wins.
+PACKAGE_TYPES = ((r"^(RES|CAP|IND|LED|DIO|FUS|BEAD|FER)C\d", "chip"), (r"H?SOIC|^SO\d|SOP\d|MSOP|TSSOP", "soic"),
+                 (r"^SOT|TSOT|^SC70|^SC-70", "sot"), (r"QFN|DFN|^SON|WSON|VSON", "qfn_dfn"), (r"^TO[-_]?\d|DPAK|D2PAK", "to"),
+                 (r"^TB_", "terminal_block"), (r"^TP_", "test_point"), (r"^IND_", "inductor_smd"),
+                 (r"^HDR|^PINHDR|^PH_", "header"), (r"^USB", "usb"), (r"^XTAL|^OSC", "crystal_osc"))
 FP_STATUS = ("datasheet-verified", "derived", "unverified-accepted")
-COMP_FIELDS = ("id", "category", "symbol", "global_lib", "rev", "symbol_hash", "footprint", "value", "description",
+COMP_FIELDS = ("id", "category", "family", "symbol", "global_lib", "rev", "symbol_hash", "footprint", "value", "description",
                "mfr", "mpn", "lcsc", "lcsc_verified", "jlc_tier", "datasheet", "preferred", "caveats",
                "source_project", "promoted", "history")
-FP_FIELDS = ("name", "category", "global_lib", "rev", "footprint_hash", "status", "status_source", "caveats",
+FP_FIELDS = ("name", "category", "package_type", "global_lib", "rev", "footprint_hash", "status", "status_source", "caveats",
              "courtyard_mm", "step", "source_project", "history")
 
 
@@ -100,6 +109,44 @@ def category_of(prefix):
     return CATEGORIES.get(prefix, "misc")
 
 
+def symbol_lib(category, family):
+    """Global symbol library of a family: symbols/<category>/<family>.SchLib (one folder per category)."""
+    return f"symbols/{category}/{family}.SchLib"
+
+
+def footprint_lib(package_type):
+    """Global footprint library of a package type: footprints/<package type>.PcbLib (each footprint exists once)."""
+    return f"footprints/{package_type}.PcbLib"
+
+
+def local_libs_for(project, category, family):
+    """Local libraries of a family: libs/<category>/<family>.SchLib and .PcbLib (footprints per family)."""
+    d = os.path.join(project, "libs", category)
+    return os.path.join(d, f"{family}.SchLib"), os.path.join(d, f"{family}.PcbLib")
+
+
+def package_type_of(footprint):
+    for rx, t in PACKAGE_TYPES:
+        if re.search(rx, footprint or "", re.I):
+            return t
+    return None
+
+
+def family_of(mpn, prefix, root=None):
+    """(category, family) from the component database (library/parts, by MPN), else the prefix default, else None."""
+    if mpn and mpn not in ("-",):
+        for f in glob.glob(gpath("parts", "*", "*", "*.json", root=root)):
+            try:
+                with open(f, encoding="utf-8") as fh:
+                    r = json.load(fh)
+            except (OSError, ValueError):
+                continue
+            if r.get("mpn", "").lower() == mpn.lower() and "/" in r.get("category", ""):
+                return tuple(r["category"].split("/"))
+    d = DEFAULT_FAMILY.get(prefix)
+    return tuple(d.split("/")) if d else None
+
+
 def find(cat, kind, key):
     lst = cat["components"] if kind == "c" else cat["footprints"]
     k = "id" if kind == "c" else "name"
@@ -107,9 +154,11 @@ def find(cat, kind, key):
 
 
 def local_libs(project):
-    """(SchLib list, PcbLib list) in projects/<p>/libs (no _dryrun, no .bak)."""
+    """(SchLib list, PcbLib list) in projects/<p>/libs and its category folders (no _dryrun, no .bak)."""
     d = os.path.join(project, "libs")
-    return sorted(glob.glob(os.path.join(d, "*.SchLib"))), sorted(glob.glob(os.path.join(d, "*.PcbLib")))
+    pick = lambda ext: sorted(f for f in glob.glob(os.path.join(d, "**", f"*.{ext}"), recursive=True)
+                              if "_dryrun" not in os.path.relpath(f, d).split(os.sep))
+    return pick("SchLib"), pick("PcbLib")
 
 
 def read_local(project):
@@ -126,7 +175,7 @@ def read_local(project):
 
 
 def read_global(cat, root=None):
-    """Same, from the category libraries that exist on disk."""
+    """Same, from the global family / package-type libraries that exist on disk."""
     syms, fps = {}, {}
     for lib in sorted({c["global_lib"] for c in cat["components"]}):
         p = gpath(lib, root=root)
