@@ -89,10 +89,10 @@
 - Status: CHECKLIST
 
 ### LIB-13 3D models: source order and check
-- MUST: take a missing 3D model from JLC/EasyEDA by the LCSC number first, the maker's site second; a standard body (a chip size such as 0603, or a JEDEC package such as SOIC-8) has one model shared by every part of that body and footprint, whatever the value (a 10 uF and a 22 uF 0603 capacitor use the same model). A part-specific body (an inductor, a connector) needs its own model; a similar part's model only as a marked substitute that the user accepts at G1. Check the model's box against the record's body length, width and height (inside the datasheet min/max) and record source and sha256 in models/index.json.
+- MUST: take a missing 3D model from JLC/EasyEDA by the LCSC number first, the maker's site second; a standard body (a chip size such as 0603, or a JEDEC package such as SOIC-8) has one model shared by every part of that body and footprint, whatever the value (a 10 uF and a 22 uF 0603 capacitor use the same model). A part-specific body (an inductor, a connector) needs its own model; a similar part's model only as a marked substitute that the user accepts at G1. A part with no LCSC number (or whose JLC model fails the check): find the same part, or one with the same body, on LCSC and use its model (`cad_fetch.py <part> --lcsc <its C-number>`), stored marked as a substitute that the user accepts at G1. Downloaded models are committed to the global library so others can use and extend it (unlike datasheet PDFs). Check the model's box against the record's body length, width and height (inside the datasheet min/max) and record source and sha256 in models/index.json.
 - Why: a wrong height or pin-1 corner shows up only at assembly.
 - Check: cad_check.py; cad_fetch.py (box check against the record, placement, register)
-- Source: user brief 2026-10-19; user 2026-10-19 (standard body = one shared model)
+- Source: user brief 2026-10-19; user 2026-10-19 (standard body = one shared model); user 2026-10-19 (no LCSC number: same or similar part on LCSC; STEP models committed)
 - Status: CHECKLIST
 
 ### LIB-14 Local library parameters from the record
