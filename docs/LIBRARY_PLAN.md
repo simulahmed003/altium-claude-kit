@@ -8,7 +8,7 @@ Source: user brief 2026-10-19 (library management and local library structure).
 A part (one orderable MPN) is a record in the component database (`library/parts/`). Its drawing items are shared:
 many parts point to one schematic symbol, one footprint and one 3D model. For example, every 0603 resistor uses the
 symbol `RES`, the footprint `RESC1608_0603` and the model `RESC1608_0603.step`. The global library stores each shared
-item once, in a file per category. A project's local library is built from the database. Each part used gets one
+item once, in one library file per family, inside a folder per category. A project's local library is built from the database. Each part used gets one
 component, made from the shared symbol and footprint, with the part's parameters (MPN, maker, LCSC, value, key
 ratings, datasheet link) copied from its record.
 
@@ -17,9 +17,9 @@ ratings, datasheet link) copied from its record.
 ```
 library/
   parts/<category>/<family>/<MPN>__<maker>.json   facts (exists); new "package" and "land" keys, see 5
-  symbols/<category>.SchLib                       shared symbols only, one per shape (see 3)
-  footprints/<category>.PcbLib                    shared footprints, one per package and land
-  models/step/<category>/<footprint>.step         shared 3D models, one per body
+  symbols/<category>/<family>.SchLib              shared symbols only, one per shape (see 3)
+  footprints/<category>/<family>.PcbLib           shared footprints, one per package and land
+  models/step/<category>/<family>/<footprint>.step  shared 3D models, one per body
   models/index.json                               model: footprint, source, sha256, body box, substitute flag
   catalog/components.json                         binding: part -> symbol, footprint, model (+ pin map)
                                                   plus "symbols", "footprints" and "models" lists
@@ -27,10 +27,12 @@ projects/<p>/libs/<p>.SchLib, <p>.PcbLib         local library, built by lib_bui
 projects/<p>/libs/lib_manifest.json              rev + hash of every item used
 ```
 
-Categories: the library file category is the database category. Today the four files `passives`, `discretes`, `ics`
-and `connectors` exist. `frequency`, `protection` and `electromechanical` get their file when their first part
-comes in. A file is split by family (for example `ics` into `ics_power` and `ics_mcu`) when it passes the size the user
-sets (open question 1).
+Folders and files (user, 2026-10-19): one folder per database category, one library file per database family,
+named exactly as in `library/parts/taxonomy.json`. Example: `symbols/passives/resistor.SchLib`,
+`footprints/passives/resistor.PcbLib`, `symbols/discretes/mosfet.SchLib`. A file is created when the first part of
+its family comes in, so empty families have no file. Today's four category files (`passives.SchLib` and so on) are
+moved into family files by `lib_migrate_shared.py` (tool 7); catalog_check.py then checks category and family against
+the folder and file name.
 
 ## 3. What is shared, and the key used to find it
 
@@ -81,7 +83,7 @@ For passives the size code alone is enough, because the IPC-7351 chip land follo
 | # | Tool | Does | Tested on |
 |---|---|---|---|
 | 1 | `lib_find.py <MPN or project>` | finds symbol, footprint and model for each part, prints have / missing, writes the lists in section 8 | 17 buck parts |
-| 2 | `cad_fetch.py <MPN>` | 3D model download: EasyEDA/JLC by LCSC number (STEP), then maker URL, then substitute; saves to `models/step/<cat>/`, registers sha256, source and body box; also exports the EasyEDA symbol and footprint as a reference | user's PC (EasyEDA is blocked in the cloud session) |
+| 2 | `cad_fetch.py <MPN>` | 3D model download: EasyEDA/JLC by LCSC number (STEP), then maker URL, then substitute; saves to `models/step/<cat>/<family>/`, registers sha256, source and body box; also exports the EasyEDA symbol and footprint as a reference | user's PC (EasyEDA is blocked in the cloud session) |
 | 3 | `step_box.py` (inside cad_fetch) | reads the STEP points and reports the body box, compared with `package.*` (pass when inside the datasheet min/max) | 17 buck parts |
 | 4 | `gen_sym.py --from-part` | builds a symbol spec from the record's pins and family kind | buck symbols |
 | 5 | `fp_build.py` | IPC-7351 chip and gull-wing land plus datasheet land into altium-lib JSON (dry-run) | buck footprints vs existing ones |
@@ -95,11 +97,11 @@ Also in this work: fix lesson B7 (an Altium save rewrites IDs, so `lib_status.py
 Answered by the user (2026-10-19):
 - IC symbols follow the datasheet's recommended pin grouping and are drawn symmetric (LIB-11).
 - A standard body (chip size such as 0603, or a JEDEC package such as SOIC-8) has one shared 3D model, whatever the value: a 10 uF and a 22 uF 0603 capacitor use the same model (LIB-13). Resistor and capacitor chips keep separate models because their footprints and heights differ.
-- The local library has one component per manufacturer part number (LIB-14).
+- The local library has one component per manufacturer part number, passives included (LIB-14).
+- One folder per category, one library file per family (LIB-15).
 
 Still open:
-1. When should a category file be split by family? Until the user sets a size: never.
-2. IC pin length: 200 or 300 mil? (Passives keep 100 mil, the capacitor 80 mil, from LIB-03.)
+1. IC pin length: 200 or 300 mil? (Passives keep 100 mil, the capacitor 80 mil, from LIB-03.)
 
 ## 8. Lists for the 17 parts in the database
 

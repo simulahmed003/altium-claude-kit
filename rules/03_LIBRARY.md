@@ -102,9 +102,9 @@
 - Source: user brief 2026-10-19; user 2026-10-19 (one local component per MPN)
 - Status: PROPOSED
 
-### LIB-15 Library files per category
-- MUST: keep one SchLib and one PcbLib per database category (library/parts/taxonomy.json); never one file per part. Split a category by family only when it passes the size the user set.
-- Why: few files are easy to share and pull; the category is already known from the record.
-- Check: catalog_check.py (category matches file)
-- Source: user brief 2026-10-19
+### LIB-15 Library files: a folder per category, a file per family
+- MUST: keep shared symbols in library/symbols/<category>/<family>.SchLib, footprints in library/footprints/<category>/<family>.PcbLib and 3D models in library/models/step/<category>/<family>/, with category and family named as in library/parts/taxonomy.json; never one file per part. Create a family's file when its first part comes in.
+- Why: the record already knows its category and family, so the tools find the file without a lookup table; family files stay small.
+- Check: catalog_check.py (category and family match folder and file, after the migration)
+- Source: user brief 2026-10-19; user 2026-10-19 ("for each category a folder, for each family a library file")
 - Status: PROPOSED
