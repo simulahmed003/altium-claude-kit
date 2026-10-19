@@ -62,7 +62,7 @@ exactly. A part with the same pins in another order gets its own symbol.
 | 1 | Look up all three items in the catalog by their keys. Report have / missing per item. | lib_find.py (new) |
 | 2 | **Symbol** missing: build it from the record's pins under the drawing standard (LIB-02, LIB-03, LIB-11). Dry-run, then `pin_match.py --style`. | gen_sym.py --from-part (extend) |
 | 3 | **Footprint** missing: build it from the record's `land` facts. If they are missing, fetch the datasheet and extract them into the record first. If the datasheet has no land drawing, use the IPC-7351 land from the `package` facts and mark the footprint "derived". | fp_build.py (new) |
-| 4 | **3D model** missing: download it from JLC/EasyEDA by the LCSC number. If that fails, get it from the maker's site, then from a similar part with the same body (marked substitute). Check the model's box against the record's body size. | cad_fetch.py (new), cad_register.py |
+| 4 | **3D model** missing: download it from JLC/EasyEDA by the LCSC number. If that fails, get it from the maker's site, then from a similar part with the same body (marked substitute). Check the model's box against the record's body size. | cad_fetch.py, cad_register.py |
 | 5 | Build the local library: one component per part, using the shared symbol and footprint and the parameters from the record (LIB-14). | lib_build.py (new) |
 | 6 | G1: a person checks the new symbol, the footprint against the datasheet, and the 3D model in place (pin 1, height). | gate_check.py G1 |
 | 7 | After G1: promote new shared items to the global library. | lib_promote.py |
