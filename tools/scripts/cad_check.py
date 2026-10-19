@@ -34,11 +34,11 @@ def check(root=None):
         elif f.get("step") != f"models/{m['file']}":
             errs.append(f"{m['file']}: catalog footprint {m['footprint']} step field is {f.get('step')}")
     d = lc.gpath("models", "step", root=root)
-    if os.path.isdir(d):
-        for n in os.listdir(d):
-            p = os.path.normcase(os.path.abspath(os.path.join(d, n)))
+    for base, _, names in os.walk(d):
+        for n in names:
+            p = os.path.normcase(os.path.abspath(os.path.join(base, n)))
             if n.lower().endswith((".step", ".stp")) and p not in listed:
-                errs.append(f"step/{n}: not in index.json")
+                errs.append(f"step/{os.path.relpath(os.path.join(base, n), d).replace(os.sep, '/')}: not in index.json")
     return idx, errs
 
 

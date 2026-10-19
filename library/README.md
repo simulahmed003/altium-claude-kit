@@ -3,7 +3,9 @@
 There is one global library, and each project works on local copies of it. Python scripts manage the catalog, the hashes
 and the copy plans. Only altium-lib writes .SchLib / .PcbLib files.
 
-Shared symbols, footprints and 3D models built from the component database: see `docs/LIBRARY_PLAN.md` (plan, rules LIB-09 to LIB-15 PROPOSED).
+Shared symbols, footprints and 3D models built from the component database: see `docs/LIBRARY_PLAN.md` (plan) and rules LIB-09 to LIB-16 in `rules/03_LIBRARY.md`.
+
+Every symbol family has a `symbols/<category>/<family>.README.md`, every footprint package type a `footprints/<type>.README.md`, and every 3D model folder a `models/step/<type>/README.md`. Each one says what belongs there, the naming, the drawing or land standard, how to add an item, and who maintains it. `tools/scripts/lib_readmes.py` creates missing READMEs and refreshes only their Contents block, so text people add stays.
 
 ## Layout
 
@@ -16,7 +18,8 @@ Shared symbols, footprints and 3D models built from the component database: see 
 | `catalog/promote_plan.json` | altium-lib copies still to run for the last promotion | lib_promote.py |
 | `symbols/<category>/<family>.SchLib` | schematic symbols: one folder per category, one library per family | altium-lib |
 | `footprints/<package type>.PcbLib` | footprints sorted by package type (`chip`, `soic`, `sot`, `qfn_dfn` ...): each footprint exists once | altium-lib |
-| `models/step/`, `models/index.json` | 3D models (STEP) with sha256 and placement offsets | cad_register.py |
+| `models/step/<package type>/` | 3D models (STEP), one per footprint body, same package types as `footprints/` | cad_register.py, people |
+| `models/index.json` | every 3D model: footprint, source, sha256, placement offset and rotation | cad_register.py |
 | `models/spice/` | simulation models (planned, roadmap M4) | - |
 | `specs/` | gen_sym.py specs for generic symbols (generic passives) | designer |
 | `parts/` | component database: one record per orderable part, datasheet facts with page + quote (see `parts/README.md`) | parts.py + extractor + review |
@@ -60,12 +63,25 @@ read every library under `libs/` except `_dryrun`.
 
 | Item | Pattern | Examples |
 |---|---|---|
-| Component ID (symbol name) | `<prefix>_<value or MPN>_<key rating>_<package>` | `R_10k_1%_0603`, `C_10u_50V_X7R_1206`, `U_LMR33630ADDA` |
+| Component ID (one per MPN, LIB-14) | `<prefix>_<value>_<key rating>_<package>_<MPN>` | `R_10k_1%_0603_0603WAF1002T5E`, `C_10u_50V_X7R_1206_1206B106K500NT` (the 16 buck IDs from 2026-10-13 keep their old names until they are next promoted) |
+| Shared symbol (LIB-10) | `<KIND>` two-pin passives, `<KIND>_<n>P_<pin names>` discretes, `<base part>_<package code>` ICs | `RES`, `CAP`, `PMOS_8P_SSSGDDDD`, `LMR33630_DDA` |
 | Footprint, IPC-7351 chip parts | `<type><metric size>_<imperial size>` | `RESC1608_0603`, `CAPC3216_1206` |
 | Footprint, IC or other package | `<package>_<drawing code>`, or `<part>_<package>_<code>` when the land is part-specific | `SOIC8_MS012`, `LMR33630_HSOIC8_DDA` |
 | Footprint, connector | `<type>_<series>-<pins>-<pitch>` | `TB_MKDS1.5-2-5.08` |
-| 3D model file | `<footprint name>.step` | `RESC1608_0603.step` |
+| 3D model file | `models/step/<package type>/<footprint name>.step` | `models/step/chip/RESC1608_0603.step` |
 | Datasheet cache file | `<MPN>_<LCSC>.pdf` | `1715721_C480516.pdf` |
+
+## Working on the library: people and Claude
+
+| Who | Does |
+|---|---|
+| A person (the user, or a maintainer named in a README) | adds or improves symbols, footprints and 3D models by hand in Altium, keeps the standard in the README, writes decisions under "Notes and decisions" |
+| Claude | builds missing items from the component database (LIB-09 to LIB-13), keeps the catalog and READMEs current, and after a hand edit runs `catalog_check.py` and `lib_status.py`, reports what changed and asks before adapting catalog entries, hashes or project copies (LIB-16) |
+
+The global library grows from projects: a part new to a project is built in the project's local library
+(`projects/<p>/libs/<category>/<family>.SchLib` / `.PcbLib`), checked at G1, then promoted with `lib_promote.py`.
+New footprints go to `footprints/<package type>.PcbLib`, new symbols to their family file, new 3D models to
+`models/step/<package type>/`. Run `python tools/scripts/lib_readmes.py` after a promotion.
 
 ## Principles
 

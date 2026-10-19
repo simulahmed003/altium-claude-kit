@@ -221,7 +221,9 @@ class GlobalLib(unittest.TestCase):
         code, out = run(cad_register, good, "--footprint", "RESC1608_0603", "--source", "test", "--global-root", self.g)
         self.assertEqual(code, 0, out)
         self.assertEqual(run(cad_check, "--global-root", self.g)[0], 0)
-        open(os.path.join(self.g, "models", "step", "r.step"), "a").write("x")
+        stored = os.path.join(self.g, "models", "step", "chip", "RESC1608_0603.step")
+        self.assertTrue(os.path.isfile(stored))
+        open(stored, "a").write("x")
         code, out = run(cad_check, "--global-root", self.g)
         self.assertEqual(code, 1)
         self.assertIn("sha256 changed", out)
@@ -229,3 +231,33 @@ class GlobalLib(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class Readmes(unittest.TestCase):
+    def test_create_keep_human_text_and_refresh(self):
+        import lib_readmes
+        t = tempfile.mkdtemp()
+        try:
+            g = os.path.join(t, "library")
+            shutil.copytree(os.path.join(HERE, "..", "..", "library", "catalog"), os.path.join(g, "catalog"))
+            os.makedirs(os.path.join(g, "parts"))
+            shutil.copy(os.path.join(HERE, "..", "..", "library", "parts", "taxonomy.json"), os.path.join(g, "parts"))
+            self.assertEqual(run(lib_readmes, "--check", "--global-root", g)[0], 1)
+            self.assertEqual(run(lib_readmes, "--global-root", g)[0], 0)
+            p = os.path.join(g, "symbols", "passives", "resistor.README.md")
+            with open(p, encoding="utf-8") as f:
+                txt = f.read()
+            self.assertIn("R_10k_1%_0603", txt)
+            with open(p, "w", encoding="utf-8") as f:
+                f.write(txt.replace("Maintainer: (unassigned)", "Maintainer: Simul").replace("| R_10k_1%_0603 |", "| R_OLD |"))
+            self.assertEqual(run(lib_readmes, "--check", "--global-root", g)[0], 1)
+            run(lib_readmes, "--global-root", g)
+            with open(p, encoding="utf-8") as f:
+                txt = f.read()
+            self.assertIn("Maintainer: Simul", txt)
+            self.assertIn("| R_10k_1%_0603 |", txt)
+            self.assertNotIn("R_OLD", txt)
+            self.assertTrue(os.path.isfile(os.path.join(g, "models", "step", "chip", "README.md")))
+            self.assertEqual(run(lib_readmes, "--check", "--global-root", g)[0], 0)
+        finally:
+            shutil.rmtree(t)
