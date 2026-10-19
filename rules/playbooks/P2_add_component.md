@@ -1,6 +1,8 @@
 # P2 Add a component
 
-Read with: 03_LIBRARY, 02_REQUIREMENTS_CALCS_PARTS.
+Read with: 03_LIBRARY, 02_REQUIREMENTS_CALCS_PARTS, docs/LIBRARY_PLAN.md.
+
+Planned order (LIB-09 to LIB-15, PROPOSED): database record -> look up shared symbol, footprint and 3D model -> build or download only what is missing (symbol from the record's pins, footprint from its land facts, 3D model JLC/EasyEDA first) -> local library from the record. The steps below are today's tested path until the new tools exist.
 
 Status per step: TESTED = done successfully in the buck project or in a selftest (source given); UNTESTED = written from the tool docs, not yet run.
 
