@@ -5,5 +5,7 @@
 *.PcbDoc binary
 *.LibPkg text
 *.pdf binary
+*.step binary
+*.stp binary
 *.png binary
 *.zip binary
