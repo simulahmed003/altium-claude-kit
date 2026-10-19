@@ -155,6 +155,18 @@ Section 'Register servers in .mcp.json' {
     if ($script:EdaExe) {
         $servers['altium-eda'] = [ordered]@{ type = 'stdio'; command = (Fwd $script:EdaExe); args = @('serve') }
     }
+    # A server whose install step failed this run keeps its existing entry when its program is still there,
+    # so one failed update (for example eda-agent.exe in use) does not drop it from .mcp.json.
+    foreach ($old in @($McpJson, $McpOff)) {
+        if (-not (Test-Path $old)) { continue }
+        try { $prev = Get-Content $old -Raw | ConvertFrom-Json } catch { continue }
+        if (-not $prev.mcpServers) { continue }
+        foreach ($p in $prev.mcpServers.PSObject.Properties) {
+            if ($servers.Contains($p.Name) -or -not (Test-Path ($p.Value.command -replace '/', '\'))) { continue }
+            $servers[$p.Name] = [ordered]@{ type = $p.Value.type; command = $p.Value.command; args = @($p.Value.args) }
+            Write-Host "   kept the existing $($p.Name) entry (its install step did not finish this run)" -ForegroundColor Yellow
+        }
+    }
     if ($servers.Count -eq 0) { throw 'no server installed successfully, nothing to register' }
     $json = ([ordered]@{ mcpServers = $servers } | ConvertTo-Json -Depth 6)
     if (Test-Path $LockFile) {
