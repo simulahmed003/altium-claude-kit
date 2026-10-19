@@ -938,7 +938,7 @@
     "derived land"
    ],
    "courtyard_mm": null,
-   "step": null,
+   "step": "models/step/chip/RESC1608_0603.step",
    "source_project": "buck-12v-5v-3a",
    "history": [
     {

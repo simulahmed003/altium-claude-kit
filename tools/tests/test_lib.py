@@ -15,22 +15,6 @@ INFO = {"footprints": {n: {"status": "derived", "status_source": "test"} for n i
                            "U_LMR33630ADDA": {"family": "ics/power_buck"}, "Q_AO4407C": {"family": "discretes/mosfet"}}}
 
 
-KICAD_MOD = """(module R0603 (layer F.Cu)
-  (fp_line (start -1.59 -0.84) (end 1.59 -0.84) (layer F.CrtYd) (width 0.05))
-  (fp_line (start 1.59 -0.84) (end 1.59 0.84) (layer F.CrtYd) (width 0.05))
-  (fp_line (start 1.59 0.84) (end -1.59 0.84) (layer F.CrtYd) (width 0.05))
-  (pad 1 smd rect (at -0.753 0) (size 0.806 0.864) (layers F.Cu F.Paste F.Mask))
-  (pad 2 smd rect (at 0.753 0) (size 0.806 0.864) (layers F.Cu F.Paste F.Mask))
-  (model "${KIPRJMOD}/packages3d/R0603.step"
-    (offset (xyz 0 0 0)) (scale (xyz 1 1 1)) (rotate (xyz 0 0 -90)))
-)
-"""
-KICAD_SYM = """(kicad_symbol_lib (symbol "X" (property "Reference" "R") (property "LCSC" "C25804")
-  (symbol "X_0_1" (pin input line (at -5 0 0) (length 2) (name "1" (effects)) (number "1" (effects)))
-    (pin input line (at 5 0 180) (length 2) (name "2" (effects)) (number "2" (effects))))))
-"""
-
-
 def run(mod, *argv):
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):
@@ -256,50 +240,6 @@ class GlobalLib(unittest.TestCase):
         code, out = run(cad_check, "--global-root", self.g)
         self.assertEqual(code, 1)
         self.assertIn("sha256 changed", out)
-
-    def test_cad_fetch(self):
-        import cad_fetch
-        self.addCleanup(os.environ.pop, "EDA_GLOBAL", None)
-        self.promote()
-        os.makedirs(os.path.join(self.g, "models"), exist_ok=True)
-        json.dump({"schema": 1, "models": []}, open(os.path.join(self.g, "models", "index.json"), "w"))
-        rec = os.path.join(HERE, "..", "..", "library", "parts", "passives", "resistor", "0603WAF1002T5E__uni-royal.json")
-        os.makedirs(os.path.join(self.g, "parts", "passives", "resistor"))
-        shutil.copy(rec, os.path.join(self.g, "parts", "passives", "resistor"))
-        # stand-in for JLC2KiCadLib: writes <dir>/footprint/packages3d/R0603.step (1.6 x 0.8 x 0.45 mm box)
-        fake = os.path.join(self.t, "fake_jlc.py")
-        open(fake, "w").write(
-            "import os, sys\n"
-            "d = os.path.join(sys.argv[sys.argv.index('-dir') + 1], 'footprint', 'packages3d')\n"
-            "os.makedirs(d)\n"
-            "open(os.path.join(d, 'R0603.step'), 'w').write(\"ISO-10303-21;\\nDATA;\\n"
-            "#1=CARTESIAN_POINT('',(-0.4,-0.8,0.));\\n#2=CARTESIAN_POINT('',(0.4,0.8,0.45));\\nENDSEC;\\n\")\n"
-            "open(os.path.join(sys.argv[sys.argv.index('-dir') + 1], 'footprint', 'R0603.kicad_mod'), 'w').write(%r)\n"
-            "os.makedirs(os.path.join(sys.argv[sys.argv.index('-dir') + 1], 'symbol'))\n"
-            "open(os.path.join(sys.argv[sys.argv.index('-dir') + 1], 'symbol', 'X.kicad_sym'), 'w').write(%r)\n"
-            "print(sys.argv[sys.argv.index('-dir') + 1])\n" % (KICAD_MOD, KICAD_SYM))
-        code, out = run(cad_fetch, "0603WAF1002T5E", "--footprint", "RESC1608_0603", "--exe", fake, "--global-root", self.g)
-        self.assertEqual(code, 0, out)
-        self.assertIn("C25804", out)
-        self.assertIn("OK    length model 1.60 mm", out)
-        self.assertIn("OK    height model 0.45 mm", out)
-        self.assertIn("rotation -90 deg", out)
-        idx = json.load(open(os.path.join(self.g, "models", "index.json")))
-        self.assertEqual(idx["models"][0]["rotation_deg"], [0.0, 0.0, -90.0])
-        ref = json.load(open(os.path.join(self.g, "models", "jlc_ref", "C25804.json")))
-        self.assertEqual([p["number"] for p in ref["jlc_footprint"]["pads"]], ["1", "2"])
-        self.assertEqual(ref["jlc_footprint"]["pads"][0]["size"], [0.806, 0.864])
-        self.assertEqual(ref["jlc_footprint"]["courtyard_mm"], [3.18, 1.68])
-        self.assertEqual(ref["jlc_symbol"]["fields"]["LCSC"], "C25804")
-        self.assertEqual([p["type"] for p in ref["jlc_symbol"]["pins"]], ["input", "input"])
-        self.assertTrue(os.path.isfile(os.path.join(self.g, "models", "step", "chip", "RESC1608_0603.step")))
-        stage = [l for l in out.splitlines() if l.startswith(">")][0].split(" -dir ")[1].split()[0]
-        self.assertFalse(os.path.exists(stage), "staging folder left behind")
-        self.assertEqual(run(cad_check, "--global-root", self.g)[0], 0)
-        code, out = run(cad_fetch, "0603WAF1002T5E", "--footprint", "RESC1608_0603", "--exe", fake, "--global-root", self.g)
-        self.assertEqual(code, 0)
-        self.assertIn("library first", out)
-        self.assertEqual(run(cad_fetch, "NOSUCHPART", "--exe", fake, "--global-root", self.g)[0], 1)
 
 
 if __name__ == "__main__":

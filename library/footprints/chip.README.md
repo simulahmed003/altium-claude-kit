@@ -14,7 +14,7 @@ Maintainer: (unassigned)
 |---|---|---|---|
 | CAPC1608_0603 | derived | 1 | missing |
 | CAPC3216_1206 | derived | 1 | missing |
-| RESC1608_0603 | derived | 1 | missing |
+| RESC1608_0603 | derived | 1 | yes |
 <!-- /CONTENTS -->
 
 ## Naming

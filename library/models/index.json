@@ -1,4 +1,22 @@
 {
  "schema": 1,
- "models": []
+ "models": [
+  {
+   "file": "step/chip/RESC1608_0603.step",
+   "sha256": "e52f17888a8c6c2cb8d56dccf25e2ed131a12a241311657622543c405e42826c",
+   "footprint": "RESC1608_0603",
+   "source": "JLCPCB/EasyEDA C25804 via JLC2KiCadLib",
+   "date": "2026-10-19",
+   "rotation_deg": [
+    0.0,
+    0.0,
+    -90.0
+   ],
+   "offset_mm": [
+    -0.0,
+    -0.005,
+    0.01
+   ]
+  }
+ ]
 }

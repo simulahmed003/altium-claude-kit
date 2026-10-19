@@ -34,7 +34,7 @@ Generated from components.json by the lib scripts; do not edit by hand. Preferre
 | CAPC1608_0603 | passives | derived | no numeric land in Yageo/Samsung datasheets; G1 user 2026-10-13 | 1 | TODO | - | derived land |
 | CAPC3216_1206 | passives | derived | no numeric land in Samsung/FH datasheets; IPC-style land, width per Samsung 2/3W < b < W; G1 user 2026-10-13 | 1 | TODO | - | derived land |
 | IND_CDRH10D60 | passives | datasheet-verified | Sumida CDRH10D60 datasheet p1; G1 user 2026-10-13 | 1 | TODO | - |  |
-| RESC1608_0603 | passives | derived | no numeric land in UNI-ROYAL/RESI datasheets; G1 user 2026-10-13 | 1 | TODO | - | derived land |
+| RESC1608_0603 | passives | derived | no numeric land in UNI-ROYAL/RESI datasheets; G1 user 2026-10-13 | 1 | TODO | models/step/chip/RESC1608_0603.step | derived land |
 
 ## Generic symbols (specs, value set per instance)
 

@@ -40,3 +40,4 @@ Newest last. One line per change: date, item, rev, hash, note.
 - 2026-10-19 component R_20k0_0.1%_0603_PTFR0603B20K0P9 rev 2 hash 276e28786066db31: renamed from R_20k0_0.1%_0603, content unchanged
 - 2026-10-19 component R_4k99_0.1%_0603_PTFR0603B4K99P9 rev 2 hash ff82f600dfa9225c: renamed from R_4k99_0.1%_0603, content unchanged
 - 2026-10-19 component R_51k_1%_0603_0603WAF5102T5E rev 2 hash be5faf83d502cee0: renamed from R_51k_1%_0603, content unchanged
+- 2026-10-19 3D model chip/RESC1608_0603.step registered for RESC1608_0603 (source JLCPCB/EasyEDA C25804 via JLC2KiCadLib)
