@@ -3,6 +3,8 @@
 There is one global library, and each project works on local copies of it. Python scripts manage the catalog, the hashes
 and the copy plans. Only altium-lib writes .SchLib / .PcbLib files.
 
+Shared symbols, footprints and 3D models built from the component database: see `docs/LIBRARY_PLAN.md` (plan, rules LIB-09 to LIB-15 PROPOSED).
+
 ## Layout
 
 | Folder | Holds | Written by |
