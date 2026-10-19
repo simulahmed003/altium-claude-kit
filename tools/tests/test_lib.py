@@ -140,6 +140,19 @@ class GlobalLib(unittest.TestCase):
         self.assertIn("LOCAL CHANGED", out)
         self.assertEqual(run(lib_update, dst, "R_10k_1%_0603", "--global-root", self.g)[0], 1)
 
+    def test_adopt_hand_edit(self):
+        self.promote()
+        self.write_global_libs()
+        cat = lc.load_catalog(self.g)
+        c = lc.find(cat, "c", "R_10k_1%_0603")
+        c["symbol_hash"] = "0" * 16                      # stands for: a person edited the global symbol by hand
+        lc.save_catalog(cat, self.g)
+        self.assertEqual(run(lib_promote, "-", "--verify", "--global-root", self.g)[0], 1)
+        code, out = run(lib_promote, "-", "--adopt", "R_10k_1%_0603", "--by", "tester", "--global-root", self.g)
+        self.assertEqual(code, 0, out)
+        self.assertIn("adopted as rev 2", out)
+        self.assertEqual(run(lib_promote, "-", "--verify", "--global-root", self.g)[0], 0)
+
     def test_update_available(self):
         self.promote()
         self.write_global_libs()
@@ -247,15 +260,15 @@ class Readmes(unittest.TestCase):
             p = os.path.join(g, "symbols", "passives", "resistor.README.md")
             with open(p, encoding="utf-8") as f:
                 txt = f.read()
-            self.assertIn("R_10k_1%_0603", txt)
+            self.assertIn("R_10k_1%_0603_0603WAF1002T5E", txt)
             with open(p, "w", encoding="utf-8") as f:
-                f.write(txt.replace("Maintainer: (unassigned)", "Maintainer: Simul").replace("| R_10k_1%_0603 |", "| R_OLD |"))
+                f.write(txt.replace("Maintainer: (unassigned)", "Maintainer: Simul").replace("| R_10k_1%_0603_0603WAF1002T5E |", "| R_OLD |"))
             self.assertEqual(run(lib_readmes, "--check", "--global-root", g)[0], 1)
             run(lib_readmes, "--global-root", g)
             with open(p, encoding="utf-8") as f:
                 txt = f.read()
             self.assertIn("Maintainer: Simul", txt)
-            self.assertIn("| R_10k_1%_0603 |", txt)
+            self.assertIn("| R_10k_1%_0603_0603WAF1002T5E |", txt)
             self.assertNotIn("R_OLD", txt)
             self.assertTrue(os.path.isfile(os.path.join(g, "models", "step", "chip", "README.md")))
             self.assertEqual(run(lib_readmes, "--check", "--global-root", g)[0], 0)

@@ -12,9 +12,9 @@
    "skus": [
     "LCSC:C480516"
    ],
-   "status": "extracted",
+   "status": "verified",
    "catalog_ids": [
-    "J_MKDS1.5-2-5.08"
+    "J_MKDS1.5-2-5.08_1715721"
    ],
    "file": "connectors/terminal_block/1715721__phoenix-contact.json",
    "summary": {
@@ -53,7 +53,7 @@
    "skus": [
     "LCSC:C16072"
    ],
-   "status": "extracted",
+   "status": "verified",
    "catalog_ids": [],
    "file": "discretes/mosfet/AO4407A__aos.json",
    "summary": {
@@ -72,7 +72,7 @@
    "skus": [
     "LCSC:C469397"
    ],
-   "status": "extracted",
+   "status": "verified",
    "catalog_ids": [
     "Q_AO4407C"
    ],
@@ -97,9 +97,9 @@
    "skus": [
     "LCSC:C841384"
    ],
-   "status": "extracted",
+   "status": "verified",
    "catalog_ids": [
-    "U_LMR33630ADDA"
+    "U_LMR33630ADDAR"
    ],
    "file": "ics/power_buck/LMR33630ADDAR__ti.json",
    "summary": {
@@ -124,7 +124,7 @@
    "package": "SOT-23-THIN (DDC), 6 pins",
    "description": "TPS54302 4.5V to 28V Input, 3A Output, EMI-Friendly Synchronous Step-Down Converter",
    "skus": [],
-   "status": "extracted",
+   "status": "verified",
    "catalog_ids": [],
    "file": "ics/power_buck/TPS54302DDCR__ti.json",
    "summary": {
@@ -151,9 +151,9 @@
    "skus": [
     "LCSC:C303950"
    ],
-   "status": "extracted",
+   "status": "verified",
    "catalog_ids": [
-    "C_10u_50V_X7R_1206"
+    "C_10u_50V_X7R_1206_1206B106K500NT"
    ],
    "file": "passives/capacitor_mlcc/1206B106K500NT__fh.json",
    "summary": {
@@ -185,9 +185,9 @@
    "skus": [
     "LCSC:C14663"
    ],
-   "status": "extracted",
+   "status": "verified",
    "catalog_ids": [
-    "C_100n_50V_X7R_0603"
+    "C_100n_50V_X7R_0603_CC0603KRX7R9BB104"
    ],
    "file": "passives/capacitor_mlcc/CC0603KRX7R9BB104__yageo.json",
    "summary": {
@@ -219,9 +219,9 @@
    "skus": [
     "LCSC:C107083"
    ],
-   "status": "extracted",
+   "status": "verified",
    "catalog_ids": [
-    "C_220n_50V_X7R_0603"
+    "C_220n_50V_X7R_0603_CC0603KRX7R9BB224"
    ],
    "file": "passives/capacitor_mlcc/CC0603KRX7R9BB224__yageo.json",
    "summary": {
@@ -253,9 +253,9 @@
    "skus": [
     "LCSC:C15849"
    ],
-   "status": "extracted",
+   "status": "verified",
    "catalog_ids": [
-    "C_1u_50V_X5R_0603"
+    "C_1u_50V_X5R_0603_CL10A105KB8NNNC"
    ],
    "file": "passives/capacitor_mlcc/CL10A105KB8NNNC__samsung-em.json",
    "summary": {
@@ -287,9 +287,9 @@
    "skus": [
     "LCSC:C12891"
    ],
-   "status": "extracted",
+   "status": "verified",
    "catalog_ids": [
-    "C_22u_25V_X5R_1206"
+    "C_22u_25V_X5R_1206_CL31A226KAHNNNE"
    ],
    "file": "passives/capacitor_mlcc/CL31A226KAHNNNE__samsung-em.json",
    "summary": {
@@ -321,9 +321,9 @@
    "skus": [
     "LCSC:C2594362"
    ],
-   "status": "extracted",
+   "status": "verified",
    "catalog_ids": [
-    "L_10u_CDRH10D60"
+    "L_10u_CDRH10D60_CDRH10D60BT150NP-100MC"
    ],
    "file": "passives/inductor_power/CDRH10D60BT150NP-100MC__sumida.json",
    "summary": {
@@ -347,7 +347,7 @@
    "skus": [
     "LCSC:C17699381"
    ],
-   "status": "extracted",
+   "status": "verified",
    "catalog_ids": [],
    "file": "passives/inductor_power/CSD0910B-100M__codaca.json",
    "summary": {
@@ -371,9 +371,9 @@
    "skus": [
     "LCSC:C25804"
    ],
-   "status": "extracted",
+   "status": "verified",
    "catalog_ids": [
-    "R_10k_1%_0603"
+    "R_10k_1%_0603_0603WAF1002T5E"
    ],
    "file": "passives/resistor/0603WAF1002T5E__uni-royal.json",
    "summary": {
@@ -406,9 +406,9 @@
    "skus": [
     "LCSC:C25803"
    ],
-   "status": "extracted",
+   "status": "verified",
    "catalog_ids": [
-    "R_100k_1%_0603"
+    "R_100k_1%_0603_0603WAF1003T5E"
    ],
    "file": "passives/resistor/0603WAF1003T5E__uni-royal.json",
    "summary": {
@@ -441,9 +441,9 @@
    "skus": [
     "LCSC:C23196"
    ],
-   "status": "extracted",
+   "status": "verified",
    "catalog_ids": [
-    "R_51k_1%_0603"
+    "R_51k_1%_0603_0603WAF5102T5E"
    ],
    "file": "passives/resistor/0603WAF5102T5E__uni-royal.json",
    "summary": {
@@ -476,9 +476,9 @@
    "skus": [
     "LCSC:C328424"
    ],
-   "status": "extracted",
+   "status": "verified",
    "catalog_ids": [
-    "R_20k0_0.1%_0603"
+    "R_20k0_0.1%_0603_PTFR0603B20K0P9"
    ],
    "file": "passives/resistor/PTFR0603B20K0P9__resi.json",
    "summary": {
@@ -511,9 +511,9 @@
    "skus": [
     "LCSC:C5382597"
    ],
-   "status": "extracted",
+   "status": "verified",
    "catalog_ids": [
-    "R_4k99_0.1%_0603"
+    "R_4k99_0.1%_0603_PTFR0603B4K99P9"
    ],
    "file": "passives/resistor/PTFR0603B4K99P9__resi.json",
    "summary": {

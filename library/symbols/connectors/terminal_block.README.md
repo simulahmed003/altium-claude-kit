@@ -11,7 +11,7 @@ Maintainer: (unassigned)
 <!-- CONTENTS (lib_readmes.py refreshes this block; edit outside it) -->
 | Symbol | MPN | Footprint | Rev |
 |---|---|---|---|
-| J_MKDS1.5-2-5.08 | 1715721 | TB_MKDS1.5-2-5.08 | 1 |
+| J_MKDS1.5-2-5.08_1715721 | 1715721 | TB_MKDS1.5-2-5.08 | 2 |
 <!-- /CONTENTS -->
 
 ## What goes in

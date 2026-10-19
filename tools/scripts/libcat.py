@@ -148,9 +148,11 @@ def family_of(mpn, prefix, root=None):
 
 
 def find(cat, kind, key):
+    """Catalog item by id / name; a component is also found by a former id (renamed, e.g. part number added)."""
     lst = cat["components"] if kind == "c" else cat["footprints"]
     k = "id" if kind == "c" else "name"
-    return next((x for x in lst if x[k] == key), None)
+    return next((x for x in lst if x[k] == key), None) or next(
+        (x for x in lst if kind == "c" and key in x.get("former_ids", [])), None)
 
 
 def local_libs(project):

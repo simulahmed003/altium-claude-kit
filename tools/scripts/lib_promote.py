@@ -21,6 +21,8 @@ The plan is always derived from the whole catalog versus the global library file
 re-run with nothing changed keeps every copy still pending. --plan rebuilds it alone; catalog_check FAILs
 when a pending item is missing from the plan.
 --verify: every catalog item found in a global library must match its catalog hash; the rest are pending.
+  A hash that differs usually means a person edited the global library by hand (rule LIB-16): ask the user, then
+  python lib_promote.py - --adopt <id ...> --by <name>  records the edited items as new revisions.
 Exit 0 on success, 1 on refusal or any problem.
 """
 import argparse, json, os, shutil, sys
@@ -202,6 +204,38 @@ def verify(root=None):
     return errs, pending
 
 
+def adopt(ids, by, root=None):
+    """Record hand-edited global items (content differs from the catalog) as new revisions (rule LIB-16).
+    Run only after the user said yes to the change."""
+    cat = lc.load_catalog(root)
+    syms, fps = lc.read_global(cat, root)
+    out, errs = [], []
+    for i in ids:
+        for kind, have, hk, hf, key in (("c", syms, "symbol_hash", altium_io.symbol_hash, "id"),
+                                        ("f", fps, "footprint_hash", altium_io.footprint_hash, "name")):
+            it = lc.find(cat, kind, i)
+            if it is None:
+                continue
+            if it[key] not in have:
+                errs.append(f"{i}: not in {it['global_lib']}")
+                break
+            h = hf(have[it[key]][0])
+            if h == it[hk]:
+                out.append(f"{i}: unchanged (rev {it['rev']}), nothing to adopt")
+                break
+            it["rev"] += 1
+            it[hk] = h
+            it["history"].append(dict(rev=it["rev"], date=lc.today(), hash=h, project="-", note=f"hand edit adopted, approved by {by}"))
+            lc.changelog(f"{'component' if kind == 'c' else 'footprint'} {i} rev {it['rev']} hash {h}: hand edit adopted ({by})", root)
+            out.append(f"{i}: hand edit adopted as rev {it['rev']}")
+            break
+        else:
+            errs.append(f"{i}: not in the catalog")
+    if not errs:
+        lc.save_catalog(cat, root)
+    return out, errs
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0], formatter_class=argparse.RawDescriptionHelpFormatter,
                                  epilog=__doc__)
@@ -211,6 +245,8 @@ def main(argv=None):
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--verify", action="store_true")
     ap.add_argument("--plan", action="store_true", help="only rebuild promote_plan.json (project may be '-')")
+    ap.add_argument("--adopt", nargs="+", metavar="ID", help="record hand-edited global items as new revisions (LIB-16; ask the user first)")
+    ap.add_argument("--by", help="who approved the hand edit (with --adopt)")
     ap.add_argument("--projects-root", help="where source projects live (default D:\\EDA\\projects)")
     ap.add_argument("--global-root", help="default D:\\EDA\\library (tests use a temp folder)")
     a = ap.parse_args(argv)
@@ -221,6 +257,16 @@ def main(argv=None):
         for e in errs:
             print("FAIL", e)
         print(f"{len(plan)} altium-lib copies planned in promote_plan.json")
+        print("RESULT", "FAIL" if errs else "PASS")
+        return 1 if errs else 0
+    if a.adopt:
+        if not a.by:
+            ap.error("--adopt needs --by <name of the person who approved the change>")
+        out, errs = adopt(a.adopt, a.by, a.global_root)
+        for line in out:
+            print(line)
+        for e in errs:
+            print("FAIL", e)
         print("RESULT", "FAIL" if errs else "PASS")
         return 1 if errs else 0
     if a.verify:

@@ -11,7 +11,7 @@ Maintainer: (unassigned)
 <!-- CONTENTS (lib_readmes.py refreshes this block; edit outside it) -->
 | Symbol | MPN | Footprint | Rev |
 |---|---|---|---|
-| U_LMR33630ADDA | LMR33630ADDAR | LMR33630_HSOIC8_DDA | 1 |
+| U_LMR33630ADDAR | LMR33630ADDAR | LMR33630_HSOIC8_DDA | 2 |
 <!-- /CONTENTS -->
 
 ## What goes in

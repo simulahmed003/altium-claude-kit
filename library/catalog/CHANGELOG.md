@@ -27,3 +27,16 @@ Newest last. One line per change: date, item, rev, hash, note.
 - 2026-10-13 component U_LMR33630ADDA rev 1 hash bb72cdf379d85ed4 from buck-12v-5v-3a
 - 2026-10-13 footprint LMR33630_HSOIC8_DDA rev 1 hash 18ebb63dda8fa32d from buck-12v-5v-3a
 - 2026-10-14 all 16 symbols in libs/*.SchLib: footprint link re-made by name only (absolute D:/EDA/projects/... path removed; content hashes unchanged, revs unchanged)
+- 2026-10-19 component J_MKDS1.5-2-5.08_1715721 rev 2 hash 415ea7f19cdd6cb8: renamed from J_MKDS1.5-2-5.08, content unchanged
+- 2026-10-19 component U_LMR33630ADDAR rev 2 hash 5dafb202d80b6bff: renamed from U_LMR33630ADDA, content unchanged
+- 2026-10-19 component C_100n_50V_X7R_0603_CC0603KRX7R9BB104 rev 2 hash a3bc654ae09ab5f8: renamed from C_100n_50V_X7R_0603, content unchanged
+- 2026-10-19 component C_10u_50V_X7R_1206_1206B106K500NT rev 2 hash 199473d38bae9ab6: renamed from C_10u_50V_X7R_1206, content unchanged
+- 2026-10-19 component C_1u_50V_X5R_0603_CL10A105KB8NNNC rev 2 hash adddfe8b8f314763: renamed from C_1u_50V_X5R_0603, content unchanged
+- 2026-10-19 component C_220n_50V_X7R_0603_CC0603KRX7R9BB224 rev 2 hash 5117944b21cba396: renamed from C_220n_50V_X7R_0603, content unchanged
+- 2026-10-19 component C_22u_25V_X5R_1206_CL31A226KAHNNNE rev 2 hash 14cb2a5fbba1d643: renamed from C_22u_25V_X5R_1206, content unchanged
+- 2026-10-19 component L_10u_CDRH10D60_CDRH10D60BT150NP-100MC rev 2 hash fffce03223612caa: renamed from L_10u_CDRH10D60, content unchanged
+- 2026-10-19 component R_100k_1%_0603_0603WAF1003T5E rev 2 hash 69d478270017e4d3: renamed from R_100k_1%_0603, content unchanged
+- 2026-10-19 component R_10k_1%_0603_0603WAF1002T5E rev 2 hash 1f52519f8df16fc1: renamed from R_10k_1%_0603, content unchanged
+- 2026-10-19 component R_20k0_0.1%_0603_PTFR0603B20K0P9 rev 2 hash 276e28786066db31: renamed from R_20k0_0.1%_0603, content unchanged
+- 2026-10-19 component R_4k99_0.1%_0603_PTFR0603B4K99P9 rev 2 hash ff82f600dfa9225c: renamed from R_4k99_0.1%_0603, content unchanged
+- 2026-10-19 component R_51k_1%_0603_0603WAF5102T5E rev 2 hash be5faf83d502cee0: renamed from R_51k_1%_0603, content unchanged

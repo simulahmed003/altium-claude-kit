@@ -11,7 +11,7 @@ Maintainer: (unassigned)
 <!-- CONTENTS (lib_readmes.py refreshes this block; edit outside it) -->
 | Symbol | MPN | Footprint | Rev |
 |---|---|---|---|
-| L_10u_CDRH10D60 | CDRH10D60BT150NP-100MC | IND_CDRH10D60 | 1 |
+| L_10u_CDRH10D60_CDRH10D60BT150NP-100MC | CDRH10D60BT150NP-100MC | IND_CDRH10D60 | 2 |
 <!-- /CONTENTS -->
 
 ## What goes in

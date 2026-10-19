@@ -96,7 +96,7 @@
 - Status: CHECKLIST
 
 ### LIB-14 Local library parameters from the record
-- MUST: build one local library component per manufacturer part number (MPN), named `<prefix>_<value>_<key rating>_<package>_<MPN>` (R_10k_1%_0603_0603WAF1002T5E), from the part record: Comment (value), Description, MPN, Manufacturer, LCSC, Datasheet (URL from the record) and the family's key ratings, all hidden except Comment (LIB-02).
+- MUST: build one local library component per manufacturer part number (MPN), named `<prefix>_<value>_<key rating>_<package>_<MPN>` when described by value (R_10k_1%_0603_0603WAF1002T5E) or `<prefix>_<MPN>` when the part number describes it (U_LMR33630ADDAR), from the part record: Comment (value), Description, MPN, Manufacturer, LCSC, Datasheet (URL from the record) and the family's key ratings, all hidden except Comment (LIB-02).
 - Why: parameters typed by hand drift from the database the calculations used.
 - Check: checklist (planned tool lib_build, LIBRARY_PLAN section 6)
 - Source: user brief 2026-10-19; user 2026-10-19 (one local component per MPN, name with the MPN appended)
@@ -110,8 +110,8 @@
 - Status: CHECKLIST
 
 ### LIB-16 People may edit the global library
-- MUST: accept edits a person makes directly to the global library (symbols, footprints, 3D models, READMEs). Before building on a changed item, run lib_status.py / catalog_check.py, tell the user what changed, and ask before adapting catalog entries, hashes or project copies to it.
+- MUST: accept edits a person makes directly to the global library (symbols, footprints, 3D models, READMEs). Before building on a changed item, run lib_status.py / catalog_check.py, tell the user what changed, and ask before adapting catalog entries, hashes or project copies to it; after a yes, record the edit with `lib_promote.py - --adopt <id> --by <name>` (new revision).
 - Why: the user improves the library by hand from time to time; the tools must follow those changes, not overwrite them.
-- Check: catalog_check.py (global file hashes)
+- Check: catalog_check.py (global file hashes); lib_promote.py --verify / --adopt
 - Source: user 2026-10-19 ("I may update the global library from time to time ... then adapt after asking")
 - Status: CHECKLIST
