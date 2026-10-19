@@ -18,9 +18,10 @@
 
 ### RQ-03 C-number verification
 - MUST: count an LCSC C-number only when a JLCPCB/LCSC page confirms MPN and package; else mark it NOT VERIFIED.
-- Why: memory C-numbers were wrong or unverified.
-- Check: catalog_check.py (lcsc_verified field); checklist
-- Source: LESSONS L9; user 2026-10-13
+- MUST: when a part has no known LCSC number, look it up with `parts.py lcsc <MPN>` (exact MPN, the match with most stock) and record it with `--add` only after the LCSC page confirms MPN and package. No exact match: a similar part with the same package drawing may supply only its 3D model, as a marked substitute the user accepts at G1 (LIB-13); its facts, price, footprint and symbol never stand for the part.
+- Why: memory C-numbers were wrong or unverified; parts without a C-number (TPS54302) had no supplier data and no 3D model.
+- Check: catalog_check.py (lcsc_verified field); parts.py lcsc (exact match, LCSC page confirmation); checklist
+- Source: LESSONS L9; user 2026-10-13; user 2026-10-19 (parts without an LCSC number)
 - Status: ENFORCED
 
 ### RQ-04 Stock and Basic parts
