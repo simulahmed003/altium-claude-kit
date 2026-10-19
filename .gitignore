@@ -39,3 +39,6 @@ migration_backup/
 library/datasheets/_text/
 library/market/
 standards/local/
+
+# JLC2KiCadLib raw downloads (inspection / staging, not part of the library)
+JLC_Library/

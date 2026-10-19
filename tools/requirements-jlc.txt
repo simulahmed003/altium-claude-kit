@@ -1,0 +1,3 @@
+# JLC2KiCadLib: downloads a JLC/LCSC part's symbol, footprint and 3D model (STEP) by its C-number (LIB-13).
+# Installed by tools\setup.ps1 into its own venv: tools\mcp\jlc2kicad\.venv (Scripts\JLC2KiCadLib.exe).
+JLC2KiCadLib==1.3.2
