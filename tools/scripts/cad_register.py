@@ -3,8 +3,8 @@
 Usage:
   python cad_register.py <model.step> --footprint NAME --source URL_OR_NOTE [--rot 0 0 0] [--offset 0 0 0]
                          [--global-root DIR]
-Copies the file to library\\cad\\step\\<file name>, records sha256, footprint, source, date, rotation (deg)
-and offset (mm) in library\\cad\\index.json, and sets the footprint's "step" field in the catalog.
+Copies the file to library\\models\\step\\<package type>\\<footprint>.step (LIB-13: one model per footprint body), records sha256,
+footprint, source, date, rotation (deg) and offset (mm) in library\\models\\index.json, and sets the footprint's "step" field in the catalog.
 Refuses a file that does not start with the STEP header "ISO-10303-21" or a footprint not in the catalog.
 Linking the model into a PcbLib is a separate altium-lib / Altium step (phase 2, see 03_LIBRARY).
 Exit 0 when registered, 1 otherwise.
@@ -53,8 +53,9 @@ def main(argv=None):
         for e in errs:
             print("FAIL", e)
         return 1
-    name = os.path.basename(a.model)
-    dst = lc.gpath("models", "step", name, root=a.global_root)
+    ext = os.path.splitext(a.model)[1].lower() or ".step"
+    name = f"{f.get('package_type') or lc.package_type_of(a.footprint) or 'other'}/{a.footprint}{ext}"
+    dst = lc.gpath("models", "step", *name.split("/"), root=a.global_root)
     os.makedirs(os.path.dirname(dst), exist_ok=True)
     shutil.copyfile(a.model, dst)
     idx = load_index(a.global_root)

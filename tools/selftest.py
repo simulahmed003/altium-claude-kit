@@ -5,7 +5,7 @@ Usage:
 Steps (each PASS / FAIL, exit 1 if any FAIL):
   1 unit and fixture tests (tools\\tests\\test_*.py)
   2 rules_lint.py: rule files well formed, every ENFORCED rule names an existing script
-  3 every script answers --help (part of step 1) and catalog_check.py / cad_check.py / parts.py check on the real library
+  3 every script answers --help (part of step 1) and catalog_check.py / cad_check.py / parts.py check / lib_readmes.py --check on the real library
   4 new_project.py into tools\\tests\\_tmp\\ (recreated each run, git-ignored), then gate_check.py G1 on it:
     must not crash and must report "no design yet"
   5 buck regression, read-only on projects\\buck-12v-5v-3a: pin_match 16/16, conn_check 66 pins / 11 nets PASS,
@@ -39,7 +39,7 @@ def main(argv=None):
     ap.add_argument("--no-buck", action="store_true")
     a = ap.parse_args(argv)
     import rules_lint, catalog_check, cad_check, parts, new_project, gate_check, pin_match, conn_check, dots, sch_overlap, \
-        calcs_run, lib_status
+        calcs_run, lib_status, lib_readmes
     res = []
 
     def step(name, ok, detail=""):
@@ -60,6 +60,8 @@ def main(argv=None):
     step("3 cad_check (library)", code == 0, out.strip().splitlines()[-1])
     code, out = call(parts, "check")
     step("3 parts check (component database)", code == 0, out.strip().splitlines()[-1])
+    code, out = call(lib_readmes, "--check")
+    step("3 lib_readmes (family and package READMEs)", code == 0, out.strip().splitlines()[-1])
     if os.path.isdir(TMP):
         shutil.rmtree(TMP)
     os.makedirs(TMP)

@@ -30,7 +30,8 @@ Each has a docstring, `--help`, and exit code 0 = PASS / 1 = FAIL. Tests: `tools
 | parts.py | component database: new part (LCSC), datasheet fetch, page text for extraction, facts with page + quote, `check` verifies every quote on its page, index, find, price/stock | RQ-01, 03, 04 | `python parts.py new --lcsc C25804`, `python parts.py check` |
 | parts_verify.py | walks a person through the person checks (pins, abs max, package, visual values) part by part, opens each PDF, records yes answers with parts.py verify, ends with check --gate | RQ-01 | `python tools\scripts\parts_verify.py` |
 | catalog_check.py | catalog fields, datasheet sha256 (PDF not on disk = NOT FETCHED note), LCSC verified, footprint status, global file hashes | RQ-01, 03, LIB-05, 06 | `python catalog_check.py --project projects\x` |
-| cad_register.py, cad_check.py | 3D model store (STEP header, sha256, index), structure only | LIB phase 2 | `python cad_check.py` |
+| cad_register.py, cad_check.py | 3D model store in models\step\<package type>\<footprint>.step (STEP header, sha256, index), structure only | LIB-13 | `python cad_check.py` |
+| lib_readmes.py | README per symbol family, footprint package type and 3D model folder; refreshes only the Contents block | LIB-15, LIB-16 | `python lib_readmes.py` (`--check` in selftest) |
 | rules_lint.py | rule-file format; ENFORCED rules name existing scripts; `--write-index` | WF-04 | `python rules_lint.py --write-index` |
 
 Inputs that drive the scripts (no project constants in code):
