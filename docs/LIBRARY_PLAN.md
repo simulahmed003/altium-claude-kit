@@ -32,9 +32,9 @@ Folders and files (user, 2026-10-19):
 - Global symbols: one folder per database category, one SchLib per database family, named as in
   `library/parts/taxonomy.json` (`symbols/passives/resistor.SchLib`, `symbols/discretes/mosfet.SchLib`).
 - Global footprints and 3D models: by package type, because one package serves several families (SOIC-8 is used by
-  MOSFETs and ICs, 0603 by resistors, capacitors and LEDs). Each footprint exists once. Package types start with
-  `chip` (0201 to 2512 chip parts), `soic`, `sot`, `son_dfn`, `qfn`, `qfp`, `to` (TO-220, TO-252, TO-263),
-  `inductor` (molded and shielded power inductor bodies), `terminal_block`, `header` and `testpoint`. A new type is
+  MOSFETs and ICs, 0603 by resistors, capacitors and LEDs). Each footprint exists once. Package types (as built in PR #16):
+  `chip` (chip resistors, capacitors, inductors), `soic`, `sot`, `qfn_dfn`, `to`, `inductor_smd`, `terminal_block`,
+  `header`, `usb`, `crystal_osc` and `test_point`. A new type is
   added by pull request, like a new family.
 - Local project library: the same category folders with one SchLib and one PcbLib per family
   (`projects/<p>/libs/passives/resistor.SchLib` and `resistor.PcbLib`). The PcbLib holds copies of the global
