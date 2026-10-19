@@ -1,7 +1,7 @@
 """cad_fetch.py - download a part's 3D model from JLC/EasyEDA, check it against the part record, store it (rule LIB-13).
 
 Usage:
-  python cad_fetch.py <component id | MPN | LCSC C-number> [--footprint NAME] [--lcsc C123]
+  python cad_fetch.py <component id | MPN | LCSC C-number> [--footprint NAME] [--lcsc C123 (same or similar body; marked substitute)]
                       [--no-check] [--tol 0.05] [--replace] [--dry-run] [--keep] [--global-root DIR]
 Steps:
   1. Resolve the part: catalog component (id or former id) or component-database record (MPN / LCSC sku) gives the
@@ -189,7 +189,11 @@ def main(argv=None):
     a = ap.parse_args(argv)
     root = a.global_root
     comp, rec = resolve(a.key, root)
-    lcsc = a.lcsc or (comp or {}).get("lcsc") or next((s["sku"] for s in (rec or {}).get("suppliers", []) if s.get("name") == "LCSC"), None)
+    own = (comp or {}).get("lcsc") or next((s["sku"] for s in (rec or {}).get("suppliers", []) if s.get("name") == "LCSC"), None)
+    lcsc = a.lcsc or own
+    # a part with no LCSC number (or a JLC model that fails) may borrow the model of the same or a similar body sold on
+    # LCSC: --lcsc <its C-number>. It is stored marked as a substitute the user accepts at G1 (LIB-13).
+    substitute = bool(a.lcsc) and a.lcsc != own
     fp = a.footprint or (comp or {}).get("footprint")
     if not lcsc or not re.fullmatch(r"C\d+", lcsc or ""):
         print(f"FAIL no LCSC C-number for '{a.key}' (give --lcsc)")
@@ -255,7 +259,7 @@ def main(argv=None):
             print(f"  record {axis}: {what}")
         for pr in problems:
             print(f"  FAIL {pr}")
-        report = {"schema": 1, "lcsc": lcsc, "mpn": (rec or comp or {}).get("mpn"), "footprint": fp, "fetched": lc.today(),
+        report = {"schema": 1, "lcsc": lcsc, "substitute": substitute, "mpn": (rec or comp or {}).get("mpn"), "footprint": fp, "fetched": lc.today(),
                   "tool": "JLC2KiCadLib", "check": "skipped (--no-check)" if a.no_check else ("PASS" if not problems else "FAIL"),
                   "problems": problems,
                   "step": {k: sinfo[k] for k in ("product", "schema", "mm", "points")} | {"bbox_model_mm": sinfo["bbox"],
@@ -266,7 +270,11 @@ def main(argv=None):
             print(json.dumps({k: report[k] for k in ("check", "problems")}))
             print("dry run: nothing stored" if a.dry_run and not problems else "nothing stored: ask the user (wrong model, or --no-check)")
             return 1 if problems else 0
-        code = cad_register.main([step, "--footprint", fp, "--source", f"JLCPCB/EasyEDA {lcsc} via JLC2KiCadLib",
+        source = f"JLCPCB/EasyEDA {lcsc} via JLC2KiCadLib"
+        if substitute:
+            source += f" (SUBSTITUTE: model of {lcsc} used for {a.key}, user accepts at G1)"
+            print(f"  note: {lcsc} is not this part's own LCSC number: stored as a marked substitute (LIB-13)")
+        code = cad_register.main([step, "--footprint", fp, "--source", source,
                                   "--rot", *[str(v) for v in place["rotate_deg"]],
                                   "--offset", *[str(v) for v in place["offset_mm"]]] + (["--global-root", root] if root else []))
         if code:
