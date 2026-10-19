@@ -75,10 +75,10 @@
 - Status: PROPOSED
 
 ### LIB-11 Symbols built from the part record
-- MUST: build a missing symbol from the record's pin list (number, name, type) with gen_sym.py, under the drawing standard of LIB-02 and LIB-03 (100 mil grid, line width 1, one line colour, font size 10).
+- MUST: build a missing symbol from the record's pin list (number, name, type) with gen_sym.py, under the drawing standard of LIB-02 and LIB-03 (100 mil grid, line width 1, one line colour, font size 10). IC symbols follow the datasheet's recommended pin grouping (pin functions, as the datasheet groups them) and are drawn symmetric: a centred body, pins spread evenly on opposite sides.
 - Why: pins typed from memory were wrong before; the record holds the checked pin list.
 - Check: pin_match.py --style; gen_sym.py grid check
-- Source: user brief 2026-10-19
+- Source: user brief 2026-10-19; user 2026-10-19 (IC symbols: datasheet recommendation, symmetric)
 - Status: PROPOSED
 
 ### LIB-12 Footprints built from land data in the record
@@ -89,17 +89,17 @@
 - Status: PROPOSED
 
 ### LIB-13 3D models: source order and check
-- MUST: take a missing 3D model from JLC/EasyEDA by the LCSC number first, the maker's site second; a similar part's model with the same body only as a marked substitute that the user accepts at G1. Check the model's box against the record's body length, width and height (inside the datasheet min/max) and record source and sha256 in models/index.json.
+- MUST: take a missing 3D model from JLC/EasyEDA by the LCSC number first, the maker's site second; a standard body (a chip size such as 0603, or a JEDEC package such as SOIC-8) has one model shared by every part of that body and footprint, whatever the value (a 10 uF and a 22 uF 0603 capacitor use the same model). A part-specific body (an inductor, a connector) needs its own model; a similar part's model only as a marked substitute that the user accepts at G1. Check the model's box against the record's body length, width and height (inside the datasheet min/max) and record source and sha256 in models/index.json.
 - Why: a wrong height or pin-1 corner shows up only at assembly.
 - Check: cad_check.py; box check in the planned tool cad_fetch
-- Source: user brief 2026-10-19
+- Source: user brief 2026-10-19; user 2026-10-19 (standard body = one shared model)
 - Status: PROPOSED
 
 ### LIB-14 Local library parameters from the record
-- MUST: build each local library component from the part record: Comment (value), Description, MPN, Manufacturer, LCSC, Datasheet (URL from the record) and the family's key ratings, all hidden except Comment (LIB-02).
+- MUST: build one local library component per manufacturer part number (MPN), from the part record: Comment (value), Description, MPN, Manufacturer, LCSC, Datasheet (URL from the record) and the family's key ratings, all hidden except Comment (LIB-02).
 - Why: parameters typed by hand drift from the database the calculations used.
 - Check: checklist (planned tool lib_build, LIBRARY_PLAN section 6)
-- Source: user brief 2026-10-19
+- Source: user brief 2026-10-19; user 2026-10-19 (one local component per MPN)
 - Status: PROPOSED
 
 ### LIB-15 Library files per category

@@ -90,12 +90,16 @@ For passives the size code alone is enough, because the IPC-7351 chip land follo
 
 Also in this work: fix lesson B7 (an Altium save rewrites IDs, so `lib_status.py` reports LOCAL CHANGED). The hash should leave those fields out.
 
-## 7. Open questions for the user
+## 7. Decisions and open questions
 
-1. When should a category file be split by family? For example, at 200 symbols, or never until Altium slows down.
-2. IC symbol layout: inputs and power on the left, outputs on the right, ground at the bottom? Pin length 200 or 300 mil for ICs? (Passives keep 100 mil, the capacitor 80 mil, from LIB-03.)
-3. Substitute 3D models (a similar part's body): allowed with a flag and a G1 check, or only an exact model?
-4. Local library: one component per MPN (as planned), or one per value with the MPN as a parameter?
+Answered by the user (2026-10-19):
+- IC symbols follow the datasheet's recommended pin grouping and are drawn symmetric (LIB-11).
+- A standard body (chip size such as 0603, or a JEDEC package such as SOIC-8) has one shared 3D model, whatever the value: a 10 uF and a 22 uF 0603 capacitor use the same model (LIB-13). Resistor and capacitor chips keep separate models because their footprints and heights differ.
+- The local library has one component per manufacturer part number (LIB-14).
+
+Still open:
+1. When should a category file be split by family? Until the user sets a size: never.
+2. IC pin length: 200 or 300 mil? (Passives keep 100 mil, the capacitor 80 mil, from LIB-03.)
 
 ## 8. Lists for the 17 parts in the database
 
