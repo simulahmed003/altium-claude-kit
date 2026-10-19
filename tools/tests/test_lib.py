@@ -11,7 +11,8 @@ import altium_io
 
 INFO = {"footprints": {n: {"status": "derived", "status_source": "test"} for n in
                        ("LMR33630_HSOIC8_DDA", "SOIC8_MS012", "IND_CDRH10D60", "CAPC3216_1206", "CAPC1608_0603",
-                        "RESC1608_0603", "TB_MKDS1.5-2-5.08", "TP_PAD_D1.5")}}
+                        "RESC1608_0603", "TB_MKDS1.5-2-5.08", "TP_PAD_D1.5")}, "components": {"J_MKDS1.5-2-5.08": {"family": "connectors/terminal_block"},
+                           "U_LMR33630ADDA": {"family": "ics/power_buck"}, "Q_AO4407C": {"family": "discretes/mosfet"}}}
 
 
 def run(mod, *argv):
@@ -120,8 +121,11 @@ class GlobalLib(unittest.TestCase):
         plan = json.load(open(os.path.join(dst, "ai", "lib_pull_plan.json")))
         self.assertTrue(all(c["preserve_external_paths"] for c in plan["copies"]))
         self.assertEqual(run(lib_pull, dst, "--verify")[0], 1)     # copy not done yet
-        shutil.copyfile(os.path.join(self.g, "symbols", "passives.SchLib"), os.path.join(dst, "libs", "dst.SchLib"))
-        shutil.copyfile(os.path.join(self.g, "footprints", "passives.PcbLib"), os.path.join(dst, "libs", "dst.PcbLib"))
+        tsch, tpcb = (c["target"] for c in plan["copies"])       # local family libraries: libs/passives/resistor.*
+        self.assertTrue(tsch.endswith("libs/passives/resistor.SchLib") and tpcb.endswith("libs/passives/resistor.PcbLib"))
+        os.makedirs(os.path.dirname(tsch))
+        shutil.copyfile(os.path.join(self.g, "symbols", "passives", "resistor.SchLib"), tsch)
+        shutil.copyfile(os.path.join(self.g, "footprints", "chip.PcbLib"), tpcb)
         code, out = run(lib_pull, dst, "--verify")
         self.assertEqual(code, 0, out)
         code, out = run(lib_status, dst, "--global-root", self.g)

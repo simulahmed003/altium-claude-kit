@@ -3,8 +3,9 @@
 Usage:
   python lib_pull.py <project dir> <component ID ...> [--global-root DIR]      plan the copies
   python lib_pull.py <project dir> --verify [--global-root DIR]               check and record them
-Plan: writes ai\\lib_pull_plan.json with the altium-lib copy_component_cross_library calls (global category
-library -> projects\\<p>\\libs\\<p>.SchLib / .PcbLib, preserve_external_paths=true) and marks the parts
+Plan: writes ai\\lib_pull_plan.json with the altium-lib copy_component_cross_library calls (global family / package
+library -> projects\\<p>\\libs\\<category>\\<family>.SchLib / .PcbLib, footprints per family; preserve_external_paths=true)
+and marks the parts
 "planned" in libs\\lib_manifest.json. The agent runs the copies (library closed in Altium), then --verify:
 every planned / pulled part's local content hash must equal the catalog rev it came from; verified parts
 become "pulled". Exit 0 when everything is planned / verified, 1 otherwise.
@@ -17,27 +18,30 @@ import altium_io, libcat as lc
 
 def plan(project, ids, root=None):
     cat, man = lc.load_catalog(root), lc.load_manifest(project)
-    pname = os.path.basename(os.path.abspath(project))
-    lsch = os.path.join(project, "libs", f"{pname}.SchLib").replace("\\", "/")
-    lpcb = os.path.join(project, "libs", f"{pname}.PcbLib").replace("\\", "/")
     copies, errs = [], []
     for i in ids:
         c = lc.find(cat, "c", i)
         if c is None:
             errs.append(f"{i}: not in the catalog")
             continue
+        if not c.get("family"):
+            errs.append(f"{i}: catalog entry has no family (catalog_check.py)")
+            continue
+        lsch, lpcb = (x.replace("\\", "/") for x in lc.local_libs_for(project, c["category"], c["family"]))
         src = lc.gpath(c["global_lib"], root=root)
         if not os.path.isfile(src):
             errs.append(f"{i}: global library {c['global_lib']} not written yet (see promote_plan.json)")
         copies.append(dict(tool="altium-lib copy_component_cross_library", source=src.replace("\\", "/"), target=lsch,
                            component=i, preserve_external_paths=True))
-        man["components"][i] = dict(rev=c["rev"], symbol_hash=c["symbol_hash"], origin="planned", footprint=c["footprint"])
+        man["components"][i] = dict(rev=c["rev"], symbol_hash=c["symbol_hash"], origin="planned", footprint=c["footprint"],
+                                    local_lib=os.path.relpath(lsch, project).replace("\\", "/"))
         f = lc.find(cat, "f", c["footprint"]) if c.get("footprint") else None
         if f and c["footprint"] not in man["footprints"]:
             copies.append(dict(tool="altium-lib copy_component_cross_library (PcbLib)",
                                source=lc.gpath(f["global_lib"], root=root).replace("\\", "/"), target=lpcb,
                                component=f["name"], preserve_external_paths=True))
-            man["footprints"][f["name"]] = dict(rev=f["rev"], footprint_hash=f["footprint_hash"], origin="planned")
+            man["footprints"][f["name"]] = dict(rev=f["rev"], footprint_hash=f["footprint_hash"], origin="planned",
+                                                local_lib=os.path.relpath(lpcb, project).replace("\\", "/"))
         if c.get("caveats"):
             print(f"NOTE {i}: caveats: {'; '.join(c['caveats'])}")
     os.makedirs(os.path.join(project, "ai"), exist_ok=True)

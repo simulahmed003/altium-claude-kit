@@ -14,7 +14,9 @@ datasheet PDF (docs\\datasheets\\) is copied to library\\datasheets\\ with its s
 {status, status_source, caveats, courtyard_mm}}} - required for footprint status (LIB-05) on first promotion.
 Writes libs\\lib_manifest.json in the project (origin "promoted") and library\\catalog\\promote_plan.json:
 the altium-lib copy_component_cross_library calls (preserve_external_paths=true) that put the parts into
-library\\symbols\\<category>.SchLib and library\\footprints\\<category>.PcbLib. Python never writes the libraries.
+library\\symbols\\<category>\\<family>.SchLib and library\\footprints\\<package type>.PcbLib. The family comes from the
+component database record (library\\parts, by MPN), the prefix default, or "family" in --info; the package type from
+the footprint name (libcat.PACKAGE_TYPES) or "package_type" in --info. Python never writes the libraries.
 The plan is always derived from the whole catalog versus the global library files (not from this run), so a
 re-run with nothing changed keeps every copy still pending. --plan rebuilds it alone; catalog_check FAILs
 when a pending item is missing from the plan.
@@ -43,10 +45,17 @@ def promote(project, parts=None, info=None, dry=False, root=None):
             continue
         s, slib = syms[sid]
         h = altium_io.symbol_hash(s)
-        cat_ = lc.category_of(lc.prefix_of(s))
         fpn = s["footprints"][0] if s["footprints"] else None
         ci = info.get("components", {}).get(sid, {})
         old = lc.find(cat, "c", sid)
+        cf = (tuple(ci["family"].split("/")) if ci.get("family") else
+              ((old["category"], old["family"]) if old and old.get("family") else
+               lc.family_of(lc.param(s, "MPN"), lc.prefix_of(s), root)))
+        if not cf:
+            errs.append(f"{sid}: no family: add the part to the component database (parts.py) or give "
+                        f'"family": "<category>/<family>" in --info')
+            continue
+        cat_, fam = cf
         if old and old["symbol_hash"] == h:
             out.append(f"{sid}: unchanged (rev {old['rev']})")
             rev = old["rev"]
@@ -60,7 +69,7 @@ def promote(project, parts=None, info=None, dry=False, root=None):
                 copies.append((dsp, lc.gpath("datasheets", ds, root=root)))
             elif ds and ds != "-":
                 errs.append(f"{sid}: datasheet {ds} not found in docs\\datasheets")
-            entry = dict(id=sid, category=cat_, symbol=sid, global_lib=f"symbols/{cat_}.SchLib", rev=rev, symbol_hash=h,
+            entry = dict(id=sid, category=cat_, family=fam, symbol=sid, global_lib=lc.symbol_lib(cat_, fam), rev=rev, symbol_hash=h,
                          footprint=fpn, value=lc.param(s, "Value"), description="", mfr=lc.param(s, "Manufacturer"),
                          mpn=lc.param(s, "MPN"), lcsc=lc.param(s, "LCSC"), lcsc_verified=False,
                          jlc_tier=lc.param(s, "JLCPCB Type"), datasheet=dsrec, preferred=False, caveats=[],
@@ -70,7 +79,7 @@ def promote(project, parts=None, info=None, dry=False, root=None):
             for r in s["records"]:
                 if r.get("RECORD") == "1":
                     entry["description"] = r.get("COMPONENTDESCRIPTION", "")
-            entry.update({k: v for k, v in ci.items() if k in lc.COMP_FIELDS})
+            entry.update({k: v for k, v in ci.items() if k in lc.COMP_FIELDS and k not in ("family", "category", "global_lib")})
             if old:
                 cat["components"].remove(old)
             cat["components"].append(entry)
@@ -92,11 +101,15 @@ def promote(project, parts=None, info=None, dry=False, root=None):
                 frev = fo["rev"]
             elif fo is None or fo["footprint_hash"] != fh:
                 frev = (fo["rev"] + 1) if fo else 1
-                fe = dict(name=fpn, category=cat_, global_lib=f"footprints/{cat_}.PcbLib", rev=frev, footprint_hash=fh,
+                ptype = fi.get("package_type") or (fo or {}).get("package_type") or lc.package_type_of(fpn)
+                if not ptype:
+                    errs.append(f"footprint {fpn}: package type unknown: give \"package_type\" in --info (libcat.PACKAGE_TYPES)")
+                    continue
+                fe = dict(name=fpn, category=cat_, package_type=ptype, global_lib=lc.footprint_lib(ptype), rev=frev, footprint_hash=fh,
                           status=fi.get("status"), status_source=fi.get("status_source", ""), caveats=[], courtyard_mm=None,
                           step=None, source_project=pname,
                           history=(fo or {}).get("history", []) + [dict(rev=frev, date=lc.today(), hash=fh, project=pname)])
-                fe.update({k: v for k, v in fi.items() if k in lc.FP_FIELDS})
+                fe.update({k: v for k, v in fi.items() if k in lc.FP_FIELDS and k not in ("package_type", "global_lib")})
                 if fe["status"] not in lc.FP_STATUS:
                     errs.append(f"footprint {fpn}: status '{fe['status']}' must be one of {lc.FP_STATUS} (--info)")
                 if fo:

@@ -13,7 +13,7 @@ The agent works under written rules and human sign-off gates, scripts check its 
 | `rules/` | Versioned rules (workflow, requirements, library, schematic, PCB, fab output, tooling, communication) and playbooks P1-P8. Every rule says how it is checked. Index: `rules/00_INDEX.md`. |
 | `tools/scripts/` | Offline checkers and generators: pins = pads, connectivity, text overlaps, calculations, gate evidence, BOM. Python standard library only. No Altium needed. |
 | `tools/bridge/`, `.claude` hook | A guard that lets only one live Altium bridge run at a time, plus a kill switch. |
-| `library/` | Managed global component library: catalog, category libraries, hashes, promote / pull / update scripts. Projects work on local copies. |
+| `library/` | Managed global component library: catalog, symbols by category/family, footprints by package type, hashes, promote / pull / update scripts. Projects work on local copies. |
 | `guidelines/` | Draft area for system-level design guidelines. Empty by design; set per team. |
 | `templates/project/` | Template for a new design (requirements, constraints, gates). |
 | `docs/` | Setup guide, first-run tests, lessons learned, architecture, roadmap, guide for AI contributors. |

@@ -37,8 +37,8 @@ def check(root=None, project=None, strict=False):
         if miss:
             errs.append(f"{i}: missing fields {miss}")
             continue
-        if c["global_lib"] != f"symbols/{c['category']}.SchLib":
-            errs.append(f"{i}: global_lib {c['global_lib']} does not match category {c['category']}")
+        if c["global_lib"] != lc.symbol_lib(c["category"], c["family"]):
+            errs.append(f"{i}: global_lib {c['global_lib']} must be {lc.symbol_lib(c['category'], c['family'])}")
         if c["footprint"] and c["footprint"] not in fpn:
             errs.append(f"{i}: footprint {c['footprint']} not in the catalog")
         ds = c["datasheet"]
@@ -66,6 +66,8 @@ def check(root=None, project=None, strict=False):
             errs.append(f"{n}: status '{f['status']}' not in {lc.FP_STATUS}")
         if not f["status_source"]:
             errs.append(f"{n}: status without a source")
+        if f["global_lib"] != lc.footprint_lib(f["package_type"]):
+            errs.append(f"{n}: global_lib {f['global_lib']} must be {lc.footprint_lib(f['package_type'])}")
     if fetched_missing:
         notes.append(f"NOT FETCHED: {len(fetched_missing)} datasheet PDFs are not on disk (vendor PDFs are not in git; "
                      f"run datasheets_fetch.py): {', '.join(fetched_missing[:4])}{' ...' if len(fetched_missing) > 4 else ''}")

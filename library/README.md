@@ -12,8 +12,8 @@ and the copy plans. Only altium-lib writes .SchLib / .PcbLib files.
 | `catalog/CHANGELOG.md` | one line per promotion or revision | lib_promote.py |
 | `catalog/migrations/` | input files for promotions (statuses, caveats) | designer |
 | `catalog/promote_plan.json` | altium-lib copies still to run for the last promotion | lib_promote.py |
-| `symbols/<category>.SchLib` | schematic symbols, one library per category | altium-lib |
-| `footprints/<category>.PcbLib` | footprints, one library per category | altium-lib |
+| `symbols/<category>/<family>.SchLib` | schematic symbols: one folder per category, one library per family | altium-lib |
+| `footprints/<package type>.PcbLib` | footprints sorted by package type (`chip`, `soic`, `sot`, `qfn_dfn` ...): each footprint exists once | altium-lib |
 | `models/step/`, `models/index.json` | 3D models (STEP) with sha256 and placement offsets | cad_register.py |
 | `models/spice/` | simulation models (planned, roadmap M4) | - |
 | `specs/` | gen_sym.py specs for generic symbols (generic passives) | designer |
@@ -21,20 +21,38 @@ and the copy plans. Only altium-lib writes .SchLib / .PcbLib files.
 | `datasheets/index.json` | every datasheet by sha256: file, url, pages, covered MPNs (the PDFs themselves stay out of git) | parts.py |
 | `datasheets/` | local cache of the PDFs the catalog points to (not in git, sha256 in the catalog) | datasheets_fetch.py |
 
-## Categories
+## Categories, families and package types (user decision 2026-10-19)
 
-Each category has one SchLib and one PcbLib with the same name. The `category` field must match the file name
-(catalog_check.py enforces this).
+Symbols: one folder per category, one library file per family. Category and family are the same as in the component
+database (`parts/taxonomy.json`), and the catalog takes them from the part's database record (by MPN). A part with no
+record uses the prefix default in `libcat.DEFAULT_FAMILY` (R, C, L, FB, TP, LED) or `"family"` in `lib_promote.py --info`.
 
-| Category | Holds | Designator prefix of the IDs |
-|---|---|---|
-| `passives` | resistors, capacitors, inductors, ferrites | R_, C_, L_, FB_ |
-| `discretes` | diodes, MOSFETs, BJTs, LEDs | D_, Q_, LED_ |
-| `ics` | regulators, MCUs, interface, analog, logic | U_ |
-| `connectors` | connectors, terminals, test pads | J_, TP_ |
+| Category folder | Family files today |
+|---|---|
+| `symbols/passives/` | `resistor`, `capacitor_mlcc`, `inductor_power` |
+| `symbols/discretes/` | `mosfet` |
+| `symbols/ics/` | `power_buck` |
+| `symbols/connectors/` | `terminal_block`, `test_point` |
 
-A new category comes in only when one of these four has outgrown a single file, for example when `ics` is split into
-`power`, `mcu` and `interface`. It needs a catalog migration and its own pull request.
+A new family file appears when the first part of that family is promoted; the folder tree follows the taxonomy.
+
+Footprints: sorted by package type, because one package serves many families (SOIC-8: MOSFETs and ICs; 0603: resistors,
+capacitors, LEDs). The type comes from the footprint name (`libcat.PACKAGE_TYPES`) or `"package_type"` in `--info`.
+
+| File | Holds today |
+|---|---|
+| `footprints/chip.PcbLib` | `RESC1608_0603`, `CAPC1608_0603`, `CAPC3216_1206` |
+| `footprints/soic.PcbLib` | `SOIC8_MS012`, `LMR33630_HSOIC8_DDA` |
+| `footprints/inductor_smd.PcbLib` | `IND_CDRH10D60` |
+| `footprints/terminal_block.PcbLib` | `TB_MKDS1.5-2-5.08` |
+| `footprints/test_point.PcbLib` | `TP_PAD_D1.5` |
+
+3D models belong to the footprint, so every component on the same footprint shares one model: a 10 uF and a 22 uF 0603
+capacitor use the same `CAPC1608_0603` body.
+
+Projects (local copies): `projects/<p>/libs/<category>/<family>.SchLib` and `.PcbLib`, footprints per family
+(`lib_pull.py` plans the copies there). Older projects with one flat `<p>.SchLib` / `.PcbLib` still work; the scripts
+read every library under `libs/` except `_dryrun`.
 
 ## Naming
 
@@ -85,4 +103,6 @@ After `git pull`:
 
 ## State on 2026-10-13
 - First migration from buck-12v-5v-3a: 16 components and 8 footprints, all at rev 1. Caveats are in `catalog/migrations/buck_2026-10-13.json`.
+- 2026-10-19: the 4 category files were split into family symbol libraries and package-type footprint libraries
+  (24 altium-lib copies, `lib_promote.py --verify` PASS, `catalog_check --strict` 0 problems).
 - On 2026-10-13 altium-lib wrote the category library files (24 copies, `preserve_external_paths=true`) from the promote plan. `lib_promote.py --verify` passed, `catalog_check --strict` found 0 problems, and buck lib_status reported 24 OK.
