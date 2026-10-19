@@ -1,6 +1,6 @@
 # Library plan: shared symbols, footprints and 3D models built from the component database
 
-Status: PLAN (2026-10-19). The rules it adds (LIB-09 to LIB-15) are PROPOSED until the user approves them.
+Status: approved 2026-10-19 (rules LIB-09 to LIB-16, rules 1.4.0).
 Source: user brief 2026-10-19 (library management and local library structure).
 
 ## 1. The idea in one paragraph
@@ -109,8 +109,11 @@ Answered by the user (2026-10-19):
 - The local library has one component per manufacturer part number, passives included (LIB-14).
 - Global: symbols in a folder per category and a file per family; footprints and 3D models by package type. Local: a folder per category, a SchLib and a PcbLib per family (LIB-15).
 
-Still open:
-1. IC pin length: 200 or 300 mil? (Passives keep 100 mil, the capacitor 80 mil, from LIB-03.)
+- IC symbols: power top, ground bottom, inputs left, outputs right, pin names as in the datasheet, pin length 200 mil (LIB-11).
+- Local component name: `<prefix>_<value>_<key rating>_<package>_<MPN>` (LIB-14).
+- People may edit the global library; the AI checks, reports and asks before adapting (LIB-16).
+
+Still open: nothing.
 
 ## 8. Lists for the 17 parts in the database
 
