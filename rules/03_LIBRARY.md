@@ -102,9 +102,9 @@
 - Source: user brief 2026-10-19; user 2026-10-19 (one local component per MPN)
 - Status: PROPOSED
 
-### LIB-15 Library files: a folder per category, a file per family
-- MUST: keep shared symbols in library/symbols/<category>/<family>.SchLib, footprints in library/footprints/<category>/<family>.PcbLib and 3D models in library/models/step/<category>/<family>/, with category and family named as in library/parts/taxonomy.json; never one file per part. Create a family's file when its first part comes in.
-- Why: the record already knows its category and family, so the tools find the file without a lookup table; family files stay small.
-- Check: catalog_check.py (category and family match folder and file, after the migration)
-- Source: user brief 2026-10-19; user 2026-10-19 ("for each category a folder, for each family a library file")
+### LIB-15 Library files: symbols by category and family, footprints by package type
+- MUST: keep global symbols in library/symbols/<category>/<family>.SchLib (names from library/parts/taxonomy.json), global footprints in library/footprints/<package type>.PcbLib and 3D models in library/models/step/<package type>/, each footprint once. Build a project's local library as libs/<category>/<family>.SchLib and .PcbLib, copying the global footprints a family uses into its PcbLib. Never one file per part; create a file when its first part comes in.
+- Why: the record knows its category and family, so symbols are found without a lookup table; one package serves several families, so the global footprint and 3D model live once per package; local family files keep a project's library small and readable.
+- Check: catalog_check.py (folders and file names, after the migration); lib_status.py (local footprint copies match the global one)
+- Source: user brief 2026-10-19; user 2026-10-19 ("for each category a folder, for each family a library file"; global footprints by package type, local one footprint file per family)
 - Status: PROPOSED
