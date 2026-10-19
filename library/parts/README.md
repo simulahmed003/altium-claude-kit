@@ -63,7 +63,10 @@ Conventions:
 
 ## Workflow: the first time a project meets a part (rule RQ-01)
 1. `parts.py find <mpn or C-number>` - already there? Read it: `parts.py get <mpn> --section abs_max`. Stop here.
-2. `parts.py new --lcsc C123` (or `--mpn --mfr --category` offline). LCSC gives MPN, maker, package, description,
+2. No LCSC number known? `parts.py lcsc <MPN>` searches JLCPCB's parts list (exact MPN first, most stock) and
+   `--add <part>` records it after the LCSC page confirms MPN and package (RQ-03). No exact match: a similar part with the
+   same package drawing may give a 3D model only, as a marked substitute the user accepts at G1 (LIB-13), never facts.
+2b. `parts.py new --lcsc C123` (or `--mpn --mfr --category` offline). LCSC gives MPN, maker, package, description,
    parameters and its datasheet link; the maker name is mapped to its canonical name. LCSC is the default supplier.
 3. Datasheet: the maker's website first (good English version), LCSC second.
    `parts.py fetch <mpn> --url <maker PDF> --project projects\<name>` downloads it, records its sha256 and pages,

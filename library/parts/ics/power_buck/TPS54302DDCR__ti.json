@@ -17,8 +17,29 @@
    "revision": ""
   }
  ],
- "suppliers": [],
- "supplier_params": {},
+ "suppliers": [
+  {
+   "name": "LCSC",
+   "sku": "C311983",
+   "url": "https://www.lcsc.com/product-detail/C311983.html",
+   "verified": "2026-10-19",
+   "note": "LCSC product API: TPS54302DDCR, TI, TSOT-23-6"
+  }
+ ],
+ "supplier_params": {
+  "Operating Temperature": "-40℃~+125℃@(TJ)",
+  "Frequency - Switching": "400kHz",
+  "Function": "Step-down type",
+  "Number of Outputs": "1",
+  "Features": "Cycle-by-cycle current limiting;Hiccup current limiting;EMI optimization (spread spectrum);Light load efficient mode;Overcurrent Protection",
+  "Output Type": "Adjustable",
+  "Topology": "Buck",
+  "Operating Voltage": "4.5V~28V",
+  "Switch tube (built-in/external)": "Built-in",
+  "Output Voltage": "-",
+  "Output Current": "3A",
+  "Quiescent Current": "45uA"
+ },
  "facts": {
   "summary": {
    "iout": {
@@ -392,6 +413,61 @@
      "mode": "table"
     }
    }
+  },
+  "package": {
+   "length": {
+    "min": 2.75,
+    "max": 3.05,
+    "unit": "mm",
+    "cond": "body, dimension A (DDC0006A)",
+    "ref": {
+     "page": 29,
+     "quote": "A 3.05 2.75 B 1.75 1.45",
+     "mode": "raw"
+    }
+   },
+   "width": {
+    "min": 1.45,
+    "max": 1.75,
+    "unit": "mm",
+    "cond": "body without leads, dimension B",
+    "ref": {
+     "page": 29,
+     "quote": "A 3.05 2.75 B 1.75 1.45",
+     "mode": "raw"
+    }
+   },
+   "width@leads": {
+    "min": 2.55,
+    "max": 3.05,
+    "unit": "mm",
+    "cond": "across the leads (lead tip to lead tip)",
+    "ref": {
+     "page": 29,
+     "quote": "3.05 2.55 4X 0.95",
+     "mode": "raw"
+    }
+   },
+   "height": {
+    "max": 1.1,
+    "unit": "mm",
+    "cond": "seated height, max",
+    "ref": {
+     "page": 29,
+     "quote": "SOT-23 - 1.1 max height",
+     "mode": "raw"
+    }
+   },
+   "pitch": {
+    "value": 0.95,
+    "unit": "mm",
+    "cond": "lead pitch",
+    "ref": {
+     "page": 29,
+     "quote": "3.05 2.55 4X 0.95",
+     "mode": "raw"
+    }
+   }
   }
  },
  "pins": [
@@ -534,12 +610,13 @@
  },
  "catalog_ids": [],
  "review": {
-  "status": "verified",
+  "status": "extracted",
   "created": "2026-10-17",
   "open": [
    "not in the catalog: buck-12v-5v-3a candidate, rejected for its +/-2.5 % reference (PROJECT.md 2026-10-13 stage 4)",
    "summary.iout is taken from the title line; the recommended table has no IOUT row",
-   "datasheet source URL unknown (file from the buck project)"
+   "datasheet source URL unknown (file from the buck project)",
+   "package facts (DDC0006A, p29) added 2026-10-19 with the LCSC number: person check of 'package' needed again"
   ],
   "extracted_by": "Claude (AI) from datasheet page text, parts.py",
   "extracted": "2026-10-17",
@@ -552,15 +629,16 @@
     "by": "simulahmed003",
     "date": "2026-10-17"
    },
-   "package": {
-    "by": "simulahmed003",
-    "date": "2026-10-17"
-   },
    "visual": {
     "by": "simulahmed003",
     "date": "2026-10-17"
    }
   }
  },
- "datasheet_urls": []
+ "datasheet_urls": [
+  {
+   "source": "lcsc",
+   "url": "https://datasheet.lcsc.com/datasheet/pdf/dd7a4984f2d3ca9a2264b937537aa471.pdf?productCode=C311983"
+  }
+ ]
 }
