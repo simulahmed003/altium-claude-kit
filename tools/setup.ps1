@@ -133,6 +133,16 @@ Section 'eda-agent (live Altium bridge, review and audit)' {
     Run $exe @('install-scripts', '--force') $dest
 }
 
+Section 'JLC2KiCadLib (3D model, footprint and symbol download from JLC by C-number)' {
+    $venv = Join-Path $Mcp 'jlc2kicad\.venv'
+    if (-not (Test-Path (Join-Path $venv 'Scripts\python.exe'))) { Run 'python' @('-m', 'venv', $venv) }
+    $py = Join-Path $venv 'Scripts\python.exe'
+    Run $py @('-m', 'pip', 'install', '--quiet', '--disable-pip-version-check', '-r', (Join-Path $Root 'tools\requirements-jlc.txt'))
+    $exe = Join-Path $venv 'Scripts\JLC2KiCadLib.exe'
+    if (-not (Test-Path $exe)) { throw 'JLC2KiCadLib.exe was not created by pip install' }
+    Write-Host "   $exe"
+}
+
 Section 'Register servers in .mcp.json' {
     $servers = [ordered]@{}
     if ($script:LibExe) {

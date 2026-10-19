@@ -32,6 +32,7 @@ Each has a docstring, `--help`, and exit code 0 = PASS / 1 = FAIL. Tests: `tools
 | catalog_check.py | catalog fields, datasheet sha256 (PDF not on disk = NOT FETCHED note), LCSC verified, footprint status, global file hashes | RQ-01, 03, LIB-05, 06 | `python catalog_check.py --project projects\x` |
 | cad_register.py, cad_check.py | 3D model store in models\step\<package type>\<footprint>.step (STEP header, sha256, index), structure only | LIB-13 | `python cad_check.py` |
 | lib_readmes.py | README per symbol family, footprint package type and 3D model folder; refreshes only the Contents block | LIB-15, LIB-16 | `python lib_readmes.py` (`--check` in selftest) |
+| JLC2KiCadLib (installed by setup.ps1, `tools\mcp\jlc2kicad\.venv\Scripts\JLC2KiCadLib.exe`) | downloads a JLC/LCSC part's KiCad symbol, footprint and STEP model by C-number; source for 3D models (LIB-13). The kit's wrapper that renames and files the output comes next | LIB-13 | `JLC2KiCadLib.exe C25804 -dir D:\EDA\JLC_Library\CAD --no_symbol -models STEP` |
 | rules_lint.py | rule-file format; ENFORCED rules name existing scripts; `--write-index` | WF-04 | `python rules_lint.py --write-index` |
 
 Inputs that drive the scripts (no project constants in code):
