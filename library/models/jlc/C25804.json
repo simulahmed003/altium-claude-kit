@@ -1,0 +1,135 @@
+{
+ "schema": 1,
+ "lcsc": "C25804",
+ "mpn": "0603WAF1002T5E",
+ "footprint": "RESC1608_0603",
+ "fetched": "2026-10-19",
+ "tool": "JLC2KiCadLib",
+ "check": "PASS",
+ "problems": [],
+ "step": {
+  "product": "R0603",
+  "schema": "AUTOMOTIVE_DESIGN",
+  "mm": true,
+  "points": 474,
+  "bbox_model_mm": [
+   [
+    -0.4100000000000003,
+    0.39999999999999997
+   ],
+   [
+    -0.8100000000000002,
+    0.8100000000000002
+   ],
+   [
+    -0.009999999999999998,
+    0.44
+   ]
+  ],
+  "bbox_placed_mm": [
+   [
+    -0.81,
+    0.81
+   ],
+   [
+    -0.405,
+    0.405
+   ],
+   [
+    0.0,
+    0.45
+   ]
+  ]
+ },
+ "jlc_footprint": {
+  "name": "R0603",
+  "pads": [
+   {
+    "number": "2",
+    "kind": "smd",
+    "shape": "rect",
+    "x": 0.753366,
+    "y": 0.0,
+    "w": 0.806477,
+    "h": 0.864008
+   },
+   {
+    "number": "1",
+    "kind": "smd",
+    "shape": "rect",
+    "x": -0.753366,
+    "y": 0.0,
+    "w": 0.806477,
+    "h": 0.864008
+   }
+  ],
+  "courtyard": [
+   [
+    -1.59,
+    1.59
+   ],
+   [
+    -0.84,
+    0.84
+   ]
+  ],
+  "body_outline": [
+   [
+    -1.59,
+    1.59
+   ],
+   [
+    -0.84,
+    0.84
+   ]
+  ],
+  "silk": [
+   [
+    -1.38509,
+    1.38509
+   ],
+   [
+    -0.660605,
+    0.660605
+   ]
+  ],
+  "custom_paste": true,
+  "model": {
+   "file": "packages3d/R0603.step",
+   "offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rotate_deg": [
+    0.0,
+    0.0,
+    -90.0
+   ]
+  }
+ },
+ "jlc_symbol": {
+  "name": "0603WAF1002T5E",
+  "properties": {
+   "Reference": "R",
+   "Value": "0603WAF1002T5E",
+   "Footprint": "footprint:R0603",
+   "Datasheet": "https://item.szlcsc.com/datasheet/0603WAF1002T5E/26547.html",
+   "ki_keywords": "C25804",
+   "LCSC": "C25804"
+  },
+  "pins": [
+   {
+    "type": "input",
+    "number": "2",
+    "name": "2"
+   },
+   {
+    "type": "input",
+    "number": "1",
+    "name": "1"
+   }
+  ]
+ },
+ "note": "JLC/EasyEDA footprint and symbol data: for comparison only, never a source (RQ-01, LIB-12)"
+}

@@ -91,7 +91,7 @@
 ### LIB-13 3D models: source order and check
 - MUST: take a missing 3D model from JLC/EasyEDA by the LCSC number first, the maker's site second; a standard body (a chip size such as 0603, or a JEDEC package such as SOIC-8) has one model shared by every part of that body and footprint, whatever the value (a 10 uF and a 22 uF 0603 capacitor use the same model). A part-specific body (an inductor, a connector) needs its own model; a similar part's model only as a marked substitute that the user accepts at G1. Check the model's box against the record's body length, width and height (inside the datasheet min/max) and record source and sha256 in models/index.json.
 - Why: a wrong height or pin-1 corner shows up only at assembly.
-- Check: cad_check.py; box check in the planned tool cad_fetch
+- Check: cad_check.py; cad_fetch.py (box check against the record, placement, register)
 - Source: user brief 2026-10-19; user 2026-10-19 (standard body = one shared model)
 - Status: CHECKLIST
 
