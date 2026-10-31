@@ -1,14 +1,37 @@
-# P11 New component in a project's local library (first version; user's detailed instructions pending)
+# P11 New part in the project's local library (workflow, first version 2026-10-31)
 
-Read with: 03_LIBRARY (LIB-10..18), 02_REQUIREMENTS_CALCS_PARTS (RQ-01, RQ-09). Skill: `altium-local-library`.
-PLACEHOLDER: the user will send detailed local library instructions; steps marked (pending) change then.
+Read with: 03_LIBRARY (LIB-04, LIB-09..18), 02_REQUIREMENTS_CALCS_PARTS (RQ-01, RQ-03, RQ-08, RQ-09).
+Skill: `altium-local-library`. Commands are for cmd.exe from the workspace folder (`kit <tool>` works too).
+PLACEHOLDER marks the points the user's detailed local-library instructions will settle.
 
-| # | Step | Status |
-|---|---|---|
-| 1 | Part record first: `python tools\scripts\parts.py find <MPN>`; missing: P2 steps 2-3 (datasheet, extraction, `parts.py check` PASS). | TESTED (Extention_01: S8550, DMG2301L-7, 1N4148W, M20-9960345) |
-| 2 | Distributor numbers: LCSC (`parts.py lcsc <MPN>`), Mouser and DigiKey from their product pages, into the record's `suppliers[]`; a number not confirmed on its page is UNCONFIRMED (RQ-09). | TESTED by hand (Extention_01) |
-| 3 | Find the symbol, footprint and 3D model in the database library (kit global library, or the user's DbLib) (pending: source order). Copy them into the local library; build only what is missing (LIB-11..13). | TESTED (Extention_01, from the Celestial DbLib) |
-| 4 | Name the component exactly by its MPN; fill Comment, Description, Manufacturer, MPN, LCSC, Mouser, DigiKey, Datasheet and key ratings, hidden except Comment (LIB-14). | TESTED (Extention_01, 8 components) |
-| 5 | Check against the datasheet (LIB-18): pin map, pads (pitch, size, holes), pin 1, package; `python tools\scripts\pin_match.py <SchLib> <PcbLib> --style`. Report every mismatch with the datasheet value. | TESTED (Extention_01) |
-| 6 | Point the schematic part at the local component (Update from Libraries), then `conn_check.py`. | TESTED (Extention_01) |
-| 7 | (pending) Flow back to the database / global library: `lib_promote.py` after G1 (LIB-06). | UNTESTED |
+When: the user asks for a part that the project's local library does not have yet, or a schematic needs one.
+Result: one local component per MPN, named by the MPN, with symbol, footprint and 3D model checked against the
+datasheet, and every parameter (including LCSC, Mouser and DigiKey) taken from the part's database record.
+
+## The user approves (the agent stops and asks)
+- the part itself, when the request gives only a function or value (step 1)
+- any footprint or symbol that differs from the datasheet, e.g. hole 1.10 mm vs maker's 1.02 mm (step 7)
+- a 3D model taken from a similar part (a substitute, LIB-13) (step 6)
+- any alternate MPN or LCSC part (RQ-08), and any change to the global library or the DbLib (step 11)
+
+## Workflow
+
+| # | Step | How | Done when | Status |
+|---|---|---|---|---|
+| 1 | Pin down the part | The MPN, or the LCSC number. Only a function or value was given: propose 1-3 candidates (rating, package, stock, Basic/Extended, price) and wait for the choice. | one MPN agreed | TESTED (Extention_01: S8550, 0.22 uF X7R, 3-pin header) |
+| 2 | Part record and datasheet | `kit parts find <MPN>`; missing: `kit parts new --lcsc <C>` or `--mpn --mfr --category`, `kit parts fetch <MPN> --project <folder>` (maker's site first, LCSC second), extract pins, abs max, package and land with page and quote, `kit parts check <MPN>` PASS (RQ-01). | record PASS | TESTED (4 parts, 2026-10-30) |
+| 3 | Distributor numbers | LCSC: `kit parts lcsc <MPN> --add <MPN>`. Mouser and DigiKey: from their product pages, written into the record's `suppliers[]` with the date; a page that cannot be opened: UNCONFIRMED (RQ-09). | 3 numbers or UNCONFIRMED | TESTED by hand |
+| 4 | Look for existing items | In this order (PLACEHOLDER: order to be confirmed): the project's local library, the kit global library (`library\symbols\<category>\<family>.SchLib`, `library\footprints\<package type>.PcbLib`, `library\models\step\`), the user's Altium DbLib. Note what exists for symbol, footprint and 3D model (LIB-09, LIB-10). | each item: found where, or missing | TESTED (Celestial DbLib, 2026-10-30) |
+| 5 | Symbol | Found with the same pin list: copy it. Missing: build from the record's pins with `kit gen_sym` under LIB-02, LIB-03, LIB-11 (IC: datasheet grouping, power top, ground bottom, 200 mil pins). A symbol of a similar part (S8050 for S8550) is only a starting point: every pin re-checked in step 7. | symbol in `libs\_dryrun\` | TESTED (copy); gen_sym TESTED on buck |
+| 6 | Footprint and 3D model | Footprint found with the datasheet land: copy it. Missing: build from the record's land facts (LIB-12). 3D model: the shared model for the body, else `kit cad_fetch <part>` (JLC by LCSC number), else the maker's site; a similar part's model only as a marked substitute with the user's yes (LIB-13). | footprint + model in `libs\_dryrun\` | TESTED (copy, Extention_01); cad_fetch TESTED (C25804) |
+| 7 | Datasheet check (the agent's own, every time: LIB-18) | Table per part: pin number to name (symbol) vs datasheet pin table; pad pitch, pad size, hole size, pin-1 position, body and courtyard vs datasheet drawing; polarity mark. Every mismatch: the datasheet value, the library value, a recommendation, and the user decides. | table written, mismatches decided | TESTED (S8550, DMG2301L-7, M20-9960345, 1N4148W) |
+| 8 | Build the local component | Name = the MPN exactly (LIB-14). Parameters from the record: Comment (value, or MPN for an IC), Description ("R 10k 1% 0603"), Manufacturer, MPN, LCSC, Mouser, DigiKey, Datasheet URL, key ratings; all hidden except Comment. Close the library in Altium, dry-run, keep the .bak, validate 0/0, write (LIB-04). PLACEHOLDER: file layout (one `<project>.SchLib/.PcbLib`, as on Extention_01, or `libs\<category>\<family>` as LIB-15) and parameter names/order. | `kit pin_match <SchLib> <PcbLib> --style` PASS | TESTED (8 components, Extention_01) |
+| 9 | Use it in the design | Place it, or re-link existing parts (Update from Libraries); then `kit conn_check <sheet> ai\plan.json`. | conn_check PASS | TESTED (Extention_01) |
+| 10 | Report | Short: what was added, where each item came from (copied from / built), the step 7 table, numbers marked UNCONFIRMED, open decisions. Before G1 the user checks pins, abs max and package in the PDF (`kit parts_verify`). | user has the table | TESTED |
+| 11 | Back to the database library | After G1 only: `kit lib_promote <project>` for the kit global library (LIB-06). PLACEHOLDER: how a new part reaches the user's DbLib (read-only on its server on 2026-10-30). | user's yes | UNTESTED |
+
+## Stop and ask when
+- no datasheet can be found, or it contradicts the distributor data or itself
+- the only symbol or footprint available differs from the datasheet
+- the DbLib is read-only and the user wants the change in the database itself
+- the part chosen in step 1 is out of stock or not recommended for new designs

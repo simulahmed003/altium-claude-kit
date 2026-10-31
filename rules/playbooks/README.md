@@ -14,4 +14,4 @@ Status per step: TESTED = done successfully in the buck project or in a selftest
 | [P8 Recover a wedged Altium](P8_recover_wedged_altium.md) | 07_TOOLING_ALTIUM | 5/6 |
 | [P9 Production package, BOM and CPL](P9_production_package.md) | 06_FAB_OUTPUT, 02_REQUIREMENTS_CALCS_PARTS | 4/9 fully (3-7 by hand; tools new in 1.6.0) |
 | [P10 JLCPCB assembly quotation](P10_jlc_quote.md) | 06_FAB_OUTPUT, 02_REQUIREMENTS_CALCS_PARTS | 7/7 by hand (jlc_quote.py new in 1.6.0) |
-| [P11 New component in a local library](P11_new_local_component.md) | 03_LIBRARY, 02_REQUIREMENTS_CALCS_PARTS | 6/7 (first version; user's detailed instructions pending) |
+| [P11 New part in the local library (workflow)](P11_new_local_component.md) | 03_LIBRARY, 02_REQUIREMENTS_CALCS_PARTS | 10/11 (first version; placeholders for the user's detailed instructions) |

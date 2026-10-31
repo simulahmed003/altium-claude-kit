@@ -21,7 +21,7 @@ design and every line is buildable (FAB-04, FAB-07, RQ-08); the CPL puts pin 1 w
 1. Gates first (FAB-01). If the user asks for files before G1-G3 are ticked, ask for the sign-off in one line.
 2. BOM before CPL: a wrong LCSC number on the BOM is a wrong part on the board; a wrong rotation is a reflow.
    Read every line: value, rating and footprint of the LCSC part against the MPN. Different number, same rating and
-   footprint: fine, keep it (RQ-08). Lower rating, other value, shared number: fix it and write it back to the design.
+   footprint: acceptable, but list it with its rating check and get the user's yes before applying it (RQ-08). Lower rating, other value, shared number: fix it and write it back to the design.
 3. Keep Mouser and DigiKey columns (FAB-04); numbers not confirmed on their page are UNCONFIRMED (RQ-09).
 4. CPL by numbers only: convert, fit the JLC footprints by pin number, apply offsets, then the preview part by part.
    A misfit pad is a library bug, not a rotation.

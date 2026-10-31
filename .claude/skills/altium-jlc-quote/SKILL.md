@@ -20,7 +20,7 @@ the same files that will be sent (FAB-08). The user can forward the workbook as 
 1. Never type a password, never add to cart, order or pay. Stop at the quote page.
 2. Board options come from the README and the board's own notes (via filling, finish), the same for every quantity.
 3. The BOM match and the placement preview come before any price: a quote of the wrong parts is worthless.
-   Short or unmatched lines: stock alternate per RQ-08, ask before changing an IC or connector.
+   Short or unmatched lines: propose a stock alternate per RQ-08 and select it only after the user's yes.
 4. Shortfall at a quantity: let JLC quote without the short lines, then add them back with `jlc_quote.py shortfall`
    using today's rates read from the quotes. Arithmetic in code only (RQ-02).
 5. Screenshot every preview and every quote; name them board_qty_what.png.
