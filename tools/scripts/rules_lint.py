@@ -21,11 +21,12 @@ MAX_PER_FILE = 20
 SCRIPT_DIRS = [os.path.join(ROOT, "tools", d) for d in ("scripts", "bridge", "")]
 PHASES = [
     ("Start a project", "01_WORKFLOW_GATES, 02_REQUIREMENTS_CALCS_PARTS, 08_COMMUNICATION, playbooks/P1"),
-    ("Library work", "03_LIBRARY, 07_TOOLING_ALTIUM, playbooks/P2, playbooks/P4"),
+    ("Library work", "03_LIBRARY, 07_TOOLING_ALTIUM, playbooks/P2, playbooks/P4, playbooks/P11"),
     ("Schematic", "04_SCHEMATIC, 07_TOOLING_ALTIUM, playbooks/P3"),
     ("PCB layout", "05_PCB, 07_TOOLING_ALTIUM, playbooks/P5"),
     ("Before any gate", "01_WORKFLOW_GATES, playbooks/P6"),
-    ("Fab output", "06_FAB_OUTPUT, playbooks/P6"),
+    ("Fab output", "06_FAB_OUTPUT, playbooks/P6, playbooks/P9"),
+    ("BOM alternates, quotation", "02_REQUIREMENTS_CALCS_PARTS, 06_FAB_OUTPUT, playbooks/P9, playbooks/P10"),
     ("Commit / handoff", "01_WORKFLOW_GATES, playbooks/P7"),
     ("Altium stuck", "07_TOOLING_ALTIUM, playbooks/P8"),
 ]

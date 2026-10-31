@@ -1,0 +1,19 @@
+{
+ "name": "jlcpcb_assembly",
+ "note": "JLCPCB PCBA conventions and rates used by cpl_check.py and jlc_quote.py (FAB-06, FAB-08). Rates are OBSERVED in real quotes, not published: re-read them from a fresh quote before relying on them, then update value, observed and source.",
+ "cpl_side_rule": {
+  "kicad": {"top": "jlc = r", "bottom": "jlc = (180 - r) mod 360", "status": "confirmed", "source": "103-part bottom-side board, JLC preview checked part by part, 2026-10-30"},
+  "altium": {"top": "jlc = r", "bottom": "not confirmed yet", "status": "open", "source": "check the first Altium bottom-side board in the JLC preview (FAB-06) and record the rule here"}
+ },
+ "rates": {
+  "feeder_per_extended_type_usd": {"value": 1.55, "observed": "2026-10-30", "source": "JLC Standard PCBA quotes, two boards, 5/10/1000/3000 pcs"},
+  "smt_per_joint_usd": {"value": 0.0017, "observed": "2026-10-30", "source": "same quotes; matched the SMT line exactly"},
+  "tht_per_joint_usd": {"value": 0.0173, "observed": "2026-10-30", "source": "hand-solder line, 3-pin header"},
+  "tht_per_board_usd": {"value": 0.05, "observed": "2026-10-30", "source": "hand-solder line, 3-pin header"}
+ },
+ "quote_notes": [
+  "Boards under 70 mm get edge rails added by JLC for assembly.",
+  "Single small boards at volume carry a large single-board surcharge; propose a panel when quoting 1000+.",
+  "Board fab notes (via filling, finish) set the quote options; quote every quantity with the same options."
+ ]
+}

@@ -9,3 +9,4 @@
 *.stp binary
 *.png binary
 *.zip binary
+*.cmd text eol=crlf

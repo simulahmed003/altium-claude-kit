@@ -71,7 +71,8 @@ def collect(gate, proj):
     rv = pjd.get("rules_version")
     rows.append(("rules VERSION recorded (WF-03)", bool(rv), rv or "project.json has no rules_version"))
     libs = sorted(glob.glob(os.path.join(proj, "libs", "*.SchLib")))
-    sheets = sorted(p for p in glob.glob(os.path.join(proj, "hw", "**", "*.SchDoc"), recursive=True))
+    hw = os.path.normpath(os.path.join(proj, pjd.get("design_dir", "hw")))   # WF-09: ".." for an attached project
+    sheets = sorted(p for p in glob.glob(os.path.join(hw, "**", "*.SchDoc"), recursive=True))
     plan = os.path.join(proj, "ai", "plan.json")
     if not libs and not sheets:
         rows.append(("design files", False, "no design yet (no libs\\*.SchLib, no hw\\**\\*.SchDoc)"))
@@ -112,7 +113,7 @@ def collect(gate, proj):
         rows.append(("calcs_run", None, "N/A: no ai\\calc_inputs.json (calcs.md checked by hand)"))
     if gate == "S1":
         return rows, st
-    for prj in glob.glob(os.path.join(proj, "hw", "**", "*.PrjPcb"), recursive=True):
+    for prj in glob.glob(os.path.join(hw, "**", "*.PrjPcb"), recursive=True):
         d = os.path.dirname(prj)
         listed = {os.path.basename(x.replace("\\", "/")).lower() for x in altium_io.prjpcb_documents(prj)}
         docs = [os.path.basename(x) for x in glob.glob(os.path.join(d, "*.SchDoc")) + glob.glob(os.path.join(d, "*.PcbDoc"))]

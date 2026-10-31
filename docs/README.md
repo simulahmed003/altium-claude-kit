@@ -7,14 +7,16 @@
 | First-run tests of the bridge and kill switch | FIRST_RUN_TESTS.md |
 | Contribute, fork, stay in sync | ../CONTRIBUTING.md |
 | Workspace rules for the agent (non-negotiables, tools, phases) | ../CLAUDE.md |
-| Rules (79, versioned), read-before-phase table, status counts | ../rules/00_INDEX.md |
+| Rules (97, versioned), read-before-phase table, status counts | ../rules/00_INDEX.md |
 | Rule files | ../rules/01_WORKFLOW_GATES.md ... 08_COMMUNICATION.md |
 | Rule changes and versions | ../rules/CHANGELOG.md, ../rules/VERSION, ../rules/RETRO_TEMPLATE.md |
 | System-level design guidelines (DRAFT, empty by design, separate from the rules; the user sets them later) | ../guidelines/README.md |
-| Playbooks P1-P8 (TESTED / UNTESTED per step) | ../rules/playbooks/README.md |
+| Playbooks P1-P11 (TESTED / UNTESTED per step) | ../rules/playbooks/README.md |
 | Offline scripts (checkers, generators, gate evidence) | ../tools/scripts/README.md |
+| Tools guide for the user: cmd.exe commands per task, `kit.cmd` launcher, proposed next tools | TOOLS_GUIDE.md |
 | Script tests and fixtures | ../tools/tests/ (run ../tools/selftest.py) |
 | Fab profile (JLCPCB 2-layer, source + date) | ../rules/fab-profiles/jlcpcb_2layer.json |
+| JLCPCB assembly: CPL side rule, observed assembly rates | ../rules/fab-profiles/jlcpcb_assembly.json |
 | Global library, catalog, principles | ../library/README.md, ../library/catalog/components.md |
 | Project template | ../templates/project/ |
 | Lessons from the buck project | LESSONS_LEARNED.md |

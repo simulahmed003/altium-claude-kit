@@ -10,6 +10,8 @@ Parts without an LCSC number, DNP parts and --exclude parts (hand-soldered) are 
 LCSC numbers come from plan.json "lcsc", else the catalog entry for the part's lib_ref, else the symbol's
 LCSC parameter (--schlib). A part not marked lcsc_verified in the catalog is NOT VERIFIED (RQ-03): exit 1. Column names follow the JLCPCB upload templates as recorded in FAB-04 (PROPOSED, re-check
 the JLCPCB help page before the first order). Only run for a real order after gate_check.py G4 passes.
+The production BOM keeps more columns than JLC needs (Quantity, Manufacturer, MPN, Mouser, DigiKey; FAB-04): check it
+with bom_check.py, and convert a KiCad/Altium placement file with cpl_check.py convert (FAB-06).
 Exit 0 when the file is complete and every part verified, 1 otherwise.
 """
 import argparse, csv, json, os, re, sys
@@ -74,8 +76,9 @@ def parse_bom(path):
     errs = []
     with open(path, newline="", encoding="utf-8-sig") as f:
         r = csv.DictReader(f)
-        if r.fieldnames != BOM_COLS:
-            errs.append(f"columns {r.fieldnames} != {BOM_COLS}")
+        missing = [c for c in BOM_COLS if c not in (r.fieldnames or [])]
+        if missing:
+            errs.append(f"columns missing: {missing} (have {r.fieldnames}); extra kit columns are fine (FAB-04)")
         rows = list(r)
     seen = {}
     for i, row in enumerate(rows, 2):

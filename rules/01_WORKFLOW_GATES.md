@@ -60,3 +60,12 @@ until the user approves) / SEED (starting value, refined in its phase).
 - Check: checklist (feedback.jsonl lines, ai/review/harvest_<stage>.md with every row sorted)
 - Source: user brief 2026-10-17 (design feedback should improve the central rules); docs/RULE_FEEDBACK_LOOP.md
 - Status: PROPOSED
+
+### WF-09 Projects live where the user keeps them
+- MUST: work on a design in its own folder (an employer's or customer's folder, any drive); put the kit's project files beside it with `new_project.py <name> --attach <folder>` (they go to `<folder>\_eda\` only) and run the checkers on that folder. Production packages, quotes and backups are written next to the design, in the user's folder.
+- MUST NOT: move or copy a work project into the kit's projects\ folder, or a temporary upload copy there; a temporary copy (e.g. for a browser upload) goes to the workspace tmp\ folder and is deleted when the task ends, and the user is told where it was.
+- Why: the user organises work per employer; a copy under projects\ splits the design into two versions (Extention_01, 2026-10-30).
+- Check: new_project.py --attach (never writes outside <folder>\_eda); gate_check.py reads design_dir from project.json
+- Source: user 2026-10-30 ("work on the project where it was ... organize different employer work"; "later update the rule so project can be anywhere")
+- Status: ENFORCED
+
