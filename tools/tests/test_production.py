@@ -193,8 +193,8 @@ class LibAudit(Base):
         os.makedirs(os.path.join(root, "parts"))
         cat = {"schema": 1, "components": [
             {"id": "0603WAF1002T5E", "category": "passives", "symbol": "0603WAF1002T5E", "mpn": "0603WAF1002T5E",
-             "footprint": "RESC1608_0603", "check": {"status": "confirmed"}, "source": {"from": "dblib"}},
-            {"id": "R_10k_old", "category": "passives", "symbol": "R_10k_old", "mpn": "X1", "footprint": "RESC1608_0603"}],
+             "footprint": "RESC1608_0603", "check": {"status": "confirmed"}, "source": {"from": "dblib"}, "rev": 1},
+            {"id": "R_10k_old", "category": "passives", "symbol": "R_10k_old", "mpn": "X1", "footprint": "RESC1608_0603", "rev": 1}],
             "footprints": [{"name": "RESC1608_0603", "category": "passives", "status": "datasheet-verified",
                             "step": "x.step"}]}
         json.dump(cat, open(os.path.join(root, "catalog", "components.json"), "w"))
