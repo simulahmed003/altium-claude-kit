@@ -183,3 +183,35 @@ class Attach(Base):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class LibAudit(Base):
+    def test_audit_and_mark(self):
+        import lib_audit, libcat
+        root = os.path.join(self.d, "library")
+        os.makedirs(os.path.join(root, "catalog"))
+        os.makedirs(os.path.join(root, "parts"))
+        cat = {"schema": 1, "components": [
+            {"id": "0603WAF1002T5E", "category": "passives", "symbol": "0603WAF1002T5E", "mpn": "0603WAF1002T5E",
+             "footprint": "RESC1608_0603", "check": {"status": "confirmed"}, "source": {"from": "dblib"}},
+            {"id": "R_10k_old", "category": "passives", "symbol": "R_10k_old", "mpn": "X1", "footprint": "RESC1608_0603"}],
+            "footprints": [{"name": "RESC1608_0603", "category": "passives", "status": "datasheet-verified",
+                            "step": "x.step"}]}
+        json.dump(cat, open(os.path.join(root, "catalog", "components.json"), "w"))
+        json.dump({"parts": [{"mpn": "0603WAF1002T5E", "status": "verified",
+                              "skus": ["LCSC:C25804", "Mouser:603-X", "DigiKey:311-Y"]}]},
+                  open(os.path.join(root, "parts", "index.json"), "w"))
+        old = libcat.GLOBAL
+        libcat.GLOBAL = root
+        try:
+            lib_audit.symbol_params = lambda c: {p: "https://x" if p == "Datasheet" else "v" for p in lib_audit.PARAMS}
+            rows = {r["id"]: r for r in lib_audit.audit(libcat.load_catalog(), lib_audit.parts_by_mpn())}
+            self.assertEqual(rows["0603WAF1002T5E"]["verdict"], "OK", rows["0603WAF1002T5E"])
+            why = "; ".join(rows["R_10k_old"]["why"])
+            for want in ("is not the MPN", "no part record", "check: unchecked", "source unknown"):
+                self.assertIn(want, why)
+            self.assertEqual(run(lib_audit, "mark", "R_10k_old", "--status", "confirmed", "--by", "Claude")[0], 1)
+            self.assertEqual(run(lib_audit, "mark", "R_10k_old", "--status", "checked", "--by", "Claude")[0], 0)
+            self.assertEqual(libcat.load_catalog()["components"][1]["check"]["status"], "checked")
+        finally:
+            libcat.GLOBAL = old

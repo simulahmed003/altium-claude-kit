@@ -56,6 +56,9 @@ JLC rates used by `jlc_quote` and the CPL side rule live in `rules\fab-profiles\
 | Walk through your person checks (pins, abs max, package) | `kit parts_verify` | RQ-01 |
 | Symbol pins = footprint pads, style | `kit pin_match libs\x.SchLib libs\x.PcbLib --style` | LIB-01..03 |
 | Download and file a 3D model (also writes the JLC footprint record used by `cpl_check fit`) | `kit cad_fetch <part>` | LIB-13 |
+| Audit the kit library against the library rules (what to rebuild and why) | `kit lib_audit` or `kit lib_audit --md library\catalog\AUDIT.md` | LIB-19 |
+| Mark a component checked or confirmed (only you mark confirmed) | `kit lib_audit mark R_10k_1%_0603_0603WAF1002T5E --status confirmed --by Simul` | LIB-19 |
+| Record where a component was copied from | `kit lib_audit source <id> --from dblib --ref "<DbLib item>"` | LIB-17 |
 | Global library: status, pull, promote, catalog | `kit lib_status <project>`, `kit lib_pull`, `kit lib_promote`, `kit catalog_check` | LIB-06 |
 
 ## Schematic and PCB checks

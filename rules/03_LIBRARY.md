@@ -116,16 +116,16 @@
 - Source: user 2026-10-19 ("I may update the global library from time to time ... then adapt after asking")
 - Status: CHECKLIST
 
-## New components in a local library (first version 2026-10-31; detailed instructions from the user to follow)
+## New components in a local library (2026-10-31)
 
-### LIB-17 New component from the database library
-- MUST: when a design needs a part that has no local library component: name it by its MPN (LIB-14); take its symbol, footprint and 3D model from the database library first (the global kit library `library\symbols`, `footprints`, `models`, or the user's Altium DbLib), copying them into the project's local library, never redrawing a shape that exists (LIB-10); build only what is missing (LIB-11..13); fill all parameters from the part record (LIB-14, RQ-09); point the schematic part at the local component.
-- MUST: when the DbLib is read-only (a server database), keep the database link for lookup only and put the copied component and its parameters in the local library.
-- PLACEHOLDER (user instructions pending): source order between the kit global library and the user's DbLib; local library file layout for work projects (one SchLib/PcbLib per project, or per category/family as LIB-15); parameter names and order; how a new local component flows back to the database library.
-- Why: Extention_01 (2026-10-30): parts came from a read-only DbLib, the missing S8550 was copied from a similar part, and the user then asked for all parts in one local library with MPN names and distributor numbers.
-- Check: pin_match.py (pins = pads after the copy); LIB-18 checklist
-- Source: user 2026-10-31 ("name the component by MPN and take schematic symbol from the database library, also take the PCB footprint, 3D model from that")
-- Status: PROPOSED
+### LIB-17 New component copied from the DbLib, made consistent
+- MUST: take a missing component from the user's Altium database library (DbLib) first: copy its symbol, footprint and 3D model into the local library (and, after G1, into the kit global library); the kit global library comes second; build (LIB-11..13) only what neither has. Record where each item came from (`lib_audit.py source <id> --from dblib --ref <DbLib item>`).
+- MUST: make every copy consistent before use: name = MPN (LIB-14); symbol style, visible text, pin grid and pin length to LIB-02, LIB-03, LIB-11; parameters and their names to LIB-14 from the part record; footprint geometry kept as copied unless the datasheet check (LIB-18) finds a mismatch, which the user decides; 3D model attached and checked (LIB-13).
+- MUST NOT: change, add to or write back into the DbLib or its database in any way; it is read-only for the kit, even when the tool would allow a write.
+- Why: the DbLib holds many checked parts and saves building them again; it is not ours to change; copies from several sources drift apart unless each one is brought to one standard.
+- Check: lib_audit.py (name, parameters, source, check status); pin_match.py --style
+- Source: user 2026-10-31 ("DbLib will be our primary source but we must keep things consistent high"; "we do not modify or contribute in the DB library"); Extention_01 2026-10-30 (Celestial DbLib read-only)
+- Status: ENFORCED
 
 ### LIB-18 Every new or copied symbol and footprint checked against the datasheet
 - MUST: before reporting a part placed or a library item done, check its symbol pin map, footprint pads (pitch, pad size, hole size, pin-1 position) and package against the part's datasheet through the component database (RQ-01), and write what was checked and any mismatch (e.g. "holes 1.10 mm, maker recommends 1.02") in the report. This applies equally to a symbol or footprint copied from a similar part or from a database library.
@@ -134,4 +134,21 @@
 - Check: checklist (report lists pins, pads and package checked per part); pin_match.py
 - Source: user 2026-10-30 ("you check the sch and footprint symbol against datasheet ... I already give you instructions strictly about that")
 - Status: CHECKLIST
+
+### LIB-19 Check status of every library component
+- MUST: give every component in the kit global library and in a local library a check status: unchecked -> checked (the agent's datasheet check, LIB-18, with date and pages) -> confirmed (a person confirmed pins, pads and package). Record it with `lib_audit.py mark`; only a person marks confirmed. Use only confirmed components without a warning; an unchecked or checked one is named in every report that uses it.
+- MUST: rebuild a component that `lib_audit.py` lists as REBUILD before it goes into a new design, through P11 (copy from the DbLib, make consistent, check).
+- Why: the existing kit library was built before the current rules (descriptive names, no Mouser/DigiKey, datasheet file names, no check record); the user wants every component visibly checked or confirmed.
+- Check: lib_audit.py (audit table library/catalog/AUDIT.md; mark, source)
+- Source: user 2026-10-31 ("rebuild kit library according to our complete library creation rules and mark each component confirmed or checked")
+- Status: ENFORCED
+
+### LIB-20 Library work for a client under the client's rules
+- MUST: when building components for a client's library (their Altium workspace or DbLib), keep the client's library rules in `standards/local/clients/<client>/` (never pushed), build the parts locally as a local library that follows those rules, and deliver them the way the client asks; the kit rules fill only what the client's rules leave open, and the datasheet check (LIB-18) always applies.
+- MUST: after each client job, list where the client's rules differ from the kit rules and sort each difference with the user (altium-rule-harvest, WF-08) before any kit rule changes.
+- PLACEHOLDER: filled when the client's rules arrive.
+- Why: the user will build libraries for a company that pushes them to its own Altium workspace; their rules govern their parts, and good ideas from them should improve the kit.
+- Check: checklist (client rules file present; harvest table sorted)
+- Source: user 2026-10-31 ("what they will push we will create that locally as our local library under their rules ... and update our rules accordingly")
+- Status: PROPOSED
 
