@@ -19,7 +19,7 @@ Find the next valid task for the project and load only what that task needs.
 | G1 | schematic | 04, 07; P3 → present S1 |
 | G1, S1 | PCB layout | 05, 07; P5 → present G2 |
 | G1, S1, G2 | DRC and audit | 05, 06; P6 → present G3 |
-| G1, S1, G2, G3 | fab output | 06; P6 → present G4 |
+| G1, S1, G2, G3 | fab output, production package, quotes | 06, 02; P6, P9, P10 (skills altium-fab-package, altium-jlc-quote) → present G4 |
 Altium stuck at any point: 07 and P8.
 
 ## Approach

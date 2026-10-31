@@ -51,3 +51,21 @@
 - Check: calclib.py thermal functions; G2 checklist
 - Source: buck calcs.md; user decision 2026-10-13
 - Status: CHECKLIST
+
+### RQ-08 Alternate parts at BOM preparation
+- MUST: accept an alternate (an LCSC or other supplier part that is not the designer's MPN, or a stock substitute) only when it keeps the footprint (same package and land), the same pinout and polarity mark, the same value, and every key rating equal or better: voltage and current/power not lower, tolerance not wider, dielectric or tempco not worse (C0G > X7R > X5R > Y5V), temperature range not narrower. Such an alternate is acceptable (not a BOM error), but it is applied only after the user approves it: list every proposed alternate (designator, designer MPN, proposed part, rating check, stock) and wait for the yes; one yes may cover the whole list shown. Pick in this order: the exact MPN in stock for the order quantity plus attrition; the same maker's other packaging or grade (-7 / -13 reel); a JLC Basic part that meets the ratings; an Extended part in stock with the most stock. A rating that cannot be met in stock: take the next higher rating in stock (a 25 V capacitor for a 16 V line), else ask.
+- MUST NOT: apply any alternate, or keep one found in an existing BOM, without the user's approval; use a lower rating, another value, another package, or one LCSC number for lines with different values; substitute an IC, a module, a connector (mechanical fit) or any active part with another MPN without the user's yes; substitute silently to avoid a quote shortfall (FAB-08).
+- MUST: record each alternate: the BOM keeps the designer's MPN, the LCSC Part # that will be placed and an "Alternate LCSC Part #" column (one number per cell); a BOM-changes table lists designator, old, new, reason and the rating check; the same change is written back into the schematic (or local library) parameters, so a BOM exported from the schematic equals the production BOM.
+- Why: Bondu main board (2026-10-30): five resistor values carried the 100K part's LCSC number, two capacitor lines carried 6.3 V / 10 V parts for 25 V MPNs; the user: an LCSC number that differs from the MPN is fine when rating and footprint match, out-of-stock parts need an in-stock alternate without changing footprint and rating.
+- Check: bom_check.py (shared LCSC on different values, lower voltage in an alternate note, one number per cell, changes table); rating comparison per line: checklist
+- Source: user 2026-10-30 ("if lcsc part doesn't agree with mfn part we didn't treat them as big issue as long as both have same rating and footprint"; "take upper voltage component"; "switch to 25v if available in stock otherwise 16v"); user 2026-10-31 ("but always get approval for this")
+- Status: ENFORCED
+
+### RQ-09 Distributor part numbers
+- MUST: store the LCSC, Mouser and DigiKey numbers of a part in its record (`suppliers[]`: name, sku, url, verified date) and carry all three into the library parameters and the BOM. Record a number only after its product page confirms the MPN and package; otherwise write UNCONFIRMED in its place.
+- MUST NOT: build a distributor number from a prefix pattern (Mouser 603-, 187-, 855-) and present it as known.
+- Why: Extention_01 BOM had four Mouser numbers made from the prefix pattern; the user needs Mouser and DigiKey numbers in every BOM.
+- Check: bom_check.py (UNCONFIRMED listed); checklist (product page opened)
+- Source: user 2026-10-30 ("why you remove mouser digikey partnumber from bom"); user 2026-10-31 ("we add their Mouser, DigiKey, LCSC part number")
+- Status: CHECKLIST
+

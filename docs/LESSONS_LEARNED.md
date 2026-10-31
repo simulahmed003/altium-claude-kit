@@ -95,3 +95,25 @@ Rule IDs point to `rules\` (see `rules\00_INDEX.md`). Sources: `logs\MCP_LOG.md`
 | B10 | PCB text rotation and designator visibility not writable | eda `obj_modify` refuses `Rotation` on texts and `NameOn` on components | Place labels at 0 deg only; hide a designator by moving it to the assembly layer | PCB-06 |
 | B11 | A topology crossing found only at layout | LMR33630 HSOIC: FB pin sits between PG and VCC on the perimeter; the PG pull-up to VCC must cross FB | One short bottom hop (2 vias) away from the power stage; check pin order for such crossings at schematic time | PCB-10 |
 | B12 | Placement and routing as data, checked before applying | ai/place.json + place.py, ai/route_plan.json + route_check.py (exact clearance + connectivity, negative-tested), ai/silk_place.py | Apply one part / one fill per call, save, `place.py --pcb`, live audit, commit + backup per phase | PCB-12 |
+
+## Production packages and quotes: Extention_01 (Altium) and Bondu main board (KiCad), 2026-10-30
+
+| # | Symptom | Cause | Fix | Rule |
+|---|---|---|---|---|
+| M1 | Bottom-side parts at 0/180 deg came out flipped in JLC's preview | KiCad rotation used raw; JLC bottom = (180 - r) mod 360 | `cpl_check.py convert --src kicad` | FAB-06 |
+| M2 | ICs and connectors still off after the side rule (90/180/270 deg, up to 1.9 mm) | 13 library footprints differ from JLC's footprint for the same LCSC part | Fit JLC's footprint onto ours by pin number (`cpl_check.py fit`), keep the offsets table | FAB-06 |
+| M3 | Preview called "correct" at first look, then 43 parts were wrong | Whole-board look at a busy bottom side | Part by part against our pad 1, by numbers; before/after screenshots | FAB-06 |
+| M4 | Q101/Q102 needed 180 deg and one footprint swapped E and B pin numbers | Library pin numbering differs from the maker's | A misfit pad in `fit` means a library bug: fix or ask, never only rotate | FAB-06, LIB-18 |
+| M5 | Five resistor values carried the 100K part's LCSC number | Copy-pasted LCSC field in the schematic | `bom_check.py` refuses one LCSC number on two values | RQ-08, FAB-07 |
+| M6 | Two capacitor lines had 6.3 V / 10 V LCSC parts for 25 V MPNs | Alternate chosen by value only | Alternates keep every rating equal or better; next higher rating in stock | RQ-08 |
+| M7 | JLC could not read the BOM | Designator ranges (R125-R127) | One designator per entry | FAB-04 |
+| M8 | Mouser and DigiKey columns dropped from the BOM | BOM hand-built in JLC's 4-column format | Kit BOM keeps them; `bom_check.py` | FAB-04 |
+| M9 | Mouser numbers written from the prefix pattern | Product pages not opened | Confirmed on the page or UNCONFIRMED | RQ-09 |
+| M10 | 1N4148W-7-F "not on LCSC", later found as C83528 | First search too narrow | Search the exact MPN on LCSC and JLC before calling a part unavailable | RQ-03 |
+| M11 | J102 short at 1000 pcs; quote without it understated the cost | JLC quotes short lines as unplaced | `jlc_quote.py shortfall` with JLC's own rates next to the quote | FAB-08 |
+| M12 | Single small board: large single-board surcharge at 1000+ | JLC assembly pricing for small boards | Propose a panel | FAB-08 |
+| M13 | 62 false clearance errors on export | Stale zone fills in the saved KiCad board | Refill zones before Gerber export and DRC | FAB-05 |
+| M14 | Work project copied into D:\EDA\projects | Kit assumed one projects folder | `new_project.py --attach`, design stays in place | WF-09 |
+| M15 | Parameters could not be written to the parts | Company DbLib (Celestial) is read-only on its server | Copy symbol/footprint into the local library and keep parameters there | LIB-17 |
+| M16 | S8550 copied from S8050 placed with a wrong current rating | Datasheet check skipped "for speed" | Agent checks every new or copied item against the datasheet | LIB-18 |
+| M17 | OutJob runs and document close timed out | A script stopped on a breakpoint holds Altium's script engine | Run > Stop (Ctrl+F3), close the .pas tabs; after 3 engine crashes stop scripting and ask | TOOL-05 |

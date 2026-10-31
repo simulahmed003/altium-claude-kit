@@ -1,5 +1,6 @@
 # tools\scripts - workspace checkers and generators
 
+User guide with cmd.exe examples for every task: `docs\TOOLS_GUIDE.md` (and `kit <tool>` from any folder).
 All scripts are pure Python (standard library), read-only on design files unless stated, and need no Altium.
 Each has a docstring, `--help`, and exit code 0 = PASS / 1 = FAIL. Tests: `tools\tests\` (fixtures in
 `tools\tests\fixtures\`, rebuilt with `make_fixtures.py`). Run everything with `python tools\selftest.py`.
@@ -18,6 +19,10 @@ Each has a docstring, `--help`, and exit code 0 = PASS / 1 = FAIL. Tests: `tools
 | calcs_run.py | runs ai\calc_inputs.json with limits; `--md` table for calcs.md | RQ-02 | `python calcs_run.py ai\calc_inputs.json --md` |
 | place.py | placement plan: courtyards, board edge (fab profile), plan vs saved PcbDoc | PCB-02, 12 | `python place.py ai\place.json --pcb hw\x\x.PcbDoc` |
 | jlc.py | JLCPCB BOM / CPL from plan + PcbDoc; BOM parse check (only after G4) | FAB-01, 04, RQ-03 | `python jlc.py bom ai\plan.json out\bom.csv --catalog ...` |
+| bom_check.py | production BOM: JLC + kit columns (Mouser, DigiKey), designators one by one, one C-number per cell, no LCSC number on two values, no lower-voltage alternate; `--cpl`, `--changes` | FAB-04, FAB-07, RQ-08, RQ-09 | `python bom_check.py out\B_BOM.csv --cpl out\B_CPL.csv` |
+| cpl_check.py | CPL for the assembler: `convert` KiCad/Altium placement to JLC (KiCad bottom 180 - r, per-footprint offsets), `fit` JLC footprint onto ours by pin number (rotation + shift, misfit pins), `check` against BOM and board box | FAB-06, FAB-07 | `python cpl_check.py convert pos.csv out\B_CPL.csv --src kicad --offsets ai\cpl_offsets.json` |
+| fab_package.py | manufacturer folder: `check` (no schematic or design files, Gerber zip complete, BOM, CPL, README), `readme` writes the board spec README | FAB-05 | `python fab_package.py check "<design>\Manufacturing_B_Rev1.0"` |
+| jlc_quote.py | JLC assembly quote arithmetic: `shortfall` adds short lines back with JLC's rates (rules\fab-profiles\jlcpcb_assembly.json), `summary` table of all quotes | FAB-08, RQ-02 | `python jlc_quote.py shortfall ai\quote_B_1000.json` |
 | gate_check.py | evidence pack ai\review\<gate>_evidence.md; gate order; never ticks a gate | WF-01..03, FAB-01, TOOL-09 | `python gate_check.py S1 projects\x` |
 | first_run_test.py | runs docs\FIRST_RUN_TESTS.md on Windows (live calls through `claude -p`, so the guard decides); log lines to logs\MCP_LOG.md | TOOL-01 | `python tools\scripts\first_run_test.py` |
 | coffee_script_rename.py | gives altium-coffee its own script project name (AltiumCoffee.PrjScr) and sets its config script_path; run by setup.ps1 | TOOL-01 | `python tools\scripts\coffee_script_rename.py --check` |
