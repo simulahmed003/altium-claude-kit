@@ -41,7 +41,7 @@ A new family or key is a pull request to `taxonomy.json`: field names and units 
 ```
 mpn, mfr, category, description, package, lifecycle
 datasheets[]      sha256, file, url (one PDF can cover many MPNs; one MPN can have several PDFs)
-suppliers[]       name, sku (LCSC C-number, ...), url, verified date         - stable ids only
+suppliers[]       name, sku (LCSC C-number, Mouser and DigiKey numbers: RQ-09), url, verified date - stable ids only
 supplier_params   the distributor's parameter list: for search only, NEVER a source (rule RQ-01)
 facts             summary, abs_max, recommended, electrical, thermal, package, compliance, ordering
                   each key -> {min|typ|max|value, unit, cond, derivation, ref}

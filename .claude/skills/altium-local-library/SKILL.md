@@ -23,8 +23,11 @@ checked against the datasheet by the agent before it is reported placed (LIB-14,
    confirmed on their pages or written UNCONFIRMED (RQ-09).
 4. The datasheet check is yours, every time, even under time pressure (LIB-18): pins, pads, holes, pin 1, package.
    Say what you checked and any mismatch in the report.
-5. PLACEHOLDER (user instructions pending): source order DbLib vs kit library, local file layout for work projects,
-   parameter names and order, flow back to the database. Until then: ask once if the choice matters.
+5. Source order (LIB-17): the DbLib first, then the kit global library, then build. The DbLib is read-only: never
+   change it. Every copy is made consistent with the kit rules and its source recorded (`lib_audit.py source`).
+6. Mark it `checked` after your datasheet check; only the user marks `confirmed` (LIB-19).
+7. Client work: the client's rules in `standards/local/clients/<client>/` win for their parts (LIB-20).
+   PLACEHOLDER: local file layout and parameter names until the user's or the client's rules settle them.
 
 ## Exit checks
 | Check | How | Pass when |
@@ -32,6 +35,7 @@ checked against the datasheet by the agent before it is reported placed (LIB-14,
 | LIB-01..03 | `python tools\scripts\pin_match.py <SchLib> <PcbLib> --style` | PASS |
 | LIB-18 | report lists pins, pads and package checked against datasheet pages | every new or copied item |
 | RQ-01 | `python tools\scripts\parts.py check <MPN>` | PASS |
+| LIB-17, LIB-19 | `python tools\scripts\lib_audit.py --only <id>` | only `check: checked` left (the user confirms) |
 
 ## Write back
 - `PROJECT.md`: components added, their source (copied from / built), mismatches found and their decision
