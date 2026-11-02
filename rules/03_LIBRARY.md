@@ -112,7 +112,7 @@
 - Why: the record knows its category and family, so symbols are found without a lookup table; one package serves several families, so the global footprint and 3D model live once per package; local family files keep a project's library small and readable.
 - Check: catalog_check.py (folders and file names, after the migration); lib_status.py (local footprint copies match the global one)
 - Source: user brief 2026-10-19; user 2026-10-19 ("for each category a folder, for each family a library file"; global footprints by package type, local one footprint file per family)
-- Decided by the user 2026-11-02 (D8, D9): the parts database, the symbol files, footprints and 3D models move to the standard's category tree (Type/Subtype) with the standard's names; the restructure is its own step, briefed to the user and done only after a yes (LIB-30). Until then this layout stays.
+- Decided by the user 2026-11-02 (D8, D9): the parts database, the symbol files, footprints and 3D models move to the standard's category tree (Type/Subtype) with the standard's names; the restructure is done last, after the current library job is complete, briefed to the user and done only after a yes (LIB-30). Until then this layout stays.
 - Status: CHECKLIST
 
 ### LIB-16 People may edit the global library

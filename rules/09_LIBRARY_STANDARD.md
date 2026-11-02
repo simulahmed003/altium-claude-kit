@@ -20,7 +20,7 @@ Decisions D1-D12 are at the top of that file. Decided 2026-11-02: D1 (IC pins 20
 - Status: CHECKLIST
 
 ### LIB-23 Common and electrical parameters, values from the datasheet
-- MUST: give every component the standard's common parameters and its subtype's required electrical parameters, named exactly as the standard, in its value format (SI prefix, no space, ASCII u, decimal point, ranges with "to", one value each); take every value from the component database (RQ-01), unknown = empty.
+- MUST: give every component the 25 common parameters and its subtype's required electrical parameters (tables at the end of this file), named exactly as written, in its value format (SI prefix, no space, ASCII u, decimal point, ranges with "to", one value each); take every value from the component database (RQ-01), unknown = empty.
 - MUST NOT: store price, stock, MOQ or lead time, or a second manufacturer on a component (an alternate brand is its own component).
 - Why: names and formats Altium's importer and ActiveBOM can read; values traceable to a datasheet page.
 - Check: checklist (planned tool lib_std_check: names, required values, value format, Description pattern)
@@ -79,3 +79,145 @@ Decisions D1-D12 are at the top of that file. Decided 2026-11-02: D1 (IC pins 20
 - Check: checklist (each part's report starts with the brief and the user's yes)
 - Source: user 2026-11-02 ("before next part or going to each work brief user what going to do then taking permission do the job"; "part need not be built from scratch, mainly copy symbol and footprint from that database library")
 - Status: CHECKLIST
+
+## Parameter tables (part of LIB-23)
+
+Machine-readable copy: `rules/library_parameters.json` (for the planned lib_std_check tool). Names exactly as written; values in the format below; unknown = empty.
+
+#### Common parameters (every component, 25)
+
+| Group | Parameter | Need | Format | Example |
+|---|---|---|---|---|
+| Identity | Description | Required | Pattern from *Naming conventions*, ≤ 256 characters | RES 10k 1% 0.1W 0603 |
+| Identity | Comment | Required | Text shown on the schematic | 10k |
+| Identity | Category | Import only | `Type/Subtype` exactly as the tree | Resistors/Chip |
+| Sourcing | Manufacturer 1 | Required | Manufacturer's short official name | Yageo |
+| Sourcing | Manufacturer Part Number 1 | Required | Exact orderable MPN, incl. packaging suffix | RC0603FR-0710KL |
+| Sourcing | Supplier 1 | Required | Production distributor (where the company orders) | LCSC |
+| Sourcing | Supplier Part Number 1 | Required | That distributor's part number | C12345 (illustrative) |
+| Sourcing | LCSC Part Number | Required if stocked | LCSC/JLCPCB number for this exact MPN | C12345 (illustrative) |
+| Sourcing | DigiKey Part Number | Required if stocked | DigiKey's own part number for this exact MPN | 311-10.0KHRCT-ND (illustrative) |
+| Sourcing | Mouser Part Number | Required if stocked | Mouser's own part number for this exact MPN | 603-RC0603FR-0710KL (illustrative) |
+| Sourcing | Local Source | If applicable | Local market shop or note | Shop name, Dhaka |
+| Sourcing | Datasheet URL | Required | Manufacturer's PDF link | https://… |
+| Sourcing | Datasheet Revision | Required | Revision and date printed on the datasheet | Rev. 2.1, 2025-03 |
+| Sourcing | Package Drawing | Required | Document and page the footprint was built from | Datasheet p.42, or package drawing DBV0005A |
+| Physical | Package | Required | EIA/JEDEC name | 0603, SOT-23-3, LQFP-48 |
+| Physical | Package Metric | Chip passives only | Metric size code | 1608 |
+| Physical | Mounting | Required | SMD / THT / Press-fit / Chassis | SMD |
+| Physical | Pin Count | Required | Integer, incl. exposed pad | 3 |
+| Physical | Height | Required | Max seated height, mm | 0.55mm |
+| Physical | Footprint Standard | Required | IPC-7351 density or Manufacturer | IPC-7351B Nominal |
+| Compliance | Operating Temperature | Required | Min to max, °C | -55°C to 155°C |
+| Compliance | RoHS | Required | Compliant / Non-compliant / Unknown | Compliant |
+| Compliance | MSL | SMD ICs and LEDs | JEDEC level 1 to 6 | 3 |
+| Verification | Verified By | Required after check | Initials | SA |
+| Verification | Verified Date | Required after check | YYYY-MM-DD | 2026-11-02 |
+
+#### Value format
+
+| Rule | Write | Never |
+|---|---|---|
+| SI prefix, no space, unit symbol | `10k`, `100nF`, `4.7``u``H`, `50V` | `10 K`, `0.1uF `, `100 nano` |
+| u for micro, ASCII only | `4.7``u``F` | `4.7``µF, 4.7``mfd` |
+| Decimal point, no trailing zeros | `2.2``u``F` | `2,2``u``F`, `2.20``u``F` |
+| Ranges with "to" | `-40°C to 85°C`, `2.7V to 5.5V` | `-40~85` |
+| Tolerance as ± percent | `1%` | `F`, `±1 %` |
+| One value per parameter | `Channels` = `2` | `2 (dual)` |
+| Unknown = empty | *(blank)* | `N/A`, `-`, `TBD` |
+
+#### Electrical parameters by subtype (89 subtypes)
+
+Required = must have a value before the part is used; Optional = added when the datasheet gives it and it matters for selection. One name per meaning across all Types (always `Voltage Rating`, `Current Rating`, `Supply Voltage Range`).
+
+| Type | Subtype | Required | Optional |
+|---|---|---|---|
+| Resistors | Chip | Resistance, Tolerance, Power Rating, Temperature Coefficient | Voltage Rating, Composition (thick/thin film) |
+| Resistors | Through-Hole | Resistance, Tolerance, Power Rating, Composition | Temperature Coefficient, Voltage Rating |
+| Resistors | Current Sense | Resistance, Tolerance, Power Rating, Temperature Coefficient | Terminals (2 or 4-wire Kelvin) |
+| Resistors | Arrays & Networks | Resistance, Tolerance, Power Rating per Element, Elements, Circuit Type (isolated/bussed) | Temperature Coefficient |
+| Resistors | Potentiometers & Trimmers | Resistance, Tolerance, Power Rating, Taper, Turns | Adjustment Direction |
+| Capacitors | Ceramic (MLCC) | Capacitance, Voltage Rating, Dielectric (X7R, X5R, C0G), Tolerance | Grade (automotive) |
+| Capacitors | Ceramic RF | Capacitance, Voltage Rating, Dielectric, Tolerance, Q @ Frequency | Self-Resonant Frequency |
+| Capacitors | Aluminum Electrolytic | Capacitance, Voltage Rating, Tolerance, ESR, Ripple Current, Lifetime @ Temperature | Diameter, Lead Spacing |
+| Capacitors | Aluminum Polymer | Capacitance, Voltage Rating, Tolerance, ESR, Ripple Current, Lifetime @ Temperature | Leakage Current |
+| Capacitors | Tantalum | Capacitance, Voltage Rating, Tolerance, ESR, Construction (MnO2/polymer) | Case Code |
+| Capacitors | Film | Capacitance, Voltage Rating (AC and DC), Tolerance, Dielectric Material, Safety Class (X1/X2/Y1/Y2) | Lead Spacing |
+| Capacitors | Supercapacitors | Capacitance, Voltage Rating, ESR, Lifetime @ Temperature | Leakage Current |
+| Inductors | Power | Inductance, Tolerance, Current Rating, Saturation Current, DCR, Shielding | Self-Resonant Frequency |
+| Inductors | RF | Inductance, Tolerance, Current Rating, Q @ Frequency, Self-Resonant Frequency, DCR | Core Material |
+| Inductors | Arrays & Coupled | Inductance, Current Rating, Saturation Current, DCR, Windings | Coupling Factor |
+| Filters & EMI | Ferrite Beads | Impedance @ 100MHz, Current Rating, DCR | Lines |
+| Filters & EMI | Common Mode Chokes | Common Mode Impedance @ Frequency, Current Rating, DCR, Lines | Differential Mode Impedance |
+| Filters & EMI | EMI Filters | Filter Type, Capacitance or Inductance, Current Rating, Voltage Rating | Insertion Loss |
+| Diodes | Rectifier & Schottky | Diode Type (standard/fast/Schottky/switching), Reverse Voltage, Forward Current, Forward Voltage @ If | Reverse Recovery Time, Reverse Leakage @ Vr, Configuration |
+| Diodes | Zener | Zener Voltage, Tolerance, Power Rating, Zener Impedance | Test Current |
+| Diodes | TVS & ESD | Reverse Standoff Voltage, Breakdown Voltage, Clamping Voltage, Peak Pulse Power, Directionality (uni/bi), Channels | Capacitance |
+| Diodes | Bridge Rectifiers | Reverse Voltage, Forward Current, Forward Voltage @ If | Surge Current |
+| Transistors | MOSFETs | Polarity (N/P), Channels, Drain-Source Voltage, Drain Current, Rds On @ Vgs, Gate Threshold Voltage | Gate Charge, Input Capacitance, Power Dissipation |
+| Transistors | BJTs | Polarity (NPN/PNP), Transistor Type (general/digital/RF), Collector-Emitter Voltage, Collector Current, hFE @ Ic, Power Dissipation | Built-in Resistors (R1/R2), Transition Frequency |
+| Transistors | IGBTs | Collector-Emitter Voltage, Collector Current, Vce Sat, Power Dissipation | Built-in Diode, Short-Circuit Withstand Time |
+| LED | Indicator | Colour, Wavelength, Forward Voltage @ If, Forward Current, Luminous Intensity | Viewing Angle |
+| LED | RGB & Addressable | Colours, Protocol (e.g. WS2812), Supply Voltage, Current per Channel | Refresh Rate |
+| LED | Lighting | Colour or CCT, Luminous Flux, Forward Voltage @ If, Forward Current, CRI | Viewing Angle, Thermal Resistance |
+| Optoelectronics | Optocouplers | Output Type, Channels, Isolation Voltage, Current Transfer Ratio, Collector-Emitter Voltage | Data Rate, Rise and Fall Time |
+| Optoelectronics | IR Emitters & Receivers | Function, Wavelength, Carrier Frequency (receivers), Supply Voltage or Forward Current | Viewing Angle, Radiant Intensity |
+| Optoelectronics | Photodetectors | Detector Type, Peak Wavelength, Spectral Range, Dark Current | Active Area |
+| Crystals & Oscillators | Crystals | Frequency, Load Capacitance, Frequency Tolerance, Frequency Stability, ESR | Drive Level |
+| Crystals & Oscillators | Oscillators | Frequency, Supply Voltage, Output Type (CMOS/LVDS…), Frequency Stability, Supply Current | Enable Function |
+| Crystals & Oscillators | Resonators | Frequency, Frequency Tolerance, Built-in Capacitors | Frequency Stability |
+| Integrated Circuits | Microcontrollers | Core, Max Clock Frequency, Flash, RAM, Supply Voltage Range, GPIO Count | Peripherals, ADC Resolution |
+| Integrated Circuits | Processors, SoC & FPGA | Core or Logic Elements, Max Clock Frequency, Core Voltage, I/O Voltage | Memory Interface, Embedded RAM |
+| Integrated Circuits | Memory | Memory Type, Capacity, Interface, Supply Voltage Range, Clock Frequency | Endurance, Data Retention |
+| Integrated Circuits | Amplifiers & Comparators | Function (op-amp/comparator/instrumentation/audio), Channels, Supply Voltage Range, Gain Bandwidth, Slew Rate, Input Offset Voltage, Output Type (rail-to-rail/open-drain/push-pull) | Quiescent Current, Noise Density, Output Power (audio) |
+| Integrated Circuits | Data Converters | Function (ADC/DAC/digital pot), Resolution, Channels, Sample Rate, Interface, Supply Voltage Range | Reference Type, INL |
+| Integrated Circuits | Interface | Protocol, Function (transceiver/bridge/PHY), Channels, Data Rate, Supply Voltage Range | ESD Rating, Isolation |
+| Integrated Circuits | Logic & Level Shifters | Logic Function, Logic Family, Bits, Supply Voltage Range, Output Type | Propagation Delay |
+| Integrated Circuits | Analog Switches & Mux | Configuration (e.g. SPDT, 8:1), Channels, On-Resistance, Supply Voltage Range | Bandwidth |
+| Integrated Circuits | Drivers | Driver Type (motor/gate/LED/display), Channels, Output Current, Supply Voltage Range, Interface | Rds On, Protection Features |
+| Integrated Circuits | Clock & Timing | Function (RTC/timer/PLL/buffer), Frequency, Supply Voltage Range, Interface | Accuracy, Battery Backup |
+| Integrated Circuits | Sensor Interface & Audio Codecs | Function, Resolution, Channels, Interface, Supply Voltage Range | Sample Rate |
+| Integrated Circuits | Supervisors & Isolators | Function, Threshold Voltage or Isolation Voltage, Channels, Supply Voltage Range | Reset Timeout, Data Rate |
+| Power | Linear Regulators (LDO) | Output Type (fixed/adjustable), Output Voltage, Output Current, Input Voltage Max, Dropout Voltage @ Iout, Quiescent Current | PSRR, Enable Pin |
+| Power | Switching Regulators | Topology (buck/boost/buck-boost), Input Voltage Range, Output Voltage, Output Current, Switching Frequency, Integrated Switch | Efficiency, Quiescent Current |
+| Power | Battery Chargers & Management | Function, Battery Chemistry, Cells, Charge Current, Charge Voltage, Input Voltage Range | Interface, Protection Features |
+| Power | Power Switches & Ideal Diodes | Function, Channels, Input Voltage Range, Output Current or Current Limit, Rds On | Quick Discharge |
+| Power | Voltage References | Reference Type (series/shunt), Output Voltage, Initial Accuracy, Temperature Coefficient, Output Current | Noise |
+| Power | Power Modules | Conversion (AC-DC/DC-DC), Input Voltage Range, Output Voltage, Output Power, Isolation Voltage | Efficiency |
+| Power | PMICs | Outputs, Input Voltage Range, Output Voltages, Output Currents, Interface | Charger Included |
+| Sensors | Temperature & Humidity | Sensor Type, Measured Quantity, Range, Accuracy, Interface or Output, Supply Voltage Range | Resistance @ 25°C and B Value (NTC) |
+| Sensors | Motion & IMU | Axes, Acceleration Range, Gyro Range, Resolution, Interface, Supply Voltage Range | Output Data Rate |
+| Sensors | Current & Power | Sensing Method (shunt/Hall), Current Range, Accuracy, Interface or Output, Supply Voltage Range | Isolation Voltage |
+| Sensors | Pressure & Gas | Measured Quantity, Range, Accuracy, Interface, Supply Voltage Range | Response Time |
+| Sensors | Optical & Biometric | Measured Quantity, Wavelengths, Interface, Supply Voltage Range | Range |
+| RF & Wireless | Wireless Modules | Protocol, Frequency Band, Output Power, Sensitivity, Interface, Supply Voltage Range, Antenna (integrated/external), Certifications | Core Chip, Flash |
+| RF & Wireless | Transceiver ICs | Protocol or Modulation, Frequency Band, Output Power, Sensitivity, Interface, Supply Voltage Range | Data Rate |
+| RF & Wireless | Antennas | Antenna Type, Frequency Band, Gain, Impedance | VSWR |
+| RF & Wireless | RF Components | Function, Frequency Range, Impedance, Insertion Loss | Gain, Isolation |
+| Connectors | Pin Headers | Pitch, Positions, Rows, Orientation, Current Rating | Contact Plating, Mating Length |
+| Connectors | Female Headers & Sockets | Pitch, Positions, Rows, Orientation, Current Rating | Contact Plating |
+| Connectors | Wire-to-Board | Series, Pitch, Positions, Gender, Orientation, Current Rating | Wire Gauge Range |
+| Connectors | Terminal Blocks | Pitch, Positions, Current Rating, Voltage Rating, Wire Gauge Range | Pluggable |
+| Connectors | USB | USB Type, Gender, Orientation, Positions, Current Rating | USB Version |
+| Connectors | Power & Audio Jacks | Jack Type, Positions or Pin Diameter, Current Rating, Voltage Rating, Orientation | Switched Contacts |
+| Connectors | FFC / FPC | Pitch, Positions, Contact Side, Locking Type, Orientation | Current Rating |
+| Connectors | RF Coaxial | Connector Type, Impedance, Max Frequency, Gender, Orientation | Mated Height |
+| Connectors | Board-to-Board & Card Edge | Pitch, Positions, Gender, Mated Height, Current Rating | Rows |
+| Connectors | Card Sockets | Card Type, Ejection Type, Card Detect | Orientation |
+| Connectors | Modular Jacks | Jack Type, Positions, Magnetics, Speed, Orientation | LEDs |
+| Switches | Tactile & Pushbutton | Circuit, Contact Rating, Operating Force, Actuator Height | Illumination |
+| Switches | Slide, DIP & Rocker | Circuit (e.g. SPDT), Positions, Contact Rating | Actuator Type |
+| Switches | Other Switches | Switch Type, Contact Rating, Pulses per Revolution (encoders), Detents | Integrated Push Switch |
+| Electromechanical | Relays | Relay Type (signal/power/solid-state), Coil Voltage, Coil Current, Contact Form, Contact Rating | Isolation Voltage |
+| Electromechanical | Audio Transducers | Transducer Type, Drive (active/passive), Rated Voltage, Frequency, Sound Pressure Level | Impedance |
+| Electromechanical | Motors & Fans | Rated Voltage, Rated Current, Speed | Airflow or Torque |
+| Protection | Fuses & PTC | Fuse Type (fast/slow/PTC), Current Rating or Hold Current, Trip Current (PTC), Voltage Rating, Breaking Capacity | Resistance |
+| Protection | Fuse Holders | Fuse Size, Current Rating, Voltage Rating | Cover |
+| Protection | Varistors & GDT | Varistor or Breakdown Voltage, Max AC Voltage, Max DC Voltage, Surge Current, Energy Rating | Capacitance |
+| Displays | Display Modules | Display Type, Size, Resolution, Interface, Controller, Supply Voltage Range | Colour |
+| Mechanical | Hardware | Hardware Type, Size or Thread, Dimensions | Material |
+| Mechanical | Batteries & Holders | Battery Size, Chemistry, Nominal Voltage, Cells | Capacity |
+| Board Features | Test Points & Jumpers | Feature Type, Pad Size, Positions | Default State (jumpers) |
+| Board Features | Fiducials & Logos | Feature Type, Pad Size, Mask Opening | — |
+| Modules | Development & Breakout Modules | Main Chip, Function, Supply Voltage Range, Interface, Header Pitch | Dimensions |
+| Miscellaneous | Unclassified (Review) | Common parameters only | — |
