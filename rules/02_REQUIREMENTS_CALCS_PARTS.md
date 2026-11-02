@@ -7,6 +7,7 @@
 - Why: wrong numbers become wrong hardware; the database removes repeated PDF reading and keeps every number traceable to a page.
 - Check: parts.py check (quote on the cited page, units, abs max vs recommended), parts.py check --gate (person checks), catalog_check.py (datasheet sha256 per catalog component)
 - Source: workspace CLAUDE.md "Datasheet first"; user decisions 2026-10-17 (database first, person checks 1c, PDFs local, maker first)
+- Open (library standard 2026-11-02, docs/LIBRARY_STANDARD.md): D11 (Datasheet URL = maker's PDF only); this rule applies until the user decides.
 - Status: ENFORCED
 
 ### RQ-02 Calculations in code
@@ -67,5 +68,6 @@
 - Why: Extention_01 BOM had four Mouser numbers made from the prefix pattern; the user needs Mouser and DigiKey numbers in every BOM.
 - Check: bom_check.py (UNCONFIRMED listed); checklist (product page opened)
 - Source: user 2026-10-30 ("why you remove mouser digikey partnumber from bom"); user 2026-10-31 ("we add their Mouser, DigiKey, LCSC part number")
+- Open (library standard 2026-11-02, docs/LIBRARY_STANDARD.md): D6 (library parameter empty instead of UNCONFIRMED); this rule applies until the user decides.
 - Status: CHECKLIST
 

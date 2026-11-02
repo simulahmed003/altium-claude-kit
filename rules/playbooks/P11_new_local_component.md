@@ -1,6 +1,7 @@
 # P11 New part in the project's local library (workflow, first version 2026-10-31)
 
-Read with: 03_LIBRARY (LIB-04, LIB-09..18), 02_REQUIREMENTS_CALCS_PARTS (RQ-01, RQ-03, RQ-08, RQ-09).
+Read with: 03_LIBRARY (LIB-04, LIB-09..18), 09_LIBRARY_STANDARD (LIB-21..29, standard in docs/LIBRARY_STANDARD.md),
+02_REQUIREMENTS_CALCS_PARTS (RQ-01, RQ-03, RQ-08, RQ-09). Open standard items D1-D12: the older rule applies until decided.
 Skill: `altium-local-library`. Commands are for cmd.exe from the workspace folder (`kit <tool>` works too).
 PLACEHOLDER marks the points the user's detailed local-library instructions will settle.
 

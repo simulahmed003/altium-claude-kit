@@ -13,6 +13,7 @@
 - Why: duplicate value text and mixed styles made the sheet unreadable.
 - Check: pin_match.py --style (visible parameters per symbol)
 - Source: LESSONS L3, L4
+- Open (library standard 2026-11-02, docs/LIBRARY_STANDARD.md): D3 (capacitor Voltage Rating visible, fixed colours and font); this rule applies until the user decides.
 - Status: ENFORCED
 
 ### LIB-03 Pin ends on the 100 mil grid
@@ -20,6 +21,7 @@
 - Why: off-grid pins make wires miss pins.
 - Check: pin_match.py (grid check)
 - Source: buck library v2 (gen_sym2.py), user accepted exceptions 2026-10-13
+- Open (library standard 2026-11-02, docs/LIBRARY_STANDARD.md): D2 (2-pin pins 100/160 mil, 400 mil span, no 80/70 mil exceptions); this rule applies until the user decides.
 - Status: ENFORCED
 
 ### LIB-04 Writing libraries
@@ -79,6 +81,7 @@
 - Why: pins typed from memory were wrong before; the record holds the checked pin list.
 - Check: pin_match.py --style; gen_sym.py grid check
 - Source: user brief 2026-10-19; user 2026-10-19 (IC symbols: datasheet grouping, symmetric, 200 mil pins)
+- Open (library standard 2026-11-02, docs/LIBRARY_STANDARD.md): D1 (IC pin length 300 mil; side layout SYM-13/14); this rule applies until the user decides.
 - Status: CHECKLIST
 
 ### LIB-12 Footprints built from land data in the record
@@ -93,6 +96,7 @@
 - Why: a wrong height or pin-1 corner shows up only at assembly.
 - Check: cad_check.py; cad_fetch.py (box check against the record, placement, register)
 - Source: user brief 2026-10-19; user 2026-10-19 (standard body = one shared model); user 2026-10-19 (no LCSC number: same or similar part on LCSC; STEP models committed)
+- Open (library standard 2026-11-02, docs/LIBRARY_STANDARD.md): D7 (maker's STEP first, JLC as checked third party) and D8 (models named after the body); this rule applies until the user decides.
 - Status: CHECKLIST
 
 ### LIB-14 Local library parameters from the record
@@ -100,6 +104,7 @@
 - Why: parameters typed by hand drift from the database the calculations used; a bare MPN name is found by search and matches the BOM.
 - Check: checklist (planned tool lib_build, LIBRARY_PLAN section 6)
 - Source: user brief 2026-10-19; user 2026-10-31 (decision: library reference = bare MPN; Mouser, DigiKey and LCSC numbers in every component)
+- Open (library standard 2026-11-02, docs/LIBRARY_STANDARD.md): D4 (Altium names Manufacturer 1, Manufacturer Part Number 1, Supplier 1 ...) and D5 (Description `RES 10k 1% 0.1W 0603`); legacy names: LIB-24; this rule applies until the user decides.
 - Status: CHECKLIST
 
 ### LIB-15 Library files: symbols by category and family, footprints by package type
@@ -107,6 +112,7 @@
 - Why: the record knows its category and family, so symbols are found without a lookup table; one package serves several families, so the global footprint and 3D model live once per package; local family files keep a project's library small and readable.
 - Check: catalog_check.py (folders and file names, after the migration); lib_status.py (local footprint copies match the global one)
 - Source: user brief 2026-10-19; user 2026-10-19 ("for each category a folder, for each family a library file"; global footprints by package type, local one footprint file per family)
+- Open (library standard 2026-11-02, docs/LIBRARY_STANDARD.md): D8 (footprint names FP-22) and D9 (22-Type category tree); this rule applies until the user decides.
 - Status: CHECKLIST
 
 ### LIB-16 People may edit the global library
@@ -141,6 +147,7 @@
 - Why: the existing kit library was built before the current rules (descriptive names, no Mouser/DigiKey, datasheet file names, no check record); the user wants every component visibly checked or confirmed.
 - Check: lib_audit.py (audit table library/catalog/AUDIT.md; mark, source)
 - Source: user 2026-10-31 ("rebuild kit library according to our complete library creation rules and mark each component confirmed or checked")
+- Open (library standard 2026-11-02, docs/LIBRARY_STANDARD.md): D10 (author never releases; confirmed = Verified By / Verified Date, LIB-29); this rule applies until the user decides.
 - Status: ENFORCED
 
 ### LIB-20 Library work for a client under the client's rules

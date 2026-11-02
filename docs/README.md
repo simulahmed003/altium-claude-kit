@@ -23,6 +23,7 @@
 | Architecture: layers, flow, facts database | ARCHITECTURE.md |
 | Roadmap: done, next, how modules are built | ROADMAP.md |
 | Design standards: rules, guidelines, fab profile, user standard, project; what is general vs user-specific | DESIGN_STANDARDS.md |
+| Component library standard v1.1: categories, parameters, symbols, footprints, 3D, verification; open decisions D1-D12 | LIBRARY_STANDARD.md |
 | Design feedback → rules loop (WF-08, skill altium-rule-harvest) | RULE_FEEDBACK_LOOP.md |
 | Instructions for AI assistants that contribute | AI-CONTRIBUTOR.md |
 | Phase skills (loaded by Claude Code) | ../.claude/skills/README.md |
