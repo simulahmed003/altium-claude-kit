@@ -1,7 +1,7 @@
 # 09 Library standard
 
 The component library standard v1.1 (Simul, 2026-11-02) is in `docs/LIBRARY_STANDARD.md`; these rules make it binding in the kit.
-Decisions D1-D12 are at the top of that file. Decided 2026-11-02: D1 (IC pins 200 mil), D2 (2-pin geometry by convenience), D3 (capacitors show capacitance and voltage), D4 (standard parameter names; existing libraries renamed only with permission), D6 (unknown distributor number = blank, ask the user). Still open: D5, D7-D12; until one is decided, the older rule it names (LIB-13, LIB-14 Description, LIB-15, LIB-19, RQ-01) still applies.
+Decisions D1-D12 are at the top of that file. Decided 2026-11-02: D1 (IC pins 200 mil), D2 (2-pin geometry by convenience), D3 (capacitors show capacitance and voltage), D4 (standard parameter names; existing libraries renamed only with permission), D6 (unknown distributor number = blank, ask the user), D5 (standard Description), D7 (3D from the database library first), D8 and D9 (names and folders by the category tree; restructure briefed first), D11 (Datasheet URL from the maker, DigiKey/LCSC only when the maker has none), D12 (the standard is public in the kit). Still open: D10; until it is decided LIB-19 applies.
 
 ### LIB-21 The library standard applies to every library component
 - MUST: build, copy, classify and check every component (kit global, project local and client libraries) to `docs/LIBRARY_STANDARD.md`; where it is silent, the other LIB rules apply; where a client's rules differ, LIB-20 applies.

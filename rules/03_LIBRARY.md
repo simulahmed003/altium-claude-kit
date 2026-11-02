@@ -96,11 +96,11 @@
 - Why: a wrong height or pin-1 corner shows up only at assembly.
 - Check: cad_check.py; cad_fetch.py (box check against the record, placement, register)
 - Source: user brief 2026-10-19; user 2026-10-19 (standard body = one shared model); user 2026-10-19 (no LCSC number: same or similar part on LCSC; STEP models committed)
-- Open (library standard 2026-11-02, docs/LIBRARY_STANDARD.md): D7 (maker's STEP first, JLC as checked third party) and D8 (models named after the body); this rule applies until the user decides.
+- Decided by the user 2026-11-02 (D7, D8): take the 3D model first from the user's database library (Celestial DbLib), like the symbol and footprint, made consistent with our rules; then the maker's STEP, then JLC as a checked third-party model. Footprints and 3D models are named by the standard (FP-22, 3D-05) and filed by its category tree; this rule's JLC-first order and path no longer apply once the library is restructured (D9).
 - Status: CHECKLIST
 
 ### LIB-14 Local library parameters from the record
-- MUST: build one local library component per manufacturer part number (MPN), whose library reference (name) is exactly the MPN (0603WAF1002T5E, LMR33630ADDAR), with parameters from the part record: Comment (value, or the MPN for an IC), Description (prefix, value, key rating, package: "R 10k 1% 0603"; D5 open), the library standard's names `Manufacturer 1`, `Manufacturer Part Number 1`, `Supplier 1`, `Supplier Part Number 1`, `LCSC Part Number`, `Mouser Part Number`, `DigiKey Part Number` (RQ-09), `Datasheet URL` and the family's key ratings, all hidden except Comment (LIB-02).
+- MUST: build one local library component per manufacturer part number (MPN), whose library reference (name) is exactly the MPN (0603WAF1002T5E, LMR33630ADDAR), with parameters from the part record: Comment (value, or the MPN for an IC), Description (the standard's pattern per Type: "RES 10k 1% 0.1W 0603", D5), the library standard's names `Manufacturer 1`, `Manufacturer Part Number 1`, `Supplier 1`, `Supplier Part Number 1`, `LCSC Part Number`, `Mouser Part Number`, `DigiKey Part Number` (RQ-09), `Datasheet URL` and the family's key ratings, all hidden except Comment (LIB-02).
 - Why: parameters typed by hand drift from the database the calculations used; a bare MPN name is found by search and matches the BOM.
 - Check: checklist (planned tool lib_build, LIBRARY_PLAN section 6)
 - Source: user brief 2026-10-19; user 2026-10-31 (decision: library reference = bare MPN; Mouser, DigiKey and LCSC numbers in every component)
@@ -112,7 +112,7 @@
 - Why: the record knows its category and family, so symbols are found without a lookup table; one package serves several families, so the global footprint and 3D model live once per package; local family files keep a project's library small and readable.
 - Check: catalog_check.py (folders and file names, after the migration); lib_status.py (local footprint copies match the global one)
 - Source: user brief 2026-10-19; user 2026-10-19 ("for each category a folder, for each family a library file"; global footprints by package type, local one footprint file per family)
-- Open (library standard 2026-11-02, docs/LIBRARY_STANDARD.md): D8 (footprint names FP-22) and D9 (22-Type category tree); this rule applies until the user decides.
+- Decided by the user 2026-11-02 (D8, D9): the parts database, the symbol files, footprints and 3D models move to the standard's category tree (Type/Subtype) with the standard's names; the restructure is its own step, briefed to the user and done only after a yes (LIB-30). Until then this layout stays.
 - Status: CHECKLIST
 
 ### LIB-16 People may edit the global library

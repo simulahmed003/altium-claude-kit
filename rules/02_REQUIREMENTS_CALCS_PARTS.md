@@ -7,7 +7,7 @@
 - Why: wrong numbers become wrong hardware; the database removes repeated PDF reading and keeps every number traceable to a page.
 - Check: parts.py check (quote on the cited page, units, abs max vs recommended), parts.py check --gate (person checks), catalog_check.py (datasheet sha256 per catalog component)
 - Source: workspace CLAUDE.md "Datasheet first"; user decisions 2026-10-17 (database first, person checks 1c, PDFs local, maker first)
-- Open (library standard 2026-11-02, docs/LIBRARY_STANDARD.md): D11 (Datasheet URL = maker's PDF only); this rule applies until the user decides.
+- Decided by the user 2026-11-02 (D11): the `Datasheet URL` parameter links the maker's PDF; a DigiKey or LCSC link only when the maker has none.
 - Status: ENFORCED
 
 ### RQ-02 Calculations in code
