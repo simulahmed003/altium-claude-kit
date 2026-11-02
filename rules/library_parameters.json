@@ -1,0 +1,1427 @@
+{
+ "source": "docs/LIBRARY_STANDARD.md v1.1 (Simul, 2026-11-02); rule LIB-23",
+ "common": [
+  {
+   "group": "Identity",
+   "name": "Description",
+   "need": "Required",
+   "format": "Pattern from *Naming conventions*, ≤ 256 characters",
+   "example": "RES 10k 1% 0.1W 0603"
+  },
+  {
+   "group": "Identity",
+   "name": "Comment",
+   "need": "Required",
+   "format": "Text shown on the schematic",
+   "example": "10k"
+  },
+  {
+   "group": "Identity",
+   "name": "Category",
+   "need": "Import only",
+   "format": "`Type/Subtype` exactly as the tree",
+   "example": "Resistors/Chip"
+  },
+  {
+   "group": "Sourcing",
+   "name": "Manufacturer 1",
+   "need": "Required",
+   "format": "Manufacturer's short official name",
+   "example": "Yageo"
+  },
+  {
+   "group": "Sourcing",
+   "name": "Manufacturer Part Number 1",
+   "need": "Required",
+   "format": "Exact orderable MPN, incl. packaging suffix",
+   "example": "RC0603FR-0710KL"
+  },
+  {
+   "group": "Sourcing",
+   "name": "Supplier 1",
+   "need": "Required",
+   "format": "Production distributor (where the company orders)",
+   "example": "LCSC"
+  },
+  {
+   "group": "Sourcing",
+   "name": "Supplier Part Number 1",
+   "need": "Required",
+   "format": "That distributor's part number",
+   "example": "C12345 (illustrative)"
+  },
+  {
+   "group": "Sourcing",
+   "name": "LCSC Part Number",
+   "need": "Required if stocked",
+   "format": "LCSC/JLCPCB number for this exact MPN",
+   "example": "C12345 (illustrative)"
+  },
+  {
+   "group": "Sourcing",
+   "name": "DigiKey Part Number",
+   "need": "Required if stocked",
+   "format": "DigiKey's own part number for this exact MPN",
+   "example": "311-10.0KHRCT-ND (illustrative)"
+  },
+  {
+   "group": "Sourcing",
+   "name": "Mouser Part Number",
+   "need": "Required if stocked",
+   "format": "Mouser's own part number for this exact MPN",
+   "example": "603-RC0603FR-0710KL (illustrative)"
+  },
+  {
+   "group": "Sourcing",
+   "name": "Local Source",
+   "need": "If applicable",
+   "format": "Local market shop or note",
+   "example": "Shop name, Dhaka"
+  },
+  {
+   "group": "Sourcing",
+   "name": "Datasheet URL",
+   "need": "Required",
+   "format": "Manufacturer's PDF link",
+   "example": "https://…"
+  },
+  {
+   "group": "Sourcing",
+   "name": "Datasheet Revision",
+   "need": "Required",
+   "format": "Revision and date printed on the datasheet",
+   "example": "Rev. 2.1, 2025-03"
+  },
+  {
+   "group": "Sourcing",
+   "name": "Package Drawing",
+   "need": "Required",
+   "format": "Document and page the footprint was built from",
+   "example": "Datasheet p.42, or package drawing DBV0005A"
+  },
+  {
+   "group": "Physical",
+   "name": "Package",
+   "need": "Required",
+   "format": "EIA/JEDEC name",
+   "example": "0603, SOT-23-3, LQFP-48"
+  },
+  {
+   "group": "Physical",
+   "name": "Package Metric",
+   "need": "Chip passives only",
+   "format": "Metric size code",
+   "example": "1608"
+  },
+  {
+   "group": "Physical",
+   "name": "Mounting",
+   "need": "Required",
+   "format": "SMD / THT / Press-fit / Chassis",
+   "example": "SMD"
+  },
+  {
+   "group": "Physical",
+   "name": "Pin Count",
+   "need": "Required",
+   "format": "Integer, incl. exposed pad",
+   "example": "3"
+  },
+  {
+   "group": "Physical",
+   "name": "Height",
+   "need": "Required",
+   "format": "Max seated height, mm",
+   "example": "0.55mm"
+  },
+  {
+   "group": "Physical",
+   "name": "Footprint Standard",
+   "need": "Required",
+   "format": "IPC-7351 density or Manufacturer",
+   "example": "IPC-7351B Nominal"
+  },
+  {
+   "group": "Compliance",
+   "name": "Operating Temperature",
+   "need": "Required",
+   "format": "Min to max, °C",
+   "example": "-55°C to 155°C"
+  },
+  {
+   "group": "Compliance",
+   "name": "RoHS",
+   "need": "Required",
+   "format": "Compliant / Non-compliant / Unknown",
+   "example": "Compliant"
+  },
+  {
+   "group": "Compliance",
+   "name": "MSL",
+   "need": "SMD ICs and LEDs",
+   "format": "JEDEC level 1 to 6",
+   "example": "3"
+  },
+  {
+   "group": "Verification",
+   "name": "Verified By",
+   "need": "Required after check",
+   "format": "Initials",
+   "example": "SA"
+  },
+  {
+   "group": "Verification",
+   "name": "Verified Date",
+   "need": "Required after check",
+   "format": "YYYY-MM-DD",
+   "example": "2026-11-02"
+  }
+ ],
+ "electrical": [
+  {
+   "type": "Resistors",
+   "subtype": "Chip",
+   "required": [
+    "Resistance",
+    "Tolerance",
+    "Power Rating",
+    "Temperature Coefficient"
+   ],
+   "optional": [
+    "Voltage Rating",
+    "Composition (thick/thin film)"
+   ]
+  },
+  {
+   "type": "Resistors",
+   "subtype": "Through-Hole",
+   "required": [
+    "Resistance",
+    "Tolerance",
+    "Power Rating",
+    "Composition"
+   ],
+   "optional": [
+    "Temperature Coefficient",
+    "Voltage Rating"
+   ]
+  },
+  {
+   "type": "Resistors",
+   "subtype": "Current Sense",
+   "required": [
+    "Resistance",
+    "Tolerance",
+    "Power Rating",
+    "Temperature Coefficient"
+   ],
+   "optional": [
+    "Terminals (2 or 4-wire Kelvin)"
+   ]
+  },
+  {
+   "type": "Resistors",
+   "subtype": "Arrays & Networks",
+   "required": [
+    "Resistance",
+    "Tolerance",
+    "Power Rating per Element",
+    "Elements",
+    "Circuit Type (isolated/bussed)"
+   ],
+   "optional": [
+    "Temperature Coefficient"
+   ]
+  },
+  {
+   "type": "Resistors",
+   "subtype": "Potentiometers & Trimmers",
+   "required": [
+    "Resistance",
+    "Tolerance",
+    "Power Rating",
+    "Taper",
+    "Turns"
+   ],
+   "optional": [
+    "Adjustment Direction"
+   ]
+  },
+  {
+   "type": "Capacitors",
+   "subtype": "Ceramic (MLCC)",
+   "required": [
+    "Capacitance",
+    "Voltage Rating",
+    "Dielectric (X7R, X5R, C0G)",
+    "Tolerance"
+   ],
+   "optional": [
+    "Grade (automotive)"
+   ]
+  },
+  {
+   "type": "Capacitors",
+   "subtype": "Ceramic RF",
+   "required": [
+    "Capacitance",
+    "Voltage Rating",
+    "Dielectric",
+    "Tolerance",
+    "Q @ Frequency"
+   ],
+   "optional": [
+    "Self-Resonant Frequency"
+   ]
+  },
+  {
+   "type": "Capacitors",
+   "subtype": "Aluminum Electrolytic",
+   "required": [
+    "Capacitance",
+    "Voltage Rating",
+    "Tolerance",
+    "ESR",
+    "Ripple Current",
+    "Lifetime @ Temperature"
+   ],
+   "optional": [
+    "Diameter",
+    "Lead Spacing"
+   ]
+  },
+  {
+   "type": "Capacitors",
+   "subtype": "Aluminum Polymer",
+   "required": [
+    "Capacitance",
+    "Voltage Rating",
+    "Tolerance",
+    "ESR",
+    "Ripple Current",
+    "Lifetime @ Temperature"
+   ],
+   "optional": [
+    "Leakage Current"
+   ]
+  },
+  {
+   "type": "Capacitors",
+   "subtype": "Tantalum",
+   "required": [
+    "Capacitance",
+    "Voltage Rating",
+    "Tolerance",
+    "ESR",
+    "Construction (MnO2/polymer)"
+   ],
+   "optional": [
+    "Case Code"
+   ]
+  },
+  {
+   "type": "Capacitors",
+   "subtype": "Film",
+   "required": [
+    "Capacitance",
+    "Voltage Rating (AC and DC)",
+    "Tolerance",
+    "Dielectric Material",
+    "Safety Class (X1/X2/Y1/Y2)"
+   ],
+   "optional": [
+    "Lead Spacing"
+   ]
+  },
+  {
+   "type": "Capacitors",
+   "subtype": "Supercapacitors",
+   "required": [
+    "Capacitance",
+    "Voltage Rating",
+    "ESR",
+    "Lifetime @ Temperature"
+   ],
+   "optional": [
+    "Leakage Current"
+   ]
+  },
+  {
+   "type": "Inductors",
+   "subtype": "Power",
+   "required": [
+    "Inductance",
+    "Tolerance",
+    "Current Rating",
+    "Saturation Current",
+    "DCR",
+    "Shielding"
+   ],
+   "optional": [
+    "Self-Resonant Frequency"
+   ]
+  },
+  {
+   "type": "Inductors",
+   "subtype": "RF",
+   "required": [
+    "Inductance",
+    "Tolerance",
+    "Current Rating",
+    "Q @ Frequency",
+    "Self-Resonant Frequency",
+    "DCR"
+   ],
+   "optional": [
+    "Core Material"
+   ]
+  },
+  {
+   "type": "Inductors",
+   "subtype": "Arrays & Coupled",
+   "required": [
+    "Inductance",
+    "Current Rating",
+    "Saturation Current",
+    "DCR",
+    "Windings"
+   ],
+   "optional": [
+    "Coupling Factor"
+   ]
+  },
+  {
+   "type": "Filters & EMI",
+   "subtype": "Ferrite Beads",
+   "required": [
+    "Impedance @ 100MHz",
+    "Current Rating",
+    "DCR"
+   ],
+   "optional": [
+    "Lines"
+   ]
+  },
+  {
+   "type": "Filters & EMI",
+   "subtype": "Common Mode Chokes",
+   "required": [
+    "Common Mode Impedance @ Frequency",
+    "Current Rating",
+    "DCR",
+    "Lines"
+   ],
+   "optional": [
+    "Differential Mode Impedance"
+   ]
+  },
+  {
+   "type": "Filters & EMI",
+   "subtype": "EMI Filters",
+   "required": [
+    "Filter Type",
+    "Capacitance or Inductance",
+    "Current Rating",
+    "Voltage Rating"
+   ],
+   "optional": [
+    "Insertion Loss"
+   ]
+  },
+  {
+   "type": "Diodes",
+   "subtype": "Rectifier & Schottky",
+   "required": [
+    "Diode Type (standard/fast/Schottky/switching)",
+    "Reverse Voltage",
+    "Forward Current",
+    "Forward Voltage @ If"
+   ],
+   "optional": [
+    "Reverse Recovery Time",
+    "Reverse Leakage @ Vr",
+    "Configuration"
+   ]
+  },
+  {
+   "type": "Diodes",
+   "subtype": "Zener",
+   "required": [
+    "Zener Voltage",
+    "Tolerance",
+    "Power Rating",
+    "Zener Impedance"
+   ],
+   "optional": [
+    "Test Current"
+   ]
+  },
+  {
+   "type": "Diodes",
+   "subtype": "TVS & ESD",
+   "required": [
+    "Reverse Standoff Voltage",
+    "Breakdown Voltage",
+    "Clamping Voltage",
+    "Peak Pulse Power",
+    "Directionality (uni/bi)",
+    "Channels"
+   ],
+   "optional": [
+    "Capacitance"
+   ]
+  },
+  {
+   "type": "Diodes",
+   "subtype": "Bridge Rectifiers",
+   "required": [
+    "Reverse Voltage",
+    "Forward Current",
+    "Forward Voltage @ If"
+   ],
+   "optional": [
+    "Surge Current"
+   ]
+  },
+  {
+   "type": "Transistors",
+   "subtype": "MOSFETs",
+   "required": [
+    "Polarity (N/P)",
+    "Channels",
+    "Drain-Source Voltage",
+    "Drain Current",
+    "Rds On @ Vgs",
+    "Gate Threshold Voltage"
+   ],
+   "optional": [
+    "Gate Charge",
+    "Input Capacitance",
+    "Power Dissipation"
+   ]
+  },
+  {
+   "type": "Transistors",
+   "subtype": "BJTs",
+   "required": [
+    "Polarity (NPN/PNP)",
+    "Transistor Type (general/digital/RF)",
+    "Collector-Emitter Voltage",
+    "Collector Current",
+    "hFE @ Ic",
+    "Power Dissipation"
+   ],
+   "optional": [
+    "Built-in Resistors (R1/R2)",
+    "Transition Frequency"
+   ]
+  },
+  {
+   "type": "Transistors",
+   "subtype": "IGBTs",
+   "required": [
+    "Collector-Emitter Voltage",
+    "Collector Current",
+    "Vce Sat",
+    "Power Dissipation"
+   ],
+   "optional": [
+    "Built-in Diode",
+    "Short-Circuit Withstand Time"
+   ]
+  },
+  {
+   "type": "LED",
+   "subtype": "Indicator",
+   "required": [
+    "Colour",
+    "Wavelength",
+    "Forward Voltage @ If",
+    "Forward Current",
+    "Luminous Intensity"
+   ],
+   "optional": [
+    "Viewing Angle"
+   ]
+  },
+  {
+   "type": "LED",
+   "subtype": "RGB & Addressable",
+   "required": [
+    "Colours",
+    "Protocol (e.g. WS2812)",
+    "Supply Voltage",
+    "Current per Channel"
+   ],
+   "optional": [
+    "Refresh Rate"
+   ]
+  },
+  {
+   "type": "LED",
+   "subtype": "Lighting",
+   "required": [
+    "Colour or CCT",
+    "Luminous Flux",
+    "Forward Voltage @ If",
+    "Forward Current",
+    "CRI"
+   ],
+   "optional": [
+    "Viewing Angle",
+    "Thermal Resistance"
+   ]
+  },
+  {
+   "type": "Optoelectronics",
+   "subtype": "Optocouplers",
+   "required": [
+    "Output Type",
+    "Channels",
+    "Isolation Voltage",
+    "Current Transfer Ratio",
+    "Collector-Emitter Voltage"
+   ],
+   "optional": [
+    "Data Rate",
+    "Rise and Fall Time"
+   ]
+  },
+  {
+   "type": "Optoelectronics",
+   "subtype": "IR Emitters & Receivers",
+   "required": [
+    "Function",
+    "Wavelength",
+    "Carrier Frequency (receivers)",
+    "Supply Voltage or Forward Current"
+   ],
+   "optional": [
+    "Viewing Angle",
+    "Radiant Intensity"
+   ]
+  },
+  {
+   "type": "Optoelectronics",
+   "subtype": "Photodetectors",
+   "required": [
+    "Detector Type",
+    "Peak Wavelength",
+    "Spectral Range",
+    "Dark Current"
+   ],
+   "optional": [
+    "Active Area"
+   ]
+  },
+  {
+   "type": "Crystals & Oscillators",
+   "subtype": "Crystals",
+   "required": [
+    "Frequency",
+    "Load Capacitance",
+    "Frequency Tolerance",
+    "Frequency Stability",
+    "ESR"
+   ],
+   "optional": [
+    "Drive Level"
+   ]
+  },
+  {
+   "type": "Crystals & Oscillators",
+   "subtype": "Oscillators",
+   "required": [
+    "Frequency",
+    "Supply Voltage",
+    "Output Type (CMOS/LVDS…)",
+    "Frequency Stability",
+    "Supply Current"
+   ],
+   "optional": [
+    "Enable Function"
+   ]
+  },
+  {
+   "type": "Crystals & Oscillators",
+   "subtype": "Resonators",
+   "required": [
+    "Frequency",
+    "Frequency Tolerance",
+    "Built-in Capacitors"
+   ],
+   "optional": [
+    "Frequency Stability"
+   ]
+  },
+  {
+   "type": "Integrated Circuits",
+   "subtype": "Microcontrollers",
+   "required": [
+    "Core",
+    "Max Clock Frequency",
+    "Flash",
+    "RAM",
+    "Supply Voltage Range",
+    "GPIO Count"
+   ],
+   "optional": [
+    "Peripherals",
+    "ADC Resolution"
+   ]
+  },
+  {
+   "type": "Integrated Circuits",
+   "subtype": "Processors, SoC & FPGA",
+   "required": [
+    "Core or Logic Elements",
+    "Max Clock Frequency",
+    "Core Voltage",
+    "I/O Voltage"
+   ],
+   "optional": [
+    "Memory Interface",
+    "Embedded RAM"
+   ]
+  },
+  {
+   "type": "Integrated Circuits",
+   "subtype": "Memory",
+   "required": [
+    "Memory Type",
+    "Capacity",
+    "Interface",
+    "Supply Voltage Range",
+    "Clock Frequency"
+   ],
+   "optional": [
+    "Endurance",
+    "Data Retention"
+   ]
+  },
+  {
+   "type": "Integrated Circuits",
+   "subtype": "Amplifiers & Comparators",
+   "required": [
+    "Function (op-amp/comparator/instrumentation/audio)",
+    "Channels",
+    "Supply Voltage Range",
+    "Gain Bandwidth",
+    "Slew Rate",
+    "Input Offset Voltage",
+    "Output Type (rail-to-rail/open-drain/push-pull)"
+   ],
+   "optional": [
+    "Quiescent Current",
+    "Noise Density",
+    "Output Power (audio)"
+   ]
+  },
+  {
+   "type": "Integrated Circuits",
+   "subtype": "Data Converters",
+   "required": [
+    "Function (ADC/DAC/digital pot)",
+    "Resolution",
+    "Channels",
+    "Sample Rate",
+    "Interface",
+    "Supply Voltage Range"
+   ],
+   "optional": [
+    "Reference Type",
+    "INL"
+   ]
+  },
+  {
+   "type": "Integrated Circuits",
+   "subtype": "Interface",
+   "required": [
+    "Protocol",
+    "Function (transceiver/bridge/PHY)",
+    "Channels",
+    "Data Rate",
+    "Supply Voltage Range"
+   ],
+   "optional": [
+    "ESD Rating",
+    "Isolation"
+   ]
+  },
+  {
+   "type": "Integrated Circuits",
+   "subtype": "Logic & Level Shifters",
+   "required": [
+    "Logic Function",
+    "Logic Family",
+    "Bits",
+    "Supply Voltage Range",
+    "Output Type"
+   ],
+   "optional": [
+    "Propagation Delay"
+   ]
+  },
+  {
+   "type": "Integrated Circuits",
+   "subtype": "Analog Switches & Mux",
+   "required": [
+    "Configuration (e.g. SPDT, 8:1)",
+    "Channels",
+    "On-Resistance",
+    "Supply Voltage Range"
+   ],
+   "optional": [
+    "Bandwidth"
+   ]
+  },
+  {
+   "type": "Integrated Circuits",
+   "subtype": "Drivers",
+   "required": [
+    "Driver Type (motor/gate/LED/display)",
+    "Channels",
+    "Output Current",
+    "Supply Voltage Range",
+    "Interface"
+   ],
+   "optional": [
+    "Rds On",
+    "Protection Features"
+   ]
+  },
+  {
+   "type": "Integrated Circuits",
+   "subtype": "Clock & Timing",
+   "required": [
+    "Function (RTC/timer/PLL/buffer)",
+    "Frequency",
+    "Supply Voltage Range",
+    "Interface"
+   ],
+   "optional": [
+    "Accuracy",
+    "Battery Backup"
+   ]
+  },
+  {
+   "type": "Integrated Circuits",
+   "subtype": "Sensor Interface & Audio Codecs",
+   "required": [
+    "Function",
+    "Resolution",
+    "Channels",
+    "Interface",
+    "Supply Voltage Range"
+   ],
+   "optional": [
+    "Sample Rate"
+   ]
+  },
+  {
+   "type": "Integrated Circuits",
+   "subtype": "Supervisors & Isolators",
+   "required": [
+    "Function",
+    "Threshold Voltage or Isolation Voltage",
+    "Channels",
+    "Supply Voltage Range"
+   ],
+   "optional": [
+    "Reset Timeout",
+    "Data Rate"
+   ]
+  },
+  {
+   "type": "Power",
+   "subtype": "Linear Regulators (LDO)",
+   "required": [
+    "Output Type (fixed/adjustable)",
+    "Output Voltage",
+    "Output Current",
+    "Input Voltage Max",
+    "Dropout Voltage @ Iout",
+    "Quiescent Current"
+   ],
+   "optional": [
+    "PSRR",
+    "Enable Pin"
+   ]
+  },
+  {
+   "type": "Power",
+   "subtype": "Switching Regulators",
+   "required": [
+    "Topology (buck/boost/buck-boost)",
+    "Input Voltage Range",
+    "Output Voltage",
+    "Output Current",
+    "Switching Frequency",
+    "Integrated Switch"
+   ],
+   "optional": [
+    "Efficiency",
+    "Quiescent Current"
+   ]
+  },
+  {
+   "type": "Power",
+   "subtype": "Battery Chargers & Management",
+   "required": [
+    "Function",
+    "Battery Chemistry",
+    "Cells",
+    "Charge Current",
+    "Charge Voltage",
+    "Input Voltage Range"
+   ],
+   "optional": [
+    "Interface",
+    "Protection Features"
+   ]
+  },
+  {
+   "type": "Power",
+   "subtype": "Power Switches & Ideal Diodes",
+   "required": [
+    "Function",
+    "Channels",
+    "Input Voltage Range",
+    "Output Current or Current Limit",
+    "Rds On"
+   ],
+   "optional": [
+    "Quick Discharge"
+   ]
+  },
+  {
+   "type": "Power",
+   "subtype": "Voltage References",
+   "required": [
+    "Reference Type (series/shunt)",
+    "Output Voltage",
+    "Initial Accuracy",
+    "Temperature Coefficient",
+    "Output Current"
+   ],
+   "optional": [
+    "Noise"
+   ]
+  },
+  {
+   "type": "Power",
+   "subtype": "Power Modules",
+   "required": [
+    "Conversion (AC-DC/DC-DC)",
+    "Input Voltage Range",
+    "Output Voltage",
+    "Output Power",
+    "Isolation Voltage"
+   ],
+   "optional": [
+    "Efficiency"
+   ]
+  },
+  {
+   "type": "Power",
+   "subtype": "PMICs",
+   "required": [
+    "Outputs",
+    "Input Voltage Range",
+    "Output Voltages",
+    "Output Currents",
+    "Interface"
+   ],
+   "optional": [
+    "Charger Included"
+   ]
+  },
+  {
+   "type": "Sensors",
+   "subtype": "Temperature & Humidity",
+   "required": [
+    "Sensor Type",
+    "Measured Quantity",
+    "Range",
+    "Accuracy",
+    "Interface or Output",
+    "Supply Voltage Range"
+   ],
+   "optional": [
+    "Resistance @ 25°C and B Value (NTC)"
+   ]
+  },
+  {
+   "type": "Sensors",
+   "subtype": "Motion & IMU",
+   "required": [
+    "Axes",
+    "Acceleration Range",
+    "Gyro Range",
+    "Resolution",
+    "Interface",
+    "Supply Voltage Range"
+   ],
+   "optional": [
+    "Output Data Rate"
+   ]
+  },
+  {
+   "type": "Sensors",
+   "subtype": "Current & Power",
+   "required": [
+    "Sensing Method (shunt/Hall)",
+    "Current Range",
+    "Accuracy",
+    "Interface or Output",
+    "Supply Voltage Range"
+   ],
+   "optional": [
+    "Isolation Voltage"
+   ]
+  },
+  {
+   "type": "Sensors",
+   "subtype": "Pressure & Gas",
+   "required": [
+    "Measured Quantity",
+    "Range",
+    "Accuracy",
+    "Interface",
+    "Supply Voltage Range"
+   ],
+   "optional": [
+    "Response Time"
+   ]
+  },
+  {
+   "type": "Sensors",
+   "subtype": "Optical & Biometric",
+   "required": [
+    "Measured Quantity",
+    "Wavelengths",
+    "Interface",
+    "Supply Voltage Range"
+   ],
+   "optional": [
+    "Range"
+   ]
+  },
+  {
+   "type": "RF & Wireless",
+   "subtype": "Wireless Modules",
+   "required": [
+    "Protocol",
+    "Frequency Band",
+    "Output Power",
+    "Sensitivity",
+    "Interface",
+    "Supply Voltage Range",
+    "Antenna (integrated/external)",
+    "Certifications"
+   ],
+   "optional": [
+    "Core Chip",
+    "Flash"
+   ]
+  },
+  {
+   "type": "RF & Wireless",
+   "subtype": "Transceiver ICs",
+   "required": [
+    "Protocol or Modulation",
+    "Frequency Band",
+    "Output Power",
+    "Sensitivity",
+    "Interface",
+    "Supply Voltage Range"
+   ],
+   "optional": [
+    "Data Rate"
+   ]
+  },
+  {
+   "type": "RF & Wireless",
+   "subtype": "Antennas",
+   "required": [
+    "Antenna Type",
+    "Frequency Band",
+    "Gain",
+    "Impedance"
+   ],
+   "optional": [
+    "VSWR"
+   ]
+  },
+  {
+   "type": "RF & Wireless",
+   "subtype": "RF Components",
+   "required": [
+    "Function",
+    "Frequency Range",
+    "Impedance",
+    "Insertion Loss"
+   ],
+   "optional": [
+    "Gain",
+    "Isolation"
+   ]
+  },
+  {
+   "type": "Connectors",
+   "subtype": "Pin Headers",
+   "required": [
+    "Pitch",
+    "Positions",
+    "Rows",
+    "Orientation",
+    "Current Rating"
+   ],
+   "optional": [
+    "Contact Plating",
+    "Mating Length"
+   ]
+  },
+  {
+   "type": "Connectors",
+   "subtype": "Female Headers & Sockets",
+   "required": [
+    "Pitch",
+    "Positions",
+    "Rows",
+    "Orientation",
+    "Current Rating"
+   ],
+   "optional": [
+    "Contact Plating"
+   ]
+  },
+  {
+   "type": "Connectors",
+   "subtype": "Wire-to-Board",
+   "required": [
+    "Series",
+    "Pitch",
+    "Positions",
+    "Gender",
+    "Orientation",
+    "Current Rating"
+   ],
+   "optional": [
+    "Wire Gauge Range"
+   ]
+  },
+  {
+   "type": "Connectors",
+   "subtype": "Terminal Blocks",
+   "required": [
+    "Pitch",
+    "Positions",
+    "Current Rating",
+    "Voltage Rating",
+    "Wire Gauge Range"
+   ],
+   "optional": [
+    "Pluggable"
+   ]
+  },
+  {
+   "type": "Connectors",
+   "subtype": "USB",
+   "required": [
+    "USB Type",
+    "Gender",
+    "Orientation",
+    "Positions",
+    "Current Rating"
+   ],
+   "optional": [
+    "USB Version"
+   ]
+  },
+  {
+   "type": "Connectors",
+   "subtype": "Power & Audio Jacks",
+   "required": [
+    "Jack Type",
+    "Positions or Pin Diameter",
+    "Current Rating",
+    "Voltage Rating",
+    "Orientation"
+   ],
+   "optional": [
+    "Switched Contacts"
+   ]
+  },
+  {
+   "type": "Connectors",
+   "subtype": "FFC / FPC",
+   "required": [
+    "Pitch",
+    "Positions",
+    "Contact Side",
+    "Locking Type",
+    "Orientation"
+   ],
+   "optional": [
+    "Current Rating"
+   ]
+  },
+  {
+   "type": "Connectors",
+   "subtype": "RF Coaxial",
+   "required": [
+    "Connector Type",
+    "Impedance",
+    "Max Frequency",
+    "Gender",
+    "Orientation"
+   ],
+   "optional": [
+    "Mated Height"
+   ]
+  },
+  {
+   "type": "Connectors",
+   "subtype": "Board-to-Board & Card Edge",
+   "required": [
+    "Pitch",
+    "Positions",
+    "Gender",
+    "Mated Height",
+    "Current Rating"
+   ],
+   "optional": [
+    "Rows"
+   ]
+  },
+  {
+   "type": "Connectors",
+   "subtype": "Card Sockets",
+   "required": [
+    "Card Type",
+    "Ejection Type",
+    "Card Detect"
+   ],
+   "optional": [
+    "Orientation"
+   ]
+  },
+  {
+   "type": "Connectors",
+   "subtype": "Modular Jacks",
+   "required": [
+    "Jack Type",
+    "Positions",
+    "Magnetics",
+    "Speed",
+    "Orientation"
+   ],
+   "optional": [
+    "LEDs"
+   ]
+  },
+  {
+   "type": "Switches",
+   "subtype": "Tactile & Pushbutton",
+   "required": [
+    "Circuit",
+    "Contact Rating",
+    "Operating Force",
+    "Actuator Height"
+   ],
+   "optional": [
+    "Illumination"
+   ]
+  },
+  {
+   "type": "Switches",
+   "subtype": "Slide, DIP & Rocker",
+   "required": [
+    "Circuit (e.g. SPDT)",
+    "Positions",
+    "Contact Rating"
+   ],
+   "optional": [
+    "Actuator Type"
+   ]
+  },
+  {
+   "type": "Switches",
+   "subtype": "Other Switches",
+   "required": [
+    "Switch Type",
+    "Contact Rating",
+    "Pulses per Revolution (encoders)",
+    "Detents"
+   ],
+   "optional": [
+    "Integrated Push Switch"
+   ]
+  },
+  {
+   "type": "Electromechanical",
+   "subtype": "Relays",
+   "required": [
+    "Relay Type (signal/power/solid-state)",
+    "Coil Voltage",
+    "Coil Current",
+    "Contact Form",
+    "Contact Rating"
+   ],
+   "optional": [
+    "Isolation Voltage"
+   ]
+  },
+  {
+   "type": "Electromechanical",
+   "subtype": "Audio Transducers",
+   "required": [
+    "Transducer Type",
+    "Drive (active/passive)",
+    "Rated Voltage",
+    "Frequency",
+    "Sound Pressure Level"
+   ],
+   "optional": [
+    "Impedance"
+   ]
+  },
+  {
+   "type": "Electromechanical",
+   "subtype": "Motors & Fans",
+   "required": [
+    "Rated Voltage",
+    "Rated Current",
+    "Speed"
+   ],
+   "optional": [
+    "Airflow or Torque"
+   ]
+  },
+  {
+   "type": "Protection",
+   "subtype": "Fuses & PTC",
+   "required": [
+    "Fuse Type (fast/slow/PTC)",
+    "Current Rating or Hold Current",
+    "Trip Current (PTC)",
+    "Voltage Rating",
+    "Breaking Capacity"
+   ],
+   "optional": [
+    "Resistance"
+   ]
+  },
+  {
+   "type": "Protection",
+   "subtype": "Fuse Holders",
+   "required": [
+    "Fuse Size",
+    "Current Rating",
+    "Voltage Rating"
+   ],
+   "optional": [
+    "Cover"
+   ]
+  },
+  {
+   "type": "Protection",
+   "subtype": "Varistors & GDT",
+   "required": [
+    "Varistor or Breakdown Voltage",
+    "Max AC Voltage",
+    "Max DC Voltage",
+    "Surge Current",
+    "Energy Rating"
+   ],
+   "optional": [
+    "Capacitance"
+   ]
+  },
+  {
+   "type": "Displays",
+   "subtype": "Display Modules",
+   "required": [
+    "Display Type",
+    "Size",
+    "Resolution",
+    "Interface",
+    "Controller",
+    "Supply Voltage Range"
+   ],
+   "optional": [
+    "Colour"
+   ]
+  },
+  {
+   "type": "Mechanical",
+   "subtype": "Hardware",
+   "required": [
+    "Hardware Type",
+    "Size or Thread",
+    "Dimensions"
+   ],
+   "optional": [
+    "Material"
+   ]
+  },
+  {
+   "type": "Mechanical",
+   "subtype": "Batteries & Holders",
+   "required": [
+    "Battery Size",
+    "Chemistry",
+    "Nominal Voltage",
+    "Cells"
+   ],
+   "optional": [
+    "Capacity"
+   ]
+  },
+  {
+   "type": "Board Features",
+   "subtype": "Test Points & Jumpers",
+   "required": [
+    "Feature Type",
+    "Pad Size",
+    "Positions"
+   ],
+   "optional": [
+    "Default State (jumpers)"
+   ]
+  },
+  {
+   "type": "Board Features",
+   "subtype": "Fiducials & Logos",
+   "required": [
+    "Feature Type",
+    "Pad Size",
+    "Mask Opening"
+   ],
+   "optional": []
+  },
+  {
+   "type": "Modules",
+   "subtype": "Development & Breakout Modules",
+   "required": [
+    "Main Chip",
+    "Function",
+    "Supply Voltage Range",
+    "Interface",
+    "Header Pitch"
+   ],
+   "optional": [
+    "Dimensions"
+   ]
+  },
+  {
+   "type": "Miscellaneous",
+   "subtype": "Unclassified (Review)",
+   "required": [
+    "Common parameters only"
+   ],
+   "optional": []
+  }
+ ]
+}

@@ -2,7 +2,7 @@
 
 Always start Claude Code from this workspace folder (D:\EDA in the examples). The hook, .mcp.json and permissions only apply here.
 Projects live in `projects\<name>\`, or stay in the user's own folder with the kit files in `<folder>\_eda\` (WF-09: never move or copy a work project into projects\). Before touching a project read its `CLAUDE.md`, `PROJECT.md`,
-`requirements.md`, `constraints.md` and `gates.md`. Rules: `rules\` (VERSION, 99 rules). Index: `docs\README.md`.
+`requirements.md`, `constraints.md` and `gates.md`. Rules: `rules\` (VERSION, 109 rules). Index: `docs\README.md`.
 Objective (user): automate the work an engineer does by hand in the tools. System-level design guidelines come later in `guidelines\` (DRAFT, empty, not binding, separate from `rules\`); never invent values for them.
 
 ## Non-negotiables
@@ -46,7 +46,7 @@ propose a tool in one line (and add it to the guide's proposals table).
 | Phase | Rule files | Playbook |
 |---|---|---|
 | Start a project | 01_WORKFLOW_GATES, 02_REQUIREMENTS_CALCS_PARTS, 08_COMMUNICATION | P1 |
-| Library work | 03_LIBRARY, 07_TOOLING_ALTIUM | P2, P4, P11, P12 |
+| Library work | 03_LIBRARY, 09_LIBRARY_STANDARD, 07_TOOLING_ALTIUM | P2, P4, P11, P12 |
 | Schematic | 04_SCHEMATIC, 07_TOOLING_ALTIUM | P3 |
 | PCB layout | 05_PCB, 07_TOOLING_ALTIUM | P5 |
 | Before any gate / fab output | 01_WORKFLOW_GATES, 06_FAB_OUTPUT | P6, P9 |

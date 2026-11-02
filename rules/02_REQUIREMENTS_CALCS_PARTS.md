@@ -7,6 +7,7 @@
 - Why: wrong numbers become wrong hardware; the database removes repeated PDF reading and keeps every number traceable to a page.
 - Check: parts.py check (quote on the cited page, units, abs max vs recommended), parts.py check --gate (person checks), catalog_check.py (datasheet sha256 per catalog component)
 - Source: workspace CLAUDE.md "Datasheet first"; user decisions 2026-10-17 (database first, person checks 1c, PDFs local, maker first)
+- Decided by the user 2026-11-02 (D11): the `Datasheet URL` parameter links the maker's PDF; a DigiKey or LCSC link only when the maker has none.
 - Status: ENFORCED
 
 ### RQ-02 Calculations in code
@@ -62,7 +63,7 @@
 - Status: ENFORCED
 
 ### RQ-09 Distributor part numbers
-- MUST: store the LCSC, Mouser and DigiKey numbers of a part in its record (`suppliers[]`: name, sku, url, verified date) and carry all three into the library parameters and the BOM. Record a number only after its product page confirms the MPN and package; otherwise write UNCONFIRMED in its place.
+- MUST: store the LCSC, Mouser and DigiKey numbers of a part in its record (`suppliers[]`: name, sku, url, verified date) and carry all three into the library parameters and the BOM. Record a number only after its product page confirms the MPN and package; a number the agent cannot find stays a blank parameter (never UNCONFIRMED, N/A or a guess) and the agent asks the user to find it, then writes the user's number into the record and the library, one component at a time (user 2026-11-02, D6).
 - MUST NOT: build a distributor number from a prefix pattern (Mouser 603-, 187-, 855-) and present it as known.
 - Why: Extention_01 BOM had four Mouser numbers made from the prefix pattern; the user needs Mouser and DigiKey numbers in every BOM.
 - Check: bom_check.py (UNCONFIRMED listed); checklist (product page opened)

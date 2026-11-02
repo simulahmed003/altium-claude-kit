@@ -26,6 +26,7 @@
 - Why: JLC could not read designator ranges (Bondu, 2026-10-30); the user needs Mouser and DigiKey numbers for other suppliers; JLC ignores the extra columns.
 - Check: bom_check.py; jlc.py parse
 - Source: user 2026-10-30 ("why you remove mouser digikey partnumber from bom"); JLC BOM upload of two boards 2026-10-30
+- Decided by the user 2026-11-02 (D4): library parameters use the standard's names; this BOM keeps its JLC columns, mapped from them.
 - Status: ENFORCED
 
 ### FAB-05 Production package for the manufacturer
