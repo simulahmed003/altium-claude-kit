@@ -1,7 +1,7 @@
 # 09 Library standard
 
 The component library standard v1.1 (Simul, 2026-11-02) is in `docs/LIBRARY_STANDARD.md`; these rules make it binding in the kit.
-Open decisions D1-D12 at the top of that file: until one is decided, the older rule it names (LIB-02, LIB-03, LIB-11, LIB-13, LIB-14, LIB-15, LIB-19, RQ-01, RQ-09, FAB-04) still applies.
+Decisions D1-D12 are at the top of that file. Decided 2026-11-02: D1 (IC pins 200 mil), D2 (2-pin geometry by convenience), D3 (capacitors show capacitance and voltage), D4 (standard parameter names; existing libraries renamed only with permission), D6 (unknown distributor number = blank, ask the user). Still open: D5, D7-D12; until one is decided, the older rule it names (LIB-13, LIB-14 Description, LIB-15, LIB-19, RQ-01) still applies.
 
 ### LIB-21 The library standard applies to every library component
 - MUST: build, copy, classify and check every component (kit global, project local and client libraries) to `docs/LIBRARY_STANDARD.md`; where it is silent, the other LIB rules apply; where a client's rules differ, LIB-20 applies.
@@ -44,10 +44,10 @@ Open decisions D1-D12 at the top of that file: until one is decided, the older r
 - Status: CHECKLIST
 
 ### LIB-26 Symbol layout and style from the class template
-- MUST: draw each symbol from its class template and the standard's style values: pin ends on 100 mil, 2-pin parts 400 mil span, IC side layout (SYM-13), MCU and multi-part rules (SYM-14, 17, 18), bus order (SYM-15), text positions and linked Comment (SYM-20..22), colours and font, designator prefixes.
+- MUST: draw each symbol from its class template and the standard's style values: pin ends on 100 mil, 2-pin parts 400 mil span, IC side layout (SYM-13), MCU and multi-part rules (SYM-14, 17, 18), IC pin length 200 mil (D1, not the standard's 300), bus order (SYM-15), text positions and linked Comment (SYM-20..22), colours and font, designator prefixes.
 - Why: identical symbols can be swapped without moving wires and read the same everywhere.
 - Check: pin_match.py --style (to be updated to the style values after D1-D3)
-- Source: user 2026-11-02 (standard SYM-10..22, symbol style values); open D1-D3 against LIB-02, LIB-03, LIB-11
+- Source: user 2026-11-02 (standard SYM-10..22, symbol style values); decided D1 (IC pins 200 mil, LIB-11), D2 (2-pin geometry where convenient), D3 (capacitors show capacitance and voltage, LIB-02)
 - Status: CHECKLIST
 
 ### LIB-27 Footprints: maker's land first, IPC-7351B Nominal otherwise
@@ -70,4 +70,12 @@ Open decisions D1-D12 at the top of that file: until one is decided, the older r
 - Why: a second pair of eyes against a fixed checklist catches what the author missed.
 - Check: lib_audit.py mark; checklist (verification record per component)
 - Source: user 2026-11-02 (standard: verification and release); open D10
+- Status: CHECKLIST
+
+### LIB-30 Brief the user and get a yes before each part or step
+- MUST: before each library part or work step (copying a symbol or footprint, creating one, filling or renaming parameters, writing a library), tell the user in a few lines what will be done, to which part and from which source, and wait for the user's yes; then do only that.
+- MUST: copy symbols and footprints from the user's database library first, made consistent (LIB-17); create one from scratch only when none exists and the user permits it.
+- Why: the user follows the library work from the phone and wants to approve each part before it changes.
+- Check: checklist (each part's report starts with the brief and the user's yes)
+- Source: user 2026-11-02 ("before next part or going to each work brief user what going to do then taking permission do the job"; "part need not be built from scratch, mainly copy symbol and footprint from that database library")
 - Status: CHECKLIST

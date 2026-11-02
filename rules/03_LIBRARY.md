@@ -9,11 +9,11 @@
 - Status: ENFORCED
 
 ### LIB-02 One style, only Designator and Comment visible
-- MUST: one style per symbol type (line width 1, one colour, one font size 10); visible text = Designator + Comment "=Value" only; MPN, Manufacturer, LCSC, JLCPCB Type, Datasheet hidden.
+- MUST: one style per symbol type (line width 1, one colour, one font size 10); visible text = Designator + Comment "=Value" only, except capacitors, which show capacitance (Comment) and Voltage Rating (D3); MPN, Manufacturer, LCSC, JLCPCB Type, Datasheet hidden.
 - Why: duplicate value text and mixed styles made the sheet unreadable.
 - Check: pin_match.py --style (visible parameters per symbol)
 - Source: LESSONS L3, L4
-- Open (library standard 2026-11-02, docs/LIBRARY_STANDARD.md): D3 (capacitor Voltage Rating visible, fixed colours and font); this rule applies until the user decides.
+- Decided by the user 2026-11-02 (D3): capacitors show capacitance and voltage rating; colours and font follow the library standard.
 - Status: ENFORCED
 
 ### LIB-03 Pin ends on the 100 mil grid
@@ -21,7 +21,7 @@
 - Why: off-grid pins make wires miss pins.
 - Check: pin_match.py (grid check)
 - Source: buck library v2 (gen_sym2.py), user accepted exceptions 2026-10-13
-- Open (library standard 2026-11-02, docs/LIBRARY_STANDARD.md): D2 (2-pin pins 100/160 mil, 400 mil span, no 80/70 mil exceptions); this rule applies until the user decides.
+- Decided by the user 2026-11-02 (D2): the standard's 2-pin geometry (100/160 mil pins, 400 mil span) is a preference, used where convenient, not a check; pin ends stay on the 100 mil grid.
 - Status: ENFORCED
 
 ### LIB-04 Writing libraries
@@ -81,7 +81,7 @@
 - Why: pins typed from memory were wrong before; the record holds the checked pin list.
 - Check: pin_match.py --style; gen_sym.py grid check
 - Source: user brief 2026-10-19; user 2026-10-19 (IC symbols: datasheet grouping, symmetric, 200 mil pins)
-- Open (library standard 2026-11-02, docs/LIBRARY_STANDARD.md): D1 (IC pin length 300 mil; side layout SYM-13/14); this rule applies until the user decides.
+- Decided by the user 2026-11-02 (D1): IC pins stay 200 mil; the standard's 300 mil does not apply. Side layout follows SYM-13/14.
 - Status: CHECKLIST
 
 ### LIB-12 Footprints built from land data in the record
@@ -100,11 +100,11 @@
 - Status: CHECKLIST
 
 ### LIB-14 Local library parameters from the record
-- MUST: build one local library component per manufacturer part number (MPN), whose library reference (name) is exactly the MPN (0603WAF1002T5E, LMR33630ADDAR), with parameters from the part record: Comment (value, or the MPN for an IC), Description (prefix, value, key rating, package: "R 10k 1% 0603"), Manufacturer, MPN, LCSC, Mouser, DigiKey (RQ-09), Datasheet (URL from the record) and the family's key ratings, all hidden except Comment (LIB-02).
+- MUST: build one local library component per manufacturer part number (MPN), whose library reference (name) is exactly the MPN (0603WAF1002T5E, LMR33630ADDAR), with parameters from the part record: Comment (value, or the MPN for an IC), Description (prefix, value, key rating, package: "R 10k 1% 0603"; D5 open), the library standard's names `Manufacturer 1`, `Manufacturer Part Number 1`, `Supplier 1`, `Supplier Part Number 1`, `LCSC Part Number`, `Mouser Part Number`, `DigiKey Part Number` (RQ-09), `Datasheet URL` and the family's key ratings, all hidden except Comment (LIB-02).
 - Why: parameters typed by hand drift from the database the calculations used; a bare MPN name is found by search and matches the BOM.
 - Check: checklist (planned tool lib_build, LIBRARY_PLAN section 6)
 - Source: user brief 2026-10-19; user 2026-10-31 (decision: library reference = bare MPN; Mouser, DigiKey and LCSC numbers in every component)
-- Open (library standard 2026-11-02, docs/LIBRARY_STANDARD.md): D4 (Altium names Manufacturer 1, Manufacturer Part Number 1, Supplier 1 ...) and D5 (Description `RES 10k 1% 0.1W 0603`); legacy names: LIB-24; this rule applies until the user decides.
+- Decided by the user 2026-11-02 (D4): new components use the standard's parameter names; an existing library's parameters (and component names, LIB-24) are renamed only after the user permits it, library by library.
 - Status: CHECKLIST
 
 ### LIB-15 Library files: symbols by category and family, footprints by package type
@@ -125,7 +125,7 @@
 ## New components in a local library (2026-10-31)
 
 ### LIB-17 New component copied from the DbLib, made consistent
-- MUST: take a missing component from the user's Altium database library (DbLib) first: copy its symbol, footprint and 3D model into the local library (and, after G1, into the kit global library); the kit global library comes second; build (LIB-11..13) only what neither has. Record where each item came from (`lib_audit.py source <id> --from dblib --ref <DbLib item>`).
+- MUST: take a missing component from the user's Altium database library (DbLib) first: copy its symbol, footprint and 3D model into the local library (and, after G1, into the kit global library); the kit global library comes second; build (LIB-11..13) only what neither has, and only after the user permits building it (user 2026-11-02). Record where each item came from (`lib_audit.py source <id> --from dblib --ref <DbLib item>`).
 - MUST: make every copy consistent before use: name = MPN (LIB-14); symbol style, visible text, pin grid and pin length to LIB-02, LIB-03, LIB-11; parameters and their names to LIB-14 from the part record; footprint geometry kept as copied unless the datasheet check (LIB-18) finds a mismatch, which the user decides; 3D model attached and checked (LIB-13).
 - MUST NOT: change, add to or write back into the DbLib or its database in any way; it is read-only for the kit, even when the tool would allow a write.
 - Why: the DbLib holds many checked parts and saves building them again; it is not ours to change; copies from several sources drift apart unless each one is brought to one standard.

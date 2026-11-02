@@ -23,16 +23,18 @@ Read this first section before using the standard. It lists:
 | Verification and release | LIB-18, LIB-19, LIB-29 | `lib_audit.py mark` |
 | Datasheet first | RQ-01 | `parts.py check` |
 
-## Open decisions: standard vs kit rules (Simul decides each)
+## Decisions: standard vs kit rules (Simul decides each)
+
+Decided: D1, D2, D3, D4, D6 (2026-11-02). Also decided 2026-11-02: symbols and footprints are copied from the database library and made consistent; a new one is created only with the user's permission; before each part or step the agent briefs the user and waits for a yes (LIB-30). Open: D5, D7-D12.
 
 | # | Topic | Kit rule says | Standard says | Recommendation |
 |---|---|---|---|---|
-| D1 | IC pin length | LIB-11: 200 mil (Simul, 2026-10-19) | 300 mil, 100 mil pitch | 300 mil. Copies from the DbLib/Celestial need no edit. |
-| D2 | 2-pin passive pins | LIB-03: capacitor pin 80 mil and test pad 70 mil as exceptions | R/C/L/FB pin 100 mil with a 200 mil body; diodes and LEDs pin 160 mil with an 80 mil body; 400 mil span for every 2-pin part | The standard. The kit symbols are already listed for rebuild (LIB-19). |
-| D3 | Visible text | LIB-02: only Designator and Comment | SYM-22: capacitors also show Voltage Rating; fixed colours, Times New Roman 10 | The standard. Update `pin_match.py --style` to match. |
-| D4 | Parameter names | LIB-14 / FAB-04: Manufacturer, MPN, LCSC, Mouser, DigiKey, Datasheet | `Manufacturer 1`, `Manufacturer Part Number 1`, `Supplier 1`, `Supplier Part Number 1`, `LCSC Part Number`, `DigiKey Part Number`, `Mouser Part Number`, `Datasheet URL` | The standard names in libraries. The production BOM keeps the FAB-04 columns (JLC needs `LCSC Part #`), and `bom_check.py` maps one to the other. |
+| D1 | IC pin length | LIB-11: 200 mil (Simul, 2026-10-19) | 300 mil, 100 mil pitch | **Decided (Simul, 2026-11-02): 200 mil.** The standard's 300 mil does not apply. |
+| D2 | 2-pin passive pins | LIB-03: capacitor pin 80 mil and test pad 70 mil as exceptions | R/C/L/FB pin 100 mil with a 200 mil body; diodes and LEDs pin 160 mil with an 80 mil body; 400 mil span for every 2-pin part | **Decided (Simul, 2026-11-02): not strict, used where convenient.** |
+| D3 | Visible text | LIB-02: only Designator and Comment | SYM-22: capacitors also show Voltage Rating; fixed colours, Times New Roman 10 | **Decided (Simul, 2026-11-02): capacitors show capacitance and voltage rating.** |
+| D4 | Parameter names | LIB-14 / FAB-04: Manufacturer, MPN, LCSC, Mouser, DigiKey, Datasheet | `Manufacturer 1`, `Manufacturer Part Number 1`, `Supplier 1`, `Supplier Part Number 1`, `LCSC Part Number`, `DigiKey Part Number`, `Mouser Part Number`, `Datasheet URL` | **Decided (Simul, 2026-11-02): the standard's names for new components; an existing library is renamed only after the user's permission.** The BOM keeps the FAB-04 columns. |
 | D5 | Description | LIB-14: `R 10k 1% 0603` | `RES 10k 1% 0.1W 0603`, a pattern per Type | The standard. |
-| D6 | Unknown distributor number | RQ-09: write `UNCONFIRMED` | Leave it empty; never write `N/A`, `-` or `TBD` | Leave the library parameter empty, and keep UNCONFIRMED in the part record and the report. |
+| D6 | Unknown distributor number | RQ-09: write `UNCONFIRMED` | Leave it empty; never write `N/A`, `-` or `TBD` | **Decided (Simul, 2026-11-02): add Mouser and DigiKey numbers; one the agent cannot find stays a blank parameter, the agent asks the user to find it and writes it into the database, one component at a time.** |
 | D7 | 3D source order | LIB-13: JLC/EasyEDA by LCSC number first, then the maker | 3D-01: the maker's STEP first, then our own parametric model, then a checked third-party model. 3D-03: passives and standard packages from our own class templates | The maker's STEP first, JLC second as a checked third-party model. Our own parametric models later, since the kit has no CAD tool for them yet. |
 | D8 | Footprint and 3D names | LIB-13/15: STEP at `models/step/<package>/<footprint>.step` | FP-22: IPC wizard names (`SOT95P280X145-5_TI-DBV`, `JST_B2B-XH-A`); 3D-05: the model is named after the body | Adopt the FP-22 and 3D-05 names inside the existing package-type folders. Rename the 9 existing STEP files in one approved batch. |
 | D9 | Category tree | LIB-15 and `library/parts/taxonomy.json`: 7 categories, 34 families, which drive the DB folders and the symbol files | 22 Types and 89 Subtypes (Altium Component Types) | Keep the taxonomy for the DB folders for now and add a family → Type/Subtype map. Move the symbol file layout to the tree later, in its own PR. |

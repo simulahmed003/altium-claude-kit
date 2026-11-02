@@ -63,11 +63,10 @@
 - Status: ENFORCED
 
 ### RQ-09 Distributor part numbers
-- MUST: store the LCSC, Mouser and DigiKey numbers of a part in its record (`suppliers[]`: name, sku, url, verified date) and carry all three into the library parameters and the BOM. Record a number only after its product page confirms the MPN and package; otherwise write UNCONFIRMED in its place.
+- MUST: store the LCSC, Mouser and DigiKey numbers of a part in its record (`suppliers[]`: name, sku, url, verified date) and carry all three into the library parameters and the BOM. Record a number only after its product page confirms the MPN and package; a number the agent cannot find stays a blank parameter (never UNCONFIRMED, N/A or a guess) and the agent asks the user to find it, then writes the user's number into the record and the library, one component at a time (user 2026-11-02, D6).
 - MUST NOT: build a distributor number from a prefix pattern (Mouser 603-, 187-, 855-) and present it as known.
 - Why: Extention_01 BOM had four Mouser numbers made from the prefix pattern; the user needs Mouser and DigiKey numbers in every BOM.
 - Check: bom_check.py (UNCONFIRMED listed); checklist (product page opened)
 - Source: user 2026-10-30 ("why you remove mouser digikey partnumber from bom"); user 2026-10-31 ("we add their Mouser, DigiKey, LCSC part number")
-- Open (library standard 2026-11-02, docs/LIBRARY_STANDARD.md): D6 (library parameter empty instead of UNCONFIRMED); this rule applies until the user decides.
 - Status: CHECKLIST
 
