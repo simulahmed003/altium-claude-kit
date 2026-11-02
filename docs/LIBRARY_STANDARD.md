@@ -42,6 +42,10 @@ Decided: D1-D9, D11, D12 (2026-11-02). Also decided 2026-11-02: symbols and foot
 | D11 | Datasheet link | RQ-01: maker first, LCSC copy second | `Datasheet URL` = the maker's PDF, never a distributor copy | **Decided (Simul, 2026-11-02): the maker's link; DigiKey or LCSC only when the maker has none.** |
 | D12 | Where the standard lives | LIB-20: a client's rules stay local in `standards/local/clients/<client>/`, never pushed | (the draft says "our Altium Workspace library") | **Decided (Simul, 2026-11-02): the standard goes in the public kit repo.** |
 
+## Parameter decisions (Simul, 2026-11-03)
+
+The parameter set is frozen until Simul changes it: rules LIB-31 and LIB-32 in `rules/09_LIBRARY_STANDARD.md`, machine-readable in `rules/library_parameters.json`. In short: names without the bracket hints; Supplier 1 and Supplier Part Number 1 stay empty; Description in the field and as a hidden parameter; Comment = the value (`10R` below 1k); Mouser/DigiKey/LCSC Price/Stock links added; price/stock parameters never added or removed; old-name duplicates removed; values from the datasheet (maker, then DigiKey, then LCSC), confirmed datasheet value wins a conflict; Mouser and DigiKey numbers from their official APIs.
+
 ## Review notes on the draft itself (to fix in the original document)
 
 | # | Where | Issue | Suggested fix |

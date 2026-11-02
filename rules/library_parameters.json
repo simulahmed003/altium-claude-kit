@@ -1,10 +1,10 @@
 {
- "source": "docs/LIBRARY_STANDARD.md v1.1 (Simul, 2026-11-02); rule LIB-23",
+ "source": "docs/LIBRARY_STANDARD.md v1.1 (Simul, 2026-11-02); rule LIB-23; parameter set frozen by LIB-31/LIB-32 (user, 2026-11-03)",
  "common": [
   {
    "group": "Identity",
    "name": "Description",
-   "need": "Required",
+   "need": "Required, field and hidden parameter (LIB-31)",
    "format": "Pattern from *Naming conventions*, ≤ 256 characters",
    "example": "RES 10k 1% 0.1W 0603"
   },
@@ -12,8 +12,8 @@
    "group": "Identity",
    "name": "Comment",
    "need": "Required",
-   "format": "Text shown on the schematic",
-   "example": "10k"
+   "format": "The value, or the short part name for ICs (LIB-31)",
+   "example": "10k, 10R, 100nF"
   },
   {
    "group": "Identity",
@@ -39,16 +39,16 @@
   {
    "group": "Sourcing",
    "name": "Supplier 1",
-   "need": "Required",
+   "need": "Present, left empty (LIB-31)",
    "format": "Production distributor (where the company orders)",
-   "example": "LCSC"
+   "example": ""
   },
   {
    "group": "Sourcing",
    "name": "Supplier Part Number 1",
-   "need": "Required",
+   "need": "Present, left empty (LIB-31)",
    "format": "That distributor's part number",
-   "example": "C12345 (illustrative)"
+   "example": ""
   },
   {
    "group": "Sourcing",
@@ -70,6 +70,27 @@
    "need": "Required if stocked",
    "format": "Mouser's own part number for this exact MPN",
    "example": "603-RC0603FR-0710KL (illustrative)"
+  },
+  {
+   "group": "Sourcing",
+   "name": "Mouser Price/Stock",
+   "need": "Required if stocked (LIB-31)",
+   "format": "Mouser product page link from the API",
+   "example": "https://www.mouser.com/ProductDetail/..."
+  },
+  {
+   "group": "Sourcing",
+   "name": "DigiKey Price/Stock",
+   "need": "Required if stocked (LIB-31)",
+   "format": "DigiKey product page link from the API",
+   "example": "https://www.digikey.com/en/products/detail/..."
+  },
+  {
+   "group": "Sourcing",
+   "name": "LCSC Price/Stock",
+   "need": "Required if stocked (LIB-31)",
+   "format": "https://www.lcsc.com/product-detail/<LCSC Part Number>.html",
+   "example": "https://www.lcsc.com/product-detail/C1880995.html"
   },
   {
    "group": "Sourcing",
@@ -131,7 +152,7 @@
    "group": "Physical",
    "name": "Height",
    "need": "Required",
-   "format": "Max seated height, mm",
+   "format": "Max seated height from the datasheet (nominal + tolerance), mm",
    "example": "0.55mm"
   },
   {
@@ -189,7 +210,7 @@
    ],
    "optional": [
     "Voltage Rating",
-    "Composition (thick/thin film)"
+    "Composition"
    ]
   },
   {
@@ -216,7 +237,7 @@
     "Temperature Coefficient"
    ],
    "optional": [
-    "Terminals (2 or 4-wire Kelvin)"
+    "Terminals"
    ]
   },
   {
@@ -227,7 +248,7 @@
     "Tolerance",
     "Power Rating per Element",
     "Elements",
-    "Circuit Type (isolated/bussed)"
+    "Circuit Type"
    ],
    "optional": [
     "Temperature Coefficient"
@@ -253,11 +274,11 @@
    "required": [
     "Capacitance",
     "Voltage Rating",
-    "Dielectric (X7R, X5R, C0G)",
+    "Dielectric",
     "Tolerance"
    ],
    "optional": [
-    "Grade (automotive)"
+    "Grade"
    ]
   },
   {
@@ -313,7 +334,7 @@
     "Voltage Rating",
     "Tolerance",
     "ESR",
-    "Construction (MnO2/polymer)"
+    "Construction"
    ],
    "optional": [
     "Case Code"
@@ -324,10 +345,11 @@
    "subtype": "Film",
    "required": [
     "Capacitance",
-    "Voltage Rating (AC and DC)",
+    "Voltage Rating",
+    "Voltage Rating AC",
     "Tolerance",
     "Dielectric Material",
-    "Safety Class (X1/X2/Y1/Y2)"
+    "Safety Class"
    ],
    "optional": [
     "Lead Spacing"
@@ -432,7 +454,7 @@
    "type": "Diodes",
    "subtype": "Rectifier & Schottky",
    "required": [
-    "Diode Type (standard/fast/Schottky/switching)",
+    "Diode Type",
     "Reverse Voltage",
     "Forward Current",
     "Forward Voltage @ If"
@@ -464,7 +486,7 @@
     "Breakdown Voltage",
     "Clamping Voltage",
     "Peak Pulse Power",
-    "Directionality (uni/bi)",
+    "Directionality",
     "Channels"
    ],
    "optional": [
@@ -487,7 +509,7 @@
    "type": "Transistors",
    "subtype": "MOSFETs",
    "required": [
-    "Polarity (N/P)",
+    "Polarity",
     "Channels",
     "Drain-Source Voltage",
     "Drain Current",
@@ -504,15 +526,15 @@
    "type": "Transistors",
    "subtype": "BJTs",
    "required": [
-    "Polarity (NPN/PNP)",
-    "Transistor Type (general/digital/RF)",
+    "Polarity",
+    "Transistor Type",
     "Collector-Emitter Voltage",
     "Collector Current",
     "hFE @ Ic",
     "Power Dissipation"
    ],
    "optional": [
-    "Built-in Resistors (R1/R2)",
+    "Built-in Resistors",
     "Transition Frequency"
    ]
   },
@@ -549,7 +571,7 @@
    "subtype": "RGB & Addressable",
    "required": [
     "Colours",
-    "Protocol (e.g. WS2812)",
+    "Protocol",
     "Supply Voltage",
     "Current per Channel"
    ],
@@ -593,7 +615,7 @@
    "required": [
     "Function",
     "Wavelength",
-    "Carrier Frequency (receivers)",
+    "Carrier Frequency",
     "Supply Voltage or Forward Current"
    ],
    "optional": [
@@ -634,7 +656,7 @@
    "required": [
     "Frequency",
     "Supply Voltage",
-    "Output Type (CMOS/LVDS…)",
+    "Output Type",
     "Frequency Stability",
     "Supply Current"
    ],
@@ -703,25 +725,25 @@
    "type": "Integrated Circuits",
    "subtype": "Amplifiers & Comparators",
    "required": [
-    "Function (op-amp/comparator/instrumentation/audio)",
+    "Function",
     "Channels",
     "Supply Voltage Range",
     "Gain Bandwidth",
     "Slew Rate",
     "Input Offset Voltage",
-    "Output Type (rail-to-rail/open-drain/push-pull)"
+    "Output Type"
    ],
    "optional": [
     "Quiescent Current",
     "Noise Density",
-    "Output Power (audio)"
+    "Output Power"
    ]
   },
   {
    "type": "Integrated Circuits",
    "subtype": "Data Converters",
    "required": [
-    "Function (ADC/DAC/digital pot)",
+    "Function",
     "Resolution",
     "Channels",
     "Sample Rate",
@@ -738,7 +760,7 @@
    "subtype": "Interface",
    "required": [
     "Protocol",
-    "Function (transceiver/bridge/PHY)",
+    "Function",
     "Channels",
     "Data Rate",
     "Supply Voltage Range"
@@ -766,7 +788,7 @@
    "type": "Integrated Circuits",
    "subtype": "Analog Switches & Mux",
    "required": [
-    "Configuration (e.g. SPDT, 8:1)",
+    "Configuration",
     "Channels",
     "On-Resistance",
     "Supply Voltage Range"
@@ -779,7 +801,7 @@
    "type": "Integrated Circuits",
    "subtype": "Drivers",
    "required": [
-    "Driver Type (motor/gate/LED/display)",
+    "Driver Type",
     "Channels",
     "Output Current",
     "Supply Voltage Range",
@@ -794,7 +816,7 @@
    "type": "Integrated Circuits",
    "subtype": "Clock & Timing",
    "required": [
-    "Function (RTC/timer/PLL/buffer)",
+    "Function",
     "Frequency",
     "Supply Voltage Range",
     "Interface"
@@ -836,7 +858,7 @@
    "type": "Power",
    "subtype": "Linear Regulators (LDO)",
    "required": [
-    "Output Type (fixed/adjustable)",
+    "Output Type",
     "Output Voltage",
     "Output Current",
     "Input Voltage Max",
@@ -852,7 +874,7 @@
    "type": "Power",
    "subtype": "Switching Regulators",
    "required": [
-    "Topology (buck/boost/buck-boost)",
+    "Topology",
     "Input Voltage Range",
     "Output Voltage",
     "Output Current",
@@ -898,7 +920,7 @@
    "type": "Power",
    "subtype": "Voltage References",
    "required": [
-    "Reference Type (series/shunt)",
+    "Reference Type",
     "Output Voltage",
     "Initial Accuracy",
     "Temperature Coefficient",
@@ -912,7 +934,7 @@
    "type": "Power",
    "subtype": "Power Modules",
    "required": [
-    "Conversion (AC-DC/DC-DC)",
+    "Conversion",
     "Input Voltage Range",
     "Output Voltage",
     "Output Power",
@@ -948,7 +970,8 @@
     "Supply Voltage Range"
    ],
    "optional": [
-    "Resistance @ 25°C and B Value (NTC)"
+    "Resistance @ 25°C",
+    "B Value"
    ]
   },
   {
@@ -970,7 +993,7 @@
    "type": "Sensors",
    "subtype": "Current & Power",
    "required": [
-    "Sensing Method (shunt/Hall)",
+    "Sensing Method",
     "Current Range",
     "Accuracy",
     "Interface or Output",
@@ -1017,7 +1040,7 @@
     "Sensitivity",
     "Interface",
     "Supply Voltage Range",
-    "Antenna (integrated/external)",
+    "Antenna",
     "Certifications"
    ],
    "optional": [
@@ -1238,7 +1261,7 @@
    "type": "Switches",
    "subtype": "Slide, DIP & Rocker",
    "required": [
-    "Circuit (e.g. SPDT)",
+    "Circuit",
     "Positions",
     "Contact Rating"
    ],
@@ -1252,7 +1275,7 @@
    "required": [
     "Switch Type",
     "Contact Rating",
-    "Pulses per Revolution (encoders)",
+    "Pulses per Revolution",
     "Detents"
    ],
    "optional": [
@@ -1263,7 +1286,7 @@
    "type": "Electromechanical",
    "subtype": "Relays",
    "required": [
-    "Relay Type (signal/power/solid-state)",
+    "Relay Type",
     "Coil Voltage",
     "Coil Current",
     "Contact Form",
@@ -1278,7 +1301,7 @@
    "subtype": "Audio Transducers",
    "required": [
     "Transducer Type",
-    "Drive (active/passive)",
+    "Drive",
     "Rated Voltage",
     "Frequency",
     "Sound Pressure Level"
@@ -1303,9 +1326,9 @@
    "type": "Protection",
    "subtype": "Fuses & PTC",
    "required": [
-    "Fuse Type (fast/slow/PTC)",
+    "Fuse Type",
     "Current Rating or Hold Current",
-    "Trip Current (PTC)",
+    "Trip Current",
     "Voltage Rating",
     "Breaking Capacity"
    ],
@@ -1388,7 +1411,7 @@
     "Positions"
    ],
    "optional": [
-    "Default State (jumpers)"
+    "Default State"
    ]
   },
   {
@@ -1423,5 +1446,165 @@
    ],
    "optional": []
   }
+ ],
+ "frozen": "2026-11-03: complete parameter list until the user changes it (LIB-31)",
+ "electrical_hints": {
+  "Composition": [
+   "thick/thin film"
+  ],
+  "Terminals": [
+   "2 or 4-wire Kelvin"
+  ],
+  "Circuit Type": [
+   "isolated/bussed"
+  ],
+  "Dielectric": [
+   "X7R, X5R, C0G"
+  ],
+  "Grade": [
+   "automotive"
+  ],
+  "Construction": [
+   "MnO2/polymer"
+  ],
+  "Voltage Rating": [
+   "Voltage Rating (AC and DC)"
+  ],
+  "Voltage Rating AC": [
+   "Voltage Rating (AC and DC)"
+  ],
+  "Safety Class": [
+   "X1/X2/Y1/Y2"
+  ],
+  "Diode Type": [
+   "standard/fast/Schottky/switching"
+  ],
+  "Directionality": [
+   "uni/bi"
+  ],
+  "Polarity": [
+   "N/P",
+   "NPN/PNP"
+  ],
+  "Transistor Type": [
+   "general/digital/RF"
+  ],
+  "Built-in Resistors": [
+   "R1/R2"
+  ],
+  "Protocol": [
+   "e.g. WS2812"
+  ],
+  "Carrier Frequency": [
+   "receivers"
+  ],
+  "Output Type": [
+   "CMOS/LVDS…",
+   "rail-to-rail/open-drain/push-pull",
+   "fixed/adjustable"
+  ],
+  "Function": [
+   "op-amp/comparator/instrumentation/audio",
+   "ADC/DAC/digital pot",
+   "transceiver/bridge/PHY",
+   "RTC/timer/PLL/buffer"
+  ],
+  "Output Power": [
+   "audio"
+  ],
+  "Configuration": [
+   "e.g. SPDT, 8:1"
+  ],
+  "Driver Type": [
+   "motor/gate/LED/display"
+  ],
+  "Topology": [
+   "buck/boost/buck-boost"
+  ],
+  "Reference Type": [
+   "series/shunt"
+  ],
+  "Conversion": [
+   "AC-DC/DC-DC"
+  ],
+  "Resistance @ 25°C": [
+   "Resistance @ 25°C and B Value (NTC)"
+  ],
+  "B Value": [
+   "Resistance @ 25°C and B Value (NTC)"
+  ],
+  "Sensing Method": [
+   "shunt/Hall"
+  ],
+  "Antenna": [
+   "integrated/external"
+  ],
+  "Circuit": [
+   "e.g. SPDT"
+  ],
+  "Pulses per Revolution": [
+   "encoders"
+  ],
+  "Relay Type": [
+   "signal/power/solid-state"
+  ],
+  "Drive": [
+   "active/passive"
+  ],
+  "Fuse Type": [
+   "fast/slow/PTC"
+  ],
+  "Trip Current": [
+   "PTC"
+  ],
+  "Default State": [
+   "jumpers"
+  ]
+ },
+ "remove_duplicates": {
+  "Manufacturer 1": [
+   "Manufacturer",
+   "Manufacturer_Name",
+   "MF"
+  ],
+  "Manufacturer Part Number 1": [
+   "Manufacturer Part Number",
+   "Manufacturer_Part_Number",
+   "MP",
+   "ManufacturerPart"
+  ],
+  "Datasheet URL": [
+   "Datasheet Link",
+   "Datasheet"
+  ],
+  "LCSC Part Number": [
+   "SupplierPart"
+  ],
+  "Package": [
+   "Case/Package"
+  ],
+  "Mounting": [
+   "Mounting Technology"
+  ],
+  "RoHS": [
+   "RoHS Compliant"
+  ],
+  "Pin Count": [
+   "Pins",
+   "Number of Terminals"
+  ],
+  "Voltage Rating": [
+   "Voltage Rating (DC)"
+  ],
+  "Operating Temperature": [
+   "Min Operating Temperature",
+   "Max Operating Temperature"
+  ]
+ },
+ "keep_if_present_never_add": [
+  "Arrow Part Number",
+  "Arrow Price/Stock",
+  "Price",
+  "Check_prices"
  ]
 }

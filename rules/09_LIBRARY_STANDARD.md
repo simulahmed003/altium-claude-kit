@@ -2,6 +2,7 @@
 
 The component library standard v1.1 (Simul, 2026-11-02) is in `docs/LIBRARY_STANDARD.md`; these rules make it binding in the kit.
 Decisions D1-D12 are at the top of that file. Decided 2026-11-02: D1 (IC pins 200 mil), D2 (2-pin geometry by convenience), D3 (capacitors show capacitance and voltage), D4 (standard parameter names; existing libraries renamed only with permission), D6 (unknown distributor number = blank, ask the user), D5 (standard Description), D7 (3D from the database library first), D8 and D9 (names and folders by the category tree; restructure briefed first), D11 (Datasheet URL from the maker, DigiKey/LCSC only when the maker has none), D12 (the standard is public in the kit). Still open: D10; until it is decided LIB-19 applies.
+Parameter set frozen 2026-11-03 (LIB-31, LIB-32): the parameters below are the complete list until the user asks to change or add one.
 
 ### LIB-21 The library standard applies to every library component
 - MUST: build, copy, classify and check every component (kit global, project local and client libraries) to `docs/LIBRARY_STANDARD.md`; where it is silent, the other LIB rules apply; where a client's rules differ, LIB-20 applies.
@@ -21,7 +22,7 @@ Decisions D1-D12 are at the top of that file. Decided 2026-11-02: D1 (IC pins 20
 
 ### LIB-23 Common and electrical parameters, values from the datasheet
 - MUST: give every component the 25 common parameters and its subtype's required electrical parameters (tables at the end of this file), named exactly as written, in its value format (SI prefix, no space, ASCII u, decimal point, ranges with "to", one value each); take every value from the component database (RQ-01), unknown = empty.
-- MUST NOT: store price, stock, MOQ or lead time, or a second manufacturer on a component (an alternate brand is its own component).
+- MUST NOT: store price, stock, MOQ or lead time values, or a second manufacturer on a component (an alternate brand is its own component); the Price/Stock product links of LIB-31 are links, not values, and are allowed.
 - Why: names and formats Altium's importer and ActiveBOM can read; values traceable to a datasheet page.
 - Check: checklist (planned tool lib_std_check: names, required values, value format, Description pattern)
 - Source: user 2026-11-02 (standard: Parameters tab)
@@ -80,24 +81,45 @@ Decisions D1-D12 are at the top of that file. Decided 2026-11-02: D1 (IC pins 20
 - Source: user 2026-11-02 ("before next part or going to each work brief user what going to do then taking permission do the job"; "part need not be built from scratch, mainly copy symbol and footprint from that database library")
 - Status: CHECKLIST
 
+### LIB-31 The parameter set is frozen until the user changes it
+- MUST: give each component exactly the parameters in the tables below and nothing new: the stored common ones, its subtype's electrical ones and the links `Mouser Price/Stock`, `DigiKey Price/Stock`, `LCSC Price/Stock`; names without the hint in brackets (`Dielectric`, not `Dielectric (X7R, X5R, C0G)`); `Supplier 1` and `Supplier Part Number 1` present but empty.
+- MUST: Description in the component field and as a hidden `Description` parameter; Comment = the value (`100nF`, `10k`, `10R`, `4.7uH`) or the short part name for ICs; resistance below 1k as `10R`, `49.9R`, from 1k as `1k`; other ohm values as `22mOhm`; manufacturer short name as on the datasheet cover.
+- MUST NOT: add price/stock parameters or remove existing ones; keep an old-name duplicate of a standard parameter (`Manufacturer_Name`, `MP`, `Datasheet Link`, `Pins`, `Case/Package`...) once the standard one has its value: remove it and log the old value.
+- Why: one fixed parameter list, decided with the user, keeps every library and BOM export identical; duplicates disagree sooner or later.
+- Check: checklist (change log per component: added, updated, removed, kept); planned tool lib_std_check
+- Source: user 2026-11-03 (answers on the SpeakerSystemV1 parameter update: "do not kept duplicate", "follow the standard", "use 10R", "do not add like supplier 1 ... leave blank", "lets fixed the parameter rules ... until i asked to change it")
+- Status: CHECKLIST
+
+### LIB-32 Parameter values: datasheet wins, distributor numbers from the official APIs
+- MUST: values from the datasheet: maker's PDF first, DigiKey second, LCSC third; Height = the datasheet's maximum seated height (nominal + tolerance); on a conflict with the library write the datasheet value only when confirmed on the page, else keep the old value and list it for the user.
+- MUST: Mouser and DigiKey numbers and product links from the official APIs (Mouser Search API, DigiKey Product Information V4; Nexar optional) by exact MPN and manufacturer; list every packaging variation, store DigiKey Cut Tape (else the only listing), keep an existing link.
+- MUST NOT: type API keys or secrets: they stay in the user's own key file (`%USERPROFILE%\.distributor_keys.json`) or environment variables.
+- Why: distributor sites block scripts; the APIs give the real purchasing number and URL for the exact part.
+- Check: distributor_lookup.py (all listings with exact-MPN and manufacturer flags); checklist
+- Source: user 2026-11-03 ("datasheet first priority mfn second digikey third lcsc", "take height from datasheet", "where conflict keep data sheet", "as your script is blocked by digikey use their api", "add those partnumber and links as parameter")
+- Status: CHECKLIST
+
 ## Parameter tables (part of LIB-23)
 
-Machine-readable copy: `rules/library_parameters.json` (for the planned lib_std_check tool). Names exactly as written; values in the format below; unknown = empty.
+Machine-readable copy: `rules/library_parameters.json` (for the planned lib_std_check tool). Names exactly as written, without the hint in brackets (LIB-31); values in the format below; unknown = empty.
 
-#### Common parameters (every component, 25)
+#### Common parameters (every component; Category is import only)
 
 | Group | Parameter | Need | Format | Example |
 |---|---|---|---|---|
-| Identity | Description | Required | Pattern from *Naming conventions*, ≤ 256 characters | RES 10k 1% 0.1W 0603 |
-| Identity | Comment | Required | Text shown on the schematic | 10k |
+| Identity | Description | Required, field and hidden parameter (LIB-31) | Pattern from *Naming conventions*, ≤ 256 characters | RES 10k 1% 0.1W 0603 |
+| Identity | Comment | Required | The value, or the short part name for ICs (LIB-31) | 10k, 10R, 100nF |
 | Identity | Category | Import only | `Type/Subtype` exactly as the tree | Resistors/Chip |
 | Sourcing | Manufacturer 1 | Required | Manufacturer's short official name | Yageo |
 | Sourcing | Manufacturer Part Number 1 | Required | Exact orderable MPN, incl. packaging suffix | RC0603FR-0710KL |
-| Sourcing | Supplier 1 | Required | Production distributor (where the company orders) | LCSC |
-| Sourcing | Supplier Part Number 1 | Required | That distributor's part number | C12345 (illustrative) |
+| Sourcing | Supplier 1 | Present, left empty (LIB-31) | Production distributor, chosen per company later | *(empty)* |
+| Sourcing | Supplier Part Number 1 | Present, left empty (LIB-31) | That distributor's part number | *(empty)* |
 | Sourcing | LCSC Part Number | Required if stocked | LCSC/JLCPCB number for this exact MPN | C12345 (illustrative) |
 | Sourcing | DigiKey Part Number | Required if stocked | DigiKey's own part number for this exact MPN | 311-10.0KHRCT-ND (illustrative) |
 | Sourcing | Mouser Part Number | Required if stocked | Mouser's own part number for this exact MPN | 603-RC0603FR-0710KL (illustrative) |
+| Sourcing | Mouser Price/Stock | Required if stocked (LIB-31) | Mouser product page link from the API | https://www.mouser.com/ProductDetail/… |
+| Sourcing | DigiKey Price/Stock | Required if stocked (LIB-31) | DigiKey product page link from the API | https://www.digikey.com/en/products/detail/… |
+| Sourcing | LCSC Price/Stock | Required if stocked (LIB-31) | `https://www.lcsc.com/product-detail/<LCSC Part Number>.html` | https://www.lcsc.com/product-detail/C1880995.html |
 | Sourcing | Local Source | If applicable | Local market shop or note | Shop name, Dhaka |
 | Sourcing | Datasheet URL | Required | Manufacturer's PDF link | https://… |
 | Sourcing | Datasheet Revision | Required | Revision and date printed on the datasheet | Rev. 2.1, 2025-03 |
@@ -106,7 +128,7 @@ Machine-readable copy: `rules/library_parameters.json` (for the planned lib_std_
 | Physical | Package Metric | Chip passives only | Metric size code | 1608 |
 | Physical | Mounting | Required | SMD / THT / Press-fit / Chassis | SMD |
 | Physical | Pin Count | Required | Integer, incl. exposed pad | 3 |
-| Physical | Height | Required | Max seated height, mm | 0.55mm |
+| Physical | Height | Required | Max seated height from the datasheet (nominal + tolerance), mm | 0.55mm |
 | Physical | Footprint Standard | Required | IPC-7351 density or Manufacturer | IPC-7351B Nominal |
 | Compliance | Operating Temperature | Required | Min to max, °C | -55°C to 155°C |
 | Compliance | RoHS | Required | Compliant / Non-compliant / Unknown | Compliant |
@@ -123,6 +145,8 @@ Machine-readable copy: `rules/library_parameters.json` (for the planned lib_std_
 | Decimal point, no trailing zeros | `2.2``u``F` | `2,2``u``F`, `2.20``u``F` |
 | Ranges with "to" | `-40°C to 85°C`, `2.7V to 5.5V` | `-40~85` |
 | Tolerance as ± percent | `1%` | `F`, `±1 %` |
+| Resistance below 1k with R, from 1k with k | `10R`, `49.9R`, `1k`, `4.7k` | `10`, `10Ω`, `1000R` |
+| Ohm in other values as Ohm | `22mOhm`, `50Ohm` | `22mΩ`, `22m` |
 | One value per parameter | `Channels` = `2` | `2 (dual)` |
 | Unknown = empty | *(blank)* | `N/A`, `-`, `TBD` |
 

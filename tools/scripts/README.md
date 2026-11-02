@@ -52,3 +52,9 @@ Inputs that drive the scripts (no project constants in code):
 - `rules\fab-profiles\jlcpcb_2layer.json` - fab limits (published) and workspace defaults (design), with source and date.
 
 Units: sheet scripts use mil; library pin coordinates are schematic units (10 = 100 mil); PCB scripts use mm.
+
+## distributor_lookup.py
+
+Mouser and DigiKey (and optionally Nexar) part numbers and product links for a CSV of Component, Manufacturer, MPN, through the official APIs (rule LIB-32). Keys come from environment variables or `%USERPROFILE%\.distributor_keys.json`, never from the repo. Every packaging variation is listed with exact-MPN and manufacturer flags.
+
+    python distributor_lookup.py parts.csv out.csv --digikey --mouser
