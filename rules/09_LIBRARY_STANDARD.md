@@ -99,6 +99,21 @@ Parameter set frozen 2026-11-03 (LIB-31, LIB-32): the parameters below are the c
 - Source: user 2026-11-03 ("datasheet first priority mfn second digikey third lcsc", "take height from datasheet", "where conflict keep data sheet", "as your script is blocked by digikey use their api", "add those partnumber and links as parameter")
 - Status: CHECKLIST
 
+### LIB-33 Footprint review document for human review
+- MUST: one editable A4 document per footprint (Word .docx, shared as a Google Doc), report only (never edit the footprint or symbol), in this order:
+  1. Header: footprint name, component(s) and MPN, package; datasheet (maker, document number, revision) with the pages used; the tolerances; the overall result in bold (FAIL if any row fails, else CHECK if any row is Check, else PASS) with the failing items named.
+  2. Pins: the datasheet pin assignment crop beside the symbol drawn from the SchLib data (pin numbers, names, sides and the electrical-type arrows Altium shows: input in, output out, none for passive/power); the ordering crop that ties the MPN to the package; one line stating that the pin numbers and names match, or which do not.
+  3. Footprint: the package outline crop; on the next page the datasheet land-pattern crop directly above the footprint drawing, both on one page.
+  4. Check table on its own page: Check | Datasheet | Footprint | Diff | Tol | Result, with Result cells coloured (green Pass, red Fail, orange Check), then a note on limits and the sign-off line "Reviewed by / Date / OK / Not OK" left empty (LIB-29).
+- MUST: the footprint drawing is made from the PcbLib data, not a screenshot: grey background, red pads with numbers, yellow silkscreen, magenta assembly, green courtyard, × origin; dimension arrows centre to centre for pitch and row spacing, edge to edge for sizes and spans; each label reads `<DS letter> <name> <footprint value> | DS <value>`, coloured by result; labels never cover pads, arrows or each other. Values read in whole mils are marked ≈.
+- MUST: datasheet crops are real page images at 150 dpi or more, cropped tight, each captioned "Datasheet p.<n>: <what>"; every number in the document is readable when printed on A4.
+- MUST: differences computed in code; tolerances: pad size and land spans ±0.05 mm, same-side pitch ±0.01 mm, row spacing ±0.10 mm; courtyard and paste/mask are Check until their rules are decided.
+- MUST NOT: drive live Altium (scripts, mouse, temporary dimensions) to make review pictures; read the geometry once, then draw.
+- Why: the user found live Altium screenshots with placed dimensions slow and fragile; the drawn page with datasheet crops beside it is what the reviewer signs (sample SOT65P210X110-5N, 2026-11-03).
+- Check: checklist (render the .docx to PDF and look at every page before sending)
+- Source: user 2026-11-03 ("this format is final document this format in rules how human review doc will prepared"; "put this screen shot just before the footprint screenshot and keep them in same page"; pin 2 and 4 direction arrows; "make the editable document in A4")
+- Status: CHECKLIST
+
 ## Parameter tables (part of LIB-23)
 
 Machine-readable copy: `rules/library_parameters.json` (for the planned lib_std_check tool). Names exactly as written, without the hint in brackets (LIB-31); values in the format below; unknown = empty.

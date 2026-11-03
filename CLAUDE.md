@@ -2,7 +2,7 @@
 
 Always start Claude Code from this workspace folder (D:\EDA in the examples). The hook, .mcp.json and permissions only apply here.
 Projects live in `projects\<name>\`, or stay in the user's own folder with the kit files in `<folder>\_eda\` (WF-09: never move or copy a work project into projects\). Before touching a project read its `CLAUDE.md`, `PROJECT.md`,
-`requirements.md`, `constraints.md` and `gates.md`. Rules: `rules\` (VERSION, 109 rules). Index: `docs\README.md`.
+`requirements.md`, `constraints.md` and `gates.md`. Rules: `rules\` (VERSION, 112 rules). Index: `docs\README.md`.
 Objective (user): automate the work an engineer does by hand in the tools. System-level design guidelines come later in `guidelines\` (DRAFT, empty, not binding, separate from `rules\`); never invent values for them.
 
 ## Non-negotiables
