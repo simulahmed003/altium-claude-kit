@@ -1,5 +1,5 @@
 {
- "source": "docs/LIBRARY_STANDARD.md v1.1 (Simul, 2026-11-02); rule LIB-23; parameter set frozen by LIB-31/LIB-32 (user, 2026-11-03); one set per category, no duplicates or blank extras (LIB-33, user, 2026-11-03)",
+ "source": "docs/LIBRARY_STANDARD.md v1.1 (Simul, 2026-11-02); rule LIB-23; parameter set frozen by LIB-31/LIB-32 (user, 2026-11-03); one set per category, no duplicates or blank extras (LIB-34, user, 2026-11-03)",
  "common": [
   {
    "group": "Identity",
@@ -1607,5 +1607,5 @@
   "Price",
   "Check_prices"
  ],
- "per_category_set": "LIB-33: every part of a subtype carries common + Price/Stock links + all required and optional electrical parameters (empty when unknown); any other component-level parameter is removed and logged, except keep_if_present_never_add and model-owned parameters"
+ "per_category_set": "LIB-34: every part of a subtype carries common + Price/Stock links + all required and optional electrical parameters (empty when unknown); any other component-level parameter is removed and logged, except keep_if_present_never_add and model-owned parameters"
 }

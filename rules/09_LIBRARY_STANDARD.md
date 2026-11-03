@@ -99,7 +99,7 @@ Parameter set frozen 2026-11-03 (LIB-31, LIB-32): the parameters below are the c
 - Source: user 2026-11-03 ("datasheet first priority mfn second digikey third lcsc", "take height from datasheet", "where conflict keep data sheet", "as your script is blocked by digikey use their api", "add those partnumber and links as parameter")
 - Status: CHECKLIST
 
-### LIB-33 One parameter set per category: no duplicates, no blank extras
+### LIB-34 One parameter set per category: no duplicates, no blank extras
 - MUST: give every component of a category (Type/Subtype) the same parameter set: the stored common parameters, the three Price/Stock links, and all Required and Optional electrical parameters of its subtype; a parameter whose value is unknown stays present and empty.
 - MUST: remove every component-level parameter that is not in that set, blank or valued (old Altium content, SnapEDA and database leftovers such as `Value`, `Schedule B`, `Lifecycle Status`, `Length`), and log its old value; where it duplicates a standard parameter that is empty, move its value into the standard one first; keep only one parameter per name; when `Value` goes, `Comment` becomes the visible value text in its place and font.
 - MUST NOT: touch parameters owned by a model or implementation (`OwnerIndex` set, e.g. SIM fields, `altium.hash`) or the price/stock parameters of LIB-31 (`Arrow Part Number`, `Arrow Price/Stock`, `Price`, `Check_prices`).
@@ -161,7 +161,7 @@ Machine-readable copy: `rules/library_parameters.json` (for the planned lib_std_
 
 #### Electrical parameters by subtype (89 subtypes)
 
-Required = must have a value before the part is used; Optional = filled when the datasheet gives it and it matters for selection; both are present on every part of the subtype, empty when unknown (LIB-33). One name per meaning across all Types (always `Voltage Rating`, `Current Rating`, `Supply Voltage Range`).
+Required = must have a value before the part is used; Optional = filled when the datasheet gives it and it matters for selection; both are present on every part of the subtype, empty when unknown (LIB-34). One name per meaning across all Types (always `Voltage Rating`, `Current Rating`, `Supply Voltage Range`).
 
 | Type | Subtype | Required | Optional |
 |---|---|---|---|
