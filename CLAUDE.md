@@ -46,6 +46,7 @@ Phase skills in `.claude\skills\` (start with `altium-orchestrator`) load the ri
 | Before any gate / fab output | 01_WORKFLOW_GATES, 06_FAB_OUTPUT | P6 |
 | Commit / handoff | 01_WORKFLOW_GATES | P7 |
 | Altium stuck | 07_TOOLING_ALTIUM | P8 |
+| Library batch release to the Workspace | 03_LIBRARY, 07_TOOLING_ALTIUM | P9 |
 Playbooks: `rules\playbooks\`. Rule changes: only the user approves (propose with `rules\RETRO_TEMPLATE.md`).
 
 ## Offline tools (`tools\scripts\`, see its README.md; no Altium needed)

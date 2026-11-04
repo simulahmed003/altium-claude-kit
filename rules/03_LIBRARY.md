@@ -139,3 +139,10 @@
 - Check: render the symbols of each kind side by side; pin_match.py
 - Source: user 2026-11-05 ("pick the gorgeous symbol where found for the discrete component, not the generic")
 - Status: CHECKLIST
+
+### LIB-20 Library ready for the Workspace before upload
+- MUST: before the Altium 365 Library Importer runs, pass `ws_lib_check.py` (Component Type without / \ : * ? " < > |, Category exactly Type/Subtype ending in the Component Type, Symbol parameter set, descriptions at most 256 characters), `pin_match.py` (all PASS) and `validate_library` on the PcbLib (0 errors). A name in the category tree never contains "/": use "&" (FFC & FPC). Follow playbook P9.
+- Why: the importer stopped on "FFC / FPC" with "Invalid tag HRID"; it refuses long descriptions without naming the part.
+- Check: ws_lib_check.py; pin_match.py; validate_library
+- Source: user 2026-11-05 (SpeakerSystemV1 batch 1 upload; "update our workflow rules ... so we could do this type of work more efficiently")
+- Status: CHECKLIST

@@ -12,3 +12,4 @@ Status per step: TESTED = done successfully in the buck project or in a selftest
 | [P6 Before presenting a gate (evidence pack)](P6_pre_gate_review.md) | 01_WORKFLOW_GATES | 5/5 |
 | [P7 Commit and hand-off](P7_commit_handoff.md) | 01_WORKFLOW_GATES, 08_COMMUNICATION | 5/5 |
 | [P8 Recover a wedged Altium](P8_recover_wedged_altium.md) | 07_TOOLING_ALTIUM | 5/6 |
+| [P9 Library batch: build, check and release](P9_library_batch_release.md) | 03_LIBRARY, 07_TOOLING_ALTIUM | 8/8 |

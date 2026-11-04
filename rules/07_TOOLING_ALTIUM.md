@@ -119,3 +119,19 @@
 - Check: checklist
 - Source: workspace CLAUDE.md
 - Status: CHECKLIST
+
+### TOOL-18 Scripting a library safely
+- MUST: before a run_altium_script that edits a library: (1) check with Client.GetDocumentByPath / GetSchDocumentByPath that every document it uses is open and stop with a GUARD message if not; (2) skip the component shown on screen (CurrentSchComponent / CurrentComponent), or switch the view to an untouched part first; (3) use only properties already proven in an earlier script, and try a new one read-only on one object first; (4) SandboxLog before each risky step; (5) back the file up to History\ first and save only after a read-back.
+- MUST NOT: run `X2.exe -REditScript:Stop` (it can start a second Altium and a license conflict); a wedge goes to `bridge.cmd popup script_crashed` (P8).
+- Why: on 2026-11-05 six wedges came from a closed source library, the on-screen symbol, and guessed properties (Model.Rotation_X, LayerObject_V7, IsHidden on labels).
+- Check: checklist; the run's step log
+- Source: SpeakerSystemV1 batch 1, LESSONS L10-L13
+- Status: CHECKLIST
+
+### TOOL-19 PcbLib coordinates and embedded 3D models
+- MUST: add footprint primitives in the footprint's own frame: only the footprint shown in the editor sits at Board.XOrigin/YOrigin, every other one at 0,0. Embed STEP models from inside Altium (Body.ModelFactory_FromFilename(path, False)), never from outside. After a batch edit, read back every footprint (pads vs body box, one body, model file name) and look at it in 3D before saving.
+- Why: Swap3D.pas added the origin twice and put 26 bodies 1270 mm from their pads; externally embedded models fail Altium's checksum and show as red boxes; the on-screen footprint's edit was lost.
+- Check: read-back script (pad box vs body box); 3D capture
+- Source: SpeakerSystemV1 batch 1, LESSONS L10, L11
+- Status: CHECKLIST
+
