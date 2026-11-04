@@ -1,11 +1,11 @@
 # 03 Library
 
 ### LIB-01 Pins = pads
-- MUST: give every symbol exactly the pins of its footprint: one visible pin per pad, same number.
+- MUST: give every symbol exactly the pins of its footprint: one visible pin per pad, same number. Non-plated holes (NPTH, mechanical only, no copper net) get no pin.
 - MUST NOT: stack or hide pins.
 - Why: Q1 showed only D/S/G and hid five pads.
 - Check: pin_match.py
-- Source: LESSONS L1; user rule 2026-10-13
+- Source: LESSONS L1; user rule 2026-10-13; NPTH exemption 2026-11-05 (SpeakerSystemV1 connectors' locating holes)
 - Status: ENFORCED
 
 ### LIB-02 One style, only Designator and Comment visible
