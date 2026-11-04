@@ -23,7 +23,7 @@ No symbols yet. The file `capacitor_polymer.SchLib` is created when the first pa
 
 ## Drawing standard (LIB-02, LIB-03, LIB-11)
 
-- Pin ends on the 100 mil grid; line width 1 (small); body lines blue (16711680) on light-yellow fill; font size 10.
+- Pin ends on the 100 mil grid; line width 1 (small); discrete symbols blue (16711680); IC, connector and module boxes brown outline (128) on light-yellow fill; font size 10.
 - Visible text: Designator and Comment (=Value) only; MPN, Manufacturer, LCSC, Datasheet and ratings hidden.
 - One visible pin per pad, same number (LIB-01). Passive pins 100 mil (capacitor 80 mil), IC pins 200 mil.
 - ICs: pins grouped as in the datasheet, power top, ground bottom, inputs left, outputs right, symmetric where

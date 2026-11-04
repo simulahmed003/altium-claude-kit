@@ -9,10 +9,10 @@
 - Status: ENFORCED
 
 ### LIB-02 One style, only Designator and Comment visible
-- MUST: one style per symbol type (line width 1, font size 10, body lines and filled marks in blue (Altium colour 16711680), body fill light yellow (11599871), never brown 128); visible text = Designator + Comment "=Value" only; MPN, Manufacturer, LCSC, JLCPCB Type, Datasheet hidden.
+- MUST: one style per symbol type (line width 1, font size 10, discrete symbols (R, C, L, diodes, transistors, crystal, test point) drawn in blue (Altium colour 16711680); IC, connector and module boxes with a brown outline (128) on a light-yellow fill (11599871)); visible text = Designator + Comment "=Value" only; MPN, Manufacturer, LCSC, JLCPCB Type, Datasheet hidden.
 - Why: duplicate value text and mixed styles made the sheet unreadable.
 - Check: pin_match.py --style (visible parameters per symbol)
-- Source: LESSONS L3, L4; user 2026-11-05 (blue symbols, not brown)
+- Source: LESSONS L3, L4; user 2026-11-05 (blue discrete symbols, brown outline on rectangular IC boxes)
 - Status: ENFORCED
 
 ### LIB-03 Pin ends on the 100 mil grid
