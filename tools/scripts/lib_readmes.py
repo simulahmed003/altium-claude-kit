@@ -53,7 +53,7 @@ ABOUT = {
 }
 
 PKG_ABOUT = {
-    "chip": "Two-terminal chip parts (R, C, L, LED, ferrite) by IPC-7351 size: RESC1608_0603, CAPC3216_1206 ...",
+    "chip": "Two-terminal chip parts (R, C, L, LED, ferrite), named by IPC-7351B: RESC1005X40N (0402), CAPC1608X90N (0603) ...",
     "soic": "Gull-wing small outline packages: SOIC, HSOIC, SOP, MSOP, TSSOP.",
     "sot": "SOT-23, TSOT, SC-70 and similar.",
     "qfn_dfn": "No-lead packages: QFN, DFN, SON, WSON, VSON.",
@@ -115,13 +115,14 @@ Maintainer: (unassigned)
 
 - One symbol per pin list and kind, shared by every part with exactly that pin list (LIB-10). Values, MPNs and
   ratings are parameters, never a new symbol.
-- Symbol name: `<KIND>` for two-pin passives (RES, CAP, IND), `<KIND>_<n>P_<pin names>` for discretes
-  (PMOS_8P_SSSGDDDD), `<base part>_<package code>` for ICs (LMR33630_DDA).
-- Local project component name: `<prefix>_<value>_<key rating>_<package>_<MPN>`, one per MPN (LIB-14).
+- Symbol name (also the Symbol parameter): the kind for discretes (Resistor, Capacitor, Capacitor Polarised,
+  Diode, MOSFET P-Channel ...), drawn from the best-looking maker or content-vault symbol (LIB-19); the part's short
+  name for ICs, connectors and modules (LMR33630, TPA3116D2).
+- Component name: the MPN exactly as the maker writes it, one per MPN (LIB-14).
 
 ## Drawing standard (LIB-02, LIB-03, LIB-11)
 
-- Pin ends on the 100 mil grid; line width 1 (small); one line colour; font size 10.
+- Pin ends on the 100 mil grid; line width 1 (small); body lines blue (16711680) on light-yellow fill; font size 10.
 - Visible text: Designator and Comment (=Value) only; MPN, Manufacturer, LCSC, Datasheet and ratings hidden.
 - One visible pin per pad, same number (LIB-01). Passive pins 100 mil (capacitor 80 mil), IC pins 200 mil.
 - ICs: pins grouped as in the datasheet, power top, ground bottom, inputs left, outputs right, symmetric where
@@ -166,13 +167,20 @@ Maintainer: (unassigned)
 
 | Footprint | Pattern | Example |
 |---|---|---|
-| IPC-7351 chip parts | `<type><metric size>_<imperial size>` | `RESC1608_0603`, `CAPC3216_1206` |
-| IC or other package | `<package>_<drawing code>`, or `<part>_<package>_<code>` when the land is part-specific | `SOIC8_MS012`, `LMR33630_HSOIC8_DDA` |
-| Connector | `<type>_<series>-<pins>-<pitch>` | `TB_MKDS1.5-2-5.08` |
+| IPC-7351B families (LIB-17) | IPC-7351B name, density N by default | `RESC1005X40N` (0402), `CAPC1608X90N` (0603), `SOIC127P600X175-8N`, `QFN50P400X400X100-25N` |
+| Parts without an IPC family | `<Manufacturer>_<Series or MPN>` | `JST_B2B-XH-A`, `Molex_526101471` |
+
+Older items named `RESC1608_0603` keep that name until they are migrated with `lib_promote.py`.
+
+How to read an IPC-7351B name: `RESC1005X40N` = chip resistor, body 1.0 x 0.5 mm (imperial 0402), height 0.40 mm,
+Nominal density. Metric 1005 = 0402, 1608 = 0603, 2012 = 0805, 3216 = 1206.
 
 ## Building a footprint (LIB-05, LIB-12)
 
-- Land from the datasheet's recommended land (page and quote in the part record), else IPC-7351 from the package
+- One generic IPC-7351B land per package, sized for the largest body that uses it; R and C of one size on the
+  same land rule. Courtyard: pads and body + 0.25 mm (0.15 mm below 0603, 0.5 mm connectors), rounded outward to
+  0.05 mm; silkscreen 0.15 mm (LIB-18).
+- Land from the datasheet's recommended land (page and quote in the part record), else IPC-7351B from the package
   facts, marked "derived". Status: datasheet-verified / derived / unverified-accepted.
 - Missing land or package facts: fetch the datasheet, add them to the part record first, then build.
 
@@ -191,7 +199,7 @@ def model_text(ptype, contents):
     return f"""# 3D models / {ptype}
 
 STEP models for the footprints in `library/footprints/{ptype}.PcbLib`. One model per body, shared by every part on
-that footprint: a 10 uF and a 22 uF 0603 capacitor use the same `CAPC1608_0603.step` (LIB-13).
+that footprint: a 10 uF and a 22 uF 0603 capacitor use the same model (LIB-13).
 
 Maintainer: (unassigned)
 
@@ -203,15 +211,17 @@ Maintainer: (unassigned)
 
 ## Naming
 
-`<footprint name>.step`, for example `RESC1608_0603.step`. Placement offset and rotation go in
+`<footprint name>.step`, for example `CAPC1608X90N.step`. Placement offset and rotation go in
 `library/models/index.json` (cad_register.py), not in the file name.
 
 ## Getting a model (LIB-13)
 
 1. Library first: a model for this footprint already here? Use it.
-2. JLC/EasyEDA by the part's LCSC number (STEP).
-3. The maker's website.
-4. A similar part's model with the same body, only as a marked substitute the user accepts at G1.
+2. Standard package (chip, SOT, SOD, SOIC, QFN, QFP, DPAK, polarised capacitor case): the KiCad 3D library model.
+3. ICs, modules, connectors and custom parts: the best-looking accurate model, normally the maker's STEP file.
+4. JLC/EasyEDA by the part's LCSC number (STEP).
+5. A similar part's model with the same body, only as a marked substitute the user accepts at G1.
+Off-standard colours get the KiCad colours (geometry unchanged). Embed the model from inside Altium.
 
 Check the model's box against the part record's body length, width and height (inside the datasheet min/max),
 then `cad_register.py <file> --footprint <name> --source <url or note>`, which records sha256 and source.

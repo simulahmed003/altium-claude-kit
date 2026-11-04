@@ -16,13 +16,14 @@ No symbols yet. The file `mcu.SchLib` is created when the first part of this fam
 
 - One symbol per pin list and kind, shared by every part with exactly that pin list (LIB-10). Values, MPNs and
   ratings are parameters, never a new symbol.
-- Symbol name: `<KIND>` for two-pin passives (RES, CAP, IND), `<KIND>_<n>P_<pin names>` for discretes
-  (PMOS_8P_SSSGDDDD), `<base part>_<package code>` for ICs (LMR33630_DDA).
-- Local project component name: `<prefix>_<value>_<key rating>_<package>_<MPN>`, one per MPN (LIB-14).
+- Symbol name (also the Symbol parameter): the kind for discretes (Resistor, Capacitor, Capacitor Polarised,
+  Diode, MOSFET P-Channel ...), drawn from the best-looking maker or content-vault symbol (LIB-19); the part's short
+  name for ICs, connectors and modules (LMR33630, TPA3116D2).
+- Component name: the MPN exactly as the maker writes it, one per MPN (LIB-14).
 
 ## Drawing standard (LIB-02, LIB-03, LIB-11)
 
-- Pin ends on the 100 mil grid; line width 1 (small); one line colour; font size 10.
+- Pin ends on the 100 mil grid; line width 1 (small); body lines blue (16711680) on light-yellow fill; font size 10.
 - Visible text: Designator and Comment (=Value) only; MPN, Manufacturer, LCSC, Datasheet and ratings hidden.
 - One visible pin per pad, same number (LIB-01). Passive pins 100 mil (capacitor 80 mil), IC pins 200 mil.
 - ICs: pins grouped as in the datasheet, power top, ground bottom, inputs left, outputs right, symmetric where

@@ -9,10 +9,10 @@
 - Status: ENFORCED
 
 ### LIB-02 One style, only Designator and Comment visible
-- MUST: one style per symbol type (line width 1, one colour, one font size 10); visible text = Designator + Comment "=Value" only; MPN, Manufacturer, LCSC, JLCPCB Type, Datasheet hidden.
+- MUST: one style per symbol type (line width 1, font size 10, body lines and filled marks in blue (Altium colour 16711680), body fill light yellow (11599871), never brown 128); visible text = Designator + Comment "=Value" only; MPN, Manufacturer, LCSC, JLCPCB Type, Datasheet hidden.
 - Why: duplicate value text and mixed styles made the sheet unreadable.
 - Check: pin_match.py --style (visible parameters per symbol)
-- Source: LESSONS L3, L4
+- Source: LESSONS L3, L4; user 2026-11-05 (blue symbols, not brown)
 - Status: ENFORCED
 
 ### LIB-03 Pin ends on the 100 mil grid
@@ -89,17 +89,17 @@
 - Status: CHECKLIST
 
 ### LIB-13 3D models: source order and check
-- MUST: take a missing 3D model from JLC/EasyEDA by the LCSC number first, the maker's site second; a standard body (a chip size such as 0603, or a JEDEC package such as SOIC-8) has one model shared by every part of that body and footprint, whatever the value (a 10 uF and a 22 uF 0603 capacitor use the same model). A part-specific body (an inductor, a connector) needs its own model; a similar part's model only as a marked substitute that the user accepts at G1. A part with no LCSC number (or whose JLC model fails the check): find the same part, or one with the same body, on LCSC and use its model (`cad_fetch.py <part> --lcsc <its C-number>`), stored marked as a substitute that the user accepts at G1. Downloaded models are committed to the global library so others can use and extend it (unlike datasheet PDFs). Check the model's box against the record's body length, width and height (inside the datasheet min/max) and record source and sha256 in models/index.json.
+- MUST: take a missing 3D model for a standard package (chip sizes, SOT, SOD, SOIC, MSOP, TSSOP, QFN, QFP, DPAK, polarised capacitor cases) from the KiCad 3D library first, so every standard body has the same style and colours; for ICs, modules, connectors and other custom parts use the best-looking accurate model, normally the maker's STEP file; JLC/EasyEDA by the LCSC number next. A model in an off-standard colour (for example a blue maker inductor) gets the KiCad colours, with geometry unchanged. Models are embedded by Altium itself (an externally embedded model fails Altium's checksum and shows as a red box). A standard body (a chip size such as 0603, or a JEDEC package such as SOIC-8) has one model shared by every part of that body and footprint, whatever the value (a 10 uF and a 22 uF 0603 capacitor use the same model). A part-specific body (an inductor, a connector) needs its own model; a similar part's model only as a marked substitute that the user accepts at G1. A part with no LCSC number (or whose JLC model fails the check): find the same part, or one with the same body, on LCSC and use its model (`cad_fetch.py <part> --lcsc <its C-number>`), stored marked as a substitute that the user accepts at G1. Downloaded models are committed to the global library so others can use and extend it (unlike datasheet PDFs). Check the model's box against the record's body length, width and height (inside the datasheet min/max) and record source and sha256 in models/index.json.
 - Why: a wrong height or pin-1 corner shows up only at assembly.
 - Check: cad_check.py; cad_fetch.py (box check against the record, placement, register)
-- Source: user brief 2026-10-19; user 2026-10-19 (standard body = one shared model); user 2026-10-19 (no LCSC number: same or similar part on LCSC; STEP models committed)
+- Source: user brief 2026-10-19; user 2026-10-19 (standard body = one shared model); user 2026-10-19 (no LCSC number: same or similar part on LCSC; STEP models committed); user 2026-11-05 (KiCad models for standard packages, best-looking maker model for ICs and custom parts)
 - Status: CHECKLIST
 
 ### LIB-14 Local library parameters from the record
-- MUST: build one local library component per manufacturer part number (MPN), named `<prefix>_<value>_<key rating>_<package>_<MPN>` when described by value (R_10k_1%_0603_0603WAF1002T5E) or `<prefix>_<MPN>` when the part number describes it (U_LMR33630ADDAR), from the part record: Comment (value), Description, MPN, Manufacturer, LCSC, Datasheet (URL from the record) and the family's key ratings, all hidden except Comment (LIB-02).
+- MUST: build one library component per manufacturer part number (MPN), named with the MPN exactly as the maker writes it, packaging suffix included (RC0603FR-0710KL, MCP23017T-E/ML; "/" and "," are replaced only in file names), from the part record: Comment (value), Description, MPN, Manufacturer, LCSC, Datasheet (URL from the record) and the family's key ratings, all hidden except Comment (LIB-02).
 - Why: parameters typed by hand drift from the database the calculations used.
 - Check: checklist (planned tool lib_build, LIBRARY_PLAN section 6)
-- Source: user brief 2026-10-19; user 2026-10-19 (one local component per MPN, name with the MPN appended)
+- Source: user brief 2026-10-19; user 2026-10-19 (one local component per MPN); user 2026-11-05 (follow the library standard: component name = MPN)
 - Status: CHECKLIST
 
 ### LIB-15 Library files: symbols by category and family, footprints by package type
@@ -114,4 +114,28 @@
 - Why: the user improves the library by hand from time to time; the tools must follow those changes, not overwrite them.
 - Check: catalog_check.py (global file hashes); lib_promote.py --verify / --adopt
 - Source: user 2026-10-19 ("I may update the global library from time to time ... then adapt after asking")
+- Status: CHECKLIST
+
+## Library standard (approved 2026-11-05, Library_Management_Work_Proposal v1.2)
+
+### LIB-17 Footprint names follow IPC-7351B
+- MUST: name every footprint of an IPC family by IPC-7351B, as the Altium IPC Footprint Wizard does: `RESC1005X40N` (chip resistor, body 1.0 x 0.5 mm = 0402, height 0.40 mm, Nominal), `CAPC1608X90N`, `SOIC127P600X175-8N`, `QFN50P400X400X100-25N`. Density N by default, M or L only where the board needs it, and the letter stays in the name. Parts without an IPC family are named `<Manufacturer>_<Series or MPN>` (`JST_B2B-XH-A`, `Molex_526101471`). Footprints taken from Celestial or a maker are renamed to these names.
+- MUST NOT: name a footprint by imperial size only (`RESC1608_0603`) or by a maker's drawing code.
+- Why: one standard name per land lets every library and every engineer read the package and the density from the name.
+- Check: catalog_check.py (planned name pattern); checklist
+- Source: user 2026-11-05 ("update kits rule to follow the standard")
+- Status: CHECKLIST
+
+### LIB-18 One generic land and courtyard per package
+- MUST: give all parts with the same standard package one generic IPC-7351B land and one 3D body, sized for the tallest and largest body that uses it; chip resistors and chip capacitors of one size follow the same land rule (pad size, toe, gap, courtyard line width). Courtyard = outermost of pads and body (assembly outline and 3D body) plus 0.25 mm (0.15 mm for chips smaller than 0603, 0.5 mm for connectors), each edge rounded outward to a 0.05 mm grid. Silkscreen 0.15 mm, kept off the pads. A part-specific footprint only where the datasheet land cannot be met by the generic one.
+- Why: eight different 0402 lands for one body made boards inconsistent; a 0402 resistor built by another generator than the 0402 capacitor showed at once in 3D.
+- Check: checklist (3D view of every footprint of one size side by side); validate_library
+- Source: user 2026-11-04/05 (SpeakerSystemV1 batch 1 review)
+- Status: CHECKLIST
+
+### LIB-19 One best-looking symbol per kind of discrete
+- MUST: give every kind of discrete part one symbol (Resistor, Capacitor, Capacitor Polarised, Inductor, Ferrite Bead, Diode, Diode Zener, Diode TVS Unidirectional, BJT NPN, MOSFET N-Channel, MOSFET P-Channel, Crystal 4-Pad, Test Point) and record its name in the component's Symbol parameter. Choose the drawing from the best-looking symbol found among the makers' and Altium content-vault symbols, not a plain generic one; renumber its pins to the datasheet (diode pin 1 = cathode). Parts with their own pinout (ICs, connectors, modules) keep one symbol each.
+- Why: the user wants one clean, recognisable look across the schematic, with the same drawing for the same kind.
+- Check: render the symbols of each kind side by side; pin_match.py
+- Source: user 2026-11-05 ("pick the gorgeous symbol where found for the discrete component, not the generic")
 - Status: CHECKLIST

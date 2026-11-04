@@ -17,13 +17,20 @@ No footprints yet. The file `qfn_dfn.PcbLib` is created when the first footprint
 
 | Footprint | Pattern | Example |
 |---|---|---|
-| IPC-7351 chip parts | `<type><metric size>_<imperial size>` | `RESC1608_0603`, `CAPC3216_1206` |
-| IC or other package | `<package>_<drawing code>`, or `<part>_<package>_<code>` when the land is part-specific | `SOIC8_MS012`, `LMR33630_HSOIC8_DDA` |
-| Connector | `<type>_<series>-<pins>-<pitch>` | `TB_MKDS1.5-2-5.08` |
+| IPC-7351B families (LIB-17) | IPC-7351B name, density N by default | `RESC1005X40N` (0402), `CAPC1608X90N` (0603), `SOIC127P600X175-8N`, `QFN50P400X400X100-25N` |
+| Parts without an IPC family | `<Manufacturer>_<Series or MPN>` | `JST_B2B-XH-A`, `Molex_526101471` |
+
+Older items named `RESC1608_0603` keep that name until they are migrated with `lib_promote.py`.
+
+How to read an IPC-7351B name: `RESC1005X40N` = chip resistor, body 1.0 x 0.5 mm (imperial 0402), height 0.40 mm,
+Nominal density. Metric 1005 = 0402, 1608 = 0603, 2012 = 0805, 3216 = 1206.
 
 ## Building a footprint (LIB-05, LIB-12)
 
-- Land from the datasheet's recommended land (page and quote in the part record), else IPC-7351 from the package
+- One generic IPC-7351B land per package, sized for the largest body that uses it; R and C of one size on the
+  same land rule. Courtyard: pads and body + 0.25 mm (0.15 mm below 0603, 0.5 mm connectors), rounded outward to
+  0.05 mm; silkscreen 0.15 mm (LIB-18).
+- Land from the datasheet's recommended land (page and quote in the part record), else IPC-7351B from the package
   facts, marked "derived". Status: datasheet-verified / derived / unverified-accepted.
 - Missing land or package facts: fetch the datasheet, add them to the part record first, then build.
 
