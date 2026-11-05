@@ -57,6 +57,7 @@ Playbooks: `rules\playbooks\`. Rule changes: only the user approves (propose wit
 | Sheet connectivity + dots | `conn_check.py <sheet.SchDoc> ai\plan.json` |
 | Sheet readability | `sch_overlap.py <sheet.SchDoc>` |
 | Gate evidence | `gate_check.py <G1/S1/G2/G3/G4> projects\<name>` -> ai\review\ |
+| Workspace-ready SchLib (no "/" in types, Category, Symbol, description) | `ws_lib_check.py <lib.SchLib>` |
 | Global library | `lib_pull.py`, `lib_status.py`, `lib_promote.py`, `catalog_check.py` (`library\README.md`) |
 | Everything still works | `python tools\selftest.py` |
 
