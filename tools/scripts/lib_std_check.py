@@ -6,7 +6,7 @@ Usage:
   python lib_std_check.py --value "4.7 uF"                      check one value string (to try a format)
 
 Value format (rules/09_LIBRARY_STANDARD.md, "Value format"):
-  unknown = empty (never N/A, -, TBD); ASCII only (u not µ, Ohm not Ω, no ±); SI prefix and unit without a space
+  unknown = empty (never N/A, -, TBD); ASCII only (u not the micro sign, Ohm not the omega sign, no plus-minus); SI prefix and unit without a space
   (100nF, 50V); decimal point, no trailing zeros (2.2uF, not 2,2uF or 2.20uF); ranges with "to", not "~";
   resistance below 1k with R (10R, 49.9R), from 1k with k (4.7k); one value per parameter (no "2 (dual)").
 Description (docs/LIBRARY_STANDARD.md, "Naming conventions"):
@@ -127,6 +127,8 @@ def main(argv=None):
     ap.add_argument("--value", help="check one value string")
     ap.add_argument("--name", default="Value", help="parameter name for --value (Resistance enables the R/k check)")
     a = ap.parse_args(argv)
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(errors="replace")     # cmd.exe code page cannot print every character
     if a.value is not None:
         p = value_problems(a.name, a.value)
         print("PASS" if not p else "FAIL  " + "; ".join(p))

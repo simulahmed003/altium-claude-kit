@@ -140,6 +140,7 @@ class ReviewAndBuild(unittest.TestCase):
         self.assertEqual(code, 0)
         self.assertIn("review.json", out)
 
+    @unittest.skipUnless(__import__("importlib").util.find_spec("olefile"), "olefile not installed (install.cmd /full)")
     def test_build_example_plan_and_component(self):
         code, out = run(lib_build, "--example")
         plan = json.loads(out)
