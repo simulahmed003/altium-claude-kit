@@ -242,9 +242,18 @@ def check_mcp_code(rep, root):
         for dp, dn, fn in os.walk(repo):
             dn[:] = [d for d in dn if d.lower() not in SKIP_DIRS and not d.startswith("~")]   # copies Altium never loads
             prj += [os.path.join(dp, f) for f in fn if f.lower().endswith(".prjscr")]
+    try:                                                     # coffee may run a renamed copy (coffee_script_rename.py)
+        sys.path.insert(0, HERE)
+        import coffee_script_rename as csr
+        coffee = os.path.join(root, "tools", "mcp", "altium-mcp", "server", "AltiumScript")
+        used = csr.current_project(csr.default_config(), os.path.join(coffee, csr.OLD))
+        if os.path.basename(used).lower() != csr.OLD.lower():
+            prj = [p for p in prj if not (os.path.dirname(p) == coffee and os.path.basename(p).lower() == csr.OLD.lower())]
+    except Exception:
+        pass
     for name, where in same_name_projects(prj).items():
         rep.add("WARN", f"two script projects named {name}: Altium may run the wrong one ({'; '.join(where)})",
-                "tell the user; rename is a change in that server's repo (docs/WEDGE_STUDY_2026-11.md)")
+                "kit coffee_script_rename (coffee then runs AltiumCoffee.PrjScr; restart Claude Code after it)")
     stale = stale_servers(server_processes(), {r: repo_updated(r) for r in repos})
     by_repo = {}
     for pid, repo in stale:                                  # one server is a chain of processes: one line per repo

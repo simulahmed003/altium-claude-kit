@@ -155,6 +155,7 @@
 
 ### TOOL-22 Restart after an update, no X2.exe command line while a dialog shows
 - MUST: after `install.cmd /update`, `git pull` of tools\mcp\* or any server update, exit Claude Code and start it again (`kit start`) before the next live Altium step; `kit doctor` warns when a server runs older code than its files.
+- MUST: fix what `kit doctor` reports yourself when a kit tool or a restart fixes it (a Remote Control agent restarts its own session; `kit coffee_script_rename`; restore a template a stale server rewrote); leave the user only what needs their hands or a decision.
 - MUST NOT: start X2.exe with a command line (RunScript, -REditScript) while Altium shows a dialog: run `kit altium_unstick` first, it must report no dialog.
 - Why: an update under a running coffee server made every script fail to compile ("Expression expected but % found", reported as "wedged"); a command line sent while a dialog was open started a second Altium ("another instance ... busy").
 - Check: doctor.py (check 9); altium_unstick.py
