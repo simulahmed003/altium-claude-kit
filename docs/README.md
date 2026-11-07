@@ -20,6 +20,8 @@
 | Global library, catalog, principles | ../library/README.md, ../library/catalog/components.md |
 | Project template | ../templates/project/ |
 | Lessons from the buck project | LESSONS_LEARNED.md |
+| Kit review 2026-11: what the first projects taught, what changed in rules 1.12.0, what is left | KIT_REVIEW_2026-11.md |
+| Library parameter tables (generated from rules/library_parameters.json; agents use `kit lib_params`) | LIBRARY_PARAMETERS.md |
 | Architecture: layers, flow, facts database | ARCHITECTURE.md |
 | Roadmap: done, next, how modules are built | ROADMAP.md |
 | Design standards: rules, guidelines, fab profile, user standard, project; what is general vs user-specific | DESIGN_STANDARDS.md |

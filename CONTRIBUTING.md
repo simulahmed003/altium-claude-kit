@@ -22,6 +22,7 @@ A rule is a contract, so the rules have a process (rule WF-04):
 - Propose a rule when a check fails twice or the same correction is made twice. Use `rules/RETRO_TEMPLATE.md`.
 - A rule block has: ID, `MUST` / `MUST NOT`, `Why`, `Check`, `Source`, `Status`. A new rule starts as `PROPOSED` (not binding).
 - The maintainer approves it in the pull request; the same change bumps `rules/VERSION` and adds a row to `rules/CHANGELOG.md`.
+- Number a new rule and the version only after `git pull` on main: `python tools/scripts/rules_lint.py --next-id LIB` gives the next free ID. Several open branches pick the same numbers; the later one renumbers when it rebases (rules_lint fails on a CHANGELOG version that does not increase).
 - A rule that names a script as its check must name a script that exists (`rules_lint.py` enforces this).
 - Designs keep the rules version they were started with.
 

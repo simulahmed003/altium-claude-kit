@@ -7,6 +7,9 @@ Each has a docstring, `--help`, and exit code 0 = PASS / 1 = FAIL. Tests: `tools
 
 | Script | Does | Rules | Typical call |
 |---|---|---|---|
+| doctor.py | session preflight: .mcp.json servers, guard hook, git behind/ahead origin/main, rules version, kill switch, Altium instance count, altium-lib allowed_paths; prints the start command | WF-10, WF-11 | `python doctor.py --folder "D:\Work\Board1"` |
+| lib_params.py | parameter set of one category from rules/library_parameters.json; `--check` a SchLib (missing, extra, duplicate parameters per Category); `--write-doc` docs/LIBRARY_PARAMETERS.md | LIB-23, LIB-31, LIB-34 | `python lib_params.py "Resistors/Chip"` |
+| ws_lib_check.py | SchLib ready for the Altium 365 Library Importer: Component Type without "/", Category = Type/Subtype, Symbol set, description <= 256 | LIB-38 | `python ws_lib_check.py lib\Batch1.SchLib` |
 | altium_io.py | shared reader: SchLib, PcbLib, SchDoc, PcbDoc, PrjPcb; content hashes | - | `python altium_io.py libs\x.SchLib` |
 | pin_match.py | symbol pins = footprint pads, no hidden/stacked pins, pin ends on grid, `--style` visible text | LIB-01..03 | `python pin_match.py libs\x.SchLib libs\x.PcbLib --style` |
 | conn_check.py | every pin on the saved sheet vs plan.json; duplicate designators; one TP per net; junction dots | SCH-J, O, P, Q | `python conn_check.py hw\x\x.SchDoc ai\plan.json` |

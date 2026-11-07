@@ -135,3 +135,11 @@
 - Source: SpeakerSystemV1 batch 1, LESSONS L10, L11
 - Status: CHECKLIST
 
+
+### TOOL-20 Offline first, live Altium last
+- MUST: do library and document edits offline when a tool can (altium_io.py, altium-lib, the review generators) and keep live Altium scripts for what only Altium can do (embed STEP models, compile an IntLib, output jobs, 3D captures, a check that a file loads); each live script edits one object type, with nothing it touches open on screen (TOOL-18).
+- MUST: after 2 script wedges in one stage, stop scripting that stage: finish it offline or give the user the menu path (COM-05); never make the user press Ctrl+F3 a third time for the same stage.
+- Why: one library session needed six Ctrl+F3 recoveries and a PCB session four, each an interruption for the user; the offline route did the same edits without a wedge.
+- Check: checklist (count of wedges in the session log)
+- Source: threads 2026-10-30 (4 script crashes in one stage), 2026-11-04 (6 wedges); LESSONS L12, M17; kit review 2026-11-07 (docs/KIT_REVIEW_2026-11.md)
+- Status: CHECKLIST

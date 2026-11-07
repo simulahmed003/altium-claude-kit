@@ -16,6 +16,14 @@ kit <tool> <arguments>       runs it
 Every tool prints PASS / FAIL lines and ends with exit code 0 (PASS) or 1 (FAIL). Put paths with spaces in quotes.
 The examples use `"D:\Work\Acme\Board1"` for a design that lives in your own (employer) folder.
 
+## Start of every session (new in rules 1.12.0)
+
+| Task | Command | Rules |
+|---|---|---|
+| Preflight: servers registered, guard hook, workspace up to date with GitHub, kill switch, only one Altium | `kit doctor` (`kit doctor --offline` without the git fetch) | WF-11 |
+| Start Claude Code in the workspace with a project from your own folder added (the Altium servers and the guard load) | `kit start "D:\Work\Acme\Board1"` (or just `kit start`) | WF-10 |
+| Next free rule ID before writing a new rule (after `git pull`) | `kit rules_lint --next-id LIB` | WF-11 |
+
 ## Production files and quotes (new in rules 1.6.0)
 
 | Task | Command | Rules |
@@ -59,6 +67,9 @@ JLC rates used by `jlc_quote` and the CPL side rule live in `rules\fab-profiles\
 | Audit the kit library against the library rules (what to rebuild and why) | `kit lib_audit` or `kit lib_audit --md library\catalog\AUDIT.md` | LIB-19 |
 | Mark a component checked or confirmed (only you mark confirmed) | `kit lib_audit mark R_10k_1%_0603_0603WAF1002T5E --status confirmed --by Simul` | LIB-19 |
 | Record where a component was copied from | `kit lib_audit source <id> --from dblib --ref "<DbLib item>"` | LIB-17 |
+| Parameter set of one category (common + Price/Stock links + required and optional electrical) | `kit lib_params "Capacitors/Ceramic (MLCC)"`, `kit lib_params Resistors`, `kit lib_params --list` | LIB-23, LIB-34 |
+| Check every component of a SchLib against its category's set (missing, extra, duplicate parameters) | `kit lib_params --check "D:\Work\Lib\Batch1.SchLib"` | LIB-34 |
+| Is a SchLib ready for the Altium 365 Library Importer (no "/" in types, Category, Symbol, description length) | `kit ws_lib_check "D:\Work\Lib\Batch1.SchLib"` | LIB-38 |
 | Global library: status, pull, promote, catalog | `kit lib_status <project>`, `kit lib_pull`, `kit lib_promote`, `kit catalog_check` | LIB-06 |
 
 ## Schematic and PCB checks
@@ -84,6 +95,7 @@ These steps were done by hand more than once; a tool would save time and tokens.
 | `gerber_check.py`: layers, outline, drill sizes and counts from the Gerber zip | FAB-02 review by eye | listed in the kit inventory as missing |
 | `kicad_export.cmd`: Gerbers, drill, positions and BOM through kicad-cli with zones refilled | KiCad output step | stale zone fills gave 62 false DRC errors on Bondu |
 | `quote_book.py`: the Excel quote workbook from `jlc_quote` JSON files (needs openpyxl) | building the workbook by hand | the workbook was rebuilt three times for the final look |
-| `lib_std_check.py`: reads a SchLib (or an importer CSV) and checks every component against the library standard: category in the tree, required parameters present, parameter names, value format (SI, ASCII u, no N/A), Description pattern, legacy names (LIB-22..24) | checking 25+ parameters per part by eye | the SpeakerSystemV1 library has 74 parts with four MPN parameter-name styles |
+| `lib_std_check.py` (rest of it): value format (SI, ASCII u, no N/A) and Description pattern per component; parameter names are already checked by `lib_params --check` | checking values by eye | 74 SpeakerSystemV1 parts carried four MPN parameter styles |
 | `fp_review_doc.py`: builds the LIB-33 review document for a footprint (symbol and footprint drawn from SchLib/PcbLib data, datasheet crops by page, check table with tolerances, .docx + PDF) | building each review by hand | 71 SpeakerSystemV1 footprints need the review; sample generator in the user's footprint_reviews folder (make_review_sot353.py) |
+| Commit the job scripts that exist only in the client folder (WF-14): the review-document generator (`make_review_*.py`), `Swap3D.pas` (embed STEP models from inside Altium, TOOL-19), the batch builder `plan.py` | rebuilding them in every new session | each of them was rewritten at least once; they are the kit's best library tools |
 | `pin_table_diff.py`: exports a symbol's pin list (number, name, type) and diffs it against the pin table extracted into the part record (LIB-25, LIB-29 step 2) | the pin check per part | the standard makes this diff a release step for every component |

@@ -1,8 +1,10 @@
 # EDA workspace rules (Altium Designer 26, three MCP servers)
 
 Always start Claude Code from this workspace folder (D:\EDA in the examples). The hook, .mcp.json and permissions only apply here.
+A project in another folder is added to the session, never opened as its own session: `kit start "<folder>"` (WF-10).
+First action of every session: `python tools\scripts\doctor.py` (WF-11); no FAIL, and pull before writing rules if it says behind.
 Projects live in `projects\<name>\`, or stay in the user's own folder with the kit files in `<folder>\_eda\` (WF-09: never move or copy a work project into projects\). Before touching a project read its `CLAUDE.md`, `PROJECT.md`,
-`requirements.md`, `constraints.md` and `gates.md`. Rules: `rules\` (VERSION, 112 rules). Index: `docs\README.md`.
+`requirements.md`, `constraints.md` and `gates.md`. Rules: `rules\` (VERSION, 127 rules). Index: `docs\README.md`.
 Objective (user): automate the work an engineer does by hand in the tools. System-level design guidelines come later in `guidelines\` (DRAFT, empty, not binding, separate from `rules\`); never invent values for them.
 
 ## Non-negotiables
@@ -46,7 +48,8 @@ propose a tool in one line (and add it to the guide's proposals table).
 | Phase | Rule files | Playbook |
 |---|---|---|
 | Start a project | 01_WORKFLOW_GATES, 02_REQUIREMENTS_CALCS_PARTS, 08_COMMUNICATION | P1 |
-| Library work | 03_LIBRARY, 09_LIBRARY_STANDARD, 07_TOOLING_ALTIUM | P2, P4, P11, P12 |
+| Any batch job (library, cleanup, fab package) | 01_WORKFLOW_GATES (WF-05, WF-12..14), 08_COMMUNICATION | - |
+| Library work | 03_LIBRARY, 09_LIBRARY_STANDARD, 07_TOOLING_ALTIUM | P2, P4, P11, P12, P13 |
 | Schematic | 04_SCHEMATIC, 07_TOOLING_ALTIUM | P3 |
 | PCB layout | 05_PCB, 07_TOOLING_ALTIUM | P5 |
 | Before any gate / fab output | 01_WORKFLOW_GATES, 06_FAB_OUTPUT | P6, P9 |
@@ -56,19 +59,29 @@ propose a tool in one line (and add it to the guide's proposals table).
 | Library batch release to the Workspace | 09_LIBRARY_STANDARD, 03_LIBRARY, 07_TOOLING_ALTIUM | P13 |
 Playbooks: `rules\playbooks\`. Rule changes: only the user approves (propose with `rules\RETRO_TEMPLATE.md`).
 
+## Token budget (read less, run more)
+- Read only the rule files of the current phase (table above). Never load `docs\LIBRARY_STANDARD.md` (76 kB, the standard's
+  original text) or `docs\LIBRARY_PARAMETERS.md`; for a category's parameters run `lib_params.py "<Type>/<Subtype>"`.
+- Prefer a tool's summary line over reading the files it checks; read a file only where the tool points.
+- Long jobs: keep the batch `_decision_log.md` current after every step (WF-05), so a new session reads that file, not the history.
+- A script you write that the next job will need goes into `tools\` with `--help` and a TOOLS_GUIDE row (WF-14).
+
 ## Offline tools (`tools\scripts\`, see its README.md; no Altium needed)
 | Need | Script |
 |---|---|
+| Session preflight (servers, hook, git up to date, one Altium) | `doctor.py` (`kit doctor`) |
 | New project | `new_project.py <name>` |
 | Symbol pins = pads, style | `pin_match.py <SchLib> <PcbLib> --style` |
 | Sheet connectivity + dots | `conn_check.py <sheet.SchDoc> ai\plan.json` |
 | Sheet readability | `sch_overlap.py <sheet.SchDoc>` |
 | Gate evidence | `gate_check.py <G1/S1/G2/G3/G4> projects\<name>` -> ai\review\ |
+| Parameter set of one category / check a SchLib against it | `lib_params.py "<Type>/<Subtype>"`, `lib_params.py --check <lib.SchLib>` |
 | Workspace-ready SchLib (no "/" in types, Category, Symbol, description) | `ws_lib_check.py <lib.SchLib>` |
 | Global library | `lib_pull.py`, `lib_status.py`, `lib_promote.py`, `catalog_check.py` (`library\README.md`) |
 | Library audit, check status, source | `lib_audit.py` (`mark`, `source`; LIB-17, LIB-19) |
 | Production BOM / CPL / package | `bom_check.py`, `cpl_check.py` (convert, fit, check), `fab_package.py` (FAB-04..07) |
 | JLC quote with stock shortfall | `jlc_quote.py shortfall` / `summary` (FAB-08) |
+| Next free rule ID (after `git pull`) | `rules_lint.py --next-id LIB` |
 | Everything still works | `python tools\selftest.py` |
 
 ## Popups for problems the scripts cannot detect

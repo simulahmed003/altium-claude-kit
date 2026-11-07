@@ -70,3 +70,11 @@
 - Source: user 2026-10-30 ("why you remove mouser digikey partnumber from bom"); user 2026-10-31 ("we add their Mouser, DigiKey, LCSC part number")
 - Status: CHECKLIST
 
+
+### RQ-10 Facts read from figures, and negative claims
+- MUST: record a value read from a datasheet figure or drawing (not from text) as `figure p.<n>` and show the crop when it changes copper or a pinout; before reporting that a datasheet has no item (no thermal pad, no land pattern, part not stocked), search the whole document and the maker's package drawing, and name the pages and searches done.
+- MUST NOT: turn a figure reading or a "not found" into a library change without the crop or the search list in the report.
+- Why: the TPA3116 DAD footprint was reported as having a wrong thermal pad because the figure was misread (the user corrected it); 1N4148W-7-F was called "not on LCSC" after a narrow search (M10).
+- Check: checklist (report lists figure pages and searches)
+- Source: thread 2026-11-03 ("TPA3116D2DADR in datasheet it has thermal pad"); LESSONS M10; kit review 2026-11-07 (docs/KIT_REVIEW_2026-11.md)
+- Status: CHECKLIST
