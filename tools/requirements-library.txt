@@ -1,0 +1,7 @@
+# Optional packages for the library tools (install.cmd /full): batch builder tools\library_build (olefile, pywin32),
+# review document fp_review.py (matplotlib, pymupdf, python-docx). The offline checkers need none of them.
+olefile>=0.46
+pywin32>=306; sys_platform == "win32"
+matplotlib>=3.7
+pymupdf>=1.23
+python-docx>=1.1

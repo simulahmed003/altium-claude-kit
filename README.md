@@ -36,10 +36,13 @@ PowerShell 5.1 is built into Windows. Example installs: `winget install Python.P
 ## Quick start
 ```
 git clone https://github.com/simulahmed003/altium-claude-kit.git D:\EDA
-cd D:\EDA
-powershell -NoProfile -ExecutionPolicy Bypass -File tools\setup.ps1
+cd /d D:\EDA
+install.cmd
 ```
-Read the SUMMARY at the end of the script. Re-running it is safe. Then:
+`install.cmd` checks Python, Git and Claude Code (installs the first two with winget when missing), runs
+`tools\setup.ps1` (the three MCP servers), the selftest and the preflight, and prints what is left by hand.
+`install.cmd /full` also installs the library tools' Python packages; `install.cmd /update` pulls first.
+Read the SUMMARY of the setup step. Re-running it is safe. Then:
 1. Do the one manual Altium step (register the eda-agent scripts). See [docs/SETUP.md](docs/SETUP.md).
 2. Open a new terminal: `cd D:\EDA`, `claude`, then type `/mcp`. You should see `altium-lib`, `altium-coffee`, `altium-eda`.
 3. Check the install: `python tools\selftest.py` (all steps PASS; the buck design regression is SKIPPED because designs are not in this repo).
@@ -68,7 +71,7 @@ Put the design under its own git repo: `cd projects\my-board`, `git init`.
 | `python tools\scripts\rules_lint.py` | check the rule files |
 
 ## Update
-`git pull`, run `tools\setup.ps1` again, run `python tools\selftest.py`, and read `rules/CHANGELOG.md`. A design keeps the rules version it was started with (`project.json`).
+`install.cmd /update` (git pull, setup, selftest, preflight), then read `rules/CHANGELOG.md`. A design keeps the rules version it was started with (`project.json`).
 
 ## Roadmap
 What exists and what comes next (component facts database, front-of-flow phases, PCB rules, analysis): [docs/ROADMAP.md](docs/ROADMAP.md). Design: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).

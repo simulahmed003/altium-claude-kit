@@ -11,7 +11,7 @@ Shared by every checker in tools/scripts. Units: mil unless named otherwise.
   symbol_hash(sym) / footprint_hash(fp)   normalized content hashes (identity fields dropped)
 Run as a script: python altium_io.py <file> prints a short summary.
 """
-import hashlib, json, struct, sys
+import hashlib, json, re, struct, sys
 
 # ---------------------------------------------------------------- compound file
 
@@ -188,8 +188,10 @@ def dump_records(sheet, out):
 # ---------------------------------------------------------------- symbol library
 
 def _binary_pin(rec):
+    part = struct.unpack_from("<h", rec, 5)[0]
     p = 4 + 1 + 2 + 1 + 4
     _, p = pascal(rec, p)
+    electrical = rec[p + 1]
     p += 2
     flags = rec[p]
     p += 1
@@ -198,7 +200,8 @@ def _binary_pin(rec):
     name, p = pascal(rec, p)
     desig, p = pascal(rec, p)
     return dict(designator=desig, name=name, x=x, y=y, rot=flags & 3, length=length,
-                hidden=bool(flags & 0x04), show_name=bool(flags & 0x08), show_number=bool(flags & 0x10))
+                hidden=bool(flags & 0x04), show_name=bool(flags & 0x08), show_number=bool(flags & 0x10),
+                electrical=electrical, part=part)
 
 
 def pin_tip(p):
@@ -233,7 +236,8 @@ def schlib_symbols(path):
                     pins.append(dict(designator=f.get("DESIGNATOR"), name=f.get("NAME", ""),
                                      x=int(f.get("LOCATION.X", 0)), y=int(f.get("LOCATION.Y", 0)), rot=c & 3,
                                      length=int(f.get("PINLENGTH", 0)), hidden=bool(c & 4),
-                                     show_name=bool(c & 8), show_number=bool(c & 16)))
+                                     show_name=bool(c & 8), show_number=bool(c & 16),
+                                     electrical=int(f.get("ELECTRICAL", 0)), part=int(f.get("OWNERPARTID", 1))))
         if name:
             out[name] = dict(pins=pins, params=params, footprints=fps, records=recs)
     return out
@@ -307,6 +311,45 @@ def footprint_hash(fp):
         for b in blocks:
             h.update(struct.pack("<I", len(b)) + b)
     return h.hexdigest()[:16]
+
+
+_BODY_IDS = re.compile(rb"(MODELID|MODEL\.CHECKSUM)=[^|]*")
+
+
+def symbol_key(sym, ignore_name=False):
+    """ID-free content of a symbol for a comparison: like symbol_hash, and also drops keys whose value is empty
+    (Altium writes DESCRIPTION= on a re-save where the file had none, LESSONS B7). ignore_name also drops
+    LIBREFERENCE, to compare a part with its renamed copy in the global library."""
+    pins = sorted((p["designator"], p["name"], pin_tip(p), p["rot"], p["length"], p["hidden"]) for p in sym["pins"])
+    skip = _ID_KEYS | ({"LIBREFERENCE", "DESIGNITEMID"} if ignore_name else set())
+    recs = sorted(json.dumps(sorted((k, v) for k, v in r.items() if k not in skip and v != "")) for r in sym["records"])
+    return [pins, recs]
+
+
+def footprint_key(fp):
+    """ID-free content of a footprint for a comparison: like footprint_hash, and also blanks what an Altium re-save
+    rewrites (LESSONS B7): the two unique-ID GUIDs of a pad (bytes 126..157 of its geometry block) and the MODELID /
+    MODEL.CHECKSUM of a 3D body (the checksum of a generic body changes with its ID)."""
+    norm = []
+    for typ, blocks in fp["prims"]:
+        blocks = list(blocks)
+        if typ == 2 and len(blocks) == 6:
+            if len(blocks[4]) >= 158:
+                b = bytearray(blocks[4])
+                b[126:158] = bytes(32)
+                blocks[4] = bytes(b)
+            blocks[5] = blocks[5][:-2]
+        if typ == 12 and blocks:
+            blocks[0] = _BODY_IDS.sub(rb"\1=", blocks[0])
+        norm.append((typ, blocks))
+    return sorted(norm, key=lambda t: (t[0], t[1]))
+
+
+def same_content(kind, a, b):
+    """kind 'c' (symbol) or 'f' (footprint): True when a and b differ only in what an Altium save rewrites."""
+    if kind == "c":
+        return symbol_key(a, True) == symbol_key(b, True)
+    return footprint_key(a) == footprint_key(b)
 
 
 # ---------------------------------------------------------------- PCB document and project

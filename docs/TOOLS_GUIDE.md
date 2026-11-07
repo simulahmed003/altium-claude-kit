@@ -16,6 +16,13 @@ kit <tool> <arguments>       runs it
 Every tool prints PASS / FAIL lines and ends with exit code 0 (PASS) or 1 (FAIL). Put paths with spaces in quotes.
 The examples use `"D:\Work\Acme\Board1"` for a design that lives in your own (employer) folder.
 
+## Install or update (new in rules 1.13.0)
+
+| Task | Command | Rules |
+|---|---|---|
+| First install on a PC (checks Python / Git / Claude Code, installs the three MCP servers, selftest, preflight, prints what is left by hand) | `install.cmd` in the kit folder (`install.cmd /full` adds the library tools' Python packages) | WF-11 |
+| Update: pull, re-run setup, selftest | `install.cmd /update` (or `kit install /update`) | WF-11 |
+
 ## Start of every session (new in rules 1.12.0)
 
 | Task | Command | Rules |
@@ -70,6 +77,13 @@ JLC rates used by `jlc_quote` and the CPL side rule live in `rules\fab-profiles\
 | Parameter set of one category (common + Price/Stock links + required and optional electrical) | `kit lib_params "Capacitors/Ceramic (MLCC)"`, `kit lib_params Resistors`, `kit lib_params --list` | LIB-23, LIB-34 |
 | Check every component of a SchLib against its category's set (missing, extra, duplicate parameters) | `kit lib_params --check "D:\Work\Lib\Batch1.SchLib"` | LIB-34 |
 | Is a SchLib ready for the Altium 365 Library Importer (no "/" in types, Category, Symbol, description length) | `kit ws_lib_check "D:\Work\Lib\Batch1.SchLib"` | LIB-38 |
+| Parameter VALUES and the Description of every component (SI prefix without space, ASCII u, no trailing zero, ranges with "to", unknown = empty, 10R / 4.7k, Description starts with RES / CAP / IND / DIODE / MOSFET) | `kit lib_std_check "D:\Work\Lib\Batch1.SchLib"`; one value: `kit lib_std_check --value "4.7uF"` | LIB-23, LIB-31 |
+| Library geometry offline: one footprint in mm, one symbol in mil, or the dump files for the review document | `kit lib_dump Batch1.PcbLib --footprint SOT95P240X110-3N`, `kit lib_dump Batch1.PcbLib Batch1.SchLib --out reviews` | TOOL-20 |
+| Footprint review document (.docx + PDF): datasheet crops, symbol and footprint drawn from the library, check table, reviewer lines. Folder with `review.json` and `specs\<footprint>.json` (see `--help`); needs `install.cmd /full` | `kit fp_review --dir "D:\Work\Lib\reviews" --all`, one: `kit fp_review --dir reviews SOT95P240X110-3N`, pick crop boxes: `kit fp_review --page part.pdf 3` | LIB-33 |
+| KiCad 3D models for the standard footprints (rotation found by matching pads) into `3D_KiCad\` with `models.csv` | `kit kicad_models "D:\Work\Lib\Batch1.PcbLib"` (`--dry-run` to see the list first) | LIB-13 |
+| Embed those models inside Altium (right checksum, no red boxes): open the PcbLib, File > Run Script > `tools\altium_scripts\Swap3D.pas` > SwapKiCad3D, check in 3D, save | in Altium | TOOL-19 |
+| Batch library build: new SchLib + PcbLib from a plan (parts, categories, footprints, shared symbols), with a change log; the plan stays in the client folder; needs `install.cmd /full`, Windows | `kit lib_build "D:\Work\Lib\plan.json"`, example plan: `kit lib_build --example` | P13, LIB-34..38 |
+| Altium saved the project library and lib_status says LOCAL CHANGED: shows "OK (re-saved)" when only IDs changed; store the new hashes | `kit lib_status projects\my-board --rebase` | LIB-06 |
 | Global library: status, pull, promote, catalog | `kit lib_status <project>`, `kit lib_pull`, `kit lib_promote`, `kit catalog_check` | LIB-06 |
 
 ## Schematic and PCB checks
@@ -95,7 +109,4 @@ These steps were done by hand more than once; a tool would save time and tokens.
 | `gerber_check.py`: layers, outline, drill sizes and counts from the Gerber zip | FAB-02 review by eye | listed in the kit inventory as missing |
 | `kicad_export.cmd`: Gerbers, drill, positions and BOM through kicad-cli with zones refilled | KiCad output step | stale zone fills gave 62 false DRC errors on Bondu |
 | `quote_book.py`: the Excel quote workbook from `jlc_quote` JSON files (needs openpyxl) | building the workbook by hand | the workbook was rebuilt three times for the final look |
-| `lib_std_check.py` (rest of it): value format (SI, ASCII u, no N/A) and Description pattern per component; parameter names are already checked by `lib_params --check` | checking values by eye | 74 SpeakerSystemV1 parts carried four MPN parameter styles |
-| `fp_review_doc.py`: builds the LIB-33 review document for a footprint (symbol and footprint drawn from SchLib/PcbLib data, datasheet crops by page, check table with tolerances, .docx + PDF) | building each review by hand | 71 SpeakerSystemV1 footprints need the review; sample generator in the user's footprint_reviews folder (make_review_sot353.py) |
-| Commit the job scripts that exist only in the client folder (WF-14): the review-document generator (`make_review_*.py`), `Swap3D.pas` (embed STEP models from inside Altium, TOOL-19), the batch builder `plan.py` | rebuilding them in every new session | each of them was rewritten at least once; they are the kit's best library tools |
 | `pin_table_diff.py`: exports a symbol's pin list (number, name, type) and diffs it against the pin table extracted into the part record (LIB-25, LIB-29 step 2) | the pin check per part | the standard makes this diff a release step for every component |

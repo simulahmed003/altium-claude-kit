@@ -1,10 +1,12 @@
 """lib_status.py - drift report: project local libraries vs manifest vs global catalog (rule LIB-06).
 
 Usage:
-  python lib_status.py <project dir> [--global-root DIR]
+  python lib_status.py <project dir> [--global-root DIR] [--rebase]
 Per part in libs\\lib_manifest.json (normalized content hashes, see altium_io.symbol_hash / footprint_hash):
   OK               local = manifest = catalog current rev
   UPDATE           catalog has a newer rev than the manifest (lib_update.py)
+  OK (re-saved)    hash differs, but the content equals the global copy: an Altium save rewrote IDs only (LESSONS B7);
+                   --rebase stores the new local hashes in the manifest so the next run is exact
   LOCAL CHANGED    local content differs from the rev in the manifest (drift: promote after G1 or revert)
   MISSING          in the manifest, not in the local libraries
   NOT IN CATALOG   manifest part unknown to the catalog
@@ -20,8 +22,22 @@ import altium_io, libcat as lc
 BAD = ("LOCAL CHANGED", "MISSING", "NOT IN CATALOG")
 
 
-def status(project, root=None):
-    rows = []
+def resaved(kind, local, g, root, cache):
+    """True when the local item equals the global copy of catalog item g, IDs aside (an Altium re-save)."""
+    if g is None:
+        return False
+    p = lc.gpath(g["global_lib"], root=root)
+    if not os.path.isfile(p):
+        return False
+    if p not in cache:
+        cache[p] = (altium_io.schlib_symbols if kind == "c" else altium_io.pcblib_footprints)(p)
+    other = cache[p].get(g["symbol"] if kind == "c" else g["name"])
+    return other is not None and altium_io.same_content(kind, local, other)
+
+
+def status(project, root=None, rebase=None):
+    """rows (kind, item, state, why). rebase: a dict to fill with {(kind, item): new hash} for OK (re-saved) rows."""
+    rows, cache = [], {}
     if not os.path.isfile(lc.manifest_path(project)):
         return [("-", "-", "MISSING", "no libs\\lib_manifest.json")]
     man, cat = lc.load_manifest(project), lc.load_catalog(root)
@@ -35,6 +51,10 @@ def status(project, root=None):
                 rows.append((kind, i, "PLANNED", f"rev {e['rev']}"))
             elif i not in local:
                 rows.append((kind, i, "MISSING", "not in the local libraries"))
+            elif hfn(local[i][0]) != e[hk] and resaved(ck, local[i][0], g, root, cache):
+                rows.append((kind, i, "OK (re-saved)", f"content = global rev {g['rev']}; an Altium save rewrote IDs only"))
+                if rebase is not None:
+                    rebase[(hk, i)] = hfn(local[i][0])
             elif hfn(local[i][0]) != e[hk]:
                 rows.append((kind, i, "LOCAL CHANGED", f"differs from rev {e['rev']} in the manifest"))
             elif g is None:
@@ -53,8 +73,16 @@ def main(argv=None):
                                  epilog=__doc__)
     ap.add_argument("project")
     ap.add_argument("--global-root")
+    ap.add_argument("--rebase", action="store_true", help="store the local hashes of OK (re-saved) parts in the manifest")
     a = ap.parse_args(argv)
-    rows = status(a.project, a.global_root)
+    reb = {}
+    rows = status(a.project, a.global_root, reb)
+    if a.rebase and reb:
+        man = lc.load_manifest(a.project)
+        for (hk, i), h in reb.items():
+            man["components" if hk == "symbol_hash" else "footprints"][i][hk] = h
+        lc.save_manifest(a.project, man)
+        print(f"rebased {len(reb)} manifest hash(es) in {lc.manifest_path(a.project)}")
     for kind, i, st, why in rows:
         print(f"{st:15} {kind:9} {i:24} {why}")
     bad = sum(1 for r in rows if r[2] in BAD)

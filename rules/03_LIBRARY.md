@@ -41,7 +41,7 @@
 ### LIB-06 Global library and local copies
 - MUST: open only the project's local copies (projects\<p>\libs\); change the global library only through lib_promote after G1; record used revs in libs\lib_manifest.json; copy footprints with preserve_external_paths=true.
 - Why: one source of truth without silent drift.
-- Check: lib_status.py; catalog_check.py
+- Check: lib_status.py (an Altium re-save that rewrote IDs only is "OK (re-saved)"; --rebase stores the new hashes); catalog_check.py
 - Source: user brief 2026-10-13; LESSONS T26, T27
 - Status: ENFORCED
 
@@ -94,7 +94,7 @@
 ### LIB-13 3D models: source order and check
 - MUST: take a missing 3D model for a standard package (chip sizes, SOT, SOD, SOIC, MSOP, TSSOP, QFN, QFP, DPAK, polarised capacitor cases) from the KiCad 3D library first, so every standard body has the same style and colours; for ICs, modules, connectors and other custom parts use the best-looking accurate model, normally the maker's STEP file; JLC/EasyEDA by the LCSC number next. A model in an off-standard colour (for example a blue maker inductor) gets the KiCad colours, with geometry unchanged. Models are embedded by Altium itself (an externally embedded model fails Altium's checksum and shows as a red box). A standard body (a chip size such as 0603, or a JEDEC package such as SOIC-8) has one model shared by every part of that body and footprint, whatever the value (a 10 uF and a 22 uF 0603 capacitor use the same model). A part-specific body (an inductor, a connector) needs its own model; a similar part's model only as a marked substitute that the user accepts at G1. A part with no LCSC number (or whose JLC model fails the check): find the same part, or one with the same body, on LCSC and use its model (`cad_fetch.py <part> --lcsc <its C-number>`), stored marked as a substitute that the user accepts at G1. Downloaded models are committed to the global library so others can use and extend it (unlike datasheet PDFs). Check the model's box against the record's body length, width and height (inside the datasheet min/max) and record source and sha256 in models/index.json.
 - Why: a wrong height or pin-1 corner shows up only at assembly.
-- Check: cad_check.py; cad_fetch.py (box check against the record, placement, register)
+- Check: cad_check.py; cad_fetch.py (box check against the record, placement, register); kicad_models.py writes models.csv for Swap3D.pas (tools/altium_scripts, embeds inside Altium, TOOL-19)
 - Source: user brief 2026-10-19; user 2026-10-19 (standard body = one shared model); user 2026-10-19 (no LCSC number: same or similar part on LCSC; STEP models committed); user 2026-11-05 (KiCad models for standard packages, best-looking maker model for ICs and custom parts)
 - Decided by the user 2026-11-02 (D7, D8), revised 2026-11-05: the MUST above (KiCad models for standard packages, best-looking maker model for custom parts) replaces D7's Celestial-first order for 3D; a Celestial model is used only where it already has that style. Footprints and 3D models are named by the standard (FP-22, 3D-05) and filed by its category tree; this rule's JLC-first order and path no longer apply once the library is restructured (D9).
 - Status: CHECKLIST

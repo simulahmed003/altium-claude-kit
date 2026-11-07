@@ -136,6 +136,15 @@ class GlobalLib(unittest.TestCase):
         man["components"]["R_10k_1%_0603"]["symbol_hash"] = "0" * 16
         lc.save_manifest(dst, man)
         code, out = run(lib_status, dst, "--global-root", self.g)
+        self.assertEqual(code, 0, out)                  # local still equals the global copy: IDs only (B7)
+        self.assertIn("OK (re-saved)", out)
+        self.assertEqual(run(lib_status, dst, "--global-root", self.g, "--rebase")[0], 0)
+        self.assertNotEqual(lc.load_manifest(dst)["components"]["R_10k_1%_0603"]["symbol_hash"], "0" * 16)
+        man = lc.load_manifest(dst)
+        man["components"]["R_10k_1%_0603"]["symbol_hash"] = "0" * 16
+        lc.save_manifest(dst, man)
+        os.remove(os.path.join(self.g, "symbols", "passives", "resistor.SchLib"))   # nothing to compare with
+        code, out = run(lib_status, dst, "--global-root", self.g)
         self.assertEqual(code, 1)
         self.assertIn("LOCAL CHANGED", out)
         self.assertEqual(run(lib_update, dst, "R_10k_1%_0603", "--global-root", self.g)[0], 1)
