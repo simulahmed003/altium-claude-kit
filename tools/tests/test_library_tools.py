@@ -166,6 +166,17 @@ class ReviewAndBuild(unittest.TestCase):
             lib_build.allowed_params(lib_params.load(), "No", "Such", {})
 
 
+class RecordRoundTrip(unittest.TestCase):
+    @unittest.skipUnless(__import__("importlib").util.find_spec("olefile"), "olefile not installed (install.cmd /full)")
+    def test_unchanged_record_is_byte_identical(self):
+        from buildsch import Rec
+        raw = "|RECORD=41|%UTF8%Text=-40\u00b0C to 85\u00b0C|||Text=-40\u00b0C to 85\u00b0C|NAME=Temp".encode("latin-1") + b"\x00"
+        r = Rec(0, raw)
+        self.assertEqual(r.bytes()[4:], raw)                  # untouched: same bytes, empty fields kept
+        r.set("NAME", "Temperature")
+        self.assertIn(b"NAME=Temperature", r.bytes())
+
+
 class Pack(unittest.TestCase):
     def test_library_pack_is_current(self):
         rules = rules_lint.parse(os.path.join(ROOT, "rules"))
