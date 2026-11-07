@@ -6,7 +6,7 @@ Per part in libs\\lib_manifest.json (normalized content hashes, see altium_io.sy
   OK               local = manifest = catalog current rev
   UPDATE           catalog has a newer rev than the manifest (lib_update.py)
   OK (re-saved)    hash differs, but the content equals the global copy: an Altium save rewrote IDs only (LESSONS B7);
-                   --rebase stores the new local hashes in the manifest so the next run is exact
+                   --rebase stores the new local hashes and that global rev in the manifest so the next run is exact
   LOCAL CHANGED    local content differs from the rev in the manifest (drift: promote after G1 or revert)
   MISSING          in the manifest, not in the local libraries
   NOT IN CATALOG   manifest part unknown to the catalog
@@ -54,7 +54,7 @@ def status(project, root=None, rebase=None):
             elif hfn(local[i][0]) != e[hk] and resaved(ck, local[i][0], g, root, cache):
                 rows.append((kind, i, "OK (re-saved)", f"content = global rev {g['rev']}; an Altium save rewrote IDs only"))
                 if rebase is not None:
-                    rebase[(hk, i)] = hfn(local[i][0])
+                    rebase[(hk, i)] = (hfn(local[i][0]), g["rev"])   # the content IS that global rev
             elif hfn(local[i][0]) != e[hk]:
                 rows.append((kind, i, "LOCAL CHANGED", f"differs from rev {e['rev']} in the manifest"))
             elif g is None:
@@ -79,8 +79,9 @@ def main(argv=None):
     rows = status(a.project, a.global_root, reb)
     if a.rebase and reb:
         man = lc.load_manifest(a.project)
-        for (hk, i), h in reb.items():
-            man["components" if hk == "symbol_hash" else "footprints"][i][hk] = h
+        for (hk, i), (h, rev) in reb.items():
+            e = man["components" if hk == "symbol_hash" else "footprints"][i]
+            e[hk], e["rev"] = h, rev                         # keeping the old rev showed a false UPDATE (PC 2026-11-07)
         lc.save_manifest(a.project, man)
         print(f"rebased {len(reb)} manifest hash(es) in {lc.manifest_path(a.project)}")
     for kind, i, st, why in rows:
