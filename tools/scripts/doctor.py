@@ -25,6 +25,7 @@ import argparse, json, os, subprocess, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 SERVERS = ("altium-lib", "altium-coffee", "altium-eda")
+SKIP_DIRS = {".git", ".venv", "venv", "site-packages", "node_modules", "dev", "test", "tests", "__pycache__", "build", "dist"}
 
 
 def git(*args, root=ROOT):
@@ -231,7 +232,7 @@ def check_mcp_code(rep, root):
         return
     for repo in repos:
         code, dirty = git("status", "--porcelain", root=repo)
-        files = [l[3:] for l in dirty.splitlines() if l.strip() and not l.startswith("??")]
+        files = [l[2:].strip() for l in dirty.splitlines() if l.strip() and not l.startswith("??")]   # first line arrives stripped
         if not code and files:
             rep.add("WARN", f"{os.path.basename(repo)}: {len(files)} tracked file(s) changed on disk ({', '.join(files[:3])}); "
                     "an MCP server older than its files rewrites its script template",
@@ -239,14 +240,17 @@ def check_mcp_code(rep, root):
     prj = []
     for repo in repos:
         for dp, dn, fn in os.walk(repo):
-            dn[:] = [d for d in dn if d != ".git"]
+            dn[:] = [d for d in dn if d.lower() not in SKIP_DIRS and not d.startswith("~")]   # copies Altium never loads
             prj += [os.path.join(dp, f) for f in fn if f.lower().endswith(".prjscr")]
     for name, where in same_name_projects(prj).items():
         rep.add("WARN", f"two script projects named {name}: Altium may run the wrong one ({'; '.join(where)})",
                 "tell the user; rename is a change in that server's repo (docs/WEDGE_STUDY_2026-11.md)")
     stale = stale_servers(server_processes(), {r: repo_updated(r) for r in repos})
-    for pid, repo in stale:
-        rep.add("WARN", f"MCP server pid {pid} started before {os.path.basename(repo)} was updated: it runs old code "
+    by_repo = {}
+    for pid, repo in stale:                                  # one server is a chain of processes: one line per repo
+        by_repo.setdefault(repo, []).append(str(pid))
+    for repo, pids in by_repo.items():
+        rep.add("WARN", f"MCP server (pid {', '.join(pids)}) started before {os.path.basename(repo)} was updated: it runs old code "
                 "against new files (coffee scripts then fail with 'Expression expected but % found')",
                 "exit Claude Code and start it again in the workspace (kit start)")
     if not stale and os.name == "nt":

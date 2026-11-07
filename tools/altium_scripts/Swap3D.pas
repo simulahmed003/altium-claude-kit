@@ -10,6 +10,8 @@
   tools\altium_scripts\Swap3D.pas > SwapKiCad3D. Check the bodies in 3D view (key 3), then save (Ctrl+S).
   Offsets are from the footprint origin. The old bodies are removed; the new body goes on their layer
   (Mechanical 13 when the footprint had none). Live Altium script: one run per library, stop after 2 wedges (TOOL-20).
+  The script makes a footprint that models.csv does not list the current one before it edits anything, and never
+  switches footprints after an edit (Altium drops the edit of a footprint it switches away from, PC test 2026-11-07).
   No message boxes (an agent run would wait on them, TOOL-21): the result goes to Swap3D_log.txt in the models folder
   (C:\Users\Public\ when no PcbLib is active). A footprint that raises an error is logged and skipped. }
 
@@ -28,7 +30,7 @@ Begin
   End;
 End;
 
-Function SwapOne(Lib : IPCB_Library; L, Dir : String) : String;
+Function SwapOne(Lib : IPCB_Library; Cur : IPCB_LibComponent; L, Dir : String) : String;
 Var
   Fp       : IPCB_LibComponent;
   Iter     : IPCB_GroupIterator;
@@ -57,9 +59,6 @@ Begin
     Result := FpName + ': STEP file missing ' + StepFile;
     Exit;
   End;
-  { make it the current footprint: only then are its coordinates relative to the board origin (TOOL-19);
-    without this the body of every other footprint landed 1270 mm away (PC test 2026-11-07) }
-  Lib.SetState_CurrentComponent(Fp);
   { collect and remove the old 3D bodies }
   Lay := eMechanical13;
   Old := TList.Create;
@@ -88,17 +87,41 @@ Begin
   Body.Model := Model;
   Body.SetState_FromModel;
   Body.Layer := Lay;
-  Body.MoveByXY(Lib.Board.XOrigin + MMsToCoord(Dx), Lib.Board.YOrigin + MMsToCoord(Dy));
+  { TOOL-19: only the current footprint sits at the board origin; every other one at 0,0. Never switch the current
+    footprint after an edit: Altium drops that edit (PC tests 2026-11-07) }
+  If Fp = Cur Then
+    Body.MoveByXY(Lib.Board.XOrigin + MMsToCoord(Dx), Lib.Board.YOrigin + MMsToCoord(Dy))
+  Else
+    Body.MoveByXY(MMsToCoord(Dx), MMsToCoord(Dy));
   Fp.AddPCBObject(Body);
   PCBServer.SendMessageToRobots(Fp.I_ObjectAddress, c_Broadcast, PCBM_BoardRegisteration, Body.I_ObjectAddress);
   Result := '';
 End;
 
+{ Before any edit, make a footprint that models.csv does not list the current one, so no swapped footprint is
+  current (the current one's edit was lost on save in the PC test). Returns the current footprint afterwards. }
+Function ParkCurrent(Lib : IPCB_Library; Names : String) : IPCB_LibComponent;
+Var
+  It : IPCB_LibraryIterator;
+  Fp : IPCB_LibComponent;
+Begin
+  It := Lib.LibraryIterator_Create;
+  It.SetState_FilterAll;
+  Fp := It.FirstPCBObject;
+  While (Fp <> Nil) And (Pos(';' + UpperCase(Fp.Name) + ';', Names) > 0) Do
+    Fp := It.NextPCBObject;
+  Lib.LibraryIterator_Destroy(It);
+  If Fp <> Nil Then
+    Lib.SetState_CurrentComponent(Fp);
+  Result := Lib.CurrentComponent;
+End;
+
 Procedure SwapKiCad3D;
 Var
   Lib      : IPCB_Library;
+  Cur      : IPCB_LibComponent;
   Lines, Log : TStringList;
-  Dir, L, R, LogDir : String;
+  Dir, L, R, LogDir, Names : String;
   i, Done  : Integer;
 Begin
   Log := TStringList.Create;
@@ -117,6 +140,12 @@ Begin
     Begin
       Lines := TStringList.Create;
       Lines.LoadFromFile(Dir + 'models.csv');
+      Names := ';';
+      For i := 0 To Lines.Count - 1 Do
+        Names := Names + UpperCase(FieldN(Trim(Lines[i]), 0)) + ';';
+      Cur := ParkCurrent(Lib, Names);
+      If (Cur <> Nil) And (Pos(';' + UpperCase(Cur.Name) + ';', Names) > 0) Then
+        Log.Add('NOTE: every footprint is in models.csv, so ' + Cur.Name + ' stays current: check its body after saving');
       PCBServer.PreProcess;
       Try
         For i := 0 To Lines.Count - 1 Do
@@ -125,7 +154,7 @@ Begin
           If (L <> '') And (Copy(L, 1, 1) <> '#') Then
           Begin
             Try
-              R := SwapOne(Lib, L, Dir);
+              R := SwapOne(Lib, Cur, L, Dir);
             Except
               R := FieldN(L, 0) + ': script error, footprint skipped';
             End;

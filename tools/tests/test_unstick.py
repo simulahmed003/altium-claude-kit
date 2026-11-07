@@ -92,6 +92,13 @@ class PasLint(unittest.TestCase):
               b"Fp.AddPCBObject(Body); Finally End; End;")
         self.assertEqual(pas_lint.lint_text(ok), [])
 
+    def test_pc_findings(self):
+        # a token in a comment or string does not stop the compile; a BOM pasted mid-file does; template globals
+        self.assertEqual(pas_lint.lint_text(b"{ %GUARD_SECONDS% } Begin S := '%LOG_PATH%'; End;"), [])
+        res = pas_lint.lint_text("Begin\n\ufeffProcedure X; End;".encode("utf-8"))
+        self.assertEqual([(r[0], r[1]) for r in res if "byte-order" in r[2]], [("FAIL", 2)])
+        self.assertTrue(any("List1..List3" in m for _, _, m in pas_lint.lint_text(b"Begin List1.Free; End;")))
+
     def test_use_after_free(self):
         res = pas_lint.lint_text(b"Begin L.Free; L.Add('x'); End;")
         self.assertTrue(any("used again" in m for _, _, m in res))
@@ -112,6 +119,25 @@ class DoctorChecks(unittest.TestCase):
                  r"D:\EDA\tools\mcp\altium-mcp\server\AltiumScript\AltiumCoffee.PrjScr"]
         paths = [p.replace("\\", os.sep) for p in paths]
         self.assertEqual(list(doctor.same_name_projects(paths)), ["altium_api.prjscr"])
+
+    def test_mcp_code_dirty_and_skips(self):
+        rep = doctor.Report()
+        with tempfile.TemporaryDirectory() as t:
+            repo = os.path.join(t, "tools", "mcp", "altium-mcp")
+            for sub in (os.path.join("server", "AltiumScript"), os.path.join(".venv", "x"), "dev", "~cripts"):
+                os.makedirs(os.path.join(repo, sub))
+                open(os.path.join(repo, sub, "Altium_API.PrjScr"), "w").close()
+            import subprocess
+            subprocess.run(["git", "init", "-q", repo])
+            subprocess.run(["git", "-C", repo, "add", "-A"])
+            subprocess.run(["git", "-C", repo, "-c", "user.email=t@t", "-c", "user.name=t", "commit", "-qm", "x"])
+            open(os.path.join(repo, "server", "AltiumScript", "Altium_API.PrjScr"), "w").write("changed")
+            import contextlib, io
+            with contextlib.redirect_stdout(io.StringIO()):
+                doctor.check_mcp_code(rep, t)
+        text = " ".join(w for _, w, _ in rep.rows)
+        self.assertIn("(server/AltiumScript/Altium_API.PrjScr)", text)       # path not cut
+        self.assertNotIn("two script projects", text)                         # .venv, dev, ~ copies skipped
 
     def test_stale_servers(self):
         procs = [(10, 1000.0, r"python D:\EDA\tools\mcp\altium-mcp\server\main.py"),

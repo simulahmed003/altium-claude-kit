@@ -129,7 +129,7 @@
 - Status: CHECKLIST
 
 ### TOOL-19 PcbLib coordinates and embedded 3D models
-- MUST: add footprint primitives in the footprint's own frame: only the footprint shown in the editor sits at Board.XOrigin/YOrigin, every other one at 0,0. Embed STEP models from inside Altium (Body.ModelFactory_FromFilename(path, False)), never from outside. After a batch edit, read back every footprint (pads vs body box, one body, model file name) and look at it in 3D before saving.
+- MUST: add footprint primitives in the footprint's own frame: only the footprint shown in the editor sits at Board.XOrigin/YOrigin, every other one at 0,0; before any edit make a footprint the script does not touch current, and never switch the current footprint after an edit (Altium drops that edit). Embed STEP models from inside Altium (Body.ModelFactory_FromFilename(path, False)), never from outside. After a batch edit, read back every footprint (pads vs body box, one body, model file name) and look at it in 3D before saving.
 - Why: Swap3D.pas added the origin twice and put 26 bodies 1270 mm from their pads; externally embedded models fail Altium's checksum and show as red boxes; the on-screen footprint's edit was lost.
 - Check: read-back script (pad box vs body box); 3D capture
 - Source: SpeakerSystemV1 batch 1, LESSONS L10, L11
@@ -145,7 +145,7 @@
 - Status: CHECKLIST
 
 ### TOOL-21 Unstick Altium automatically, write scripts that cannot jam it
-- MUST: run `kit pas_lint <script.pas>` before every live DelphiScript (no FAIL): saved as UTF-8 without BOM, no unfilled %TOKEN%, no message box or other modal in an agent script (write a log file instead), try/except or try/finally around edits, SetState_CurrentComponent before editing a PcbLib footprint.
+- MUST: run `kit pas_lint <script.pas>` before every live DelphiScript (no FAIL): saved as UTF-8 without BOM, no unfilled %TOKEN%, no message box or other modal in an agent script (write a log file instead), try/except or try/finally around edits, PcbLib edits only on non-current footprints (TOOL-19).
 - MUST: on any timeout, "script never started", "executor_wedged" or "busy" result, run `kit altium_unstick --fix` before anything else; act on its "next:" lines; never retry the script before it says "Altium is free".
 - MUST NOT: answer a question dialog (save, confirm, overwrite) or release the eda-agent loop without the user (app_detach saves every document).
 - Why: the jams of 2026-11-04..07 came from five causes: a server older than its files, the eda-agent loop holding the only script engine, two script projects named Altium_API.PrjScr, X2.exe command lines that started a second Altium, and script errors (one a BOM); each needed the user to press Ctrl+F3 or answer a dialog.

@@ -5,7 +5,7 @@ Usage:
   python pas_lint.py <folder>                              every .pas in it (not recursive)
   python pas_lint.py <script.pas> --allow-modal            a script the user runs by hand may show a message box
 Checks (wedge study 2026-11-07 and LESSONS T5-T8, L10-L13):
-  FAIL  UTF-8 byte-order mark at the start: Altium reads it as "Unknown identifier: ï" and stops in the debugger
+  FAIL  UTF-8 byte-order mark (at the start, or inside where a file was pasted into a template): Altium reads it as "Unknown identifier: ï" and stops in the debugger
   FAIL  unfilled template token (%NAME%): "Expression expected but % found"; the server that fills it is not running
   FAIL  modal calls in an agent script (ShowMessage, ShowInfo, ShowWarning, ShowError, MessageDlg, InputBox,
         InputQuery, ConfirmNoYes, .ShowModal): nobody answers them and every later script waits (TOOL-05, TOOL-07)
@@ -13,8 +13,9 @@ Checks (wedge study 2026-11-07 and LESSONS T5-T8, L10-L13):
         Model.Rotation_X, LayerObject_V7, PrintPreview, -REditScript:Stop
   WARN  a script that changes documents (AddPCBObject, AddSchObject, RegisterSchObjectInContainer, RemovePCBObject,
         .Modified, SaveDocument) without try/except or try/finally: an error stops it halfway through an edit
-  WARN  PcbLib footprint loop that adds or moves primitives without SetState_CurrentComponent (TOOL-19: only the
-        current footprint has board-origin coordinates; the others landed 1270 mm away)
+  WARN  PcbLib footprint loop that adds or moves primitives without CurrentComponent / SetState_CurrentComponent
+        (TOOL-19: only the current footprint has board-origin coordinates; switching it after an edit drops the edit)
+  WARN  List1..List3.Free (the coffee Sandbox template frees them itself)
   WARN  .Free on an object that is used again later in the file ("Undeclared identifier: Free", a freed object)
   WARN  non-ASCII characters outside comments and strings
 Comments ({ }, (* *), //) and string literals are ignored for the identifier checks.
@@ -75,8 +76,12 @@ def lint_text(raw, allow_modal=False):
     except UnicodeDecodeError:
         src = raw.decode("cp1252", errors="replace")
     code = strip_code(src)
-    for m in re.finditer(TOKEN, src):
-        found.append(("FAIL", line_of(src, m.start()), f"unfilled template token {m.group(0)}"))
+    for m in re.finditer(TOKEN, code):                       # in a comment or string it does not stop the compile
+        found.append(("FAIL", line_of(code, m.start()), f"unfilled template token {m.group(0)}"))
+    for m in re.finditer("\ufeff", src):                    # a BOM in the middle: a file pasted into a template
+        found.append(("FAIL", line_of(src, m.start()), "byte-order mark inside the script (a BOM file pasted into a "
+                                                       "template): Altium 'Unknown identifier: \u00ef'"))
+    code = code.replace("\ufeff", " ")
     if not allow_modal:
         for m in re.finditer(MODAL, code, re.I):
             found.append(("FAIL", line_of(code, m.start()), f"modal call {m.group(0).strip('( ')}: nobody answers it, "
@@ -92,8 +97,8 @@ def lint_text(raw, allow_modal=False):
                                                            "an error stops it halfway through the edit"))
     if re.search(r"\bLibraryIterator_Create\b|\bGetComponent\s*\(|\bGetComponentByName\b", code) \
             and re.search(r"\b(AddPCBObject|MoveByXY|\.X\s*:=|\.Y\s*:=|\.Model\b)", code) \
-            and not re.search(r"\bSetState_CurrentComponent\b", code):
-        found.append(("WARN", 1, "PcbLib loop edits primitives without SetState_CurrentComponent: only the current "
+            and not re.search(r"\b(SetState_CurrentComponent|CurrentComponent)\b", code):
+        found.append(("WARN", 1, "PcbLib loop edits primitives without checking CurrentComponent / SetState_CurrentComponent: only the current "
                                  "footprint is at the board origin (TOOL-19)"))
     for m in re.finditer(r"\b(\w+)\.Free\b", code):
         var = m.group(1)
@@ -101,6 +106,9 @@ def lint_text(raw, allow_modal=False):
                 not re.search(rf"\b{re.escape(var)}\s*:=", code[m.end():]):
             found.append(("WARN", line_of(code, m.start()), f"{var}.Free, then {var} is used again (a freed object: "
                                                          "'Undeclared identifier: Free')"))
+    for m in re.finditer(r"\b(List[123])\.Free\b", code):
+        found.append(("WARN", line_of(code, m.start()), f"{m.group(1)}.Free: the coffee Sandbox template frees "
+                                                     "List1..List3 itself; a second Free raises a dialog"))
     for m in re.finditer(r"[^\x00-\x7f]", code):
         found.append(("WARN", line_of(code, m.start()), f"non-ASCII character {m.group(0)!r} in code"))
         break
