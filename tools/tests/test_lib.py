@@ -141,6 +141,12 @@ class GlobalLib(unittest.TestCase):
         self.assertEqual(run(lib_status, dst, "--global-root", self.g, "--rebase")[0], 0)
         self.assertNotEqual(lc.load_manifest(dst)["components"]["R_10k_1%_0603"]["symbol_hash"], "0" * 16)
         man = lc.load_manifest(dst)
+        man["components"]["R_10k_1%_0603"]["rev"] = 0           # an old rev: --rebase stores the global rev too
+        man["components"]["R_10k_1%_0603"]["symbol_hash"] = "0" * 16
+        lc.save_manifest(dst, man)
+        run(lib_status, dst, "--global-root", self.g, "--rebase")
+        self.assertNotIn("UPDATE", run(lib_status, dst, "--global-root", self.g)[1])
+        man = lc.load_manifest(dst)
         man["components"]["R_10k_1%_0603"]["symbol_hash"] = "0" * 16
         lc.save_manifest(dst, man)
         os.remove(os.path.join(self.g, "symbols", "passives", "resistor.SchLib"))   # nothing to compare with

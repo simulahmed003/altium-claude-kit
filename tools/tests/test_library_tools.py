@@ -123,6 +123,7 @@ class SameContent(unittest.TestCase):
             if typ == 2 and len(blocks[4]) >= 158:
                 b = bytearray(blocks[4])
                 b[130] ^= 0xFF                                    # a pad unique-ID byte
+                b[103] ^= 1                                       # the editor-state flag of the first pad
                 blocks[4] = bytes(b)
             other["prims"].append((typ, blocks))
         self.assertTrue(altium_io.same_content("f", fp, other))

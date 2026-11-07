@@ -329,7 +329,9 @@ def symbol_key(sym, ignore_name=False):
 def footprint_key(fp):
     """ID-free content of a footprint for a comparison: like footprint_hash, and also blanks what an Altium re-save
     rewrites (LESSONS B7): the two unique-ID GUIDs of a pad (bytes 126..157 of its geometry block) and the MODELID /
-    MODEL.CHECKSUM of a 3D body (the checksum of a generic body changes with its ID)."""
+    MODEL.CHECKSUM of a 3D body (the checksum of a generic body changes with its ID), and byte 103 of the pad geometry
+    block, an editor-state flag Altium sets on the first pad it stores (buck CAPC1608_0603, PC 2026-11-07: geometry
+    identical, the flag on pad 1 in one copy and pad 2 in the other, 0 on every other pad)."""
     norm = []
     for typ, blocks in fp["prims"]:
         blocks = list(blocks)
@@ -337,6 +339,7 @@ def footprint_key(fp):
             if len(blocks[4]) >= 158:
                 b = bytearray(blocks[4])
                 b[126:158] = bytes(32)
+                b[103] = 0
                 blocks[4] = bytes(b)
             blocks[5] = blocks[5][:-2]
         if typ == 12 and blocks:
