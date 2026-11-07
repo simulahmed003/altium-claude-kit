@@ -10,7 +10,7 @@ Steps (each PASS / FAIL, exit 1 if any FAIL):
   4 new_project.py into tools\\tests\\_tmp\\ (recreated each run, git-ignored), then gate_check.py G1 on it:
     must not crash and must report "no design yet"
   5 buck regression, read-only on projects\\buck-12v-5v-3a: pin_match 16/16, conn_check 66 pins / 11 nets PASS,
-    dots 0, sch_overlap 0, calcs 5.008 V and -1.50 % / +1.83 % (fixture calc_inputs), lib_status 24 OK,
+    dots 0, sch_overlap 0, calcs 5.008 V and -1.50 % / +1.83 % (fixture calc_inputs), lib_status 24 OK ("OK (re-saved)" counts),
     gate_check S1 offline items (written to tools\\tests\\_tmp\\, never into the project).
     SKIPPED (not FAIL) when projects\\buck-12v-5v-3a is absent, as on a fresh clone of the public repo.
 """

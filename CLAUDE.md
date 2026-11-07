@@ -49,7 +49,7 @@ propose a tool in one line (and add it to the guide's proposals table).
 |---|---|---|
 | Start a project | 01_WORKFLOW_GATES, 02_REQUIREMENTS_CALCS_PARTS, 08_COMMUNICATION | P1 |
 | Any batch job (library, cleanup, fab package) | 01_WORKFLOW_GATES (WF-05, WF-12..14), 08_COMMUNICATION | - |
-| Library work | 03_LIBRARY, 09_LIBRARY_STANDARD, 07_TOOLING_ALTIUM | P2, P4, P11, P12, P13 |
+| Library work | LIBRARY_PACK (one line per rule; open 03 / 09 only for the rules you apply), 07_TOOLING_ALTIUM | P2, P4, P11, P12, P13 |
 | Schematic | 04_SCHEMATIC, 07_TOOLING_ALTIUM | P3 |
 | PCB layout | 05_PCB, 07_TOOLING_ALTIUM | P5 |
 | Before any gate / fab output | 01_WORKFLOW_GATES, 06_FAB_OUTPUT | P6, P9 |
@@ -60,7 +60,7 @@ propose a tool in one line (and add it to the guide's proposals table).
 Playbooks: `rules\playbooks\`. Rule changes: only the user approves (propose with `rules\RETRO_TEMPLATE.md`).
 
 ## Token budget (read less, run more)
-- Read only the rule files of the current phase (table above). Never load `docs\LIBRARY_STANDARD.md` (76 kB, the standard's
+- Read only the rule files of the current phase (table above). Library: `rules\LIBRARY_PACK.md` (9 kB) instead of 03 + 09 (39 kB). Never load `docs\LIBRARY_STANDARD.md` (76 kB, the standard's
   original text) or `docs\LIBRARY_PARAMETERS.md`; for a category's parameters run `lib_params.py "<Type>/<Subtype>"`.
 - Prefer a tool's summary line over reading the files it checks; read a file only where the tool points.
 - Long jobs: keep the batch `_decision_log.md` current after every step (WF-05), so a new session reads that file, not the history.
@@ -77,6 +77,10 @@ Playbooks: `rules\playbooks\`. Rule changes: only the user approves (propose wit
 | Gate evidence | `gate_check.py <G1/S1/G2/G3/G4> projects\<name>` -> ai\review\ |
 | Parameter set of one category / check a SchLib against it | `lib_params.py "<Type>/<Subtype>"`, `lib_params.py --check <lib.SchLib>` |
 | Workspace-ready SchLib (no "/" in types, Category, Symbol, description) | `ws_lib_check.py <lib.SchLib>` |
+| Parameter values and Description format of a SchLib | `lib_std_check.py <lib.SchLib>` |
+| Library geometry offline (pads mm, pins mil) / footprint review document | `lib_dump.py`, `fp_review.py` (LIB-33) |
+| KiCad 3D models for standard footprints, then embed inside Altium | `kicad_models.py <PcbLib>`, `tools\altium_scripts\Swap3D.pas` |
+| Batch library build from a plan (P13) | `kit lib_build <plan.json>` (`tools\library_build\`) |
 | Global library | `lib_pull.py`, `lib_status.py`, `lib_promote.py`, `catalog_check.py` (`library\README.md`) |
 | Library audit, check status, source | `lib_audit.py` (`mark`, `source`; LIB-17, LIB-19) |
 | Production BOM / CPL / package | `bom_check.py`, `cpl_check.py` (convert, fit, check), `fab_package.py` (FAB-04..07) |
