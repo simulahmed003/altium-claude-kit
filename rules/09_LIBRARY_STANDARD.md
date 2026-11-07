@@ -108,6 +108,15 @@ Parameter set frozen 2026-11-03 (LIB-31, LIB-32): the parameters below are the c
 - Source: user 2026-11-03 ("this format is final document this format in rules how human review doc will prepared"; "most important keep all tollerence0.01 mm"; "for symble add mfn part number in the doc in bracket"; "make the editable document in A4"); 2026-11-04 (outline with links and reviewer columns; note on unused footprints; "for every symble screnshot of library i add a screenshot from datasheet which balidate this symbel ... a screenshot from datasheet which validate the package ... screenshot from datasheet which have the foopprint dimention and add the footprint screenshot with proper dimention marked ... update your rules about review document creation")
 - Status: CHECKLIST
 
+### LIB-34 One parameter set per category: no duplicates, no blank extras
+- MUST: give every component of a category (Type/Subtype) the same parameter set: the stored common parameters, the three Price/Stock links, and all Required and Optional electrical parameters of its subtype; a parameter whose value is unknown stays present and empty.
+- MUST: remove every component-level parameter that is not in that set, blank or valued (old Altium content, SnapEDA and database leftovers such as `Value`, `Schedule B`, `Lifecycle Status`, `Length`), and log its old value; where it duplicates a standard parameter that is empty, move its value into the standard one first; keep only one parameter per name; when `Value` goes, `Comment` becomes the visible value text in its place and font.
+- MUST NOT: touch parameters owned by a model or implementation (`OwnerIndex` set, e.g. SIM fields, `altium.hash`) or the price/stock parameters of LIB-31 (`Arrow Part Number`, `Arrow Price/Stock`, `Price`, `Check_prices`).
+- Why: parts of one category compare and export the same way; duplicates disagree sooner or later and blank extras are noise once the full set is there.
+- Check: checklist (change log per component; every category's parameter names identical); planned tool lib_std_check
+- Source: user 2026-11-03 ("remove the duplicate keep the authentic", "whats the point of those duplicate and blank parameter", "in each category components should have same parameters", "go ahead and do this make all consistent")
+- Status: CHECKLIST
+
 ## Parameter tables (part of LIB-23)
 
 Machine-readable copy: `rules/library_parameters.json` (for the planned lib_std_check tool). Names exactly as written, without the hint in brackets (LIB-31); values in the format below; unknown = empty.
@@ -161,7 +170,7 @@ Machine-readable copy: `rules/library_parameters.json` (for the planned lib_std_
 
 #### Electrical parameters by subtype (89 subtypes)
 
-Required = must have a value before the part is used; Optional = added when the datasheet gives it and it matters for selection. One name per meaning across all Types (always `Voltage Rating`, `Current Rating`, `Supply Voltage Range`).
+Required = must have a value before the part is used; Optional = filled when the datasheet gives it and it matters for selection; both are present on every part of the subtype, empty when unknown (LIB-34). One name per meaning across all Types (always `Voltage Rating`, `Current Rating`, `Supply Voltage Range`).
 
 | Type | Subtype | Required | Optional |
 |---|---|---|---|
