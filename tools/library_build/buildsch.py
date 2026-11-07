@@ -17,6 +17,7 @@ class Rec:
         self.typ = typ
         self.raw = payload
         self.kv = parse_pairs(payload) if typ == 0 else None
+        self._orig = [list(kv) for kv in self.kv] if typ == 0 else None
 
     def get(self, k, d=None):
         for a, b in self.kv or []:
@@ -35,7 +36,9 @@ class Rec:
         self.kv = [kv for kv in self.kv if kv[0].upper() != k.upper()]
 
     def bytes(self):
-        p = props_bytes(self.kv) if self.typ == 0 else self.raw
+        # an unchanged record goes back byte for byte: re-serialising drops the empty fields Altium writes after
+        # %UTF8% values ("...|||Text=..."), PC test 2026-11-07
+        p = props_bytes(self.kv) if self.typ == 0 and self.kv != self._orig else self.raw
         return struct.pack('<HBB', len(p), 0, self.typ) + p
 
     @property
