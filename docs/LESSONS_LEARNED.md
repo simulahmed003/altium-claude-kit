@@ -145,3 +145,15 @@ Rule IDs point to `rules\` (see `rules\00_INDEX.md`). Sources: `logs\MCP_LOG.md`
 | K8 | Six Ctrl+F3 recoveries in one library session, four in one PCB session | Live scripts for edits that could be done offline | Offline first; after 2 wedges finish offline or hand over the menu path | TOOL-20 |
 | K9 | Two runs stopped at the usage limit mid-job and the next session re-read the history | Progress only in the chat | Decision log updated after every step | WF-05 |
 | K10 | Each library session loaded about 20 kB of parameter tables to use one category's set | Tables duplicated in the rule file | `kit lib_params "<Type>/<Subtype>"`; tables only in the JSON and a generated doc | LIB-23 |
+
+## Altium script jams: wedge study on the user's PC (2026-11-07, docs/WEDGE_STUDY_2026-11.md)
+
+| # | Symptom | Cause | Fix | Rule |
+|---|---|---|---|---|
+| W1 | Every coffee script "never started / executor_wedged" right after an update | The running coffee server was older than its files: it wrote its new Sandbox.pas template without filling %GUARD_SECONDS%; Altium: "Expression expected but % found" | Restart Claude Code after any update; `kit doctor` warns; `kit altium_unstick` names it | TOOL-22 |
+| W2 | Coffee scripts refused: "not able to execute more than one script simultaneously" | Altium has one script engine; the eda-agent window (timer pump) holds it even when paused, and it started by itself after a command-line handoff; the guard's ping missed a paused pump | Release the loop (user / app_detach); `kit altium_unstick` and `kit doctor` show the window | TOOL-21 |
+| W3 | Altium ran the wrong script project | coffee and eda-agent both ship Altium_API.PrjScr; a pull restored coffee's copy | `kit doctor` warns; rename upstream | TOOL-21 |
+| W4 | A second Altium and a licence conflict | X2.exe started with a command line (-REditScript:Stop, RunScript) while a dialog was open: "There is another instance of running, but it is busy" | No command line while a dialog shows; `altium_unstick --fix` ends the empty duplicate | TOOL-18, TOOL-22 |
+| W5 | "Continue execution?" dialog, script runner held | Runtime errors (a freed object: "Undeclared identifier: Free"; a UTF-8 BOM: "Unknown identifier: ï") | Cancel, then close "Operation aborted": the engine is free with no user (tested AD26 26.11.1); `kit pas_lint` before the run | TOOL-21 |
+| W7 | An X2.exe command-line RunScript waited and ran only after Altium's window got focus and a click | Altium handles the command-line request on its next input | Bring the Altium window forward (and click its status bar) before a command-line run; prefer the MCP route | TOOL-22 |
+| W6 | Swap3D put bodies 1270 mm away; Ctrl+S did not save; then (making each footprint current) no swap survived the save | Only the current footprint has board-origin coordinates; switching the current footprint drops the previous one's edit; the document was never marked modified | Park the current footprint on one not in models.csv before editing, add the origin only for the current one, never switch after an edit; `Modified := True`; log file instead of message boxes | TOOL-19, TOOL-21 |

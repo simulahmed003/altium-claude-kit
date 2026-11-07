@@ -30,9 +30,9 @@
 
 ### TOOL-05 Scripts that can wedge Altium
 - MUST NOT: run blind exploratory DelphiScript. Prefer eda tools; stop after 2 crashes in one stage.
-- MUST: recover with Run > Stop (Fn+Ctrl+F3 on this Lenovo), else Ctrl+S then End task X2.EXE.
-- Why: two crashes wedged the debugger and needed the user.
-- Check: checklist; popup script_crashed
+- MUST: recover with `kit altium_unstick --fix` first (TOOL-21); only when it says "still stuck" with no dialog left, Run > Stop (Fn+Ctrl+F3 on this Lenovo) through `bridge.cmd popup script_crashed`, else Ctrl+S then End task X2.EXE.
+- Why: two crashes wedged the debugger and needed the user; on AD26 Cancel on the "Continue execution?" dialog stops the script without the user (wedge study 2026-11-07).
+- Check: altium_unstick.py; popup script_crashed
 - Source: LESSONS T5, T6, T7
 - Status: CHECKLIST
 
@@ -122,14 +122,14 @@
 
 ### TOOL-18 Scripting a library safely
 - MUST: before a run_altium_script that edits a library: (1) check with Client.GetDocumentByPath / GetSchDocumentByPath that every document it uses is open and stop with a GUARD message if not; (2) skip the component shown on screen (CurrentSchComponent / CurrentComponent), or switch the view to an untouched part first; (3) use only properties already proven in an earlier script, and try a new one read-only on one object first; (4) SandboxLog before each risky step; (5) back the file up to History\ first and save only after a read-back.
-- MUST NOT: run `X2.exe -REditScript:Stop` (it can start a second Altium and a license conflict); a wedge goes to `bridge.cmd popup script_crashed` (P8).
+- MUST NOT: run `X2.exe -REditScript:Stop` (it can start a second Altium and a license conflict); a wedge goes to `kit altium_unstick --fix` (TOOL-21), then `bridge.cmd popup script_crashed` (P8).
 - Why: on 2026-11-05 six wedges came from a closed source library, the on-screen symbol, and guessed properties (Model.Rotation_X, LayerObject_V7, IsHidden on labels).
 - Check: checklist; the run's step log
 - Source: SpeakerSystemV1 batch 1, LESSONS L10-L13
 - Status: CHECKLIST
 
 ### TOOL-19 PcbLib coordinates and embedded 3D models
-- MUST: add footprint primitives in the footprint's own frame: only the footprint shown in the editor sits at Board.XOrigin/YOrigin, every other one at 0,0. Embed STEP models from inside Altium (Body.ModelFactory_FromFilename(path, False)), never from outside. After a batch edit, read back every footprint (pads vs body box, one body, model file name) and look at it in 3D before saving.
+- MUST: add footprint primitives in the footprint's own frame: only the footprint shown in the editor sits at Board.XOrigin/YOrigin, every other one at 0,0; before any edit make a footprint the script does not touch current, and never switch the current footprint after an edit (Altium drops that edit). Embed STEP models from inside Altium (Body.ModelFactory_FromFilename(path, False)), never from outside. After a batch edit, read back every footprint (pads vs body box, one body, model file name) and look at it in 3D before saving.
 - Why: Swap3D.pas added the origin twice and put 26 bodies 1270 mm from their pads; externally embedded models fail Altium's checksum and show as red boxes; the on-screen footprint's edit was lost.
 - Check: read-back script (pad box vs body box); 3D capture
 - Source: SpeakerSystemV1 batch 1, LESSONS L10, L11
@@ -140,6 +140,23 @@
 - MUST: do library and document edits offline when a tool can (altium_io.py, altium-lib, the review generators) and keep live Altium scripts for what only Altium can do (embed STEP models, compile an IntLib, output jobs, 3D captures, a check that a file loads); each live script edits one object type, with nothing it touches open on screen (TOOL-18).
 - MUST: after 2 script wedges in one stage, stop scripting that stage: finish it offline or give the user the menu path (COM-05); never make the user press Ctrl+F3 a third time for the same stage.
 - Why: one library session needed six Ctrl+F3 recoveries and a PCB session four, each an interruption for the user; the offline route did the same edits without a wedge.
-- Check: checklist (count of wedges in the session log)
+- Check: checklist; `kit altium_unstick --today` counts the stuck runs
 - Source: threads 2026-10-30 (4 script crashes in one stage), 2026-11-04 (6 wedges); LESSONS L12, M17; kit review 2026-11-07 (docs/KIT_REVIEW_2026-11.md)
+- Status: CHECKLIST
+
+### TOOL-21 Unstick Altium automatically, write scripts that cannot jam it
+- MUST: run `kit pas_lint <script.pas>` before every live DelphiScript (no FAIL): saved as UTF-8 without BOM, no unfilled %TOKEN%, no message box or other modal in an agent script (write a log file instead), try/except or try/finally around edits, PcbLib edits only on non-current footprints (TOOL-19).
+- MUST: on any timeout, "script never started", "executor_wedged" or "busy" result, run `kit altium_unstick --fix` before anything else; act on its "next:" lines; never retry the script before it says "Altium is free".
+- MUST NOT: answer a question dialog (save, confirm, overwrite) or release the eda-agent loop without the user (app_detach saves every document).
+- Why: the jams of 2026-11-04..07 came from five causes: a server older than its files, the eda-agent loop holding the only script engine, two script projects named Altium_API.PrjScr, X2.exe command lines that started a second Altium, and script errors (one a BOM); each needed the user to press Ctrl+F3 or answer a dialog.
+- Check: pas_lint.py; altium_unstick.py (logs\altium_unstick.log); doctor.py
+- Source: wedge study on the user's PC 2026-11-07 (docs/WEDGE_STUDY_2026-11.md); LESSONS W1-W6
+- Status: ENFORCED
+
+### TOOL-22 Restart after an update, no X2.exe command line while a dialog shows
+- MUST: after `install.cmd /update`, `git pull` of tools\mcp\* or any server update, exit Claude Code and start it again (`kit start`) before the next live Altium step; `kit doctor` warns when a server runs older code than its files.
+- MUST NOT: start X2.exe with a command line (RunScript, -REditScript) while Altium shows a dialog: run `kit altium_unstick` first, it must report no dialog.
+- Why: an update under a running coffee server made every script fail to compile ("Expression expected but % found", reported as "wedged"); a command line sent while a dialog was open started a second Altium ("another instance ... busy").
+- Check: doctor.py (check 9); altium_unstick.py
+- Source: wedge study 2026-11-07 (docs/WEDGE_STUDY_2026-11.md)
 - Status: CHECKLIST
