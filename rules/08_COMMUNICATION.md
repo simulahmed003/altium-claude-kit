@@ -34,3 +34,10 @@
 - Check: checklist
 - Source: workspace CLAUDE.md; LESSONS T5-T8
 - Status: CHECKLIST
+
+### COM-06 Report counts and states from the tool result
+- MUST: take every count and state in a report from the tool output of that step (files deleted vs moved vs staged, parts changed, PASS/FAIL), and say what was not done in the same sentence as what was done.
+- Why: a cleanup report said the datasheets were removed when only duplicates were; the user found 19 PDFs still there (2026-11-02).
+- Check: checklist
+- Source: thread 2026-11-02 ("i still see pdf exist here which you claimed deleted"); kit review 2026-11-07 (docs/KIT_REVIEW_2026-11.md)
+- Status: CHECKLIST

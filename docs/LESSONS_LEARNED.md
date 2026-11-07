@@ -117,3 +117,31 @@ Rule IDs point to `rules\` (see `rules\00_INDEX.md`). Sources: `logs\MCP_LOG.md`
 | M15 | Parameters could not be written to the parts | Company DbLib (Celestial) is read-only on its server | Copy symbol/footprint into the local library and keep parameters there | LIB-17 |
 | M16 | S8550 copied from S8050 placed with a wrong current rating | Datasheet check skipped "for speed" | Agent checks every new or copied item against the datasheet | LIB-18 |
 | M17 | OutJob runs and document close timed out | A script stopped on a breakpoint holds Altium's script engine | Run > Stop (Ctrl+F3), close the .pas tabs; after 3 engine crashes stop scripting and ask | TOOL-05 |
+
+## Project Library Creation / SpeakerSystemV1 batch 1 (2026-11-05)
+
+| # | Symptom | Cause | Fix | Rule |
+|---|---|---|---|---|
+| L10 | 26 of 27 swapped 3D bodies sat 1270 mm from their pads | Swap3D.pas added Board.XOrigin/YOrigin; only the footprint on screen sits at the library origin, the others at 0,0 | Move the bodies back; add primitives in the footprint's own frame; read back pad box vs body box | TOOL-19 |
+| L11 | The on-screen footprint (and later the on-screen symbol) lost its edit or wedged the script | Editing the component shown in the editor | Skip it or switch the view to an untouched part first | TOOL-18 |
+| L12 | Six script wedges in one session | A closed source library, the on-screen symbol, and guessed properties (Model.Rotation_X, LayerObject_V7, IsHidden on labels) | Guard every document, prove each property read-only first, SandboxLog each step; recovery by popup, never X2.exe -REditScript:Stop | TOOL-18 |
+| L13 | Switching CurrentSchComponent showed stale or wrong symbols in captures | The canvas did not repaint reliably after a script switch | Render review pictures offline from the SchLib records | P13 |
+| L14 | Library Importer: "Invalid tag HRID. The following characters are not permitted: /" on "FFC / FPC" | "/" in a Component Type name (it is also the Type/Subtype separator) | Rename to "FFC & FPC" in the library and every document; check with ws_lib_check.py before upload | LIB-38 |
+| L15 | pin_match failed on connector locating holes | Non-plated holes carry no net but were counted as pads | pin_match skips NPTH pads (hole > 0 and not plated) | LIB-01 |
+| L16 | The 0402 resistor looked different from the 0402 capacitor in 3D | The two lands came from different generators (Z 1.90 vs 1.48 mm) | One land rule per size, R and C alike | LIB-36 |
+
+
+## Kit review of all project threads (2026-11-07, docs/KIT_REVIEW_2026-11.md)
+
+| # | Symptom | Cause | Fix | Rule |
+|---|---|---|---|---|
+| K1 | A library job ran without the Altium servers; 3D models embedded offline showed as red boxes | The session was started in the client folder; .mcp.json loads only in the workspace | Start in the workspace and add the folder: `kit start "<folder>"` | WF-10 |
+| K2 | A PR reused rule IDs LIB-17..20, playbook P9 and version 1.6.0 that main already had; LIB-33 was taken twice | Rules written on an un-pulled workspace and on parallel branches | `kit doctor` before writing; `rules_lint --next-id`; CHANGELOG order check | WF-11 |
+| K3 | Per-part "yes?" questions stalled batches; symbol style redone four times across the whole library | Brief per step; no agreed sample | One brief with every permission and one sample per kind, then run to the end | WF-12 |
+| K4 | Review spreadsheet built that the user did not want; footprint check started before the asked library package | Adjacent work started on own initiative | Do the asked scope; state assumptions when told "fast" | WF-13 |
+| K5 | Review generator, Swap3D.pas and the batch builder rebuilt in later sessions | Job scripts left in the client folder | Commit reusable scripts as kit tools in the same session | WF-14 |
+| K6 | "TPA3116 footprint has a wrong thermal pad" reported; the user showed the pad in the datasheet | Figure misread, negative claim without a search list | Facts from figures carry the page and a crop; negative claims list the search | RQ-10 |
+| K7 | "Datasheets deleted" while 19 PDFs remained | Report wording not taken from the step's result | Counts and states from the tool output | COM-06 |
+| K8 | Six Ctrl+F3 recoveries in one library session, four in one PCB session | Live scripts for edits that could be done offline | Offline first; after 2 wedges finish offline or hand over the menu path | TOOL-20 |
+| K9 | Two runs stopped at the usage limit mid-job and the next session re-read the history | Progress only in the chat | Decision log updated after every step | WF-05 |
+| K10 | Each library session loaded about 20 kB of parameter tables to use one category's set | Tables duplicated in the rule file | `kit lib_params "<Type>/<Subtype>"`; tables only in the JSON and a generated doc | LIB-23 |

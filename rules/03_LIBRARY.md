@@ -1,18 +1,18 @@
 # 03 Library
 
 ### LIB-01 Pins = pads
-- MUST: give every symbol exactly the pins of its footprint: one visible pin per pad, same number.
+- MUST: give every symbol exactly the pins of its footprint: one visible pin per pad, same number. Non-plated holes (NPTH, mechanical only, no copper net) get no pin.
 - MUST NOT: stack or hide pins.
 - Why: Q1 showed only D/S/G and hid five pads.
 - Check: pin_match.py
-- Source: LESSONS L1; user rule 2026-10-13
+- Source: LESSONS L1; user rule 2026-10-13; NPTH exemption 2026-11-05 (SpeakerSystemV1 connectors' locating holes)
 - Status: ENFORCED
 
 ### LIB-02 One style, only Designator and Comment visible
-- MUST: one style per symbol type (line width 1, one colour, one font size 10); visible text = Designator + Comment "=Value" only, except capacitors, which show capacitance (Comment) and Voltage Rating (D3); MPN, Manufacturer, LCSC, JLCPCB Type, Datasheet hidden.
+- MUST: one style per symbol type (line width 1, font size 10; discrete symbols (R, C, L, diodes, transistors, crystal, test point) drawn in blue (Altium colour 16711680); IC, connector and module boxes with a brown outline (128) on a light-yellow fill (11599871)); visible text = Designator + Comment "=Value" only, except capacitors, which show capacitance (Comment) and Voltage Rating (D3); MPN, Manufacturer, LCSC, JLCPCB Type, Datasheet hidden.
 - Why: duplicate value text and mixed styles made the sheet unreadable.
 - Check: pin_match.py --style (visible parameters per symbol)
-- Source: LESSONS L3, L4
+- Source: LESSONS L3, L4; user 2026-11-05 (blue discrete symbols, brown outline on rectangular IC boxes)
 - Decided by the user 2026-11-02 (D3): capacitors show capacitance and voltage rating; colours and font follow the library standard.
 - Status: ENFORCED
 
@@ -92,15 +92,15 @@
 - Status: CHECKLIST
 
 ### LIB-13 3D models: source order and check
-- MUST: take a missing 3D model from JLC/EasyEDA by the LCSC number first, the maker's site second; a standard body (a chip size such as 0603, or a JEDEC package such as SOIC-8) has one model shared by every part of that body and footprint, whatever the value (a 10 uF and a 22 uF 0603 capacitor use the same model). A part-specific body (an inductor, a connector) needs its own model; a similar part's model only as a marked substitute that the user accepts at G1. A part with no LCSC number (or whose JLC model fails the check): find the same part, or one with the same body, on LCSC and use its model (`cad_fetch.py <part> --lcsc <its C-number>`), stored marked as a substitute that the user accepts at G1. Downloaded models are committed to the global library so others can use and extend it (unlike datasheet PDFs). Check the model's box against the record's body length, width and height (inside the datasheet min/max) and record source and sha256 in models/index.json.
+- MUST: take a missing 3D model for a standard package (chip sizes, SOT, SOD, SOIC, MSOP, TSSOP, QFN, QFP, DPAK, polarised capacitor cases) from the KiCad 3D library first, so every standard body has the same style and colours; for ICs, modules, connectors and other custom parts use the best-looking accurate model, normally the maker's STEP file; JLC/EasyEDA by the LCSC number next. A model in an off-standard colour (for example a blue maker inductor) gets the KiCad colours, with geometry unchanged. Models are embedded by Altium itself (an externally embedded model fails Altium's checksum and shows as a red box). A standard body (a chip size such as 0603, or a JEDEC package such as SOIC-8) has one model shared by every part of that body and footprint, whatever the value (a 10 uF and a 22 uF 0603 capacitor use the same model). A part-specific body (an inductor, a connector) needs its own model; a similar part's model only as a marked substitute that the user accepts at G1. A part with no LCSC number (or whose JLC model fails the check): find the same part, or one with the same body, on LCSC and use its model (`cad_fetch.py <part> --lcsc <its C-number>`), stored marked as a substitute that the user accepts at G1. Downloaded models are committed to the global library so others can use and extend it (unlike datasheet PDFs). Check the model's box against the record's body length, width and height (inside the datasheet min/max) and record source and sha256 in models/index.json.
 - Why: a wrong height or pin-1 corner shows up only at assembly.
 - Check: cad_check.py; cad_fetch.py (box check against the record, placement, register)
-- Source: user brief 2026-10-19; user 2026-10-19 (standard body = one shared model); user 2026-10-19 (no LCSC number: same or similar part on LCSC; STEP models committed)
-- Decided by the user 2026-11-02 (D7, D8): take the 3D model first from the user's database library (Celestial DbLib), like the symbol and footprint, made consistent with our rules; then the maker's STEP, then JLC as a checked third-party model. Footprints and 3D models are named by the standard (FP-22, 3D-05) and filed by its category tree; this rule's JLC-first order and path no longer apply once the library is restructured (D9).
+- Source: user brief 2026-10-19; user 2026-10-19 (standard body = one shared model); user 2026-10-19 (no LCSC number: same or similar part on LCSC; STEP models committed); user 2026-11-05 (KiCad models for standard packages, best-looking maker model for ICs and custom parts)
+- Decided by the user 2026-11-02 (D7, D8), revised 2026-11-05: the MUST above (KiCad models for standard packages, best-looking maker model for custom parts) replaces D7's Celestial-first order for 3D; a Celestial model is used only where it already has that style. Footprints and 3D models are named by the standard (FP-22, 3D-05) and filed by its category tree; this rule's JLC-first order and path no longer apply once the library is restructured (D9).
 - Status: CHECKLIST
 
 ### LIB-14 Local library parameters from the record
-- MUST: build one local library component per manufacturer part number (MPN), whose library reference (name) is exactly the MPN (0603WAF1002T5E, LMR33630ADDAR), with parameters from the part record: Comment (value, or the MPN for an IC), Description (the standard's pattern per Type: "RES 10k 1% 0.1W 0603", D5), the library standard's names `Manufacturer 1`, `Manufacturer Part Number 1`, `Supplier 1`, `Supplier Part Number 1`, `LCSC Part Number`, `Mouser Part Number`, `DigiKey Part Number` (RQ-09), `Datasheet URL` and the family's key ratings, all hidden except Comment (LIB-02).
+- MUST: build one local library component per manufacturer part number (MPN), whose library reference (name) is exactly the MPN as the maker writes it, packaging suffix included (0603WAF1002T5E, LMR33630ADDAR, MCP23017T-E/ML; "/" and "," are replaced only in file names), with parameters from the part record: Comment (value, or the MPN for an IC), Description (the standard's pattern per Type: "RES 10k 1% 0.1W 0603", D5), the library standard's names `Manufacturer 1`, `Manufacturer Part Number 1`, `Supplier 1`, `Supplier Part Number 1`, `LCSC Part Number`, `Mouser Part Number`, `DigiKey Part Number` (RQ-09), `Datasheet URL` and the family's key ratings, all hidden except Comment (LIB-02).
 - Why: parameters typed by hand drift from the database the calculations used; a bare MPN name is found by search and matches the BOM.
 - Check: checklist (planned tool lib_build, LIBRARY_PLAN section 6)
 - Source: user brief 2026-10-19; user 2026-10-31 (decision: library reference = bare MPN; Mouser, DigiKey and LCSC numbers in every component)

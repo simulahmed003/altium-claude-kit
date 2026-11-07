@@ -266,7 +266,7 @@ def pcblib_footprints(path):
         name, _ = pascal(data, 4)
         if "|" in name:
             continue
-        o, pads, prims = 4 + n, [], []
+        o, pads, prims, npth = 4 + n, [], [], []
         while o < len(data):
             typ = data[o]
             o += 1
@@ -278,11 +278,16 @@ def pcblib_footprints(path):
                 blk = data[o + 4:o + 4 + ln]
                 if typ == 2 and b == 0:
                     pads.append(pascal(blk, 0)[0])
+                if typ == 2 and b == 4 and len(blk) > 60:
+                    # pad geometry block: hole size int32 at offset 45, plated flag at offset 60 (found against
+                    # Altium-saved pads, 2026-11-05). A hole with no plating is mechanical only (NPTH).
+                    if struct.unpack_from("<i", blk, 45)[0] > 0 and blk[60] == 0:
+                        npth.append(pads[-1])
                 blocks.append(blk)
                 o += 4 + ln
             prims.append((typ, blocks))
         params = text_fields(streams.get("Parameters", b"")[4:]) if streams.get("Parameters") else {}
-        out[name] = dict(pads=pads, prims=prims, params=params)
+        out[name] = dict(pads=pads, prims=prims, params=params, npth=npth)
     return out
 
 

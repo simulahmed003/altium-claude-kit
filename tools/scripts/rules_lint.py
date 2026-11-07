@@ -8,6 +8,10 @@ Checks every "### <ID> <title>" block in rules/0*.md:
   - ENFORCED rules name at least one script (*.py / *.ps1) in Check, and every named script exists
     in tools/scripts, tools/bridge or tools
   - IDs are unique; MUST text is at most 3 lines
+  - rules/CHANGELOG.md versions strictly increase, none repeats, and the last one equals rules/VERSION
+    (parallel branches once reused a version and four rule IDs; rebase on main before numbering)
+  python rules_lint.py --next-id LIB   prints the next free ID of a prefix (LIB, WF, TOOL, ...): use it after
+                                       `git pull`, never pick a number by hand
 Warns (does not fail) when a rule file holds more than MAX_PER_FILE rules: time to split it or move rules to a
 domain pack (docs/RULE_FEEDBACK_LOOP.md, "Keeping the rules manageable").
 Exit 0 when clean, 1 otherwise.
@@ -21,7 +25,7 @@ MAX_PER_FILE = 20
 SCRIPT_DIRS = [os.path.join(ROOT, "tools", d) for d in ("scripts", "bridge", "")]
 PHASES = [
     ("Start a project", "01_WORKFLOW_GATES, 02_REQUIREMENTS_CALCS_PARTS, 08_COMMUNICATION, playbooks/P1"),
-    ("Library work", "03_LIBRARY, 09_LIBRARY_STANDARD, 07_TOOLING_ALTIUM, playbooks/P2, playbooks/P4, playbooks/P11, playbooks/P12"),
+    ("Library work", "03_LIBRARY, 09_LIBRARY_STANDARD, 07_TOOLING_ALTIUM, playbooks/P2, playbooks/P4, playbooks/P11, playbooks/P12, playbooks/P13"),
     ("Schematic", "04_SCHEMATIC, 07_TOOLING_ALTIUM, playbooks/P3"),
     ("PCB layout", "05_PCB, 07_TOOLING_ALTIUM, playbooks/P5"),
     ("Before any gate", "01_WORKFLOW_GATES, playbooks/P6"),
@@ -88,6 +92,33 @@ def lint(rules):
     return errs
 
 
+def changelog_errors(rules_dir):
+    path = os.path.join(rules_dir, "CHANGELOG.md")
+    if not os.path.isfile(path):
+        return []
+    with open(path, encoding="utf-8") as f:
+        vers = re.findall(r"^\| (\d+\.\d+\.\d+) \|", f.read(), flags=re.M)
+    errs, prev = [], None
+    for v in vers:
+        t = tuple(int(x) for x in v.split("."))
+        if prev is not None and t <= prev:
+            errs.append(f"CHANGELOG: version {v} does not increase after {'.'.join(map(str, prev))}")
+        prev = t if prev is None or t > prev else prev
+    try:
+        with open(os.path.join(rules_dir, "VERSION"), encoding="utf-8") as f:
+            cur = f.read().strip()
+    except OSError:
+        cur = None
+    if vers and cur and vers[-1] != cur:
+        errs.append(f"CHANGELOG: last entry {vers[-1]} differs from VERSION {cur}")
+    return errs
+
+
+def next_id(rules, prefix):
+    nums = [int(m.group(1)) for r in rules for m in [re.match(re.escape(prefix) + r"-(\d+)$", r["id"])] if m]
+    return f"{prefix}-{(max(nums) + 1 if nums else 1):02d}"
+
+
 def size_warnings(rules):
     per_file = {}
     for r in rules:
@@ -116,9 +147,13 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--rules", default=os.path.join(ROOT, "rules"))
     ap.add_argument("--write-index", action="store_true")
+    ap.add_argument("--next-id", metavar="PREFIX")
     a = ap.parse_args(argv)
     rules = parse(a.rules)
-    errs = lint(rules)
+    if a.next_id:
+        print(next_id(rules, a.next_id.upper()))
+        return 0
+    errs = lint(rules) + changelog_errors(a.rules)
     if a.write_index:
         c = write_index(rules, a.rules)
         print("index written:", c)

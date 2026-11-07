@@ -5,7 +5,8 @@ Usage:
 Steps (each PASS / FAIL, exit 1 if any FAIL):
   1 unit and fixture tests (tools\\tests\\test_*.py)
   2 rules_lint.py: rule files well formed, every ENFORCED rule names an existing script
-  3 every script answers --help (part of step 1) and catalog_check.py / cad_check.py / parts.py check / lib_readmes.py --check on the real library
+  3 every script answers --help (part of step 1) and catalog_check.py / cad_check.py / parts.py check / lib_readmes.py --check on the real library;
+    docs/LIBRARY_PARAMETERS.md is the current rendering of rules/library_parameters.json
   4 new_project.py into tools\\tests\\_tmp\\ (recreated each run, git-ignored), then gate_check.py G1 on it:
     must not crash and must report "no design yet"
   5 buck regression, read-only on projects\\buck-12v-5v-3a: pin_match 16/16, conn_check 66 pins / 11 nets PASS,
@@ -38,6 +39,7 @@ def main(argv=None):
                                  epilog=__doc__)
     ap.add_argument("--no-buck", action="store_true")
     a = ap.parse_args(argv)
+    import lib_params
     import rules_lint, catalog_check, cad_check, parts, new_project, gate_check, pin_match, conn_check, dots, sch_overlap, \
         calcs_run, lib_status, lib_readmes
     res = []
@@ -62,6 +64,12 @@ def main(argv=None):
     step("3 parts check (component database)", code == 0, out.strip().splitlines()[-1])
     code, out = call(lib_readmes, "--check")
     step("3 lib_readmes (family and package READMEs)", code == 0, out.strip().splitlines()[-1])
+    want = open(lib_params.DOC_PATH, encoding="utf-8").read() if os.path.isfile(lib_params.DOC_PATH) else ""
+    tmp_doc = os.path.join(HERE, "tests", "_lib_params_doc.md")
+    got = lib_params.write_doc(lib_params.load(), tmp_doc)
+    os.remove(tmp_doc)
+    step("3 docs/LIBRARY_PARAMETERS.md matches rules/library_parameters.json", got == want,
+         "" if got == want else "stale: run kit lib_params --write-doc")
     if os.path.isdir(TMP):
         shutil.rmtree(TMP)
     os.makedirs(TMP)

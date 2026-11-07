@@ -4,7 +4,8 @@ Usage:
   python pin_match.py <lib.SchLib> <lib.PcbLib> [--style] [--pcblib MORE.PcbLib ...]
 Per symbol:
   - exactly one footprint link, and the footprint exists in the PcbLib(s)
-  - pin numbers = pad numbers (same multiset), no hidden pins, no two pins on one connection point
+  - pin numbers = pad numbers (same multiset), no hidden pins, no two pins on one connection point;
+    non-plated holes (NPTH, mechanical only) need no pin
   - every pin connection point on the 100 mil grid (body side may be off grid: 80 mil cap / 70 mil TP pins)
   - --style: visible text = Designator + Comment "=Value" only (every other parameter hidden)
 Exit 0 when every symbol passes, 1 otherwise. Read-only.
@@ -55,7 +56,7 @@ def main(argv=None):
     syms = schlib_symbols(a.schlib)
     fps = {}
     for p in [a.pcblib] + a.more:
-        fps.update({k: v["pads"] for k, v in pcblib_footprints(p).items()})
+        fps.update({k: [d for d in v["pads"] if d not in v["npth"]] for k, v in pcblib_footprints(p).items()})
     fails = 0
     print(f"{'symbol':24} {'footprint':22} result  detail")
     for s in sorted(syms):
