@@ -53,6 +53,7 @@ propose a tool in one line (and add it to the guide's proposals table).
 | BOM alternates, JLC quote | 02_REQUIREMENTS_CALCS_PARTS, 06_FAB_OUTPUT | P9, P10 |
 | Commit / handoff | 01_WORKFLOW_GATES | P7 |
 | Altium stuck | 07_TOOLING_ALTIUM | P8 |
+| Library batch release to the Workspace | 09_LIBRARY_STANDARD, 03_LIBRARY, 07_TOOLING_ALTIUM | P13 |
 Playbooks: `rules\playbooks\`. Rule changes: only the user approves (propose with `rules\RETRO_TEMPLATE.md`).
 
 ## Offline tools (`tools\scripts\`, see its README.md; no Altium needed)
@@ -63,6 +64,7 @@ Playbooks: `rules\playbooks\`. Rule changes: only the user approves (propose wit
 | Sheet connectivity + dots | `conn_check.py <sheet.SchDoc> ai\plan.json` |
 | Sheet readability | `sch_overlap.py <sheet.SchDoc>` |
 | Gate evidence | `gate_check.py <G1/S1/G2/G3/G4> projects\<name>` -> ai\review\ |
+| Workspace-ready SchLib (no "/" in types, Category, Symbol, description) | `ws_lib_check.py <lib.SchLib>` |
 | Global library | `lib_pull.py`, `lib_status.py`, `lib_promote.py`, `catalog_check.py` (`library\README.md`) |
 | Library audit, check status, source | `lib_audit.py` (`mark`, `source`; LIB-17, LIB-19) |
 | Production BOM / CPL / package | `bom_check.py`, `cpl_check.py` (convert, fit, check), `fab_package.py` (FAB-04..07) |

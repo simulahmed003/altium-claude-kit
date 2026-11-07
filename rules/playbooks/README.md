@@ -16,3 +16,4 @@ Status per step: TESTED = done successfully in the buck project or in a selftest
 | [P10 JLCPCB assembly quotation](P10_jlc_quote.md) | 06_FAB_OUTPUT, 02_REQUIREMENTS_CALCS_PARTS | 7/7 by hand (jlc_quote.py new in 1.6.0) |
 | [P11 New part in the local library (workflow)](P11_new_local_component.md) | 03_LIBRARY, 02_REQUIREMENTS_CALCS_PARTS | 10/11 (first version; placeholders for the user's detailed instructions) |
 | [P12 Rebuild the kit library](P12_rebuild_kit_library.md) | 03_LIBRARY, 02_REQUIREMENTS_CALCS_PARTS | 1/7 (audit only; the rebuild runs on the user's PC) |
+| [P13 Library batch: build, check and release](P13_library_batch_release.md) | 09_LIBRARY_STANDARD, 03_LIBRARY, 07_TOOLING_ALTIUM | 8/8 |

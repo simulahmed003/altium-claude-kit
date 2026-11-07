@@ -117,6 +117,37 @@ Parameter set frozen 2026-11-03 (LIB-31, LIB-32): the parameters below are the c
 - Source: user 2026-11-03 ("remove the duplicate keep the authentic", "whats the point of those duplicate and blank parameter", "in each category components should have same parameters", "go ahead and do this make all consistent")
 - Status: CHECKLIST
 
+## Batch library build (approved 2026-11-05, Library_Management_Work_Proposal v1.2)
+
+### LIB-35 Footprint names follow IPC-7351B
+- MUST: name every footprint of an IPC family by IPC-7351B, as the Altium IPC Footprint Wizard does: `RESC1005X40N` (chip resistor, body 1.0 x 0.5 mm = 0402, height 0.40 mm, Nominal), `CAPC1608X90N`, `SOIC127P600X175-8N`, `QFN50P400X400X100-25N`. Density N by default, M or L only where the board needs it, and the letter stays in the name. Parts without an IPC family are named `<Manufacturer>_<Series or MPN>` (`JST_B2B-XH-A`, `Molex_526101471`). Footprints taken from Celestial or a maker are renamed to these names.
+- MUST NOT: name a footprint by imperial size only (`RESC1608_0603`) or by a maker's drawing code.
+- Why: one standard name per land lets every library and every engineer read the package and the density from the name.
+- Check: catalog_check.py (planned name pattern); checklist
+- Source: user 2026-11-05 ("update kits rule to follow the standard")
+- Status: CHECKLIST
+
+### LIB-36 One generic land and courtyard per package
+- MUST: give all parts with the same standard package one generic IPC-7351B land and one 3D body, sized for the tallest and largest body that uses it; chip resistors and chip capacitors of one size follow the same land rule (pad size, toe, gap, courtyard line width). Courtyard = outermost of pads and body (assembly outline and 3D body) plus 0.25 mm (0.15 mm for chips smaller than 0603, 0.5 mm for connectors), each edge rounded outward to a 0.05 mm grid. Silkscreen 0.15 mm, kept off the pads. A part-specific footprint only where the datasheet land cannot be met by the generic one.
+- Why: eight different 0402 lands for one body made boards inconsistent; a 0402 resistor built by another generator than the 0402 capacitor showed at once in 3D.
+- Check: checklist (3D view of every footprint of one size side by side); validate_library
+- Source: user 2026-11-04/05 (SpeakerSystemV1 batch 1 review)
+- Status: CHECKLIST
+
+### LIB-37 One best-looking symbol per kind of discrete
+- MUST: give every kind of discrete part one symbol (Resistor, Capacitor, Capacitor Polarised, Inductor, Ferrite Bead, Diode, Diode Zener, Diode TVS Unidirectional, BJT NPN, MOSFET N-Channel, MOSFET P-Channel, Crystal 4-Pad, Test Point) and record its name in the component's Symbol parameter. Choose the drawing from the best-looking symbol found among the makers' and Altium content-vault symbols, not a plain generic one; renumber its pins to the datasheet (diode pin 1 = cathode). Parts with their own pinout (ICs, connectors, modules) keep one symbol each.
+- Why: the user wants one clean, recognisable look across the schematic, with the same drawing for the same kind.
+- Check: render the symbols of each kind side by side; pin_match.py
+- Source: user 2026-11-05 ("pick the gorgeous symbol where found for the discrete component, not the generic")
+- Status: CHECKLIST
+
+### LIB-38 Library ready for the Workspace before upload
+- MUST: before the Altium 365 Library Importer runs, pass `ws_lib_check.py` (Component Type without / \ : * ? " < > |, Category exactly Type/Subtype ending in the Component Type, Symbol parameter set, descriptions at most 256 characters), `pin_match.py` (all PASS) and `validate_library` on the PcbLib (0 errors). A name in the category tree never contains "/": use "&" (FFC & FPC). Follow playbook P13.
+- Why: the importer stopped on "FFC / FPC" with "Invalid tag HRID"; it refuses long descriptions without naming the part.
+- Check: ws_lib_check.py; pin_match.py; validate_library
+- Source: user 2026-11-05 (SpeakerSystemV1 batch 1 upload; "update our workflow rules ... so we could do this type of work more efficiently")
+- Status: CHECKLIST
+
 ## Parameter tables (part of LIB-23)
 
 Machine-readable copy: `rules/library_parameters.json` (for the planned lib_std_check tool). Names exactly as written, without the hint in brackets (LIB-31); values in the format below; unknown = empty.
