@@ -9,7 +9,8 @@ What it does, per part in the plan (old component name in the source SchLib -> n
   - copies the component from the source SchLib; renames it to its MPN (Manufacturer Part Number 1), or keeps the
     old name when it has no MPN (Board Features: the footprint name)
   - keeps exactly the parameter set of its category (rules/library_parameters.json, LIB-34); removes the others
-    and logs their values; adds Component Type, Category ("Type/Subtype") and Symbol (LIB-37)
+    and logs their values; sets Component Type, Category, Symbol (LIB-37)
+    and the hidden Description (LIB-31): updated when present, added when missing
   - optional: replaces its graphics by a shared symbol (plan "symbols"; pins mapped by designator, by role G/S/D,
     or anode/cathode for diodes), recoloured with the plan's line colour
   - links one footprint (the plan's), sets Footprint Standard, applies plan "overrides" (only where empty) and "force"
@@ -232,7 +233,7 @@ def build_component(plan, ours, d, old, p):
         recs = [head] + g + recs_rest
     else:
         recs = owner_remap(rs, keep)
-    # --- add Component Type and Category before RECORD 44
+    # --- Component Type, Category, Symbol and the hidden Description parameter: update or add before RECORD 44
     i44 = next(i for i, r in enumerate(recs) if r.typ == 0 and r.rec == '44')
     tops = [r for r in recs if r.typ == 0 and r.rec == '41' and r.get('OWNERINDEX') is None]
     tmpl = next((r for r in tops if r.get('NAME') == 'Supplier 1'), tops[0] if tops else None)
@@ -241,10 +242,29 @@ def build_component(plan, ours, d, old, p):
     adds = []
     comment = prm.get('Comment').get('TEXT') if prm.get('Comment') else new
     symname = plan['symbols'][p['sym']].get('name', p['sym']) if p.get('sym') else plan.get('own_symbol_names', {}).get(old, comment)
-    for nm, val in (('Component Type', p['sub'] or p['type']), ('Category', '%s/%s' % (p['type'], p['sub'])), ('Symbol', symname)):
+    desc_field = head.get('COMPONENTDESCRIPTION', '') or ''
+    have = {r.get('NAME'): r for r in recs if r.typ == 0 and r.rec == '41' and r.get('OWNERINDEX') is None}
+    want = [('Component Type', p['sub'] or p['type'], False), ('Category', '%s/%s' % (p['type'], p['sub']), False),
+            ('Symbol', symname, False), ('Description', desc_field, True)]
+    for nm, val, hidden in want:
+        if nm in have:                       # already there (an earlier build or the source): update, never duplicate
+            r = have[nm]
+            cur = r.get('TEXT') or ''
+            if nm == 'Description' and cur and not val:
+                continue
+            if cur != val:
+                r.set('TEXT', val); r.drop('%UTF8%TEXT')
+                L(new, 'parameter value', nm + ': ' + (cur or '(empty)'), val, '')
+            if hidden and r.get('ISHIDDEN') != 'T':
+                r.set('ISHIDDEN', 'T'); L(new, 'parameter hidden', nm, '', 'LIB-31')
+            continue
         r = copy.deepcopy(tmpl); r.set('NAME', nm); r.set('TEXT', val); r.drop('%UTF8%TEXT'); r.drop('UNIQUEID')
+        if hidden:
+            r.set('ISHIDDEN', 'T')
+        else:
+            r.drop('ISHIDDEN')
         adds.append(r)
-        L(new, 'parameter added', nm, val, '')
+        L(new, 'parameter added', nm, val, 'hidden, = component description (LIB-31)' if nm == 'Description' else '')
     recs = recs[:i44] + adds + recs[i44:]
     for r in recs:
         if r.typ == 0 and r.get('OWNERINDEX') is not None and int(r.get('OWNERINDEX')) >= i44:

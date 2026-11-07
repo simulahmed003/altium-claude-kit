@@ -154,6 +154,14 @@ class ReviewAndBuild(unittest.TestCase):
         self.assertIn(("parameter added", "Category"), items)
         self.assertIn(("footprint", "RESC1608_0603"), items)
         self.assertTrue(any(r[1] == "parameter removed" and r[2] == "LCSC" for r in lib_build.log))
+        self.assertIn(("parameter added", "Description"), items)
+        # a second build of its own output updates the parameters, never duplicates them (PC test 2026-11-07)
+        lib_build.log.clear()
+        recs2 = lib_build.build_component({"symbols": {}}, {new: (recs, pins)}, lib_params.load(), new,
+                                          {"type": "Resistors", "sub": "Chip", "fp": "RESC1608X55N"})[2]
+        names = [r.get("NAME") for r in recs2 if r.typ == 0 and r.rec == "41" and r.get("OWNERINDEX") is None]
+        self.assertEqual([n for n in set(names) if names.count(n) > 1], [])
+        self.assertFalse([r for r in lib_build.log if r[1] == "parameter added"])
         with self.assertRaises(SystemExit):
             lib_build.allowed_params(lib_params.load(), "No", "Such", {})
 
