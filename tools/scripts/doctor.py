@@ -14,6 +14,10 @@ Checks (OK / WARN / FAIL, each with the fix to type in cmd.exe):
   6 kill switch (tools/bridge/KILLED.lock)
   7 Altium instances (Windows: tasklist X2.EXE; more than one is a FAIL, TOOL-01)
   8 altium-lib config.json allowed_paths includes this workspace's library folder
+  9 MCP server code (tools/mcp/*): files changed on disk (a stale server rewrote its template, e.g. Sandbox.pas),
+    two script projects with the same name (Altium_API.PrjScr in coffee and eda-agent), and a server process
+    started before its code was last updated: restart Claude Code (TOOL-22)
+ 10 Altium dialogs and the eda-agent loop window (Windows: kit altium_unstick, report only; TOOL-21)
 Exit 0 when no FAIL, 1 otherwise. WARN never fails.
 """
 import argparse, json, os, subprocess, sys
@@ -172,6 +176,101 @@ def check_altium_lib(rep, root, cfg=None):
                 "run tools\\setup.ps1 (it lists the missing paths), then restart Claude Code")
 
 
+def mcp_repos(root):
+    d = os.path.join(root, "tools", "mcp")
+    return [os.path.join(d, n) for n in sorted(os.listdir(d)) if os.path.isdir(os.path.join(d, n, ".git"))] \
+        if os.path.isdir(d) else []
+
+
+def same_name_projects(paths):
+    """{lower-case .PrjScr name: [paths]} for names found in more than one folder."""
+    by = {}
+    for p in paths:
+        by.setdefault(os.path.basename(p).lower(), []).append(p)
+    return {n: v for n, v in by.items() if len({os.path.dirname(x) for x in v}) > 1}
+
+
+def stale_servers(procs, updated):
+    """procs: [(pid, started unix s, command line)]; updated: {repo path: unix s of the last pull/checkout}.
+    -> [(pid, repo)] for a server process started before its repo was updated."""
+    out = []
+    for pid, started, cmd in procs:
+        c = (cmd or "").replace("/", "\\").lower()
+        for repo, t in updated.items():
+            if os.path.basename(repo).lower() in c and started and t and started < t - 5:
+                out.append((pid, repo))
+    return out
+
+
+def repo_updated(repo):
+    for f in (os.path.join(repo, ".git", "logs", "HEAD"), os.path.join(repo, ".git", "HEAD")):
+        if os.path.isfile(f):
+            return os.path.getmtime(f)
+    return None
+
+
+def server_processes():
+    if os.name != "nt":
+        return []
+    ps = ("Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -match 'tools.mcp' } | "
+          "ForEach-Object { '{0}|{1}|{2}' -f $_.ProcessId, "
+          "([DateTimeOffset]$_.CreationDate).ToUnixTimeSeconds(), $_.CommandLine }")
+    r = subprocess.run(["powershell", "-NoProfile", "-Command", ps], capture_output=True, text=True)
+    out = []
+    for l in r.stdout.splitlines():
+        f = l.split("|", 2)
+        if len(f) == 3 and f[0].isdigit():
+            out.append((int(f[0]), float(f[1]) if f[1].isdigit() else None, f[2]))
+    return out
+
+
+def check_mcp_code(rep, root):
+    repos = mcp_repos(root)
+    if not repos:
+        rep.add("OK", "MCP server code check skipped (tools/mcp not installed here)")
+        return
+    for repo in repos:
+        code, dirty = git("status", "--porcelain", root=repo)
+        files = [l[3:] for l in dirty.splitlines() if l.strip() and not l.startswith("??")]
+        if not code and files:
+            rep.add("WARN", f"{os.path.basename(repo)}: {len(files)} tracked file(s) changed on disk ({', '.join(files[:3])}); "
+                    "an MCP server older than its files rewrites its script template",
+                    f"restart Claude Code, then: git -C \"{repo}\" checkout -- .")
+    prj = []
+    for repo in repos:
+        for dp, dn, fn in os.walk(repo):
+            dn[:] = [d for d in dn if d != ".git"]
+            prj += [os.path.join(dp, f) for f in fn if f.lower().endswith(".prjscr")]
+    for name, where in same_name_projects(prj).items():
+        rep.add("WARN", f"two script projects named {name}: Altium may run the wrong one ({'; '.join(where)})",
+                "tell the user; rename is a change in that server's repo (docs/WEDGE_STUDY_2026-11.md)")
+    stale = stale_servers(server_processes(), {r: repo_updated(r) for r in repos})
+    for pid, repo in stale:
+        rep.add("WARN", f"MCP server pid {pid} started before {os.path.basename(repo)} was updated: it runs old code "
+                "against new files (coffee scripts then fail with 'Expression expected but % found')",
+                "exit Claude Code and start it again in the workspace (kit start)")
+    if not stale and os.name == "nt":
+        rep.add("OK", "MCP servers run their current code")
+
+
+def check_altium_dialogs(rep):
+    if os.name != "nt":
+        return
+    try:
+        sys.path.insert(0, HERE)
+        import altium_unstick as au
+        procs, found = au.scan(au._win())
+    except Exception as e:                                   # never let the preflight crash on a window API
+        rep.add("WARN", f"Altium dialog check failed: {e}")
+        return
+    stuck = [f for f in found if f["kind"] in au.STUCK_KINDS]
+    if stuck:
+        for f in stuck:
+            rep.add("WARN", f"Altium: {f['kind']} '{f['title']}' ({f['advice']})", "kit altium_unstick --fix")
+    elif procs:
+        rep.add("OK", "Altium shows no dialog and no eda-agent loop window")
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0], formatter_class=argparse.RawDescriptionHelpFormatter,
                                  epilog=__doc__)
@@ -189,6 +288,8 @@ def main(argv=None):
     check_kill(rep, a.root)
     check_altium(rep, altium_count())
     check_altium_lib(rep, a.root)
+    check_mcp_code(rep, a.root)
+    check_altium_dialogs(rep)
     print()
     start = f'cd /d "{a.root}" && claude' + (f' --add-dir "{a.folder}"' if a.folder else "")
     print("Start Claude Code so the Altium servers and the guard load (WF-10):")

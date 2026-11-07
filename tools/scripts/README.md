@@ -7,9 +7,11 @@ Each has a docstring, `--help`, and exit code 0 = PASS / 1 = FAIL. Tests: `tools
 
 | Script | Does | Rules | Typical call |
 |---|---|---|---|
-| doctor.py | session preflight: .mcp.json servers, guard hook, git behind/ahead origin/main, rules version, kill switch, Altium instance count, altium-lib allowed_paths; prints the start command | WF-10, WF-11 | `python doctor.py --folder "D:\Work\Board1"` |
+| doctor.py | session preflight: .mcp.json servers, guard hook, git behind/ahead origin/main, rules version, kill switch, Altium instance count, altium-lib allowed_paths, MCP server code changed / same-name script projects / server older than its code, open Altium dialogs; prints the start command | WF-10, WF-11 | `python doctor.py --folder "D:\Work\Board1"` |
 | lib_params.py | parameter set of one category from rules/library_parameters.json; `--check` a SchLib (missing, extra, duplicate parameters per Category); `--write-doc` docs/LIBRARY_PARAMETERS.md | LIB-23, LIB-31, LIB-34 | `python lib_params.py "Resistors/Chip"` |
 | ws_lib_check.py | SchLib ready for the Altium 365 Library Importer: Component Type without "/", Category = Type/Subtype, Symbol set, description <= 256 | LIB-38 | `python ws_lib_check.py lib\Batch1.SchLib` |
+| altium_unstick.py | Altium jam: lists every X2 instance and dialog with its cause (script error, BOM, stale-server template, eda-agent loop, second instance); `--fix` answers the safe ones (Cancel, close), ends a duplicate X2 a command line started; never -REditScript:Stop; `--today` counts stuck runs | TOOL-05, TOOL-21, TOOL-22 | `python altium_unstick.py --fix` |
+| pas_lint.py | DelphiScript check before a live run: BOM, %TOKENS%, modal calls, crashing identifiers, edits without try, PcbLib edits without SetState_CurrentComponent, use after Free | TOOL-21 | `python pas_lint.py tools\altium_scripts\Swap3D.pas` |
 | lib_std_check.py | parameter values (SI prefix, ASCII, no trailing zeros, "to" ranges, unknown = empty, 10R / 4.7k) and Description (field = hidden parameter, < 256, Type word first) per component | LIB-23, LIB-31 | `python lib_std_check.py lib\Batch1.SchLib` |
 | lib_dump.py | PcbLib / SchLib geometry offline (pads mm, pins and graphics mil); dump files + fpsum.json for fp_review | TOOL-20 | `python lib_dump.py lib\Batch1.PcbLib --footprint SOT95P240X110-3N` |
 | fp_review.py | LIB-33 footprint review document (.docx, PDF through Word); review.json + specs\ in the review folder; needs matplotlib, pymupdf, python-docx | LIB-33 | `python fp_review.py --dir reviews --all` |

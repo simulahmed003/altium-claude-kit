@@ -4,7 +4,7 @@ Always start Claude Code from this workspace folder (D:\EDA in the examples). Th
 A project in another folder is added to the session, never opened as its own session: `kit start "<folder>"` (WF-10).
 First action of every session: `python tools\scripts\doctor.py` (WF-11); no FAIL, and pull before writing rules if it says behind.
 Projects live in `projects\<name>\`, or stay in the user's own folder with the kit files in `<folder>\_eda\` (WF-09: never move or copy a work project into projects\). Before touching a project read its `CLAUDE.md`, `PROJECT.md`,
-`requirements.md`, `constraints.md` and `gates.md`. Rules: `rules\` (VERSION, 127 rules). Index: `docs\README.md`.
+`requirements.md`, `constraints.md` and `gates.md`. Rules: `rules\` (VERSION, 129 rules). Index: `docs\README.md`.
 Objective (user): automate the work an engineer does by hand in the tools. System-level design guidelines come later in `guidelines\` (DRAFT, empty, not binding, separate from `rules\`); never invent values for them.
 
 ## Non-negotiables
@@ -69,7 +69,9 @@ Playbooks: `rules\playbooks\`. Rule changes: only the user approves (propose wit
 ## Offline tools (`tools\scripts\`, see its README.md; no Altium needed)
 | Need | Script |
 |---|---|
-| Session preflight (servers, hook, git up to date, one Altium) | `doctor.py` (`kit doctor`) |
+| Session preflight (servers, hook, git up to date, one Altium, stale MCP server, open dialogs) | `doctor.py` (`kit doctor`) |
+| Before a live DelphiScript: BOM, modals, %TOKENS%, bad identifiers, try, current footprint | `pas_lint.py <script.pas>` (TOOL-21) |
+| Altium stuck: find the cause, answer the safe dialogs, end a duplicate X2 | `altium_unstick.py --fix` (TOOL-21) |
 | New project | `new_project.py <name>` |
 | Symbol pins = pads, style | `pin_match.py <SchLib> <PcbLib> --style` |
 | Sheet connectivity + dots | `conn_check.py <sheet.SchDoc> ai\plan.json` |
@@ -89,7 +91,9 @@ Playbooks: `rules\playbooks\`. Rule changes: only the user approves (propose wit
 | Everything still works | `python tools\selftest.py` |
 
 ## Popups for problems the scripts cannot detect
-When a tool error matches a symptom, run `bridge.cmd popup <id>` (from the workspace folder). Exit code 0 = user pressed Retry
+Any timeout, "script never started", "executor_wedged" or "busy": run `kit altium_unstick --fix` FIRST (TOOL-21); it frees
+most jams without the user and names the cause. After `install.cmd /update` restart Claude Code (TOOL-22).
+When it says "still stuck" and a tool error matches a symptom, run `bridge.cmd popup <id>` (from the workspace folder). Exit code 0 = user pressed Retry
 (retry the call ONCE), 1 = Cancel (stop and ask).
 | Symptom | id |
 |---|---|

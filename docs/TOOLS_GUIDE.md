@@ -31,6 +31,15 @@ The examples use `"D:\Work\Acme\Board1"` for a design that lives in your own (em
 | Start Claude Code in the workspace with a project from your own folder added (the Altium servers and the guard load) | `kit start "D:\Work\Acme\Board1"` (or just `kit start`) | WF-10 |
 | Next free rule ID before writing a new rule (after `git pull`) | `kit rules_lint --next-id LIB` | WF-11 |
 
+## When Altium is stuck (new in rules 1.14.0)
+
+| Task | Command | Rules |
+|---|---|---|
+| A script hangs, "script never started", "wedged" or "busy": see why, answer the safe dialogs, end a duplicate Altium that a command line started (never your first Altium, never a save/confirm question) | `kit altium_unstick --fix` (`kit altium_unstick` only reports) | TOOL-21 |
+| How many jams today (after 2 in one stage, finish it offline) | `kit altium_unstick --today` | TOOL-20 |
+| Check a DelphiScript before running it in Altium (BOM, message boxes, %TOKENS%, crashing identifiers, try, current footprint) | `kit pas_lint "D:\EDA\tools\altium_scripts\Swap3D.pas"` | TOOL-21 |
+| After `install.cmd /update`: exit Claude Code and start it again, then check no server runs old code | `kit start`, then `kit doctor` | TOOL-22 |
+
 ## Production files and quotes (new in rules 1.6.0)
 
 | Task | Command | Rules |
@@ -81,7 +90,7 @@ JLC rates used by `jlc_quote` and the CPL side rule live in `rules\fab-profiles\
 | Library geometry offline: one footprint in mm, one symbol in mil, or the dump files for the review document | `kit lib_dump Batch1.PcbLib --footprint SOT95P240X110-3N`, `kit lib_dump Batch1.PcbLib Batch1.SchLib --out reviews` | TOOL-20 |
 | Footprint review document (.docx + PDF): datasheet crops, symbol and footprint drawn from the library, check table, reviewer lines. Folder with `review.json` and `specs\<footprint>.json` (see `--help`); needs `install.cmd /full` | `kit fp_review --dir "D:\Work\Lib\reviews" --all`, one: `kit fp_review --dir reviews SOT95P240X110-3N`, pick crop boxes: `kit fp_review --page part.pdf 3` | LIB-33 |
 | KiCad 3D models for the standard footprints (rotation found by matching pads) into `3D_KiCad\` with `models.csv` | `kit kicad_models "D:\Work\Lib\Batch1.PcbLib"` (`--dry-run` to see the list first) | LIB-13 |
-| Embed those models inside Altium (right checksum, no red boxes): open the PcbLib, File > Run Script > `tools\altium_scripts\Swap3D.pas` > SwapKiCad3D, check in 3D, save | in Altium | TOOL-19 |
+| Embed those models inside Altium (right checksum, no red boxes): open the PcbLib, File > Run Script > `tools\altium_scripts\Swap3D.pas` > SwapKiCad3D, read `3D_KiCad\Swap3D_log.txt`, check in 3D, save | in Altium | TOOL-19 |
 | Batch library build: new SchLib + PcbLib from a plan (parts, categories, footprints, shared symbols), with a change log; the plan stays in the client folder; needs `install.cmd /full`, Windows | `kit lib_build "D:\Work\Lib\plan.json"`, example plan: `kit lib_build --example` | P13, LIB-34..38 |
 | Altium saved the project library and lib_status says LOCAL CHANGED: shows "OK (re-saved)" when only IDs changed; store the new hashes | `kit lib_status projects\my-board --rebase` | LIB-06 |
 | Global library: status, pull, promote, catalog | `kit lib_status <project>`, `kit lib_pull`, `kit lib_promote`, `kit catalog_check` | LIB-06 |
