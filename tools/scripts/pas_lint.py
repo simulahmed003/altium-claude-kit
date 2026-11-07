@@ -15,7 +15,7 @@ Checks (wedge study 2026-11-07 and LESSONS T5-T8, L10-L13):
         .Modified, SaveDocument) without try/except or try/finally: an error stops it halfway through an edit
   WARN  PcbLib footprint loop that adds or moves primitives without CurrentComponent / SetState_CurrentComponent
         (TOOL-19: only the current footprint has board-origin coordinates; switching it after an edit drops the edit)
-  WARN  List1..List3.Free (the coffee Sandbox template frees them itself)
+  WARN  List1..List3.Free between the Sandbox's BEGIN/END EXPERIMENT markers (the template frees them itself)
   WARN  .Free on an object that is used again later in the file ("Undeclared identifier: Free", a freed object)
   WARN  non-ASCII characters outside comments and strings
 Comments ({ }, (* *), //) and string literals are ignored for the identifier checks.
@@ -106,7 +106,11 @@ def lint_text(raw, allow_modal=False):
                 not re.search(rf"\b{re.escape(var)}\s*:=", code[m.end():]):
             found.append(("WARN", line_of(code, m.start()), f"{var}.Free, then {var} is used again (a freed object: "
                                                          "'Undeclared identifier: Free')"))
+    a, b = src.find("// === BEGIN EXPERIMENT"), src.find("// === END EXPERIMENT")   # same offsets as code
+    exp = (a, b) if 0 <= a < b else None                      # a coffee Sandbox run file: only the user's part
     for m in re.finditer(r"\b(List[123])\.Free\b", code):
+        if not exp or not exp[0] < m.start() < exp[1]:
+            continue
         found.append(("WARN", line_of(code, m.start()), f"{m.group(1)}.Free: the coffee Sandbox template frees "
                                                      "List1..List3 itself; a second Free raises a dialog"))
     for m in re.finditer(r"[^\x00-\x7f]", code):

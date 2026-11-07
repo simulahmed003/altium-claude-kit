@@ -97,7 +97,9 @@ class PasLint(unittest.TestCase):
         self.assertEqual(pas_lint.lint_text(b"{ %GUARD_SECONDS% } Begin S := '%LOG_PATH%'; End;"), [])
         res = pas_lint.lint_text("Begin\n\ufeffProcedure X; End;".encode("utf-8"))
         self.assertEqual([(r[0], r[1]) for r in res if "byte-order" in r[2]], [("FAIL", 2)])
-        self.assertTrue(any("List1..List3" in m for _, _, m in pas_lint.lint_text(b"Begin List1.Free; End;")))
+        run = (b"Begin\n// === BEGIN EXPERIMENT\nList1.Free;\n// === END EXPERIMENT\nList1.Free; List2.Free; End;")
+        self.assertEqual([r[1] for r in pas_lint.lint_text(run) if "List1..List3" in r[2]], [3])   # the user's part only
+        self.assertEqual(pas_lint.lint_text(b"Begin List1.Free; End;"), [])
 
     def test_use_after_free(self):
         res = pas_lint.lint_text(b"Begin L.Free; L.Add('x'); End;")
